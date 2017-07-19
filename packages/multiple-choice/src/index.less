@@ -1,18 +1,18 @@
-.corespring-choice-root.white-on-black{
-  background-color: black;
+// .corespring-choice-root.white-on-black{
+//   background-color: black;
 
-  .prompt {
-    color: white;
-  }
+//   .prompt {
+//     color: white;
+//   }
 
-  .label{
-    color: white;
-  }
-}
+//   .label{
+//     color: white;
+//   }
+// }
 
-.corespring-choice-root.black-on-rose{
-  background-color: mistyrose;
-}
+// .corespring-choice-root.black-on-rose{
+//   background-color: mistyrose;
+// }
 
 .corespring-choice {
 
@@ -123,7 +123,11 @@
 
   .corespring-checkbox, .corespring-radio-button {
     width: 100%;
-    display: inline-block;
+
+    .row{
+      display: flex;
+      align-items: center;
+    }
 
     input[type=checkbox], input[type=radio] {
       width: auto;
@@ -154,13 +158,8 @@
     }
 
     .feedback-tick {
-      position: relative;
       width: 33px;
       height: 33px;
-      float: left;
-      vertical-align: top;
-      display: inline-block;
-      top: -5px;
 
       svg {
         position: absolute;
@@ -173,18 +172,19 @@
           display: none;
         }
 
-        .incorrect-background {
-          fill: orange;
-        }
+        // .incorrect-background {
+        //   fill: orange;
+        // }
 
-        .correct-background {
-          fill: green;
-        }
+        // .correct-background {
+        //   fill: green;
+        // }
       }
     }
 
     .checkbox-holder {
-      display: inline-block;
+      display: flex;
+      align-items: center;
       width: auto;
 
       label {
@@ -216,7 +216,7 @@
     transition: height 200ms;
   }
 
-  .corespring-feedback {
+  /*.corespring-feedback {
     transform-origin: 0% 0px 0px;
     width: 100%;
     display: block;
@@ -238,7 +238,7 @@
     &.incorrect {
       color: #946202;
     }
-  }
+  }*/
 
 }
 
