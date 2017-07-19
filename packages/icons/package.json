@@ -1,6 +1,6 @@
 {
   "name": "@pie-libs/icons",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Some simple icons",
   "main": "src/index",
   "scripts": {
