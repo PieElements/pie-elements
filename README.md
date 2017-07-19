@@ -7,15 +7,15 @@ Elements are in `packages`.
 
 ## lerna
 
-This mono repo is in the form of a [lerna][lerna] repo, but [lerna][lerna] is disabled for now because of the following issues: 
 
-https://github.com/lerna/lerna/issues/590
-https://github.com/lerna/lerna/issues/883
+### issues 
+
+* whilst publishing w/ lerna will bump dependencies in the main packages, it won't do so for internal pie packages (ie controller/configure).
 
 # install
 
 ```shell
-# npm install -g lerna # don't use for now
+npm install -g lerna # don't use for now
 npm install
 ```
 
@@ -27,7 +27,7 @@ npm install
 # release/publish
 
 ```bash
-#lerna publish --conventional-commits # will add conventional commits to each packages CHANGELOG.md
+lerna publish --conventional-commits # will add conventional commits to each packages CHANGELOG.md
 # you can add --skip-npm and/or --skip-git if you want to bypass publishing to either.
 ```
 
