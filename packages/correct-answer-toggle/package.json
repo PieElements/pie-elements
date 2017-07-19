@@ -9,6 +9,9 @@
   "keywords": [
     "react"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "0.0.1",
   "main": "src/index.jsx",
   "scripts": {
