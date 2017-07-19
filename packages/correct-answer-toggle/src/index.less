@@ -1,0 +1,132 @@
+.correct-answer-toggle{
+  
+  cursor: pointer;
+  width: 100%;
+
+  .inner{
+    width: 600px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .label{
+    font-family: 'Roboto', sans-serif;
+    position: absolute;
+    left: 32px;
+    height: 25px;
+    line-height: 25px;
+    vertical-align: middle;
+    color: var(--correct-answer-toggle-label-color,  black);
+    font-size: 15px;
+    font-weight: 'normal';
+     -webkit-touchCcallout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: 'none'
+  }
+
+  svg{
+    width: 25px;
+    float: left;
+
+    .showIconBg {
+      fill: white;
+    }
+    
+    .showIconBorder{
+      fill: #bce2ff;
+    }
+    
+    .showIconFg {
+      fill: #1e9cff;
+    }
+    
+    .hideIconBg {
+      fill: #bce2ff;
+    }
+    
+    .hideIconFg {
+      fill: #1a9cff;
+    }
+  }
+
+  .toggle-expander {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    transition: all 300ms ease;
+
+    &.show{
+      height: 25px;
+    }
+
+    &.hide {
+      height: 0;
+    }
+  }
+
+  .root-holder{
+    position: absolute;
+    transition: height ease-in 3000ms; 
+    height: 0;
+    background-color: aqua;
+
+    .root-enter{
+      height: 0;
+    }
+    .root-enter.root-enter-active{
+      height: 50px;
+    }
+  }
+
+
+
+  .icon-holder{
+    --correct-answer-duration: 200ms;
+
+    svg{
+      position: absolute;
+      opacity: 1;
+      left: 0px;
+      transition: opacity ease-in var(--correct-answer-duration, 200ms), 
+        left var(--correct-answer-duration, 200ms) ease-in;
+    }
+
+    .hide {
+      opacity: 0;
+      transition: opacity .3s ease-in;
+    }
+
+    .icon-appear {
+      opacity: 0.01;
+    }
+
+    .icon-appear.icon-appear-active {
+      opacity: 1;
+      transition: opacity .3s ease-in;
+    }
+
+    .icon-enter {
+      opacity: 0;
+      left: -30px;
+    }
+
+    .icon-enter.icon-enter-active{
+      opacity: 1.0;
+      left: 0px;
+      transition: opacity .3s ease-in;
+    }
+
+    .icon-exit {
+      opacity: 1.0;
+      left: 0px;
+    }
+
+    .icon-exit.icon-exit-active {
+      opacity: 0;
+      left: -30px;
+    }
+  }
+}

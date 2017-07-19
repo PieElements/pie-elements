@@ -1,0 +1,17 @@
+{
+  "name": "@pie-elements/multiple-choice-controller",
+  "version": "1.0.0-prerelease",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --require babel-register test/**/*-test.js"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-shallow-deep-equal": "^1.4.4",
+    "mocha": "^3.1.2",
+    "sinon": "^1.17.6"
+  }
+}

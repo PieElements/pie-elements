@@ -1,0 +1,42 @@
+# pie-elements
+
+The pie elements package set.
+
+Elements are in `packages`.
+
+
+## lerna
+
+This mono repo is in the form of a [lerna][lerna] repo, but [lerna][lerna] is disabled for now because of the following issues: 
+
+https://github.com/lerna/lerna/issues/590
+https://github.com/lerna/lerna/issues/883
+
+# install
+
+```shell
+# npm install -g lerna # don't use for now
+npm install
+```
+
+# develop
+
+* the packages use `independent` versioning, meaning that a change in 1 package won't bump another package's version.
+* use [conventional commits syntax][ccs] when commiting, lerna will detect the appropriate version bump.
+
+# release/publish
+
+```bash
+#lerna publish --conventional-commits # will add conventional commits to each packages CHANGELOG.md
+# you can add --skip-npm and/or --skip-git if you want to bypass publishing to either.
+```
+
+> TODO: we need to set up a flow where we merge `develop` -> `master` then run the publish cmd.
+
+### dependencies
+* [lerna js][lerna] for handling multiple packages in a mono repo
+* [pie][pie] to test/build the pies
+
+[lerna]: https://lernajs.io/
+[pie]: http://pie-framework.org
+[ccs]: https://conventionalcommits.org/

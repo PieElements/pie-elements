@@ -1,0 +1,244 @@
+.corespring-choice-root.white-on-black{
+  background-color: black;
+
+  .prompt {
+    color: white;
+  }
+
+  .label{
+    color: white;
+  }
+}
+
+.corespring-choice-root.black-on-rose{
+  background-color: mistyrose;
+}
+
+.corespring-choice {
+
+  * {
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .prompt {
+    color: black;
+    height: 43px;
+    line-height: 43px;
+    vertical-align: middle;
+  }
+
+  .answer-toggle-icon-enter {
+    opacity: 0;
+    left: -50px;
+  }
+
+  .answer-toggle-icon-enter.answer-toggle-icon-enter-active {
+    opacity: 1;
+    left: 0px;
+    transition: left 300ms ease-in, opacity 300ms;
+  }
+
+  .answer-toggle-icon-leave {
+    opacity: 1;
+    left: 0px;
+  }
+
+  .answer-toggle-icon-leave.answer-toggle-icon-leave-active {
+    opacity: 0;
+    left: -50px;
+    transition: left 300ms ease-in, opacity 300ms;
+  }
+
+  .corespring-correct-answer-toggle {
+    display: block;
+    width: 200px;
+    height: 25px;
+    position: relative;
+    cursor: pointer;
+    margin: 0 auto 0 auto;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently
+                              not supported by any browser */
+
+    svg {
+      width: 25px;
+      float: left;
+    }
+
+    .label {
+      position: absolute;
+      left: 32px;
+      height: 25px;
+      line-height: 25px;
+      vertical-align: middle;
+      color: #1a9cff;
+      font-size: 15px;
+      font-weight: normal;
+    }
+
+    .show-icon-background {
+      fill: white;
+    }
+    
+    .hide-icon-background {
+      fill: #bce2ff;
+    }
+    
+    .show-icon-border {
+      fill: #bce2ff;
+    }
+    
+    .show-icon-foreground, .hide-icon-foreground {
+      fill: #1a9cff;
+    }
+
+    .root{
+      position: relative;
+    }
+
+    .svg-holder {
+      position: absolute;
+    }
+
+    .svg-holder > svg {
+      position: absolute;
+    }
+  }
+
+  .choice, input[type=radio] {
+    padding-top: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #E0DEE0;
+
+    &.last {
+      border-bottom: none;
+    }
+
+  }
+
+  .corespring-checkbox, .corespring-radio-button {
+    width: 100%;
+    display: inline-block;
+
+    input[type=checkbox], input[type=radio] {
+      width: auto;
+      display: inline-block;
+      border-color: #a2d4f2;
+    }
+
+    .feedback-tick-enter {
+      opacity: 0;
+      left: -50px;
+    }
+
+    .feedback-tick-enter.feedback-tick-enter-active {
+      opacity: 1;
+      left: 0px;
+      transition: left 500ms ease-in 200ms, opacity 500ms linear 200ms;
+    }
+
+    .feedback-tick-leave {
+      opacity: 1;
+      left: 0px;
+    }
+
+    .feedback-tick-leave.feedback-tick-leave-active {
+      opacity: 0;
+      left: -50px;
+      transition: left 300ms ease-in, opacity 300ms;
+    }
+
+    .feedback-tick {
+      position: relative;
+      width: 33px;
+      height: 33px;
+      float: left;
+      vertical-align: top;
+      display: inline-block;
+      top: -5px;
+
+      svg {
+        position: absolute;
+        display: inline-block;
+        width: 33px;
+        height: 33px;
+        vertical-align: middle;
+
+        &.hide {
+          display: none;
+        }
+
+        .incorrect-background {
+          fill: orange;
+        }
+
+        .correct-background {
+          fill: green;
+        }
+      }
+    }
+
+    .checkbox-holder {
+      display: inline-block;
+      width: auto;
+
+      label {
+        width: auto !important;
+      }
+
+      div div div {
+        margin-right: 8px !important;
+      }
+    }
+
+  }
+
+  .corespring-feedback-enter {
+    height: 1px;
+  }
+
+  .corespring-feedback-enter.corespring-feedback-enter-active {
+    height: 45px;
+    transition: height 500ms;
+  }
+
+  .corespring-feedback-leave {
+    height: 45px;
+  }
+
+  .corespring-feedback-leave.corespring-feedback-leave-active {
+    height: 1px;
+    transition: height 200ms;
+  }
+
+  .corespring-feedback {
+    transform-origin: 0% 0px 0px;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+
+    .content {
+      -webkit-font-smoothing: antialiased;
+      background-color: #f8f6f6;
+      border-radius: 6px;
+
+      font-family: 'Roboto', 'Noto', sans-serif;
+      font-size: 12px;
+      line-height: 25px;
+      margin: 0px;
+      padding: 10px;
+      vertical-align: middle;
+    }
+
+    &.incorrect {
+      color: #946202;
+    }
+  }
+
+}
+
