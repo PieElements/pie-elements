@@ -12,6 +12,9 @@
     "prop-types": "^15.5.10",
     "react": "^15.6.1"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
