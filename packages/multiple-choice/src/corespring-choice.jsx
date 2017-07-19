@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 
 import ChoiceInput from './choice-input';
-import CorespringCorrectAnswerToggle from '@pie-libs/correct-answer-toggle';
+import CorrectAnswerToggle from '@pie-libs/correct-answer-toggle';
 
-export default class CorespringChoice extends React.Component {
+export default class MultipleChoice extends React.Component {
 
   constructor(props) {
     super(props);
@@ -81,7 +81,7 @@ export default class CorespringChoice extends React.Component {
     };
 
     return <div className="corespring-choice">
-      <CorespringCorrectAnswerToggle
+      <CorrectAnswerToggle
         show={isEvaluateMode && !responseCorrect}
         toggled={this.state.showCorrect}
         onToggle={this.onToggle.bind(this)} />
@@ -91,7 +91,7 @@ export default class CorespringChoice extends React.Component {
   }
 }
 
-CorespringChoice.propTypes = {
+MultipleChoice.propTypes = {
   mode: PropTypes.oneOf(['gather', 'view', 'evaluate']),
   choiceMode: PropTypes.oneOf(['radio', 'checkbox']),
   keyMode: PropTypes.oneOf(['numbers', 'letters']),
@@ -101,7 +101,7 @@ CorespringChoice.propTypes = {
   onChoiceChanged: PropTypes.func.isRequired
 };
 
-CorespringChoice.defaultProps = {
+MultipleChoice.defaultProps = {
   session: {
     value: []
   }

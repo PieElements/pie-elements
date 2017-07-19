@@ -1,12 +1,11 @@
+import { FormControlLabel, FormGroup } from 'material-ui/Form';
 import React, { PropTypes } from 'react';
 
 import Checkbox from 'material-ui/Checkbox';
 import Feedback from './feedback.jsx';
 import FeedbackTick from './feedback-tick.jsx';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RadioButton from 'material-ui/RadioButton';
 import cloneDeep from 'lodash/cloneDeep';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 
 const tagStyle = {
   display: 'inline-block',
@@ -35,16 +34,6 @@ export class ChoiceInput extends React.Component {
     })
   }
 
-  getTheme() {
-    let theme = cloneDeep(this.props.muiTheme);
-    if (this.props.correctness === 'correct') {
-      theme.checkbox.disabledColor = theme.correctColor;
-    } else if (this.props.correctness === 'incorrect') {
-      theme.checkbox.disabledColor = theme.incorrectColor;
-    }
-    return theme;
-  }
-
   render() {
 
     const {
@@ -57,30 +46,29 @@ export class ChoiceInput extends React.Component {
       correctness
      } = this.props;
 
-    const muiTheme = this.getTheme();
     const Tag = choiceMode === 'checkbox' ? Checkbox : RadioButton;
     const classSuffix = choiceMode === 'checkbox' ? 'checkbox' : 'radio-button';
 
-    /**
-     * TODO: should only really have 1 theme provider in the component tree.
-     * but the way Checkbox is set up you can't tweak the styles via the props fully.
-     * So have to use an additional MuiThemeProvider for now.*/0
     return <div className={"corespring-" + classSuffix}>
-      <FeedbackTick correctness={correctness} />
-      <div className="checkbox-holder">
-        <MuiThemeProvider muiTheme={muiTheme}>
-          <Tag
-            style={tagStyle}
+
+      <div className="row">
+        <FeedbackTick correctness={correctness} />
+        <div className="checkbox-holder">
+          <FormControlLabel
             disabled={disabled}
-            checked={checked}
-            onCheck={this.onToggleChoice}
+            label={displayKey + '. '}
+            control={
+              <Tag
+                checked={checked}
+                onChange={this.onToggleChoice}
+              />}
             label={displayKey + '. '} />
-        </MuiThemeProvider>
-        <span
-          style={labelStyle}
-          className="label"
-          onClick={this.onToggleChoice}
-          dangerouslySetInnerHTML={{ __html: label }} />
+          <span
+            style={labelStyle}
+            className="label"
+            onClick={this.onToggleChoice}
+            dangerouslySetInnerHTML={{ __html: label }} />
+        </div>
       </div>
       <Feedback feedback={feedback} correctness={correctness} />
     </div>
@@ -104,4 +92,4 @@ ChoiceInput.propTypes = {
 ChoiceInput.defaultProps = {
 };
 
-export default muiThemeable()(ChoiceInput);
+export default ChoiceInput;

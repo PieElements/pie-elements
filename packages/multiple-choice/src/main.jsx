@@ -1,10 +1,10 @@
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { amber500, amber600, green200, green500 } from 'material-ui/styles/colors';
 
 import CorespringChoice from './corespring-choice.jsx';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Feedback from './feedback';
 import React from 'react';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 require('./index.less');
 
@@ -16,23 +16,27 @@ class Main extends React.Component {
 
 
   _getMuiTheme(className) {
+    console.log('className: ', className);
     if (className === 'white-on-black') {
-      return getMuiTheme(darkBaseTheme, {
-        correctColor: green200,
-        incorrectColor: amber500,
-        palette: {
-          textColor: 'white'
+      return createMuiTheme({
+        mc: {
+          correctColor: 'green', //green200,
+          incorrectColor: 'blue', //amber500,
         }
       });
     } else if (className === 'black-on-rose') {
-      return getMuiTheme({
-        correctColor: green500,
-        incorrectColor: amber600
+      return createMuiTheme({
+        mc: {
+          correctColor: 'red', //green500,
+          incorrectColor: 'purple', //amber600
+        }
       });
     } else {
-      return getMuiTheme({
-        correctColor: green500,
-        incorrectColor: amber600
+      return createMuiTheme({
+        mc: {
+          correctColor: green500,
+          incorrectColor: amber600
+        }
       });
     }
   };
@@ -47,13 +51,17 @@ class Main extends React.Component {
     const { model, onChoiceChanged, session } = this.props;
 
     let theme = this._getMuiTheme(model.className);
-
+    console.log('tt: ', theme);
     return <div className={this.getClass(model.className)}>
-      <MuiThemeProvider muiTheme={theme}>
-        <CorespringChoice
+      <MuiThemeProvider theme={theme}>
+        <div>
+          <Feedback correctness={'correct'} feedback={'hi'} />
+          <Feedback correctness={'incorrect'} feedback={'hi'} />
+        </div>
+        {/* <CorespringChoice
           {...model}
           session={session}
-          onChoiceChanged={onChoiceChanged} />
+          onChoiceChanged={onChoiceChanged} /> */}
       </MuiThemeProvider>
     </div>;
   }

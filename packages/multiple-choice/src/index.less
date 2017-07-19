@@ -123,7 +123,11 @@
 
   .corespring-checkbox, .corespring-radio-button {
     width: 100%;
-    display: inline-block;
+
+    .row{
+      display: flex;
+      align-items: center;
+    }
 
     input[type=checkbox], input[type=radio] {
       width: auto;
@@ -154,13 +158,8 @@
     }
 
     .feedback-tick {
-      position: relative;
       width: 33px;
       height: 33px;
-      float: left;
-      vertical-align: top;
-      display: inline-block;
-      top: -5px;
 
       svg {
         position: absolute;
@@ -184,7 +183,8 @@
     }
 
     .checkbox-holder {
-      display: inline-block;
+      display: flex;
+      align-items: center;
       width: auto;
 
       label {
@@ -216,7 +216,7 @@
     transition: height 200ms;
   }
 
-  .corespring-feedback {
+  /*.corespring-feedback {
     transform-origin: 0% 0px 0px;
     width: 100%;
     display: block;
@@ -238,7 +238,7 @@
     &.incorrect {
       color: #946202;
     }
-  }
+  }*/
 
 }
 
