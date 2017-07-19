@@ -10,7 +10,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "lodash": "^4.17.4",
-    "@pie-libs/scoring-config": "~0.0.1"
+    "@pie-libs/scoring-config": "~0.0.2"
   },
   "devDependencies": {
     "babel-preset-airbnb": "^2.1.1",
