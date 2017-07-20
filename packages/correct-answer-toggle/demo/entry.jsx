@@ -1,10 +1,9 @@
+import Checkbox from 'material-ui/Checkbox';
+import Expander from '../src/expander.jsx';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Toggle from '../src/index.jsx';
-import Expander from '../src/expander.jsx';
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Checkbox from 'material-ui/Checkbox';
 
 class Wrapper extends React.Component {
 
@@ -12,7 +11,7 @@ class Wrapper extends React.Component {
     super(props);
     this.state = {
       toggled: false,
-      show: false
+      show: true
     }
   }
 

@@ -44,10 +44,13 @@
   },
   "dependencies": {
     "@pie-libs/icons": "^0.0.2",
+    "classnames": "^2.2.5",
+    "jss": "^8.1.0",
     "less": "^2.7.2",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
+    "react-jss": "^7.0.2",
     "react-transition-group": "^2.1.0"
   }
 }
