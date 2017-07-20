@@ -3,16 +3,24 @@
   cursor: pointer;
   width: 100%;
 
-  .inner{
-    width: 600px;
-    margin: 0 auto;
-    position: relative;
+  .icon-and-label{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
+
+  .icons{
+    position: relative;
+
+  }
+    .icons > div{
+      position: absolute;
+      width: 25px;
+      height: 25px;
+    }
 
   .label{
     font-family: 'Roboto', sans-serif;
-    position: absolute;
-    left: 32px;
     height: 25px;
     line-height: 25px;
     vertical-align: middle;

@@ -5,7 +5,7 @@ import React from 'react';
 import Transition from 'react-transition-group/Transition';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import merge from 'lodash/merge';
-require('./index.less');
+//require('./index.less');
 
 /**
  * We export the raw unstyled class for testability. For public use please use the default export.
@@ -37,9 +37,8 @@ export default class CorrectAnswerToggle extends React.Component {
         <Expander
           show={this.state.show}
           class="toggle-expander">
-          <div
-            onClick={this.onClick.bind(this)}>
-            <div className="inner icon-holder">
+          <div className="icon-and-label" onClick={this.onClick.bind(this)} >
+            <div className="icons">
               <CSSTransition
                 timeout={400}
                 in={this.props.toggled}
@@ -56,8 +55,8 @@ export default class CorrectAnswerToggle extends React.Component {
                   <CorrectResponse open={false} key="correct-closed" />
                 </div>
               </CSSTransition>
-              <div className="label">{this.props.toggled ? this.props.hideMessage : this.props.showMessage}</div>
             </div>
+            <div className="label">{this.props.toggled ? this.props.hideMessage : this.props.showMessage}</div>
           </div>
         </Expander >
       </div >
