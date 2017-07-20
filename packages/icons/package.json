@@ -9,8 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "classnames": "^2.2.5",
     "prop-types": "^15.5.10",
-    "react": "^15.6.1"
+    "react": "^15.6.1",
+    "react-jss": "^7.0.2"
   },
   "publishConfig": {
     "access": "public"

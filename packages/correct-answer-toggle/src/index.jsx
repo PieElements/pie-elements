@@ -1,16 +1,22 @@
+import styles, { animationStyles } from './styles';
+
 import CSSTransition from 'react-transition-group/CSSTransition';
 import { CorrectResponse } from '@pie-libs/icons';
 import Expander from './expander';
 import React from 'react';
 import Transition from 'react-transition-group/Transition';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
+import classNames from 'classnames';
+import injectSheet from 'react-jss';
+import jss from 'jss';
 import merge from 'lodash/merge';
-require('./index.less');
+
+const aniClasses = jss.createStyleSheet(animationStyles).attach();
 
 /**
  * We export the raw unstyled class for testability. For public use please use the default export.
  */
-export default class CorrectAnswerToggle extends React.Component {
+export class CorrectAnswerToggle extends React.Component {
 
   constructor(props) {
     super(props);
@@ -32,35 +38,39 @@ export default class CorrectAnswerToggle extends React.Component {
 
   render() {
 
+    const { classes, className } = this.props;
+
     return (
-      <div className={`correct-answer-toggle ${this.props.className || ''}`}>
+      <div className={classNames(classes.root, className)}>
         <Expander
           show={this.state.show}
-          class="toggle-expander">
-          <div
-            onClick={this.onClick.bind(this)}>
-            <div className="inner icon-holder">
+          className={classes.expander}>
+          <div className={classes.content} onClick={this.onClick.bind(this)}>
+            <div className={classes.iconHolder}>
               <CSSTransition
                 timeout={400}
                 in={this.props.toggled}
-                classNames="icon">
-                <div className={this.props.toggled ? 'show' : 'hide'}>
-                  <CorrectResponse open={true} key="correct-open" />
-                </div>
+                classNames={aniClasses.classes}>
+                <CorrectResponse
+                  open={true}
+                  key="correct-open"
+                  className={classes.icon} />
               </CSSTransition>
               <CSSTransition
                 timeout={5000}
                 in={!this.props.toggled}
-                classNames="icon">
-                <div className={!this.props.toggled ? 'show' : 'hide'}>
-                  <CorrectResponse open={false} key="correct-closed" />
-                </div>
+                classNames={aniClasses.classes}>
+                <CorrectResponse
+                  open={false}
+                  key="correct-closed"
+                  className={classes.icon} />
               </CSSTransition>
-              <div className="label">{this.props.toggled ? this.props.hideMessage : this.props.showMessage}</div>
             </div>
+            <div className={classes.label}>{this.props.toggled ? this.props.hideMessage : this.props.showMessage}</div>
+
           </div>
-        </Expander >
-      </div >
+        </Expander>
+      </div>
     );
   }
 }
@@ -79,3 +89,5 @@ CorrectAnswerToggle.defaultProps = {
   show: false,
   toggled: false
 };
+
+export default injectSheet(styles)(CorrectAnswerToggle);

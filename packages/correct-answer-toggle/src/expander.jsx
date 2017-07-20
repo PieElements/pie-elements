@@ -16,7 +16,7 @@ export default class Expander extends React.Component {
   }
 
   render() {
-    const className = `${this.props.class} ${this.state.show ? 'show' : 'hide'}`
+    const className = `${this.props.className} ${this.state.show ? 'show' : 'hide'}`
     return <div className={className}>
       {this.props.children}
     </div>;
@@ -25,5 +25,5 @@ export default class Expander extends React.Component {
 
 Expander.propTypes = {
   show: React.PropTypes.bool.isRequired,
-  class: React.PropTypes.string.isRequired
+  className: React.PropTypes.string.isRequired
 }
