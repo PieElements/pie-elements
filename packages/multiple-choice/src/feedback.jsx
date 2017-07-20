@@ -4,9 +4,7 @@ import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import classNames from 'classnames';
 
-// 1. We define the styles.
 const styleSheet = createStyleSheet('Feedback', theme => {
-  console.log('theme in styles: ', theme);
   return {
     corespringFeedback: {
       transformOrigin: '0% 0px 0px',
@@ -19,48 +17,32 @@ const styleSheet = createStyleSheet('Feedback', theme => {
     },
     content: {
       '-webkit-font-smoothing': 'antialiased',
-      backgroundColor: '#f8f6f6',
+      backgroundColor: 'var(--feedback-bg-color, grey)',
       borderRadius: '4px',
       fontFamily: "'Roboto', 'Noto', sans-serif",
       fontSize: '12px',
       lineHeight: '25px',
       margin: '0px',
       padding: '10px',
-      verticalAlign: 'middle'
+      verticalAlign: 'middle',
+      color: 'var(--feedback-color, purple)'
     },
     correct: {
-      backgroundColor: theme.mc.correctColor,
+      backgroundColor: 'var(--feedback-correct-bg-color, blue)'
     },
     incorrect: {
-      backgroundColor: theme.mc.incorrectColor,
+      backgroundColor: 'var(--feedback-incorrect-bg-color, orange)'
     }
   }
 });
 
 export class Feedback extends React.Component {
 
-  // getStyle(correctness) {
-
-  //   let color = this.props.muiTheme.palette.textColor;
-  //   if (correctness === 'correct') {
-  //     color = this.props.muiTheme.correctColor;
-  //   } else if (correctness === 'incorrect') {
-  //     color = this.props.muiTheme.incorrectColor;
-  //   }
-
-  //   return {
-  //     color: color,
-  //     backgroundColor: this.props.muiTheme.palette.canvasColor
-  //   };
-  // }
-
   render() {
-    const { correctness, feedback, classes, className, theme } = this.props;
+    const { correctness, feedback, classes, className } = this.props;
 
-    console.log('theme in render: ', theme);
     function chooseFeedback(correctness) {
       if (correctness && feedback) {
-        var feedbackClass = "corespring-feedback " + correctness;
         return <div
           key="hasFeedback"
           className={classNames(classes.corespringFeedback)}>
@@ -76,7 +58,7 @@ export class Feedback extends React.Component {
       transitionName="corespring-feedback"
       transitionEnterTimeout={500}
       transitionLeaveTimeout={200}>
-      {chooseFeedback.bind(this)(correctness)}
+      {chooseFeedback(correctness)}
     </ReactCSSTransitionGroup>;
 
   }
@@ -88,4 +70,4 @@ Feedback.propTypes = {
 }
 
 
-export default withTheme(withStyles(styleSheet)(Feedback));
+export default withStyles(styleSheet)(Feedback);

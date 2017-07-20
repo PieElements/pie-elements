@@ -1,10 +1,12 @@
 import { FormControlLabel, FormGroup } from 'material-ui/Form';
 import React, { PropTypes } from 'react';
+import { createStyleSheet, withStyles, withTheme } from 'material-ui/styles';
 
 import Checkbox from 'material-ui/Checkbox';
 import Feedback from './feedback.jsx';
 import FeedbackTick from './feedback-tick.jsx';
 import RadioButton from 'material-ui/RadioButton';
+import classNames from 'classnames';
 import cloneDeep from 'lodash/cloneDeep';
 
 const tagStyle = {
@@ -14,11 +16,47 @@ const tagStyle = {
   marginRight: '5px'
 }
 
-const labelStyle = {
-  display: 'inline-block',
-  verticalAlign: 'middle',
-  cursor: 'pointer'
-}
+const styleSheet = createStyleSheet('ChoiceInput', theme => {
+
+  return {
+    label: {
+      color: 'var(--choice-input-color, black)',
+      display: 'inline-block',
+      verticalAlign: 'middle',
+      cursor: 'pointer'
+    }
+  }
+});
+
+
+const formStyleSheet = createStyleSheet('StyledFormControlLabel', theme => {
+  return {
+    label: {
+      color: 'var(--choice-input-color, black)'
+    }
+  }
+});
+
+const StyledFormControlLabel = withStyles(formStyleSheet)((props) => <FormControlLabel {...props} classes={{ label: props.classes.label }} />);
+
+const checkboxStyles = createStyleSheet('StyledCheckbox', theme => {
+  return {
+    root: {
+      color: 'var(--choice-input-color, black)'
+    },
+    checked: {
+      color: 'var(--choice-input-selected-color, black)'
+    },
+    disabled: {
+      color: 'var(--choice-input-disabled-color, black)'
+    }
+  }
+});
+
+const StyledCheckbox = withStyles(checkboxStyles)((props) => <Checkbox {...props}
+  className={props.classes.root}
+  checkedClassName={props.classes.checked}
+  disabledClassName={props.classes.disabled} />);
 
 export class ChoiceInput extends React.Component {
 
@@ -43,10 +81,11 @@ export class ChoiceInput extends React.Component {
       feedback,
       label,
       checked,
-      correctness
+      correctness,
+      classes
      } = this.props;
 
-    const Tag = choiceMode === 'checkbox' ? Checkbox : RadioButton;
+    const Tag = choiceMode === 'checkbox' ? StyledCheckbox : RadioButton;
     const classSuffix = choiceMode === 'checkbox' ? 'checkbox' : 'radio-button';
 
     return <div className={"corespring-" + classSuffix}>
@@ -54,7 +93,7 @@ export class ChoiceInput extends React.Component {
       <div className="row">
         <FeedbackTick correctness={correctness} />
         <div className="checkbox-holder">
-          <FormControlLabel
+          <StyledFormControlLabel
             disabled={disabled}
             label={displayKey + '. '}
             control={
@@ -64,8 +103,7 @@ export class ChoiceInput extends React.Component {
               />}
             label={displayKey + '. '} />
           <span
-            style={labelStyle}
-            className="label"
+            className={classNames(classes.label)}
             onClick={this.onToggleChoice}
             dangerouslySetInnerHTML={{ __html: label }} />
         </div>
@@ -92,4 +130,4 @@ ChoiceInput.propTypes = {
 ChoiceInput.defaultProps = {
 };
 
-export default ChoiceInput;
+export default withStyles(styleSheet)(ChoiceInput);

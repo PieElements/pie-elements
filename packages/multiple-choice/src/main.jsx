@@ -1,10 +1,36 @@
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { amber500, amber600, green200, green500 } from 'material-ui/styles/colors';
+import { createStyleSheet, withStyles, withTheme } from 'material-ui/styles';
+import { green, orange, pink } from 'material-ui/colors';
 
 import CorespringChoice from './corespring-choice.jsx';
-import Feedback from './feedback';
+import { MuiThemeProvider } from 'material-ui/styles';
 import React from 'react';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import classNames from 'classnames';
+
+const styleSheet = createStyleSheet('multiple-choice-main', theme => {
+  const root = {
+    '--feedback-correct-bg-color': green[500],
+    '--feedback-incorrect-bg-color': orange[500],
+    '--feedback-color': 'black',
+    '--choice-input-color': 'black',
+    '--choice-input-selected-color': theme.palette.primary[500],
+    '--choice-input-disabled-color': theme.palette.grey[500],
+    backgroundColor: 'var(--mc-bg-color, rgba(0,0,0,0))'
+  }
+  return {
+    root,
+    'white-on-black': {
+      '--feedback-correct-bg-color': green[800],
+      '--feedback-incorrect-bg-color': orange[800],
+      '--feedback-color': 'white',
+      '--mc-bg-color': 'black',
+      '--choice-input-color': 'white',
+      '--choice-input-selected-color': theme.palette.primary[200],
+    },
+    'black-on-rose': {
+      '--mc-bg-color': pink[50]
+    }
+  };
+});
 
 require('./index.less');
 
@@ -14,55 +40,15 @@ class Main extends React.Component {
     super(props);
   }
 
-
-  _getMuiTheme(className) {
-    console.log('className: ', className);
-    if (className === 'white-on-black') {
-      return createMuiTheme({
-        mc: {
-          correctColor: 'green', //green200,
-          incorrectColor: 'blue', //amber500,
-        }
-      });
-    } else if (className === 'black-on-rose') {
-      return createMuiTheme({
-        mc: {
-          correctColor: 'red', //green500,
-          incorrectColor: 'purple', //amber600
-        }
-      });
-    } else {
-      return createMuiTheme({
-        mc: {
-          correctColor: green500,
-          incorrectColor: amber600
-        }
-      });
-    }
-  };
-
-  getClass(className) {
-    className = className || '';
-    return `corespring-choice-root ${className}`
-  }
-
   render() {
 
-    const { model, onChoiceChanged, session } = this.props;
+    const { model, onChoiceChanged, session, classes } = this.props;
 
-    let theme = this._getMuiTheme(model.className);
-    console.log('tt: ', theme);
-    return <div className={this.getClass(model.className)}>
-      <MuiThemeProvider theme={theme}>
-        <div>
-          <Feedback correctness={'correct'} feedback={'hi'} />
-          <Feedback correctness={'incorrect'} feedback={'hi'} />
-        </div>
-        {/* <CorespringChoice
-          {...model}
-          session={session}
-          onChoiceChanged={onChoiceChanged} /> */}
-      </MuiThemeProvider>
+    return <div className={classNames(classes.root, classes[model.className])}>
+      <CorespringChoice
+        {...model}
+        session={session}
+        onChoiceChanged={onChoiceChanged} />
     </div>;
   }
 }
@@ -78,5 +64,7 @@ Main.defaultProps = {
   session: {}
 }
 
-export default Main;
+const Styled = withStyles(styleSheet)(Main);
+
+export default (props) => <MuiThemeProvider><Styled {...props} /></MuiThemeProvider>;
 
