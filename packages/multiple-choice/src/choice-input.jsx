@@ -1,12 +1,13 @@
+import { FormControlLabel, FormGroup } from 'material-ui/Form';
 import React, { PropTypes } from 'react';
+import { createStyleSheet, withStyles, withTheme } from 'material-ui/styles';
 
 import Checkbox from 'material-ui/Checkbox';
 import Feedback from './feedback.jsx';
 import FeedbackTick from './feedback-tick.jsx';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RadioButton from 'material-ui/RadioButton';
+import classNames from 'classnames';
 import cloneDeep from 'lodash/cloneDeep';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 
 const tagStyle = {
   display: 'inline-block',
@@ -15,11 +16,78 @@ const tagStyle = {
   marginRight: '5px'
 }
 
-const labelStyle = {
-  display: 'inline-block',
-  verticalAlign: 'middle',
-  cursor: 'pointer'
-}
+const styleSheet = createStyleSheet('ChoiceInput', theme => {
+
+  return {
+    label: {
+      color: 'var(--choice-input-color, black)',
+      display: 'inline-block',
+      verticalAlign: 'middle',
+      cursor: 'pointer'
+    }
+  }
+});
+
+
+const formStyleSheet = createStyleSheet('StyledFormControlLabel', theme => {
+  return {
+    label: {
+      color: 'var(--choice-input-color, black)'
+    }
+  }
+});
+
+const StyledFormControlLabel = withStyles(formStyleSheet)((props) => <FormControlLabel {...props} classes={{ label: props.classes.label }} />);
+
+const checkboxStyles = createStyleSheet('StyledCheckbox', theme => {
+  return {
+    'correct-root': {
+      color: 'var(--choice-input-correct-color, black)',
+    },
+    'correct-checked': {
+      color: 'var(--choice-input-correct-selected-color, black)',
+    },
+    'correct-disabled': {
+      color: 'var(--choice-input-correct-disabled-color, black)',
+    },
+    'incorrect-root': {
+      color: 'var(--choice-input-incorrect-color, black)',
+    },
+    'incorrect-checked': {
+      color: 'var(--choice-input-incorrect-selected-color, black)',
+    },
+    'incorrect-disabled': {
+      color: 'var(--choice-input-incorrect-disabled-color, black)',
+    },
+    root: {
+      color: 'var(--choice-input-color, black)'
+    },
+    checked: {
+      color: 'var(--choice-input-selected-color, black)'
+    },
+    disabled: {
+      color: 'var(--choice-input-disabled-color, black)'
+    }
+  }
+});
+
+const StyledCheckbox = withStyles(checkboxStyles)((props) => {
+
+  const { correctness, classes, checked, onChange, disabled } = props;
+  const key = (k) => correctness ? `${correctness}-${k}` : k;
+
+  const resolved = {
+    root: classes[key('root')],
+    checked: classes[key('checked')],
+    disabled: classes[key('disabled')]
+  };
+
+  const miniProps = { checked, onChange, disabled };
+  return <Checkbox {...miniProps}
+    className={resolved.root}
+    checkedClassName={resolved.checked}
+    disabledClassName={resolved.disabled} />;
+});
 
 export class ChoiceInput extends React.Component {
 
@@ -35,16 +103,6 @@ export class ChoiceInput extends React.Component {
     })
   }
 
-  getTheme() {
-    let theme = cloneDeep(this.props.muiTheme);
-    if (this.props.correctness === 'correct') {
-      theme.checkbox.disabledColor = theme.correctColor;
-    } else if (this.props.correctness === 'incorrect') {
-      theme.checkbox.disabledColor = theme.incorrectColor;
-    }
-    return theme;
-  }
-
   render() {
 
     const {
@@ -54,33 +112,33 @@ export class ChoiceInput extends React.Component {
       feedback,
       label,
       checked,
-      correctness
+      correctness,
+      classes
      } = this.props;
 
-    const muiTheme = this.getTheme();
-    const Tag = choiceMode === 'checkbox' ? Checkbox : RadioButton;
+    const Tag = choiceMode === 'checkbox' ? StyledCheckbox : RadioButton;
     const classSuffix = choiceMode === 'checkbox' ? 'checkbox' : 'radio-button';
 
-    /**
-     * TODO: should only really have 1 theme provider in the component tree.
-     * but the way Checkbox is set up you can't tweak the styles via the props fully.
-     * So have to use an additional MuiThemeProvider for now.*/0
     return <div className={"corespring-" + classSuffix}>
-      <FeedbackTick correctness={correctness} />
-      <div className="checkbox-holder">
-        <MuiThemeProvider muiTheme={muiTheme}>
-          <Tag
-            style={tagStyle}
+
+      <div className="row">
+        <FeedbackTick correctness={correctness} />
+        <div className="checkbox-holder">
+          <StyledFormControlLabel
             disabled={disabled}
-            checked={checked}
-            onCheck={this.onToggleChoice}
+            label={displayKey + '. '}
+            control={
+              <Tag
+                checked={checked}
+                correctness={correctness}
+                onChange={this.onToggleChoice}
+              />}
             label={displayKey + '. '} />
-        </MuiThemeProvider>
-        <span
-          style={labelStyle}
-          className="label"
-          onClick={this.onToggleChoice}
-          dangerouslySetInnerHTML={{ __html: label }} />
+          <span
+            className={classNames(classes.label)}
+            onClick={this.onToggleChoice}
+            dangerouslySetInnerHTML={{ __html: label }} />
+        </div>
       </div>
       <Feedback feedback={feedback} correctness={correctness} />
     </div>
@@ -104,4 +162,4 @@ ChoiceInput.propTypes = {
 ChoiceInput.defaultProps = {
 };
 
-export default muiThemeable()(ChoiceInput);
+export default withStyles(styleSheet)(ChoiceInput);
