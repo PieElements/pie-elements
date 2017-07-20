@@ -11,11 +11,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 
 require('./index.less');
 
-injectTapEventPlugin();
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -48,7 +46,7 @@ export default class Main extends React.Component {
       onPartialScoringChanged
     } = this.props;
 
-    return <MuiThemeProvider muiTheme={muiTheme}>
+    return <MuiThemeProvider theme={muiTheme}>
       <div className="corespring-choice-config-root">
         <Tabs>
           <Tab label="Design">
