@@ -17,7 +17,6 @@ const stylesheet = createStyleSheet('feedback-tick', theme => {
 
 class FeedbackTick extends React.Component {
 
-
   constructor(props) {
     super(props);
     this.incorrectIcon = <svg key="1"
@@ -56,7 +55,7 @@ class FeedbackTick extends React.Component {
   }
 
   render() {
-    var correctness = this.props.correctness;
+    const { correctness } = this.props;
 
     const icon = (() => {
       if (correctness === 'incorrect') {
@@ -65,7 +64,6 @@ class FeedbackTick extends React.Component {
         return this.correctIcon;
       }
     })();
-    console.log('icon: ', icon)
 
     return (
       <div className="feedback-tick">

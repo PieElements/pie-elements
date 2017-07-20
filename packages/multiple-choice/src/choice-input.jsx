@@ -41,6 +41,24 @@ const StyledFormControlLabel = withStyles(formStyleSheet)((props) => <FormContro
 
 const checkboxStyles = createStyleSheet('StyledCheckbox', theme => {
   return {
+    'correct-root': {
+      color: 'var(--choice-input-correct-color, black)',
+    },
+    'correct-checked': {
+      color: 'var(--choice-input-correct-selected-color, black)',
+    },
+    'correct-disabled': {
+      color: 'var(--choice-input-correct-disabled-color, black)',
+    },
+    'incorrect-root': {
+      color: 'var(--choice-input-incorrect-color, black)',
+    },
+    'incorrect-checked': {
+      color: 'var(--choice-input-incorrect-selected-color, black)',
+    },
+    'incorrect-disabled': {
+      color: 'var(--choice-input-incorrect-disabled-color, black)',
+    },
     root: {
       color: 'var(--choice-input-color, black)'
     },
@@ -53,10 +71,23 @@ const checkboxStyles = createStyleSheet('StyledCheckbox', theme => {
   }
 });
 
-const StyledCheckbox = withStyles(checkboxStyles)((props) => <Checkbox {...props}
-  className={props.classes.root}
-  checkedClassName={props.classes.checked}
-  disabledClassName={props.classes.disabled} />);
+const StyledCheckbox = withStyles(checkboxStyles)((props) => {
+
+  const { correctness, classes, checked, onChange, disabled } = props;
+  const key = (k) => correctness ? `${correctness}-${k}` : k;
+
+  const resolved = {
+    root: classes[key('root')],
+    checked: classes[key('checked')],
+    disabled: classes[key('disabled')]
+  };
+
+  const miniProps = { checked, onChange, disabled };
+  return <Checkbox {...miniProps}
+    className={resolved.root}
+    checkedClassName={resolved.checked}
+    disabledClassName={resolved.disabled} />;
+});
 
 export class ChoiceInput extends React.Component {
 
@@ -99,6 +130,7 @@ export class ChoiceInput extends React.Component {
             control={
               <Tag
                 checked={checked}
+                correctness={correctness}
                 onChange={this.onToggleChoice}
               />}
             label={displayKey + '. '} />
