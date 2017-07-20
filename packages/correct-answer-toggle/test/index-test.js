@@ -6,23 +6,27 @@ import React from 'react';
 import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 
-describe('CorespringCorrectAnswerToggle', () => {
+describe('CorrectAnswerToggle', () => {
 
   let onToggle;
   let wrapper;
   let sheet;
-  let CorespringCorrectAnswerToggle;
+  let CorrectAnswerToggle;
 
   let mkWrapper = (toggled, msgs) => {
     toggled = toggled === false ? false : true;
     msgs = msgs || {};
-    return shallow(<CorespringCorrectAnswerToggle
+    return shallow(<CorrectAnswerToggle
       toggled={toggled}
+      classes={{
+        root: 'root',
+        label: 'label'
+      }}
       onToggle={onToggle}
       hideMessage={msgs.hide}
       showMessage={msgs.show}
       sheet={sheet} />, {
-        context: { muiTheme: { palette: {} } }
+        context: {}
       });
   }
 
@@ -34,13 +38,9 @@ describe('CorespringCorrectAnswerToggle', () => {
     iconStub['@noCallThru'] = true;
     iconStub['@noCallThru'] = true;
 
-    CorespringCorrectAnswerToggle = proxyquire('../src/index', {
-      "./index.less": {
-        '@noCallThru': true
-      },
+    CorrectAnswerToggle = proxyquire('../src/index', {
       '@pie-libs/icons': iconStub
-
-    }).default;
+    }).CorrectAnswerToggle;
 
     sheet = {
       classes: {
@@ -54,17 +54,14 @@ describe('CorespringCorrectAnswerToggle', () => {
 
   describe('render', () => {
 
-    it('has an the root class name', () => {
-      expect(wrapper.prop('className').trim()).to.eql('correct-answer-toggle');
-    });
-
     it('has the hide message', () => {
       let holder = wrapper.find('.label');
       expect(holder.text()).to.eql('Hide correct answer');
     });
 
     it('has show message when toggled is false', () => {
-      let holder = mkWrapper(false).find('.label');
+      const w = mkWrapper(false);
+      let holder = w.find(`.label`);
       expect(holder.text()).to.eql('Show correct answer');
     });
 
