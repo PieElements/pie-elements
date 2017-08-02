@@ -5,7 +5,7 @@ import { createStyleSheet, withStyles, withTheme } from 'material-ui/styles';
 import Checkbox from 'material-ui/Checkbox';
 import Feedback from './feedback.jsx';
 import FeedbackTick from './feedback-tick.jsx';
-import RadioButton from 'material-ui/RadioButton';
+import Radio from 'material-ui/Radio';
 import classNames from 'classnames';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -39,7 +39,7 @@ const formStyleSheet = createStyleSheet('StyledFormControlLabel', theme => {
 
 const StyledFormControlLabel = withStyles(formStyleSheet)((props) => <FormControlLabel {...props} classes={{ label: props.classes.label }} />);
 
-const checkboxStyles = createStyleSheet('StyledCheckbox', theme => {
+const inputStyles = createStyleSheet('StyledCheckbox', theme => {
   return {
     'correct-root': {
       color: 'var(--choice-input-correct-color, black)',
@@ -71,7 +71,7 @@ const checkboxStyles = createStyleSheet('StyledCheckbox', theme => {
   }
 });
 
-const StyledCheckbox = withStyles(checkboxStyles)((props) => {
+const StyledCheckbox = withStyles(inputStyles)((props) => {
 
   const { correctness, classes, checked, onChange, disabled } = props;
   const key = (k) => correctness ? `${correctness}-${k}` : k;
@@ -84,6 +84,23 @@ const StyledCheckbox = withStyles(checkboxStyles)((props) => {
 
   const miniProps = { checked, onChange, disabled };
   return <Checkbox {...miniProps}
+    className={resolved.root}
+    checkedClassName={resolved.checked}
+    disabledClassName={resolved.disabled} />;
+});
+
+const StyledRadio = withStyles(inputStyles)((props) => {
+  const { correctness, classes, checked, onChange, disabled } = props;
+  const key = (k) => correctness ? `${correctness}-${k}` : k;
+
+  const resolved = {
+    root: classes[key('root')],
+    checked: classes[key('checked')],
+    disabled: classes[key('disabled')]
+  };
+
+  const miniProps = { checked, onChange, disabled };
+  return <Radio {...miniProps}
     className={resolved.root}
     checkedClassName={resolved.checked}
     disabledClassName={resolved.disabled} />;
@@ -116,7 +133,7 @@ export class ChoiceInput extends React.Component {
       classes
      } = this.props;
 
-    const Tag = choiceMode === 'checkbox' ? StyledCheckbox : RadioButton;
+    const Tag = choiceMode === 'checkbox' ? StyledCheckbox : StyledRadio;
     const classSuffix = choiceMode === 'checkbox' ? 'checkbox' : 'radio-button';
 
     return <div className={"corespring-" + classSuffix}>

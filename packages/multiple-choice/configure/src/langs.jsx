@@ -5,10 +5,11 @@ import Button from 'material-ui/Button';
 import React from 'react';
 
 const styles = createStyleSheet('Langs', theme => {
-
   return {
     root: {
-      position: 'relative'
+      position: 'relative',
+      paddingTop: '10px',
+      paddingRight: '20px'
     }
   }
 });
@@ -41,6 +42,7 @@ class Langs extends React.Component {
   render() {
     let { langs, selected, onChange, label, classes } = this.props;
     return <div className={classes.root}>
+      <div>{label}</div>
       <Button aria-owns="langs" aria-haspopup="true" onClick={this.onButtonClick}>{selected}</Button>
       <Menu id="langs"
         anchorEl={this.state.anchorEl}

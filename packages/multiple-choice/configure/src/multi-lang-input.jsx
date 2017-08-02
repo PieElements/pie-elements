@@ -7,9 +7,14 @@ export default class MultiLangInput extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  onChange(e, update) {
+  onChange(e) {
     const { lang, onChange } = this.props;
+    const update = e.target.value;
     onChange(update, lang);
+  }
+
+  componentDidUpdate(oldProps) {
+
   }
 
   render() {
@@ -21,11 +26,12 @@ export default class MultiLangInput extends React.Component {
 
     return <div className="multi-lang-input">
       <TextField
-        floatingLabelText={textFieldLabel}
-        name={renderValue}
         value={renderValue}
-        style={{ flex: 1 }}
         onChange={this.onChange} />
     </div>;
   }
 }
+//  label={textFieldLabel}
+//         name={renderValue}
+//         value={renderValue}
+//         style={{ flex: 1, width: '100%' }}
