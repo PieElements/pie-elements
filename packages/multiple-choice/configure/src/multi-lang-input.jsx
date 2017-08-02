@@ -13,10 +13,6 @@ export default class MultiLangInput extends React.Component {
     onChange(update, lang);
   }
 
-  componentDidUpdate(oldProps) {
-
-  }
-
   render() {
 
     const { lang, value, textFieldLabel } = this.props;
@@ -26,6 +22,7 @@ export default class MultiLangInput extends React.Component {
 
     return <div className="multi-lang-input">
       <TextField
+        label={textFieldLabel}
         value={renderValue}
         onChange={this.onChange} />
     </div>;

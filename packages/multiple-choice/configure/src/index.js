@@ -1,6 +1,6 @@
-import Main from './main.jsx';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Root from './root.jsx';
 import merge from 'lodash/merge';
 
 export class ModelUpdatedEvent extends CustomEvent {
@@ -36,7 +36,8 @@ export default class extends HTMLElement {
   }
 
   _render() {
-    let element = React.createElement(Main, {
+    console.log('_render..');
+    let element = React.createElement(Root, {
       model: this._model,
       onModelChanged: this.onModelChanged
     });

@@ -56,7 +56,7 @@ class Main extends React.Component {
 
     const { index } = this.state;
 
-    const Design = () => <div>
+    const design = <div>
       <div className="base-types">
         <ChoiceType value={model.choiceMode} onChange={onChoiceModeChanged} />
         <KeyType value={model.keyMode} onChange={onKeyModeChanged} />
@@ -79,8 +79,8 @@ class Main extends React.Component {
       <MultiLangInput
         textFieldLabel="prompt"
         value={model.prompt}
-        style={{ width: '100%' }}
         lang={this.state.activeLang}
+        style={{ width: '200px' }}
         onChange={onPromptChanged} />
       {/*
 
@@ -108,13 +108,14 @@ class Main extends React.Component {
         <Tab label="Design"></Tab>
         <Tab label="Scoring"></Tab>
       </Tabs>
-      {this.state.index === 0 && <Design />}
+      {this.state.index === 0 && design}
       {this.state.index === 1 && <PartialScoringConfig
         partialScoring={model.partialScoring}
         numberOfCorrectResponses={model.choices.filter(choice => choice.correct).length}
         onPartialScoringChange={onPartialScoringChanged.bind(this)} />}
     </div>;
   }
+
 
 }
 
