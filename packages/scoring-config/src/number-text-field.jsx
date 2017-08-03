@@ -1,13 +1,16 @@
+import { createStyleSheet, withStyles } from 'material-ui/styles';
+
 import React from 'react';
 import TextField from 'material-ui/TextField';
 
-export default class NumberTextField extends React.Component {
+export class NumberTextField extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       value: props.value
     };
+    this.onChange = this.onChange.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -26,27 +29,35 @@ export default class NumberTextField extends React.Component {
     return value;
   }
 
-  onChange(event, value) {
-    this.setState({
-      value: value
-    });
-    if (isNaN(value)) {
+  onChange(event) {
+    const value = event.target.value;
+    const n = parseInt(value, 10);
+    if (isNaN(n)) {
       return;
-    } else if (value === '') {
-      this.props.onChange(event, value);
     } else {
-      let number = this._clamp(parseInt(value, 10));
-      this.props.onChange(event, number);
+      let number = this._clamp(n);
+      this.setState({ value }, () => {
+        this.props.onChange(event, number);
+      });
     }
   }
 
   render() {
-    let { value, name, style } = this.props;
-    return <TextField 
-      name={name} 
-      style={style}
-      value={this.state.value} 
-      onChange={this.onChange.bind(this)} />;
+    let { value, name, classes } = this.props;
+    return <TextField
+      className={classes.root}
+      name={name}
+      value={this.state.value}
+      onChange={this.onChange} />;
   }
 
 }
+
+const styles = createStyleSheet('NumberTextField', theme => {
+  return {
+    root: { display: 'inline-block', width: '35px', margin: '10px' }
+  }
+});
+
+export default withStyles(styles)(NumberTextField);
+

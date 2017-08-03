@@ -1,37 +1,35 @@
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-import { Tab, Tabs } from 'material-ui/Tabs';
-import { blue500, green500, green700, grey400, grey500, red500 } from 'material-ui/styles/colors';
+import { ChoiceType, KeyType } from './choice-type';
+import { FormControl, FormControlLabel, FormLabel } from 'material-ui/Form';
+import Radio, { RadioGroup } from 'material-ui/Radio';
+import Tabs, { Tab } from 'material-ui/Tabs';
+import { createStyleSheet, withStyles } from 'material-ui/styles';
 
+import Button from 'material-ui/Button';
 import ChoiceConfig from './choice-config';
 import Langs from './langs';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { MuiThemeProvider } from 'material-ui/styles';
 import MultiLangInput from './multi-lang-input';
 import PartialScoringConfig from '@pie-libs/scoring-config/src/index.jsx';
-import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import createMuiTheme from 'material-ui/styles/theme';
 
-require('./index.less');
+const theme = createMuiTheme({});
 
-injectTapEventPlugin();
-
-const muiTheme = getMuiTheme({
-  palette: {
-    primary1Color: green500,
-    primary2Color: green700,
-    primary3Color: grey400,
-  }
-});
-
-export default class Main extends React.Component {
+class Main extends React.Component {
 
   constructor(props) {
     super(props);
+    this.onTabsChange = this.onTabsChange.bind(this);
     this.state = {
-      activeLang: props.model.defaultLang
+      activeLang: props.model.defaultLang,
+      index: 0
     }
+  }
+
+  onTabsChange(event, index) {
+    this.setState({ index });
   }
 
   render() {
@@ -45,120 +43,99 @@ export default class Main extends React.Component {
       onAddChoice,
       model,
       onDefaultLangChanged,
-      onPartialScoringChanged
+      onPartialScoringChanged,
+      classes
     } = this.props;
 
-    return <MuiThemeProvider muiTheme={muiTheme}>
-      <div className="corespring-choice-config-root">
-        <Tabs>
-          <Tab label="Design">
-            <div className="base-types">
-              <ChoiceType value={model.choiceMode} onChange={onChoiceModeChanged} />
-              <KeyType value={model.keyMode} onChange={onKeyModeChanged} />
-            </div>
-            <hr className="divider" />
+    const { index } = this.state;
 
-            <div className="language-controls">
-              <Langs
-                label="Choose language to edit"
-                langs={model.langs}
-                selected={this.state.activeLang}
-                onChange={(e, index, l) => this.setState({ activeLang: l })} />
-              <Langs
-                label="Default language"
-                langs={model.langs}
-                selected={model.defaultLang}
-                onChange={(e, index, l) => onDefaultLangChanged(l)} />
-            </div>
-            <MultiLangInput
-              textFieldLabel="prompt"
-              value={model.prompt}
-              style={{ width: '100%' }}
-              lang={this.state.activeLang}
-              onChange={onPromptChanged} />
-
-            {model.choices.map((choice, index) => {
-              const choiceProps = {
-                choice,
-                index,
-                choiceMode: model.choiceMode,
-                keyMode: model.keyMode,
-                activeLang: this.state.activeLang,
-                defaultLang: model.defaultLang,
-                onChoiceChanged: onChoiceChanged.bind(null, index),
-                onRemoveChoice: onRemoveChoice.bind(null, index)
-              }
-              return <ChoiceConfig key={index} {...choiceProps} />;
-            })}
-
-            <br />
-            <RaisedButton label="Add a choice" onClick={() => onAddChoice(this.state.activeLang)} />
-          </Tab>
-          <Tab label="Scoring">
-            <PartialScoringConfig
-              partialScoring={model.partialScoring}
-              numberOfCorrectResponses={model.choices.filter(choice => choice.correct).length}
-              onPartialScoringChange={onPartialScoringChanged.bind(this)} />
-          </Tab>
-        </Tabs>
+    const design = <div className={classes.root}>
+      <div className={classes.baseTypes}>
+        <ChoiceType value={model.choiceMode} onChange={onChoiceModeChanged} />
+        <KeyType value={model.keyMode} onChange={onKeyModeChanged} />
       </div>
-    </MuiThemeProvider>
+      <hr className={classes.divider} />
+
+      <div className={classes.languageControls}>
+        <Langs
+          label="Choose language to edit"
+          langs={model.langs}
+          selected={this.state.activeLang}
+          onChange={(e, index, l) => this.setState({ activeLang: l })} />
+        <Langs
+          label="Default language"
+          langs={model.langs}
+          selected={model.defaultLang}
+          onChange={(e, index, l) => onDefaultLangChanged(l)} />
+      </div>
+
+      <hr className={classes.divider} />
+
+      <MultiLangInput
+        textFieldLabel="prompt"
+        value={model.prompt}
+        lang={this.state.activeLang}
+        onChange={onPromptChanged} />
+
+
+      {model.choices.map((choice, index) => {
+        const choiceProps = {
+          choice,
+          index,
+          choiceMode: model.choiceMode,
+          keyMode: model.keyMode,
+          activeLang: this.state.activeLang,
+          defaultLang: model.defaultLang,
+          onChoiceChanged: onChoiceChanged.bind(null, index),
+          onRemoveChoice: onRemoveChoice.bind(null, index)
+        }
+        return <ChoiceConfig key={index} {...choiceProps} />;
+      })}
+
+      <br />
+      <Button
+        raised
+        color="primary"
+        onClick={() => onAddChoice(this.state.activeLang)} >Add a choice</Button>
+    </div>;
+
+    return <div>
+      <Tabs onChange={this.onTabsChange} index={index}>
+        <Tab label="Design"></Tab>
+        <Tab label="Scoring"></Tab>
+      </Tabs>
+      {this.state.index === 0 && design}
+      {this.state.index === 1 && <PartialScoringConfig
+        partialScoring={model.partialScoring}
+        numberOfCorrectResponses={model.choices.filter(choice => choice.correct).length}
+        onPartialScoringChange={onPartialScoringChanged} />}
+    </div>;
   }
+
+
 }
 
-const TwoChoice = (props) => {
-  return <div className="two-choice">
-    <label className="header">{props.header}</label>
-    <RadioButtonGroup
-      name="choice-type"
-      labelPosition="right"
-      valueSelected={props.value}
-      onChange={props.onChange}
-      defaultSelected={props.defaultSelected}>
-      <RadioButton
-        value={props.one.value}
-        label={props.one.label}
-      />
-      <RadioButton
-        value={props.two.value}
-        label={props.two.label}
-      />
-    </RadioButtonGroup>
-  </div>;
-}
-
-export const ChoiceType = (props) => {
-  let choiceProps = {
-    header: 'Response Type',
-    defaultSelected: 'radio',
-    value: props.value,
-    onChange: props.onChange,
-    one: {
-      label: 'Radio',
-      value: 'radio'
+const main = createStyleSheet('main', theme => {
+  return {
+    root: {
+      paddingTop: '10px',
+      paddingBottom: '10px'
     },
-    two: {
-      label: 'Checkbox',
-      value: 'checkbox'
+    languageControls: {
+      display: 'flex'
+    },
+    baseTypes: {
+      display: 'flex'
+    },
+    divider: {
+      paddingTop: '5px',
+      paddingBottom: '1px',
+      border: 'none',
+      borderBottom: 'solid 1px rgba(0, 0, 0, 0.128039)'
     }
   }
-  return <TwoChoice {...choiceProps} />;
-}
+});
 
-export const KeyType = (props) => {
-  let choiceProps = {
-    header: 'Choice Labels',
-    defaultSelected: 'numbers',
-    value: props.value,
-    onChange: props.onChange,
-    one: {
-      label: 'Numbers',
-      value: 'numbers'
-    },
-    two: {
-      label: 'Letters',
-      value: 'letters'
-    }
-  }
-  return <TwoChoice {...choiceProps} />;
-}
+const StyledMain = withStyles(main)(Main);
+
+export default (props) => <MuiThemeProvider theme={theme}><StyledMain {...props} /></MuiThemeProvider>;

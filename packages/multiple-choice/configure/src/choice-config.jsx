@@ -1,13 +1,14 @@
 import React, { PropTypes } from 'react';
+import { createStyleSheet, withStyles } from 'material-ui/styles';
 import { green500, grey500 } from 'material-ui/styles/colors';
 
-import ActionDelete from 'material-ui/svg-icons/action/delete';
-import ActionFeedback from 'material-ui/svg-icons/action/feedback';
+import ActionDelete from 'material-ui-icons/Delete';
+import ActionFeedback from 'material-ui-icons/Feedback';
 import Checkbox from 'material-ui/Checkbox';
 import FeedbackMenu from './feedback-menu';
 import IconButton from 'material-ui/IconButton';
 import MultiLangInput from './multi-lang-input';
-import RadioButton from 'material-ui/RadioButton';
+import Radio from 'material-ui/Radio';
 import TextField from 'material-ui/TextField';
 import cloneDeep from 'lodash/cloneDeep';
 import isString from 'lodash/isString';
@@ -15,20 +16,22 @@ import merge from 'lodash/merge';
 
 const defaultFeedback = (c) => c ? 'Correct!' : 'Incorrect';
 
-export default class ChoiceConfig extends React.Component {
+export class ChoiceConfig extends React.Component {
 
   constructor(props, context) {
     super(props, context);
     this.onLabelChanged = this.onLabelChanged.bind(this);
     this.onFeedbackTypeChanged = this.onFeedbackTypeChanged.bind(this);
     this.onFeedbackChanged = this.onFeedbackChanged.bind(this);
+    this.onValueChanged = this.onValueChanged.bind(this);
   }
 
   _indexToSymbol(index) {
     return ((this.props.keyMode === 'numbers') ? index + 1 : String.fromCharCode(97 + index).toUpperCase()).toString();
   }
 
-  onValueChanged(update) {
+  onValueChanged(event) {
+    const update = event.target.value;
     this.props.onChoiceChanged(merge({}, this.props.choice, {
       value: update
     }));
@@ -100,39 +103,40 @@ export default class ChoiceConfig extends React.Component {
       choiceMode,
       onChoiceChanged,
       onRemoveChoice,
-      activeLang } = this.props;
+      activeLang,
+      classes } = this.props;
 
-    const ChoiceModeTag = choiceMode === 'checkbox' ? Checkbox : RadioButton;
+    const ChoiceModeTag = choiceMode === 'checkbox' ? Checkbox : Radio;
 
-    return <div className="choice-config">
-      <div className="main">
-        <span className="index">{this._indexToSymbol(index)}</span>
+    return <div className={classes.root}>
+      <div className={classes.main}>
+        <span className={classes.index}>{this._indexToSymbol(index)}</span>
         <ChoiceModeTag
           checked={choice.correct === true}
           style={{ width: 'auto', paddingLeft: '5px' }}
           onClick={() => this.onToggleCorrect()} />
         <TextField
-          floatingLabelText="value"
+          label="value"
           value={choice.value}
-          onChange={(e, u) => this.onValueChanged(u)}
-          style={{ width: '100px', maxWidth: '100px', marginRight: '10px' }} />
+          onChange={this.onValueChanged}
+          className={classes.valueField}
 
+        />
         <MultiLangInput
           textFieldLabel="label"
           value={choice.label}
           lang={activeLang}
           onChange={this.onLabelChanged} />
-
         <FeedbackMenu
           value={choice.feedback.type}
           onChange={this.onFeedbackTypeChanged} />
 
         <IconButton
-          tooltip="delete"
+          aria-label="delete"
           onClick={onRemoveChoice}><ActionDelete /></IconButton>
       </div>
       {choice.feedback.type === 'custom' &&
-        <div className="feedback">
+        <div className={classes.feedback}>
           <MultiLangInput
             textFieldLabel="feedback"
             value={choice.feedback.custom}
@@ -155,3 +159,36 @@ ChoiceConfig.props = {
   onRemoveChoice: PropTypes.func.isRequired,
   activeLang: PropTypes.string.isRequired
 }
+
+const styles = createStyleSheet('ChoiceConfig', theme => {
+  return {
+    root: {
+      paddingBottom: '10px',
+      paddingTop: '10px',
+    },
+    main: {
+      display: 'flex',
+      alignItems: 'baseline',
+      paddingBottom: '8px'
+    },
+    feedback: {
+      display: 'flex'
+    },
+    index: {
+
+      display: 'inline-block',
+      position: 'relative',
+      top: '-4px',
+      fontWeight: 'bold',
+      fontSize: '18px',
+    },
+    valueField: {
+      width: '100px',
+      maxWidth: '100px',
+      marginRight: '10px',
+      marginLeft: '10px'
+    }
+  }
+});
+
+export default withStyles(styles)(ChoiceConfig);

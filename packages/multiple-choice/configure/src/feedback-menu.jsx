@@ -1,10 +1,55 @@
+import Menu, { MenuItem } from 'material-ui/Menu';
 import { blue500, green500, grey500 } from 'material-ui/styles/colors';
 
-import ActionFeedback from 'material-ui/svg-icons/action/feedback';
+import ActionFeedback from 'material-ui-icons/Feedback';
+import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
+import PropTypes from 'proptypes';
 import React from 'react';
+
+class IconMenu extends React.Component {
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      anchorEl: undefined,
+      open: false,
+    };
+    this.handleClick = this.handleClick.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
+  }
+
+
+  handleClick(event) {
+    this.setState({ open: true, anchorEl: event.currentTarget });
+  }
+
+  handleRequestClose() {
+    this.setState({ open: false });
+  }
+
+  render() {
+    return (
+      <div>
+        <div onClick={this.handleClick}>
+          {this.props.iconButtonElement}
+        </div>
+        <Menu
+          id="simple-menu"
+          anchorEl={this.state.anchorEl}
+          open={this.state.open}
+          onRequestClose={this.handleRequestClose}
+        >{this.props.children.map((c, index) => <div key={index} onClick={this.handleRequestClose}>{c}</div>)}
+        </Menu>
+      </div>
+    );
+  }
+}
+IconMenu.propTypes = {
+  iconButtonElement: PropTypes.any
+}
+
 
 export default function FeedbackMenu(props) {
 
@@ -19,7 +64,7 @@ export default function FeedbackMenu(props) {
     (value === 'default' ? 'Default Feedback' : 'Feedback disabled');
 
   const icon = <IconButton
-    tooltip={tooltip}>
+    aria-label={tooltip}>
     <ActionFeedback color={iconColor} />
   </IconButton>;
 
@@ -31,8 +76,8 @@ export default function FeedbackMenu(props) {
 
   return <IconMenu
     iconButtonElement={icon}>
-    <MenuItem onClick={chooseFeedback('none')} primaryText="No Feedback" />
-    <MenuItem onClick={chooseFeedback('default')} primaryText="Default" />
-    <MenuItem onClick={chooseFeedback('custom')} primaryText="Custom" />
+    <MenuItem onClick={chooseFeedback('none')}>No Feedback</MenuItem>
+    <MenuItem onClick={chooseFeedback('default')}>Default</MenuItem>
+    <MenuItem onClick={chooseFeedback('custom')}>Custom</MenuItem>
   </IconMenu>
 }    

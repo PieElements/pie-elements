@@ -1,3 +1,5 @@
+// !important - pull in the pre-configured jss module not the raw js module.
+import injectSheet, { jss } from 'react-jss';
 import styles, { animationStyles } from './styles';
 
 import CSSTransition from 'react-transition-group/CSSTransition';
@@ -7,8 +9,6 @@ import React from 'react';
 import Transition from 'react-transition-group/Transition';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import classNames from 'classnames';
-import injectSheet from 'react-jss';
-import jss from 'jss';
 import merge from 'lodash/merge';
 
 const aniClasses = jss.createStyleSheet(animationStyles).attach();

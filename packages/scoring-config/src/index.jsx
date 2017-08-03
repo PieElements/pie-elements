@@ -1,11 +1,25 @@
+import Card, { CardContent } from 'material-ui/Card';
+import { createStyleSheet, withStyles } from 'material-ui/styles';
+
 import React from 'react';
 import ReactDom from 'react-dom';
-import * as _ from 'lodash';
-
-import TextField from 'material-ui/TextField';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-
 import ScoringConfigRow from './scoring-config-row';
+import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
+
+const emptyStyles = createStyleSheet('empty', theme => {
+  return {
+    root: {
+      padding: '20px'
+    }
+  }
+});
+
+const Empty = ({ classes }) => <div className={classes.root}>
+  <Typography type="caption">You must have more than 1 correct response to set up partial scoring</Typography>
+</div>;
+
+const StyledEmpty = withStyles(emptyStyles)(Empty);
 
 export default class PartialScoringConfig extends React.Component {
 
@@ -14,20 +28,18 @@ export default class PartialScoringConfig extends React.Component {
   }
 
   render() {
-    return <div className="partial-scoring-config">
-      <p className="scoring-header-text">
+    const { numberOfCorrectResponses } = this.props;
+
+    return <div>
+      <p>
         If there is more than one correct answer to this question, you may allow partial credit based
         on the number of correct answers submitted. This is optional.
       </p>
       <Card>
-        <CardHeader title="Partial Scoring Rules" showExpandableButton={this.props.numberOfCorrectResponses > 1}/>
-        <CardText expandable={true}>
-          <ScoringConfigRow 
-            numberOfCorrectResponses={this.props.numberOfCorrectResponses}
-            partialScoring={this.props.partialScoring}
-            onPartialScoringChange={this.props.onPartialScoringChange}
-          />
-        </CardText>
+        <CardContent>
+          <Typography type="body1">Partial Scoring Rules</Typography>
+          {numberOfCorrectResponses > 1 ? <ScoringConfigRow {...this.props} /> : <StyledEmpty />}
+        </CardContent>
       </Card>
     </div>;
   }
