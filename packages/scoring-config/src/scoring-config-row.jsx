@@ -1,17 +1,18 @@
-import React from 'react';
-import _ from 'lodash';
-import RaisedButton from 'material-ui/RaisedButton';
-import IconButton from 'material-ui/IconButton';
-import ActionDelete from 'material-ui/svg-icons/action/delete';
+import { createStyleSheet, withStyles } from 'material-ui/styles';
+
+import ActionDelete from 'material-ui-icons/Delete';
+import Button from 'material-ui/Button';
 import Decimal from 'decimal.js';
-
+import IconButton from 'material-ui/IconButton';
 import NumberTextField from './number-text-field';
-
-require('./scoring-config.less');
+import React from 'react';
+import cloneDeep from 'lodash/cloneDeep';
+import each from 'lodash/each';
+import isEmpty from 'lodash/isEmpty';
 
 export const defaultPercent = 0.2;
 
-export default class ScoringConfigRow extends React.Component {
+export class ScoringConfigRow extends React.Component {
 
   constructor(props) {
     super(props);
@@ -24,7 +25,7 @@ export default class ScoringConfigRow extends React.Component {
 
   _toState(props) {
     return {
-      partialScoring: (props.partialScoring === undefined || _.isEmpty(props.partialScoring)) ? [
+      partialScoring: (props.partialScoring === undefined || isEmpty(props.partialScoring)) ? [
         {
           correctCount: '',
           weight: ''
@@ -55,7 +56,7 @@ export default class ScoringConfigRow extends React.Component {
     let self = this;
     function findMaxcorrectCountInScoringScenarios() {
       let maxcorrectCount = 0;
-      _.each(self.state.partialScoring, (ps) => {
+      each(self.state.partialScoring, (ps) => {
         if (ps.correctCount > maxcorrectCount) {
           maxcorrectCount = ps.correctCount;
         }
@@ -67,7 +68,7 @@ export default class ScoringConfigRow extends React.Component {
     this.state.partialScoring.push(this._makeScenario(maxcorrectCount + 1, defaultPercent * 100));
     this._updateScoring(this.state.partialScoring);
   }
-  
+
 
   removeScoringScenario(index) {
     this.state.partialScoring.splice(index, 1);
@@ -86,7 +87,7 @@ export default class ScoringConfigRow extends React.Component {
   }
 
   _onUpdate(index, value, key) {
-    let update = _.cloneDeep(this.state.partialScoring);
+    let update = cloneDeep(this.state.partialScoring);
     let newScoring = update[index];
     this.state.partialScoring[index][key] = value;
     try {
@@ -112,52 +113,63 @@ export default class ScoringConfigRow extends React.Component {
   }
 
   render() {
-    const scoringFieldStyle = {display: 'inline-block', width: '50px', margin: '10px'};
 
-    let maxNumberOfScoringScenarios = Math.max(1, this.props.numberOfCorrectResponses - 1);
-    let canRemoveScoringScenario = this.state.partialScoring.length > 1;
-    let canAddScoringScenario = this.state.partialScoring.length < maxNumberOfScoringScenarios;
+    const { classes, numberOfCorrectResponses } = this.props;
+    const { partialScoring } = this.state;
+    const maxNumberOfScoringScenarios = Math.max(1, numberOfCorrectResponses - 1);
+    const canRemoveScoringScenario = partialScoring.length > 1;
+    const canAddScoringScenario = partialScoring.length < maxNumberOfScoringScenarios;
 
     return (
       <div>
-        { this.state.partialScoring ? (
-          <ul className="scenarios">{
+        {this.state.partialScoring &&
+          <ul className={classes.scenarios}>{
             this.state.partialScoring.map((scenario, index) => {
-              return <li className="scenario" key={index}>
-                If
-                <NumberTextField id={`correct-count-${index}`} style={scoringFieldStyle}
+              return <li key={index}>
+                Award <NumberTextField
+                  id={`weight-${index}`}
+                  min={1}
+                  name={`weight-${index}`}
+                  max={99}
+                  value={scenario.weight}
+                  onChange={this.onPercentageChange.bind(this, index)} />% for
+                <NumberTextField
+                  id={`correct-count-${index}`}
                   min={1}
                   name={`correct-count-${index}`}
                   max={maxNumberOfScoringScenarios}
                   value={scenario.correctCount}
                   onChange={this.onNumberOfCorrectChange.bind(this, index)} />
-                of correct answers is/are selected, award
-                <NumberTextField id={`weight-${index}`} style={scoringFieldStyle}
-                  min={1}
-                  name={`weight-${index}`}
-                  max={99}
-                  value={scenario.weight}
-                  onChange={this.onPercentageChange.bind(this, index)} />
-                % of full credit.
-                {
-                  (canRemoveScoringScenario) ? (
-                    <IconButton className="delete-button" onClick={this.removeScoringScenario.bind(this, index)}><ActionDelete/></IconButton>
-                  ) : <div/>
-                }
+                correct answer{scenario.correctCount > 1 ? 's' : ''}.
+                {canRemoveScoringScenario &&
+                  <IconButton
+                    onClick={this.removeScoringScenario.bind(this, index)}><ActionDelete /></IconButton>}
               </li>
             })
-          }</ul>
-        ) : <ul/>
-        }
-        {
-          (canAddScoringScenario === true) ? (
-            <div className="add-scoring-scenario">
-              <RaisedButton className="add-button" label="Add another scenario" onClick={this.addScoringScenario.bind(this)}/>
-            </div>
-          ) : <div/>
-        }
+          }</ul>}
+
+        {canAddScoringScenario &&
+          <div>
+            <hr />
+            <Button
+              raised
+              color="primary"
+              onClick={this.addScoringScenario.bind(this)}>Add another scenario</Button>
+          </div>}
       </div>
-    );     
+    );
   }
 
 }
+
+const styles = createStyleSheet('ScoringConfigRow', theme => {
+  return {
+    scenarios: {
+      listStyleType: 'none',
+      padding: '0',
+      margin: '0 0 0 15px'
+    }
+  }
+});
+
+export default withStyles(styles)(ScoringConfigRow);
