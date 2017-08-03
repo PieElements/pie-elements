@@ -1,6 +1,7 @@
 module.exports = {
   context: __dirname,
   entry: './entry.js',
+  devtool: 'cheap-eval-source-map',
   module: {
     rules: [
       {
