@@ -2,7 +2,7 @@ import { assert, match, spy, stub } from 'sinon';
 
 import Checkbox from 'material-ui/Checkbox';
 import FeedbackMenu from '../src/feedback-menu';
-import RadioButton from 'material-ui/RadioButton';
+import Radio from 'material-ui/Radio';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import _ from 'lodash';
@@ -18,7 +18,7 @@ describe('choice-config', () => {
 
     mod = proxyquire('../src/choice-config', {});
 
-    ChoiceConfig = mod.default;
+    ChoiceConfig = mod.ChoiceConfig;
   });
 
   let mkWrapperAndOpts = (opts = {}) => {
@@ -30,6 +30,9 @@ describe('choice-config', () => {
         feedback: {
           type: 'none'
         }
+      },
+      classes: {
+        index: 'index'
       }
     }, opts);
     return { wrapper: shallow(<ChoiceConfig {...opts} />), opts };
@@ -45,7 +48,8 @@ describe('choice-config', () => {
     });
 
     describe('index', () => {
-      it('sets the index to A', () => {
+      it.only('sets the index to A', () => {
+        console.log('w: ', w, w.debug());
         expect(w.find('.index').text()).to.eql('A');
       });
 
