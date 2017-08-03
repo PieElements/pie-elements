@@ -1,12 +1,11 @@
 import Main from './Main';
-import { ModelUpdatedEvent } from './index';
 import React from 'react';
+import merge from 'lodash/merge';
 
 export default class Root extends React.Component {
   constructor(props) {
     super(props);
 
-    //init the model
     this.state = {
       model: props.model
     };
@@ -50,9 +49,9 @@ export default class Root extends React.Component {
   }
 
   onPartialScoringChanged(partialScoring) {
-    this.setState({ [model.partialScoring]: partialScoring }, () => {
-      this.modelChanged();
-    });
+    const { model } = this.state;
+    model.partialScoring = partialScoring;
+    this.updateModel(model);
   }
 
   modelChanged() {
@@ -78,7 +77,9 @@ export default class Root extends React.Component {
   }
 
   onKeyModeChanged(event, value) {
-    this.setState({ [model.keyMode]: value }, () => this.modelChanged());
+    const { model } = this.state;
+    model.keyMode = value;
+    this.updateModel(model);
   }
 
   onChoiceChanged(index, choice) {

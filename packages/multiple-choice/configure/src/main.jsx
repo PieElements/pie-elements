@@ -2,27 +2,20 @@ import { ChoiceType, KeyType } from './choice-type';
 import { FormControl, FormControlLabel, FormLabel } from 'material-ui/Form';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import Tabs, { Tab } from 'material-ui/Tabs';
-import { blue500, green500, green700, grey400, grey500, red500 } from 'material-ui/styles/colors';
 import { createStyleSheet, withStyles } from 'material-ui/styles';
 
+import Button from 'material-ui/Button';
 import ChoiceConfig from './choice-config';
 import Langs from './langs';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { MuiThemeProvider } from 'material-ui/styles';
 import MultiLangInput from './multi-lang-input';
 import PartialScoringConfig from '@pie-libs/scoring-config/src/index.jsx';
 import PropTypes from 'prop-types';
-import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import createMuiTheme from 'material-ui/styles/theme';
 
-const muiTheme = getMuiTheme({
-  palette: {
-    primary1Color: green500,
-    primary2Color: green700,
-    primary3Color: grey400,
-  }
-});
+const theme = createMuiTheme({});
 
 class Main extends React.Component {
 
@@ -56,12 +49,12 @@ class Main extends React.Component {
 
     const { index } = this.state;
 
-    const design = <div>
-      <div className="base-types">
+    const design = <div className={classes.root}>
+      <div className={classes.baseTypes}>
         <ChoiceType value={model.choiceMode} onChange={onChoiceModeChanged} />
         <KeyType value={model.keyMode} onChange={onKeyModeChanged} />
       </div>
-      <hr className="divider" />
+      <hr className={classes.divider} />
 
       <div className={classes.languageControls}>
         <Langs
@@ -76,13 +69,14 @@ class Main extends React.Component {
           onChange={(e, index, l) => onDefaultLangChanged(l)} />
       </div>
 
+      <hr className={classes.divider} />
+
       <MultiLangInput
         textFieldLabel="prompt"
         value={model.prompt}
         lang={this.state.activeLang}
-        style={{ width: '200px' }}
         onChange={onPromptChanged} />
-      {/*
+
 
       {model.choices.map((choice, index) => {
         const choiceProps = {
@@ -99,11 +93,13 @@ class Main extends React.Component {
       })}
 
       <br />
-      <RaisedButton label="Add a choice" onClick={() => onAddChoice(this.state.activeLang)} /> */}
+      <Button
+        raised
+        color="primary"
+        onClick={() => onAddChoice(this.state.activeLang)} >Add a choice</Button>
     </div>;
 
-
-    return <div className="corespring-choice-config-root">
+    return <div>
       <Tabs onChange={this.onTabsChange} index={index}>
         <Tab label="Design"></Tab>
         <Tab label="Scoring"></Tab>
@@ -112,7 +108,7 @@ class Main extends React.Component {
       {this.state.index === 1 && <PartialScoringConfig
         partialScoring={model.partialScoring}
         numberOfCorrectResponses={model.choices.filter(choice => choice.correct).length}
-        onPartialScoringChange={onPartialScoringChanged.bind(this)} />}
+        onPartialScoringChange={onPartialScoringChanged} />}
     </div>;
   }
 
@@ -121,12 +117,25 @@ class Main extends React.Component {
 
 const main = createStyleSheet('main', theme => {
   return {
+    root: {
+      paddingTop: '10px',
+      paddingBottom: '10px'
+    },
     languageControls: {
       display: 'flex'
+    },
+    baseTypes: {
+      display: 'flex'
+    },
+    divider: {
+      paddingTop: '5px',
+      paddingBottom: '1px',
+      border: 'none',
+      borderBottom: 'solid 1px rgba(0, 0, 0, 0.128039)'
     }
   }
 });
 
 const StyledMain = withStyles(main)(Main);
 
-export default (props) => <MuiThemeProvider><StyledMain {...props} /></MuiThemeProvider>;
+export default (props) => <MuiThemeProvider theme={theme}><StyledMain {...props} /></MuiThemeProvider>;

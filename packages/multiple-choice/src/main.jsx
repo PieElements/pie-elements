@@ -5,6 +5,7 @@ import CorespringChoice from './corespring-choice.jsx';
 import { MuiThemeProvider } from 'material-ui/styles';
 import React from 'react';
 import classNames from 'classnames';
+import createMuiTheme from 'material-ui/styles/theme';
 
 const styleSheet = createStyleSheet('multiple-choice-main', theme => {
   const root = {
@@ -71,5 +72,7 @@ Main.defaultProps = {
 
 const Styled = withStyles(styleSheet)(Main);
 
-export default (props) => <MuiThemeProvider><Styled {...props} /></MuiThemeProvider>;
+const theme = createMuiTheme();
+
+export default (props) => <MuiThemeProvider theme={theme}><Styled {...props} /></MuiThemeProvider>;
 

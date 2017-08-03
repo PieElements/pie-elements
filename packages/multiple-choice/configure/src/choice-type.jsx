@@ -1,22 +1,13 @@
 import { FormControl, FormControlLabel, FormLabel } from 'material-ui/Form';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import Tabs, { Tab } from 'material-ui/Tabs';
-import { blue500, green500, green700, grey400, grey500, red500 } from 'material-ui/styles/colors';
 import { createStyleSheet, withStyles } from 'material-ui/styles';
 
-import ChoiceConfig from './choice-config';
-import Langs from './langs';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import MultiLangInput from './multi-lang-input';
-import PartialScoringConfig from '@pie-libs/scoring-config/src/index.jsx';
 import PropTypes from 'prop-types';
-import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
-import TextField from 'material-ui/TextField';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-const TwoChoice = ({ value, header, selectedValue, onChange, one, two }) => (
-  <FormControl>
+const TwoChoice = ({ value, header, selectedValue, onChange, one, two, classes }) => (
+  <FormControl className={classes.root}>
     <FormLabel>{header}</FormLabel>
     <RadioGroup
       aria-label="choice-type"
@@ -33,6 +24,16 @@ const TwoChoice = ({ value, header, selectedValue, onChange, one, two }) => (
 TwoChoice.propTypes = {
 };
 
+const styles = createStyleSheet('TwoChoice', theme => {
+  return {
+    root: {
+      paddingRight: '20px'
+    }
+  }
+});
+
+const StyledTwoChoice = withStyles(styles)(TwoChoice);
+
 export const ChoiceType = (props) => {
   let choiceProps = {
     header: 'Response Type',
@@ -48,7 +49,7 @@ export const ChoiceType = (props) => {
       value: 'checkbox'
     }
   }
-  return <TwoChoice {...choiceProps} />;
+  return <StyledTwoChoice {...choiceProps} />;
 }
 
 export const KeyType = (props) => {
@@ -66,5 +67,5 @@ export const KeyType = (props) => {
       value: 'letters'
     }
   }
-  return <TwoChoice {...choiceProps} />;
+  return <StyledTwoChoice {...choiceProps} />;
 }

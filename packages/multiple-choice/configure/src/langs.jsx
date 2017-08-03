@@ -39,6 +39,10 @@ class Langs extends React.Component {
     this.setState({ open: false });
   }
 
+  /**
+   * Use TextField select menus once available:
+   *  https://material-ui-1dab0.firebaseapp.com/component-demos/menus#textfield-select-menus
+   */
   render() {
     let { langs, selected, onChange, label, classes } = this.props;
     return <div className={classes.root}>

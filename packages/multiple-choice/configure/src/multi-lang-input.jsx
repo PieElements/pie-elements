@@ -1,7 +1,9 @@
+import { createStyleSheet, withStyles } from 'material-ui/styles';
+
 import React from 'react';
 import TextField from 'material-ui/TextField';
 
-export default class MultiLangInput extends React.Component {
+export class MultiLangInput extends React.Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
@@ -15,20 +17,32 @@ export default class MultiLangInput extends React.Component {
 
   render() {
 
-    const { lang, value, textFieldLabel } = this.props;
+    const { lang, value, textFieldLabel, classes } = this.props;
 
     const renderValue = (typeof value === 'string') ?
       value : (value.find(t => t.lang === lang) || {}).value || '';
 
-    return <div className="multi-lang-input">
+    return <div className={classes.root}>
       <TextField
         label={textFieldLabel}
         value={renderValue}
+        className={classes.textField}
         onChange={this.onChange} />
     </div>;
   }
 }
-//  label={textFieldLabel}
-//         name={renderValue}
-//         value={renderValue}
-//         style={{ flex: 1, width: '100%' }}
+
+const styles = createStyleSheet('MultiLangInput', theme => {
+
+  return {
+    root: {
+      display: 'block',
+      width: '100%'
+    },
+    textField: {
+      width: '100%'
+    }
+  }
+});
+
+export default withStyles(styles)(MultiLangInput);
