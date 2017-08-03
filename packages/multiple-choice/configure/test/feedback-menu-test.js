@@ -1,8 +1,7 @@
 import { assert, match, spy, stub } from 'sinon';
-import { blue500, green500, grey500 } from 'material-ui/styles/colors';
+import { blue, green, grey } from 'material-ui/colors';
 
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem'
+import { MenuItem } from 'material-ui/Menu'
 import React from 'react';
 import _ from 'lodash';
 import { expect } from 'chai';
@@ -11,7 +10,7 @@ import { shallow } from 'enzyme';
 
 describe('feedback-menu', () => {
 
-  let mod, FeedbackMenu, IconButton;
+  let mod, FeedbackMenu, IconButton, IconMenu;
 
   beforeEach(() => {
 
@@ -26,6 +25,7 @@ describe('feedback-menu', () => {
     });
 
     FeedbackMenu = mod.default;
+    IconMenu = mod.IconMenu;
   });
 
   let mkWrapper = (opts = {}) => {
@@ -35,14 +35,14 @@ describe('feedback-menu', () => {
 
 
 
-  describe('tooltip', () => {
+  describe('aria-label', () => {
 
     let assert = (opts, expected) => {
       return () => {
         let w = mkWrapper(opts);
         let el = w.find(IconMenu);
         let be = el.prop('iconButtonElement');
-        expect(be.props.tooltip).to.eql(expected);
+        expect(be.props['aria-label']).to.eql(expected);
       }
     };
 
@@ -62,9 +62,9 @@ describe('feedback-menu', () => {
       }
     }
 
-    it('sets blue for default', assert({ value: 'default' }, blue500));
-    it('sets green for custom', assert({ value: 'custom' }, green500));
-    it('sets grey for none', assert({ value: 'none' }, grey500));
+    it('sets blue for default', assert({ value: 'default' }, blue[500]));
+    it('sets green for custom', assert({ value: 'custom' }, green[500]));
+    it('sets grey for none', assert({ value: 'none' }, grey[500]));
   });
 
   describe('onChange', () => {
@@ -76,17 +76,17 @@ describe('feedback-menu', () => {
     });
 
     it('returns none for No Feedback click', () => {
-      w.find('[primaryText="No Feedback"]').simulate('click');
+      w.find(MenuItem).at(0).simulate('click');
       assert.calledWith(onChange, 'none');
     });
 
     it('returns default for Default click', () => {
-      w.find('[primaryText="Default"]').simulate('click');
+      w.find(MenuItem).at(1).simulate('click');
       assert.calledWith(onChange, 'default');
     });
 
     it('returns custom for Custom click', () => {
-      w.find('[primaryText="Custom"]').simulate('click');
+      w.find(MenuItem).at(2).simulate('click');
       assert.calledWith(onChange, 'custom');
     });
   });

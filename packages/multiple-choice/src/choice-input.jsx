@@ -37,7 +37,7 @@ const formStyleSheet = createStyleSheet('StyledFormControlLabel', theme => {
   }
 });
 
-const StyledFormControlLabel = withStyles(formStyleSheet)((props) => <FormControlLabel {...props} classes={{ label: props.classes.label }} />);
+export const StyledFormControlLabel = withStyles(formStyleSheet)((props) => <FormControlLabel {...props} classes={{ label: props.classes.label }} />);
 
 const inputStyles = createStyleSheet('StyledCheckbox', theme => {
   return {
@@ -71,7 +71,7 @@ const inputStyles = createStyleSheet('StyledCheckbox', theme => {
   }
 });
 
-const StyledCheckbox = withStyles(inputStyles)((props) => {
+export const StyledCheckbox = withStyles(inputStyles)((props) => {
 
   const { correctness, classes, checked, onChange, disabled } = props;
   const key = (k) => correctness ? `${correctness}-${k}` : k;
@@ -89,7 +89,7 @@ const StyledCheckbox = withStyles(inputStyles)((props) => {
     disabledClassName={resolved.disabled} />;
 });
 
-const StyledRadio = withStyles(inputStyles)((props) => {
+export const StyledRadio = withStyles(inputStyles)((props) => {
   const { correctness, classes, checked, onChange, disabled } = props;
   const key = (k) => correctness ? `${correctness}-${k}` : k;
 

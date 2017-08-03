@@ -1,5 +1,4 @@
 import { assert, match, spy, stub } from 'sinon';
-import { blue500, green500, grey500 } from 'material-ui/styles/colors';
 
 import Checkbox from 'material-ui/Checkbox';
 import FeedbackMenu from '../src/feedback-menu';
