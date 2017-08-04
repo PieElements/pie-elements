@@ -24,6 +24,18 @@ const styleSheet = createStyleSheet('ChoiceInput', theme => {
       display: 'inline-block',
       verticalAlign: 'middle',
       cursor: 'pointer'
+    },
+    row: {
+      display: 'flex',
+      alignItems: 'center'
+    },
+    checkboxHolder: {
+      display: 'flex',
+      alignItems: 'center',
+      width: 'auto',
+      '& label': {
+        width: 'auto !important'
+      }
     }
   }
 });
@@ -37,7 +49,7 @@ const formStyleSheet = createStyleSheet('StyledFormControlLabel', theme => {
   }
 });
 
-const StyledFormControlLabel = withStyles(formStyleSheet)((props) => <FormControlLabel {...props} classes={{ label: props.classes.label }} />);
+export const StyledFormControlLabel = withStyles(formStyleSheet)((props) => <FormControlLabel {...props} classes={{ label: props.classes.label }} />);
 
 const inputStyles = createStyleSheet('StyledCheckbox', theme => {
   return {
@@ -71,7 +83,7 @@ const inputStyles = createStyleSheet('StyledCheckbox', theme => {
   }
 });
 
-const StyledCheckbox = withStyles(inputStyles)((props) => {
+export const StyledCheckbox = withStyles(inputStyles)((props) => {
 
   const { correctness, classes, checked, onChange, disabled } = props;
   const key = (k) => correctness ? `${correctness}-${k}` : k;
@@ -89,7 +101,7 @@ const StyledCheckbox = withStyles(inputStyles)((props) => {
     disabledClassName={resolved.disabled} />;
 });
 
-const StyledRadio = withStyles(inputStyles)((props) => {
+export const StyledRadio = withStyles(inputStyles)((props) => {
   const { correctness, classes, checked, onChange, disabled } = props;
   const key = (k) => correctness ? `${correctness}-${k}` : k;
 
@@ -130,17 +142,18 @@ export class ChoiceInput extends React.Component {
       label,
       checked,
       correctness,
-      classes
+      classes,
+      className
      } = this.props;
 
     const Tag = choiceMode === 'checkbox' ? StyledCheckbox : StyledRadio;
     const classSuffix = choiceMode === 'checkbox' ? 'checkbox' : 'radio-button';
 
-    return <div className={"corespring-" + classSuffix}>
+    return <div className={classNames(className, "corespring-" + classSuffix)}>
 
-      <div className="row">
+      <div className={classes.row}>
         <FeedbackTick correctness={correctness} />
-        <div className="checkbox-holder">
+        <div className={classes.checkboxHolder}>
           <StyledFormControlLabel
             disabled={disabled}
             label={displayKey + '. '}
@@ -152,7 +165,7 @@ export class ChoiceInput extends React.Component {
               />}
             label={displayKey + '. '} />
           <span
-            className={classNames(classes.label)}
+            className={classes.label}
             onClick={this.onToggleChoice}
             dangerouslySetInnerHTML={{ __html: label }} />
         </div>

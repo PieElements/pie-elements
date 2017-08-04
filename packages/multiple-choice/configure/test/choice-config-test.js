@@ -1,9 +1,8 @@
 import { assert, match, spy, stub } from 'sinon';
-import { blue500, green500, grey500 } from 'material-ui/styles/colors';
 
 import Checkbox from 'material-ui/Checkbox';
 import FeedbackMenu from '../src/feedback-menu';
-import RadioButton from 'material-ui/RadioButton';
+import Radio from 'material-ui/Radio';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import _ from 'lodash';
@@ -19,7 +18,7 @@ describe('choice-config', () => {
 
     mod = proxyquire('../src/choice-config', {});
 
-    ChoiceConfig = mod.default;
+    ChoiceConfig = mod.ChoiceConfig;
   });
 
   let mkWrapperAndOpts = (opts = {}) => {
@@ -31,6 +30,9 @@ describe('choice-config', () => {
         feedback: {
           type: 'none'
         }
+      },
+      classes: {
+        index: 'index'
       }
     }, opts);
     return { wrapper: shallow(<ChoiceConfig {...opts} />), opts };
@@ -47,6 +49,7 @@ describe('choice-config', () => {
 
     describe('index', () => {
       it('sets the index to A', () => {
+        console.log('w: ', w, w.debug());
         expect(w.find('.index').text()).to.eql('A');
       });
 
@@ -60,15 +63,15 @@ describe('choice-config', () => {
     });
 
     describe('ChoiceModeTag', () => {
-      it('renders RadioButton for radio', () => {
+      it('renders Radio for radio', () => {
         let w = mkWrapper({ choiceMode: 'radio' });
-        expect(w.find(RadioButton).length).to.eql(1);
+        expect(w.find(Radio).length).to.eql(1);
         expect(w.find(Checkbox).length).to.eql(0);
       });
 
       it('renders Checkbox for checkbox', () => {
         let w = mkWrapper({ choiceMode: 'checkbox' });
-        expect(w.find(RadioButton).length).to.eql(0);
+        expect(w.find(Radio).length).to.eql(0);
         expect(w.find(Checkbox).length).to.eql(1);
       });
     });
@@ -148,7 +151,7 @@ describe('choice-config', () => {
     describe('onValueChanged', () => {
 
       it('calls onChoiceChanged with update', assertChoiceChanged(
-        i => i.onValueChanged('new_value'),
+        i => i.onValueChanged({ target: { value: 'new_value' } }),
         o => _.merge(o.choice, { value: 'new_value' })
       ));
     });

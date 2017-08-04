@@ -11,6 +11,38 @@ const stylesheet = createStyleSheet('feedback-tick', theme => {
     },
     correct: {
       fill: 'var(--feedback-correct-bg-color, green)'
+    },
+    feedbackTick: {
+      width: '33px',
+      height: '33px',
+      '& svg': {
+        position: 'absolute',
+        display: 'inline-block',
+        width: '33px',
+        height: '33px',
+        verticalAlign: 'middle',
+        '& hide': {
+          display: 'none'
+        }
+      }
+    },
+    feedbackTickEnter: {
+      opacity: '0',
+      left: '-50px'
+    },
+    feedbackTickEnterActive: {
+      opacity: '1',
+      left: '0px',
+      transition: 'left 500ms ease-in 200ms, opacity 500ms linear 200ms'
+    },
+    feedbackTickLeave: {
+      opacity: '1',
+      left: '0px'
+    },
+    feedbackTickLeaveActive: {
+      opacity: '0',
+      left: '-50px',
+      transition: 'left 300ms ease-in, opacity 300ms'
     }
   }
 });
@@ -55,7 +87,7 @@ class FeedbackTick extends React.Component {
   }
 
   render() {
-    const { correctness } = this.props;
+    const { correctness, classes } = this.props;
 
     const icon = (() => {
       if (correctness === 'incorrect') {
@@ -66,9 +98,14 @@ class FeedbackTick extends React.Component {
     })();
 
     return (
-      <div className="feedback-tick">
+      <div className={classes.feedbackTick}>
         <ReactCSSTransitionGroup
-          transitionName="feedback-tick"
+          transitionName={{
+            enter: classes.feedbackTickEnter,
+            enterActive: classes.feedbackTickEnterActive,
+            leave: classes.feedbackTickLeave,
+            leaveActive: classes.feedbackTickLeaveActive
+          }}
           transitionEnterTimeout={700}
           transitionLeaveTimeout={300}>
           {icon}

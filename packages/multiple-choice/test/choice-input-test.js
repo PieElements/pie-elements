@@ -1,7 +1,7 @@
 import { assert, stub } from 'sinon';
 
 import Checkbox from 'material-ui/Checkbox';
-import RadioButton from 'material-ui/RadioButton';
+import Radio from 'material-ui/Radio';
 import React from 'react';
 import _ from 'lodash';
 import { expect } from 'chai';
@@ -9,7 +9,7 @@ import proxyquire from 'proxyquire';
 import { shallow } from 'enzyme';
 
 describe('ChoiceInput', () => {
-  let onChange, wrapper, muiTheme, ChoiceInput;
+  let onChange, wrapper, muiTheme, mod, ChoiceInput, StyledRadio;
 
   beforeEach(() => {
     muiTheme = {
@@ -28,7 +28,10 @@ describe('ChoiceInput', () => {
       label: 'label',
       displayKey: '1',
       correctness: 'correct',
-      value: 'value'
+      value: 'value',
+      classes: {
+        label: 'label'
+      }
     }, opts);
 
     return shallow(<ChoiceInput
@@ -40,8 +43,9 @@ describe('ChoiceInput', () => {
   }
 
   beforeEach(() => {
-    ChoiceInput = proxyquire('../src/choice-input', {
-    }).ChoiceInput;
+    mod = proxyquire('../src/choice-input', {});
+    ChoiceInput = mod.ChoiceInput;
+    StyledRadio = mod.StyledRadio;
 
     onChange = stub();
     wrapper = mkWrapper();
@@ -64,7 +68,7 @@ describe('ChoiceInput', () => {
       });
 
       it('sets the label index', () => {
-        let rb = wrapper.find(RadioButton);
+        let rb = wrapper.find(mod.StyledFormControlLabel);
         expect(rb.prop('label')).to.eql('1. ');
       });
 
@@ -86,36 +90,11 @@ describe('ChoiceInput', () => {
         expect(holder).to.have.length(1);
       });
 
-      it('sets the label index', () => {
-        let b = wrapper.find(Checkbox);
-        expect(b.prop('label')).to.eql('1. ');
-      });
-
       it('sets the label html', () => {
         let l = wrapper.find('[className="label"]');
         let danger = l.prop('dangerouslySetInnerHTML');
         expect(danger).to.eql({ __html: 'label' });
       });
-    });
-  });
-
-  describe('getTheme', () => {
-    it('sets the correct theme.checkbox.disabledColor', () => {
-      let checkbox = mkWrapper({ correctness: 'correct' });
-      let theme = checkbox.instance().getTheme();
-      expect(theme.checkbox.disabledColor).to.eql('green');
-    });
-
-    it('sets the incorrect theme.checkbox.disabledColor', () => {
-      let checkbox = mkWrapper({ correctness: 'incorrect' });
-      let theme = checkbox.instance().getTheme();
-      expect(theme.checkbox.disabledColor).to.eql('red');
-    });
-
-    it('sets the default theme.checkbox.disabledColor', () => {
-      let checkbox = mkWrapper({ correctness: null });
-      let theme = checkbox.instance().getTheme();
-      expect(theme.checkbox.disabledColor).to.eql('grey');
     });
   });
 

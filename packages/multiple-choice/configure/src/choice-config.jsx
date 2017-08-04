@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { createStyleSheet, withStyles } from 'material-ui/styles';
-import { green500, grey500 } from 'material-ui/styles/colors';
 
 import ActionDelete from 'material-ui-icons/Delete';
 import ActionFeedback from 'material-ui-icons/Feedback';
@@ -15,7 +14,6 @@ import isString from 'lodash/isString';
 import merge from 'lodash/merge';
 
 const defaultFeedback = (c) => c ? 'Correct!' : 'Incorrect';
-
 export class ChoiceConfig extends React.Component {
 
   constructor(props, context) {

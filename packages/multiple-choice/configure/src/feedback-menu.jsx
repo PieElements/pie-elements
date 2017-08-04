@@ -1,5 +1,5 @@
 import Menu, { MenuItem } from 'material-ui/Menu';
-import { blue500, green500, grey500 } from 'material-ui/styles/colors';
+import { blue, green, grey } from 'material-ui/colors';
 
 import ActionFeedback from 'material-ui-icons/Feedback';
 import Button from 'material-ui/Button';
@@ -7,7 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import PropTypes from 'proptypes';
 import React from 'react';
 
-class IconMenu extends React.Component {
+export class IconMenu extends React.Component {
 
 
   constructor(props) {
@@ -56,8 +56,8 @@ export default function FeedbackMenu(props) {
   const { value, onChange } = props;
 
   const iconColor = value === 'custom' ?
-    green500 :
-    (value === 'default' ? blue500 : grey500);
+    green[500] :
+    (value === 'default' ? blue[500] : grey[500]);
 
   const tooltip = value === 'custom' ?
     'Custom Feedback' :

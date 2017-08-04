@@ -24,12 +24,18 @@ describe('CorespringFeedback', () => {
 
     opts = _.merge({
       correctness: 'correct',
-      feedback: 'feedback'
+      feedback: 'feedback',
     }, opts);
 
     return shallow(<Feedback
       correctness={opts.correctness}
       feedback={opts.feedback}
+      classes={{
+        corespringFeedback: 'corespring-feedback',
+        correct: 'correct',
+        incorrect: 'incorrect',
+        content: 'content'
+      }}
       muiTheme={muiTheme}
     />,
       {});
@@ -49,7 +55,7 @@ describe('CorespringFeedback', () => {
       });
 
       it('has incorrect feedback div', () => {
-        expect(wrapper.find('.corespring-feedback.incorrect')).to.have.length(1);
+        expect(wrapper.find('.content.incorrect')).to.have.length(1);
       });
     });
 
@@ -63,7 +69,7 @@ describe('CorespringFeedback', () => {
       });
 
       it('has correct feedback div', () => {
-        expect(wrapper.find('.corespring-feedback.correct')).to.have.length(1);
+        expect(wrapper.find('.content.correct')).to.have.length(1);
       });
 
       it('has feedback content', () => {
@@ -94,34 +100,4 @@ describe('CorespringFeedback', () => {
     });
   });
 
-  describe('getStyle', () => {
-
-    let instance;
-
-    beforeEach(() => {
-      wrapper = mkWrapper();
-      instance = wrapper.instance();
-    });
-
-    it('returns incorrect style', () => {
-      expect(instance.getStyle('incorrect')).to.eql({
-        color: 'red',
-        'backgroundColor': 'white'
-      });
-    });
-
-    it('returns correct style', () => {
-      expect(instance.getStyle('correct')).to.eql({
-        color: 'green',
-        'backgroundColor': 'white'
-      });
-    });
-
-    it('returns default style', () => {
-      expect(instance.getStyle(null)).to.eql({
-        color: 'black',
-        'backgroundColor': 'white'
-      });
-    });
-  });
 });

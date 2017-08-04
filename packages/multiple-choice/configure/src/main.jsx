@@ -17,7 +17,7 @@ import createMuiTheme from 'material-ui/styles/theme';
 
 const theme = createMuiTheme({});
 
-class Main extends React.Component {
+export class Main extends React.Component {
 
   constructor(props) {
     super(props);

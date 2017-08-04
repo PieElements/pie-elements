@@ -32,6 +32,20 @@ const styleSheet = createStyleSheet('Feedback', theme => {
     },
     incorrect: {
       backgroundColor: 'var(--feedback-incorrect-bg-color, orange)'
+    },
+    feedbackEnter: {
+      height: '1px'
+    },
+    feedbackEnterActive: {
+      height: '45px',
+      transition: 'height 500ms'
+    },
+    feedbackLeave: {
+      height: '45px'
+    },
+    feedbackLeaveActive: {
+      height: '1px',
+      transition: 'height 200ms'
     }
   }
 });
@@ -45,7 +59,7 @@ export class Feedback extends React.Component {
       if (correctness && feedback) {
         return <div
           key="hasFeedback"
-          className={classNames(classes.corespringFeedback)}>
+          className={classes.corespringFeedback}>
           <div className={classNames(classes.content, classes[correctness])}
             dangerouslySetInnerHTML={{ __html: feedback }}></div>
         </div>
@@ -55,12 +69,16 @@ export class Feedback extends React.Component {
     }
 
     return <ReactCSSTransitionGroup
-      transitionName="corespring-feedback"
+      transitionName={{
+        enter: classes.feedbackEnter,
+        enterActive: classes.feedbackEnterActive,
+        leave: classes.feedbackLeave,
+        leaveActive: classes.feedbackLeaveActive,
+      }}
       transitionEnterTimeout={500}
       transitionLeaveTimeout={200}>
       {chooseFeedback(correctness)}
     </ReactCSSTransitionGroup>;
-
   }
 }
 
@@ -68,6 +86,5 @@ Feedback.propTypes = {
   correctness: React.PropTypes.string,
   feedback: React.PropTypes.string
 }
-
 
 export default withStyles(styleSheet)(Feedback);
