@@ -38,8 +38,6 @@ const styleSheet = createStyleSheet('multiple-choice-main', theme => {
   };
 });
 
-require('./index.less');
-
 class Main extends React.Component {
 
   constructor(props) {

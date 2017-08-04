@@ -1,9 +1,35 @@
 import React, { PropTypes } from 'react';
+import { createStyleSheet, withStyles } from 'material-ui/styles';
 
 import ChoiceInput from './choice-input';
 import CorrectAnswerToggle from '@pie-libs/correct-answer-toggle';
+import classNames from 'classnames';
 
-export default class MultipleChoice extends React.Component {
+const styles = createStyleSheet('MultipleChoice', theme => {
+  return {
+    corespringChoice: {
+      '& *': {
+        fontFamily: "'Roboto', Arial, Helvetica, sans-serif",
+        '-webkit-font-smoothing': 'antialiased'
+      }
+    },
+    prompt: {
+      height: '43px',
+      lineHeight: '43px',
+      verticalAlign: 'middle'
+    },
+    choice: {
+      paddingTop: '20px',
+      paddingBottom: '10px',
+      borderBottom: '1px solid #E0DEE0',
+    },
+    last: {
+      borderBottom: 'none'
+    }
+  }
+});
+
+export class MultipleChoice extends React.Component {
 
   constructor(props) {
     super(props);
@@ -48,7 +74,8 @@ export default class MultipleChoice extends React.Component {
       choiceMode,
       prompt,
       onChoiceChanged,
-      responseCorrect
+      responseCorrect,
+      classes
     } = this.props;
 
     const { showCorrect } = this.state;
@@ -75,17 +102,21 @@ export default class MultipleChoice extends React.Component {
         onChange: mode === 'gather' ? onChoiceChanged : () => { }
       }
 
+      const names = classNames(classes.choice, {
+        [classes.last]: index === choices.length - 1
+      });
+
       return <div className={choiceClass} key={index}>
-        <ChoiceInput {...choiceProps} />
+        <ChoiceInput {...choiceProps} className={names} />
       </div>;
     };
 
-    return <div className="corespring-choice">
+    return <div className={classes.corespringChoice}>
       <CorrectAnswerToggle
         show={isEvaluateMode && !responseCorrect}
         toggled={this.state.showCorrect}
         onToggle={this.onToggle.bind(this)} />
-      <div className="prompt">{prompt}</div>
+      <div className={classes.prompt}>{prompt}</div>
       {choices.map(choiceToTag)}
     </div>;
   }
@@ -106,3 +137,5 @@ MultipleChoice.defaultProps = {
     value: []
   }
 };
+
+export default withStyles(styles)(MultipleChoice);
