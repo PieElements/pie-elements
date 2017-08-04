@@ -104,8 +104,6 @@ export class ChoiceConfig extends React.Component {
       activeLang,
       classes } = this.props;
 
-    console.log('>>>> classes: ', classes);
-
     const ChoiceModeTag = choiceMode === 'checkbox' ? Checkbox : Radio;
 
     return <div className={classes.root}>

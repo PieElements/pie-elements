@@ -1,10 +1,11 @@
+import { ChoiceType, KeyType } from '../src/choice-type';
 import { assert, match, spy, stub } from 'sinon';
 
+import Button from 'material-ui/Button';
 import Checkbox from 'material-ui/Checkbox';
 import ChoiceConfig from '../src/choice-config';
 import FeedbackMenu from '../src/feedback-menu';
 import MultiLangInput from '../src/multi-lang-input';
-import RadioButton from 'material-ui/RadioButton';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import _ from 'lodash';
@@ -14,7 +15,7 @@ import { shallow } from 'enzyme';
 
 describe('main', () => {
 
-  let mod, Main, ChoiceType, KeyType;
+  let mod, Main;
 
   beforeEach(() => {
 
@@ -22,17 +23,10 @@ describe('main', () => {
       '@pie-libs/scoring-config/src/index.jsx': {
         default: stub(),
         '@noCallThru': true
-      },
-      'react-tap-event-plugin': stub(),
-      './index.less': {
-        '@noCallThru': true,
-        default: stub()
       }
     });
 
-    Main = mod.default;
-    ChoiceType = mod.ChoiceType;
-    KeyType = mod.KeyType;
+    Main = mod.Main;
   });
 
   let mkWrapperAndOpts = (opts = {}) => {
@@ -62,6 +56,9 @@ describe('main', () => {
             ]
           }
         ]
+      },
+      classes: {
+        root: 'root'
       }
     }, opts);
     return { wrapper: shallow(<Main {...opts} />), opts };
@@ -79,7 +76,7 @@ describe('main', () => {
     });
 
     it('sets the classname', () => {
-      expect(wrapper.find('.corespring-choice-config-root').length).to.eql(1);
+      expect(wrapper.find('.root').length).to.eql(1);
     });
 
     describe('ChoiceType', () => {
@@ -224,7 +221,8 @@ describe('main', () => {
     describe('Add a choice', () => {
 
       it('calls onAddChoice', () => {
-        wrapper.find('[label="Add a choice"]').simulate('click');
+        const button = wrapper.find(Button)
+        button.simulate('click');
         assert.calledWith(opts.onAddChoice, opts.model.defaultLang);
       })
     });
