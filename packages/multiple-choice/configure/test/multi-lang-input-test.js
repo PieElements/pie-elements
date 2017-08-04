@@ -13,7 +13,7 @@ describe('multi-lang-input', () => {
 
   beforeEach(() => {
     mod = proxyquire('../src/multi-lang-input', {});
-    MultiLangInput = mod.default;
+    MultiLangInput = mod.MultiLangInput;
   });
 
   let mkWrapper = (opts = {}) => {
@@ -23,7 +23,10 @@ describe('multi-lang-input', () => {
         { lang: 'es-ES', value: 'ola' },
       ],
       lang: 'en-US',
-      textFieldLabel: 'label'
+      textFieldLabel: 'label',
+      classes: {
+        root: 'root'
+      }
     }, opts);
     return shallow(<MultiLangInput {...opts} />);
   }
@@ -60,7 +63,11 @@ describe('multi-lang-input', () => {
     it('calls onChange callback', () => {
       let w = mkWrapper({ onChange })
       let tf = w.find(TextField);
-      tf.prop('onChange')({}, 'hi');
+      tf.prop('onChange')({
+        target: {
+          value: 'hi'
+        }
+      });
       assert.calledWith(onChange, 'hi', 'en-US');
     });
   });

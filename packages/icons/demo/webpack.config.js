@@ -12,6 +12,10 @@ var config = {
       {
         test: /\.jsx?/,
         loader: 'babel-loader',
+        options: {
+          babelrc: false,
+          presets: ["es2015", "react"]
+        }
       },
       {
         test: /\.less$/,
