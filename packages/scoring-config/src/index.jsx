@@ -23,10 +23,6 @@ const StyledEmpty = withStyles(emptyStyles)(Empty);
 
 export default class PartialScoringConfig extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { numberOfCorrectResponses } = this.props;
 
