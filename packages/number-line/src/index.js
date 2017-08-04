@@ -1,8 +1,8 @@
 import { lineIsSwitched, switchGraphLine, toGraphFormat, toSessionFormat } from './data-converter';
 
-import NumberLine from './number-line';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import RootComponent from './number-line';
 import cloneDeep from 'lodash/cloneDeep';
 
 export default class NumberLine extends HTMLElement {
@@ -113,7 +113,7 @@ export default class NumberLine extends HTMLElement {
           onDeleteElements: this.deleteElements.bind(this)
         };
 
-        let el = React.createElement(NumberLine, props)
+        let el = React.createElement(RootComponent, props)
         ReactDOM.render(el, this);
       }
     } catch (e) {

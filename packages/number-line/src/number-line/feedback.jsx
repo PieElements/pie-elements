@@ -1,21 +1,24 @@
+import {
+  Correct,
+  Incorrect,
+  NothingSubmitted,
+  PartiallyCorrect,
+  ShowRationale
+} from '@pie-libs/icons';
+
 import React from 'react';
-import NothingSubmittedIcon from 'corespring-icon/nothing-submitted-icon';
-import CorrectIcon from 'corespring-icon/correct-icon';
-import PartiallyCorrectIcon from 'corespring-icon/partially-correct-icon';
-import ShowRationaleIcon from 'corespring-icon/show-rationale-icon';
-import IncorrectIcon from 'corespring-icon/incorrect-icon';
-import classNames from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import classNames from 'classnames';
 
 require('./feedback.less');
 
 let getIcon = (t) => {
   switch (t) {
-    case 'unanswered': return NothingSubmittedIcon;
-    case 'correct': return CorrectIcon;
-    case 'incorrect': return IncorrectIcon;
-    case 'partial': return PartiallyCorrectIcon;
-    case 'info': return ShowRationaleIcon;
+    case 'unanswered': return NothingSubmitted;
+    case 'correct': return Correct;
+    case 'incorrect': return Incorrect;
+    case 'partial': return PartiallyCorrect;
+    case 'info': return ShowRationale;
     default:
       return undefined;
   }

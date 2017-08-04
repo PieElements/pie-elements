@@ -3,7 +3,7 @@ import Graph from './graph';
 import PT from 'prop-types';
 import PointChooser from './point-chooser';
 import React from 'react';
-import Toggle from 'corespring-correct-answer-toggle';
+import Toggle from '@pie-libs/correct-answer-toggle';
 import { buildElementModel } from './graph/elements/builder';
 import cloneDeep from 'lodash/cloneDeep';
 import { getInterval } from './graph/tick-utils';

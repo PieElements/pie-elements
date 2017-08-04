@@ -13,8 +13,9 @@
   "author": "corespring",
   "license": "ISC",
   "dependencies": {
+    "@pie-libs/icons": "^0.2.0",
+    "@pie-libs/correct-answer-toggle": "^0.1.2",
     "classnames": "^2.2.5",
-    "corespring-correct-answer-toggle": "^3.0.0",
     "d3-scale": "^1.0.6",
     "d3-selection": "^1.1.0",
     "lodash": "^4.17.4",
