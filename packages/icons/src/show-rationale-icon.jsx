@@ -1,11 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import injectSheet from 'react-jss';
-// require('./icons.less');
-
 
 const Info = ({ fg, border }) => (
-  // "show-rationale-foregrou"hide-show-border"nd"
   <g>
     <rect x="-115" y="136.7" className={fg} width="3" height="3" />
     <polygon className={fg}
