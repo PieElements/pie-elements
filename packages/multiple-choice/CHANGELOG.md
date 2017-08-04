@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.1.2...@pie-elements/multiple-choice@0.1.3) (2017-08-04)
+
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.1.1...@pie-elements/multiple-choice@0.1.2) (2017-08-03)
 
