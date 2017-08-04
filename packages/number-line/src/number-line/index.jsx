@@ -5,14 +5,26 @@ import PointChooser from './point-chooser';
 import React from 'react';
 import Toggle from '@pie-libs/correct-answer-toggle';
 import { buildElementModel } from './graph/elements/builder';
+import classNames from 'classnames';
 import cloneDeep from 'lodash/cloneDeep';
 import { getInterval } from './graph/tick-utils';
+import injectSheet from 'react-jss';
 import isArray from 'lodash/isArray';
 import isNumber from 'lodash/isNumber';
 
-require('./index.less');
+// require('./index.less');
 
-export default class NumberLine extends React.Component {
+const styles = {
+  numberLine: {
+    padding: '10px',
+  },
+  'white_on_black': {
+    backgroundColor: 'black',
+    '--correct-answer-toggle-label-color': 'white',
+  }
+}
+
+export class NumberLine extends React.Component {
 
   constructor(props, context) {
     super(props, context);
@@ -106,7 +118,7 @@ export default class NumberLine extends React.Component {
 
   render() {
 
-    let { model, answer } = this.props;
+    let { model, answer, classes } = this.props;
     let { selectedElements, showCorrectAnswer } = this.state;
     let { corrected = { correct: [], incorrect: [] }, disabled } = model;
     let addElement = this.addElement.bind(this);
@@ -168,9 +180,11 @@ export default class NumberLine extends React.Component {
 
     let adjustedWidth = graphProps.width - 20;
 
-    return <div className={`view-number-line ${model.colorContrast || ''}`}>
-      <div className="interactive-graph">
-        <div className="toggle-holder" style={{ width: adjustedWidth }}>
+    const names = classNames(classes.numberLine, classes[model.colorContrast]);
+
+    return <div className={names}>
+      <div>
+        <div style={{ width: adjustedWidth }}>
           <Toggle
             show={isArray(model.correctResponse) && !model.emptyAnswer}
             toggled={showCorrectAnswer}
@@ -212,3 +226,5 @@ NumberLine.propTypes = {
   onDeleteElements: PT.func.isRequired,
   onAddElement: PT.func.isRequired
 }
+
+export default injectSheet(styles)(NumberLine);

@@ -9,8 +9,7 @@ import {
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classNames from 'classnames';
-
-require('./feedback.less');
+import injectSheet from 'react-jss';
 
 let getIcon = (t) => {
   switch (t) {
@@ -26,7 +25,8 @@ let getIcon = (t) => {
 
 const Feedback = (props) => {
 
-  let className = classNames('feedback', props.type);
+  const { classes, type } = props;
+  let className = classNames(classes[type], classes.feedback);
   let Icon = getIcon(props.type);
 
   return <ReactCSSTransitionGroup
@@ -46,4 +46,30 @@ const Feedback = (props) => {
   </ReactCSSTransitionGroup>;
 }
 
-export default Feedback;
+const styles = {
+  feedback: {
+    marginTop: '10px',
+    backgroundColor: '#dddddd',
+    padding: '10px',
+    display: 'flex',
+    alignItems: 'center',
+    '& svg': {
+      height: '30px'
+    },
+    '& message': {
+      paddingLeft: '5px'
+    },
+    '& h1': {
+      padding: '0px',
+      margin: '0px'
+    }
+  },
+  correct: {
+    backgroundColor: 'var(--number-line-correct-bg, green)'
+  },
+  incorrect: {
+    backgroundColor: 'var(--number-line-incorrect-bg, orange)'
+  },
+}
+
+export default injectSheet(styles)(Feedback);

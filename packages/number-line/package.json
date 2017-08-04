@@ -13,8 +13,8 @@
   "author": "corespring",
   "license": "ISC",
   "dependencies": {
-    "@pie-libs/icons": "^0.2.0",
     "@pie-libs/correct-answer-toggle": "^0.1.2",
+    "@pie-libs/icons": "^0.2.0",
     "classnames": "^2.2.5",
     "d3-scale": "^1.0.6",
     "d3-selection": "^1.1.0",
@@ -23,7 +23,8 @@
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
     "react-dom": "^15.6.1",
-    "react-draggable": "corespring/react-draggable#feature/fix-bound-drag"
+    "react-draggable": "corespring/react-draggable#feature/fix-bound-drag",
+    "react-jss": "^7.0.2"
   },
   "devDependencies": {
     "babel-loader": "^7.1.1",

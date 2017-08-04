@@ -1,6 +1,8 @@
 import React, { PropTypes as PT } from 'react';
+
 import classNames from 'classnames';
 
+//TODO: remove this less file at some point
 require('./point-chooser.less');
 
 let DeleteIcon = (props) => {
