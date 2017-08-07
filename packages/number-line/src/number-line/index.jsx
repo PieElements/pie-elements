@@ -12,8 +12,6 @@ import injectSheet from 'react-jss';
 import isArray from 'lodash/isArray';
 import isNumber from 'lodash/isNumber';
 
-// require('./index.less');
-
 const styles = {
   numberLine: {
     padding: '10px',

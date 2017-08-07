@@ -3,12 +3,12 @@
     "en-US"
   ],
   "elements": {
-    "corespring-number-line": "../.."
+    "number-line": "../.."
   },
   "models": [
     {
       "id": "1",
-      "element": "corespring-number-line",
+      "element": "number-line",
       "correctResponse": [
         {
           "type": "point",

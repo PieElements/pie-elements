@@ -1,15 +1,28 @@
 import React, { PropTypes as PT } from 'react';
-import Point from './point';
-import isNumber from 'lodash/isNumber';
+
 import Draggable from '../../../draggable';
-import isEqual from 'lodash/isEqual';
-import extend from 'lodash/extend';
+import Point from './point';
 import { basePropTypes } from './base';
 import classNames from 'classnames';
+import extend from 'lodash/extend';
+import injectSheet from 'react-jss';
+import isEqual from 'lodash/isEqual';
+import isNumber from 'lodash/isNumber';
 
-require('./line.less');
+// require('./line.less');
 
-export default class Line extends React.Component {
+const style = {
+  selected: {
+    stroke: '#aaaaff'
+  }
+  line: {
+    '&.selected': {
+
+    }
+  }
+}
+
+export class Line extends React.Component {
 
   constructor(props) {
     super(props);
@@ -133,7 +146,7 @@ export default class Line extends React.Component {
             onClick={onRectClick}
           ></rect>
           <line
-            className="line-handle"
+            className={classNames('line-handle', classes.handle, { [classes.selected]: selected })}
             x1={xScale(left)} x2={xScale(right)}
             onClick={onLineClick}
           ></line>
@@ -155,7 +168,7 @@ export default class Line extends React.Component {
           />
         </g>
       </g>
-    </Draggable>
+    </Draggable >
   }
 }
 

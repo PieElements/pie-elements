@@ -1,13 +1,12 @@
 import React, { PropTypes as PT } from 'react';
 
 import classNames from 'classnames';
+import injectSheet from 'react-jss';
+import styles from './styles';
 
-//TODO: remove this less file at some point
-require('./point-chooser.less');
-
-let DeleteIcon = (props) => {
+let DeleteIcon = ({ classes }) => {
   return <svg
-    className="delete-icon"
+    className={classes.deleteIcon}
     fill="#000000"
     height="24"
     viewBox="0 0 24 24"
@@ -18,60 +17,58 @@ let DeleteIcon = (props) => {
   </svg>
 };
 
-function Points(props) {
+const Points = ({ selectPoint, classes, selected, icons }) => {
 
-  let icon = (key, active) => {
+  const icon = (key, active) => {
 
-    let onClick = active ? () => { } : props.selectPoint.bind(null, key);
-    let className = classNames(`element-${key}`, { active });
+    let onClick = active ? () => { } : selectPoint.bind(null, key);
+    const names = classNames(classes[key], { active });
 
     return <span
       role="presentation"
       key={key}
-      className={className}
       onClick={onClick} >
-      <a className={active ? 'active' : ''}>&nbsp;</a>
+      <a className={names}>&nbsp;</a>
     </span>
   }
 
-  let iconTags = props.icons.map(key => {
-    let active = key === props.selected;
+  let iconTags = icons.map(key => {
+    let active = key === selected;
     return icon(key, active);
   });
 
-  return <div className="element-selector">
+  return <div className={classes.elementSelector}>
     {iconTags}
   </div>;
 }
 
-
-export default class PointChooser extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-  }
-
-  selectType(p) {
-    this.props.onElementType(p);
-  }
+export class PointChooser extends React.Component {
 
   render() {
     let {
       elementType,
       showDeleteButton,
       onDeleteClick,
-      icons } = this.props;
+      icons,
+      classes,
+      onElementType } = this.props;
 
     return <div className="point-chooser">
       <Points
         selected={elementType}
-        selectPoint={this.selectType.bind(this)}
+        classes={classes}
+        selectPoint={onElementType}
         icons={icons} />
       {showDeleteButton &&
-        <span className="delete-icon-holder" onClick={onDeleteClick}><DeleteIcon /></span>
+        <span
+          className={classes.deleteIcon}
+          onClick={onDeleteClick}><DeleteIcon /></span>
       }
     </div>;
   }
 }
+
+export default injectSheet(styles)(PointChooser);
 
 PointChooser.DEFAULT_TYPE = 'pf';
 
