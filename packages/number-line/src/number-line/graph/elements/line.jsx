@@ -14,7 +14,7 @@ import isNumber from 'lodash/isNumber';
 const style = {
   selected: {
     stroke: '#aaaaff'
-  }
+  },
   line: {
     '&.selected': {
 
