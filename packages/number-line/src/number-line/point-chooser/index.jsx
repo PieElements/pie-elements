@@ -53,7 +53,7 @@ export class PointChooser extends React.Component {
       classes,
       onElementType } = this.props;
 
-    return <div className="point-chooser">
+    return <div className={classes.pointChooser}>
       <Points
         selected={elementType}
         classes={classes}
@@ -61,8 +61,8 @@ export class PointChooser extends React.Component {
         icons={icons} />
       {showDeleteButton &&
         <span
-          className={classes.deleteIcon}
-          onClick={onDeleteClick}><DeleteIcon /></span>
+          className={classes.deleteIconHolder}
+          onClick={onDeleteClick}><DeleteIcon classes={classes} /></span>
       }
     </div>;
   }

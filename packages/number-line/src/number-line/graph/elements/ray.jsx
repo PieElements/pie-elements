@@ -1,16 +1,43 @@
 import React, { PropTypes as PT } from 'react';
-import Point from './point';
-import isNumber from 'lodash/isNumber';
-import Draggable from '../../../draggable';
-import isEqual from 'lodash/isEqual';
-import { basePropTypes } from './base';
-import extend from 'lodash/extend';
+
 import Arrow from '../arrow';
+import Draggable from '../../../draggable';
+import Point from './point';
+import { basePropTypes } from './base';
 import classNames from 'classnames';
+import extend from 'lodash/extend';
+import injectSheet from 'react-jss';
+import isEqual from 'lodash/isEqual';
+import isNumber from 'lodash/isNumber';
 
-require('./ray.less');
+const rayColor = (color) => ({
+  '& line': {
+    stroke: color
+  },
+  '& .arrow': {
+    fill: color,
+    strokeWidth: '1px',
+    stroke: color
+  }
+});
 
-export default class Ray extends React.Component {
+const style = {
+  ray: {
+    '& line': {
+      cursor: 'pointer',
+      strokeWidth: '5px',
+      stroke: 'black'
+    },
+    '& line, & .arrow': {
+      transition: 'stroke 150ms linear, fill 150ms linear'
+    }
+  },
+  selected: rayColor('#aaaaff'),
+  correct: rayColor('green'),
+  incorrect: rayColor('orange')
+}
+
+export class Ray extends React.Component {
 
   constructor(props) {
     super(props);
@@ -41,7 +68,8 @@ export default class Ray extends React.Component {
       selected,
       disabled,
       width,
-      correct
+      correct,
+      classes
     } = this.props;
 
     let { xScale } = this.context;
@@ -52,10 +80,10 @@ export default class Ray extends React.Component {
     let is = xScale(interval) - xScale(0);
     let finalPosition = isNumber(this.state.dragPosition) ? this.state.dragPosition : position;
 
-    let className = classNames('ray', {
-      selected,
-      correct: correct === true,
-      incorrect: correct === false
+    let className = classNames(classes.ray, {
+      [classes.selected]: selected,
+      [classes.correct]: correct === true,
+      [classes.incorrect]: correct === false
     });
 
 
@@ -121,3 +149,5 @@ Ray.contextTypes = {
   xScale: PT.func.isRequired,
   snapValue: PT.func.isRequired
 }
+
+export default injectSheet(style)(Ray);

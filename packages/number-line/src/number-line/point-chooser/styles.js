@@ -33,7 +33,8 @@ const styleElement = (index) => ({
 export default {
   pointChooser: {
     backgroundColor: 'white',
-    display: 'inline-block',
+    display: 'flex',
+    alignItems: 'center',
     borderRadius: '4px',
     height: `${iconHeight + 1}px`,
     paddingLeft: '1px',
@@ -41,7 +42,7 @@ export default {
   },
   deleteIconHolder: {
     position: 'relative',
-    top: '6px'
+    top: '3px'
   },
   deleteIcon: {
     fill: 'black',

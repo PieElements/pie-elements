@@ -1,10 +1,45 @@
 import React, { PropTypes as PT } from 'react';
+
 import Draggable from '../../../draggable';
 import classNames from 'classnames';
+import injectSheet from 'react-jss';
 
-require('./point.less');
+const duration = '150ms';
 
-export default class Point extends React.Component {
+const style = {
+  point: {
+    cursor: 'pointer',
+    transition: `r ${duration} linear,  
+    opacity ${duration} linear, 
+    fill ${duration} linear,
+    stroke ${duration} linear`,
+
+    stroke: 'black',
+    fill: 'black',
+    '&.react-draggable-dragging': {
+      opacity: 0.25,
+      r: '10px'
+    }
+  },
+  selected: {
+    stroke: '#aaaaff'
+  },
+  correct: {
+    cursor: 'inherit',
+    stroke: 'green',
+    fill: 'green'
+  },
+  incorrect: {
+    cursor: 'inherit',
+    stroke: 'orange',
+    fill: 'orange'
+  },
+  empty: {
+    fill: 'white'
+  }
+}
+
+export class Point extends React.Component {
 
   render() {
 
@@ -18,7 +53,8 @@ export default class Point extends React.Component {
       position,
       disabled,
       correct,
-      empty } = this.props;
+      empty,
+      classes } = this.props;
 
     let { snapValue, xScale } = this.context;
 
@@ -68,11 +104,11 @@ export default class Point extends React.Component {
       }
     }
 
-    let circleClass = classNames('point', {
-      selected,
-      correct: correct === true,
-      incorrect: correct === false,
-      empty
+    let circleClass = classNames(classes.point, {
+      [classes.selected]: selected,
+      [classes.correct]: correct === true,
+      [classes.incorrect]: correct === false,
+      [classes.empty]: empty === true
     });
 
 
@@ -126,3 +162,5 @@ Point.contextTypes = {
   xScale: PT.func.isRequired,
   snapValue: PT.func.isRequired
 }
+
+export default injectSheet(style)(Point);

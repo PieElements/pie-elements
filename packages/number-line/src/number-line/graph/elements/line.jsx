@@ -9,17 +9,46 @@ import injectSheet from 'react-jss';
 import isEqual from 'lodash/isEqual';
 import isNumber from 'lodash/isNumber';
 
-// require('./line.less');
+const duration = '150ms';
 
 const style = {
-  selected: {
-    stroke: '#aaaaff'
-  },
   line: {
-    '&.selected': {
-
+    '& .line-handle': {
+      stroke: 'black',
+      cursor: 'pointer',
+      strokeWidth: '5px',
+      transition: `opacity ${duration} linear, 
+      stroke-width ${duration} linear,
+      stroke ${duration} linear`
+    },
+    '&.react-draggable-dragging': {
+      opacity: 0.6,
+      '& .line-handle': {
+        opacity: 1.0,
+        strokeWidth: '12px'
+      }
     }
-  }
+  },
+  selected: {
+    '& .line-handle': {
+      stroke: '#aaaaff'
+    },
+    '& circle': {
+      stroke: '#aaaaff'
+    }
+  },
+  correct: {
+    '& .line-handle': {
+      cursor: 'inherit',
+      stroke: 'green'
+    }
+  },
+  incorrect: {
+    '& .line-handle': {
+      cursor: 'inherit',
+      stroke: 'orange'
+    }
+  },
 }
 
 export class Line extends React.Component {
@@ -64,7 +93,8 @@ export class Line extends React.Component {
       y,
       selected,
       disabled,
-      correct
+      correct,
+      classes
     } = this.props;
 
     let { xScale } = this.context;
@@ -115,10 +145,10 @@ export class Line extends React.Component {
       right: ((domain.max - position.right) / interval) * is
     }
 
-    var lineClass = classNames('line', {
-      'selected': selected,
-      'correct': correct === true,
-      'incorrect': correct === false
+    var lineClass = classNames(classes.line, {
+      [classes.selected]: selected,
+      [classes.correct]: correct === true,
+      [classes.incorrect]: correct === false
     });
 
     let common = {
@@ -171,6 +201,8 @@ export class Line extends React.Component {
     </Draggable >
   }
 }
+
+export default injectSheet(style)(Line);
 
 Line.propTypes = extend(basePropTypes(), {
   empty: PT.shape({
