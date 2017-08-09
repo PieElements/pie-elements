@@ -1,17 +1,17 @@
-# corespring-feedback-config
+# feedback-config
 
-`corespring-feedback-config` is a panel that allows for the editing of feedback properties, for use within PIE configuration panels. It is very much a work in progress.
+`feedback-config` is a panel that allows for the editing of feedback properties, for use within PIE configuration panels. It is very much a work in progress.
 
 ## Usage
 
 ### Install
 
-    npm install --save corespring-feedback-config
+    npm install --save @pie-libs/feedback-config
 
 
 ### Import
 
-    import FeedbackConfig from 'corespring-feedback-config/src/index.jsx';
+    import FeedbackConfig from '@pie-libs/feedback-config';
 
 
 ### Element

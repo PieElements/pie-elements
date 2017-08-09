@@ -1,40 +1,42 @@
-import React from 'react';
-import {merge} from 'lodash';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import FeedbackSelector from './feedback-selector';
+import Card, { CardContent } from 'material-ui/Card';
 
-export default class FeedbackConfig extends React.Component {
+import FeedbackSelector from './feedback-selector';
+import React from 'react';
+import Typography from 'material-ui/Typography';
+import cloneDeep from 'lodash/cloneDeep';
+import injectSheet from 'react-jss';
+
+const style = {
+
+}
+
+export class FeedbackConfig extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      feedback: merge({
-        correctFeedbackType: 'default',
-        partialFeedbackType: 'default',
-        incorrectFeedbackType: 'default'
-      }, this.props.feedback)
-    };
+    this.onCorrectChange = this.onChange.bind(this, 'correct');
   }
 
   onChange(key, data) {
-    this.state.feedback[`${key}FeedbackType`] = data.feedbackType;
-    if (data.feedback !== undefined) {
-      this.state.feedback[`${key}Feedback`] = data.feedback;
-    }
-    this.props.onChange(this.state.feedback);
+    const { onChange, feedback } = this.props;
+    const out = cloneDeep(feedback);
+    out[`${key}FeedbackType`] = data.feedbackType;
+    out[`${key}Feedback`] = data.feedbackType === 'custom' ? out[`${key}Feedback`] || data.feedback : '';
+    onChange(out);
   }
 
   render() {
-    return <div className="feedback-config">
-      <Card>
-        <CardHeader title="Feedback" showExpandableButton={true}/>
-        <CardText expandable={true}>
-          <FeedbackSelector 
-            label="If correct, show"
-            feedbackType={this.state.feedback.correctFeedbackType}
-            customFeedback={this.state.feedback.correctFeedback}
-            defaultFeedback={this.props.defaultCorrectFeedback}
-            onChange={this.onChange.bind(this, 'correct')} />
+    const { defaultCorrectFeedback, feedback } = this.props;
+    return <Card>
+      <CardContent>
+        <Typography type="headline">Feedback</Typography>
+        <FeedbackSelector
+          label="If correct, show"
+          feedbackType={feedback.correctFeedbackType}
+          customFeedback={feedback.correctFeedback}
+          defaultFeedback={defaultCorrectFeedback}
+          onChange={this.onCorrectChange} />
+        {/* 
           <FeedbackSelector 
             label="If partially correct, show"
             feedbackType={this.state.feedback.partialFeedbackType}
@@ -46,10 +48,11 @@ export default class FeedbackConfig extends React.Component {
             feedbackType={this.state.feedback.incorrectFeedbackType}
             customFeedback={this.state.feedback.incorrectFeedback}
             defaultFeedback={this.props.defaultIncorrectFeedback}
-            onChange={this.onChange.bind(this, 'incorrect')} />
-        </CardText>
-      </Card>
-    </div>;
+            onChange={this.onChange.bind(this, 'incorrect')} /> */}
+      </CardContent>
+    </Card>;
   }
 
 }
+
+export default injectSheet(style)(FeedbackConfig);
