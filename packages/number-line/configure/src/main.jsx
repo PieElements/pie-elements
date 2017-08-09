@@ -13,7 +13,7 @@ import FeedbackConfig from '@pie-libs/feedback-config';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // import NumberLineGraph from '@pie-elements/number-line/src/number-line/graph';
 import NumberTextField from './number-text-field';
-import PointConfig from './src/point-config';
+import PointConfig from './point-config';
 //@pie-elements/number-line/src/number-line/point-config';
 import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
@@ -29,7 +29,7 @@ import { getMuiTheme } from 'material-ui/styles';
 // import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // injectTapEventPlugin();
-
+console.log('dataConverter', dataConverter);
 const { lineIsSwitched, switchGraphLine, toGraphFormat, toSessionFormat } = dataConverter;
 
 require('./main.less');
