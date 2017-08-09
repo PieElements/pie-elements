@@ -1,10 +1,7 @@
 {
   "name": "@pie-libs/editable-html",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
-  "files": [
-    "src/index.jsx"
-  ],
   "main": "src/index.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
