@@ -1,14 +1,25 @@
+import { Editor, EditorState, RichUtils } from 'draft-js';
+
 import React from 'react';
-import ReactDom from 'react-dom';
-import $ from 'jquery';
-import _ from 'lodash';
-import {Editor, EditorState, RichUtils} from 'draft-js';
-import {stateFromHTML} from 'draft-js-import-html';
-import {stateToHTML} from 'draft-js-export-html';
+import Toolbar from './toolbar';
+import injectSheet from 'react-jss';
+import isEmpty from 'lodash/isEmpty';
+import { stateFromHTML } from 'draft-js-import-html';
+import { stateToHTML } from 'draft-js-export-html';
 
-require('./editable-html.less');
+const style = {
+  root: {
+    border: '1px solid #cccccc',
+    borderRadius: '4px',
+    cursor: 'text'
+  },
+  editor: {
+    padding: '8px',
+    background: '#ffffff'
+  }
+}
 
-export default class EditableHTML extends React.Component {
+export class EditableHTML extends React.Component {
 
   constructor(props) {
     super(props);
@@ -16,16 +27,21 @@ export default class EditableHTML extends React.Component {
     this.state = {
       showToolbar: false,
       active: false,
-      hasText: !_.isEmpty($(`<div>${content}</div>`).text()),
+      hasText: !isEmpty(content),
       editorState: EditorState.createWithContent(stateFromHTML(content))
     };
+    this.onStyle = this.onStyle.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.handleKeyCommand = this.handleKeyCommand.bind(this);
+    this.onEditorBlur = this.onEditorBlur.bind(this);
+    this.toggleHtml = this.toggleHtml.bind(this);
   }
 
   onChange(editorState) {
     const content = stateToHTML(editorState.getCurrentContent());
-    this.setState({editorState});
+    this.setState({ editorState });
     this.setState({
-      hasText: !_.isEmpty($(content).text())
+      hasText: !isEmpty(content)
     });
     this.props.onChange(content);
   }
@@ -67,42 +83,31 @@ export default class EditableHTML extends React.Component {
   }
 
   render() {
-    return (
-      <div className="editable-html-container">{
-        (this.state.active === true) ? (
-          <div className="editable-html">
-            <Toolbar 
-              onStyle={this.onStyle.bind(this)} />
-            <div className="editor">
-              <Editor 
-                onBlur={this.onEditorBlur.bind(this)}
-                editorState={this.state.editorState}
-                handleKeyCommand={this.handleKeyCommand.bind(this)}
-                onChange={this.onChange.bind(this)} />
-            </div>
+    const { classes } = this.props;
+    return (<div>{
+      this.state.active === true ? (
+        <div className={classes.root}>
+          <Toolbar
+            onStyle={this.onStyle} />
+          <div className={classes.editor}>
+            <Editor
+              onBlur={this.onEditorBlur}
+              editorState={this.state.editorState}
+              handleKeyCommand={this.handleKeyCommand}
+              onChange={this.onChange} />
           </div>
-        ) : (
+        </div>
+      ) : (
           this.state.hasText ? (
-            <div className="placeholder-html" dangerouslySetInnerHTML={{__html: stateToHTML(this.state.editorState.getCurrentContent())}} 
-              onClick={this.toggleHtml.bind(this)}></div>
+            <div dangerouslySetInnerHTML={{ __html: stateToHTML(this.state.editorState.getCurrentContent()) }}
+              onClick={this.toggleHtml}></div>
           ) : (
-            <div className="placeholder-text" onClick={this.toggleHtml.bind(this)}>{this.props.placeholder}</div>
-          )
+              <div onClick={this.toggleHtml}>{this.props.placeholder}</div>
+            )
         )
-      }</div>
-    );
+    }</div>);
   }
 
 }
 
-class Toolbar extends React.Component {
-  render() {
-    return (
-      <ul className="toolbar">
-        <li className="button" onClick={this.props.onStyle.bind(this, 'BOLD')}>B</li>
-        <li className="button" onClick={this.props.onStyle.bind(this, 'ITALIC')}>I</li>
-        <li className="button" onClick={this.props.onStyle.bind(this, 'UNDERLINE')}>U</li>
-      </ul>
-    );
-  }
-}
+export default injectSheet(style)(EditableHTML);
