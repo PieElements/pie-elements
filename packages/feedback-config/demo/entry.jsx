@@ -1,4 +1,5 @@
-import FeedbackConfig from '../src/index';
+import FeedbackConfig, { defaults } from '../src/index';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -15,10 +16,10 @@ class Container extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      feedback: {
+      feedback: defaults({
         correctFeedbackType: 'custom',
         correctFeedback: 'custom message'
-      }
+      })
     }
   }
 
@@ -27,6 +28,7 @@ class Container extends React.Component {
       {JSON.stringify(this.state.feedback, null, '  ')}
       <FeedbackConfig
         feedback={this.state.feedback}
+
         onChange={(feedback) => this.setState({ feedback })} />
     </div>
   }

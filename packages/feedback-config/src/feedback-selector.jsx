@@ -1,15 +1,19 @@
 import { FormControl, FormControlLabel, FormLabel } from 'material-ui/Form';
 import Radio, { RadioGroup } from 'material-ui/Radio';
+import { createStyleSheet, withStyles } from 'material-ui/styles';
 
 import EditableHTML from '@pie-libs/editable-html';
 import React from 'react';
 import Typography from 'material-ui/Typography';
 import injectSheet from 'react-jss';
 
-//require('./feedback-selector.less');
-const style = {
+const style = createStyleSheet('feedback-selector', theme => ({
   group: {
 
+  },
+  label: {
+    cursor: 'pointer',
+    transform: 'translateX(-7px)'
   },
   choice: {
     display: 'flex',
@@ -23,8 +27,19 @@ const style = {
     marginTop: '10px',
     background: '#e0dee0',
     padding: '20px'
+  },
+  defaultHolder: {
+    fontFamily: theme.typography.fontFamily,
+    marginTop: '10px',
+    background: '#e0dee0',
+    padding: '20px',
+    cursor: 'default'
+  },
+  editor: {
+    fontFamily: theme.typography.fontFamily,
   }
-}
+
+}));
 
 const Group = ({ feedbackLabels, label, value, classes, handleChange, keys }) => (
   <div className={classes.choiceHolder}>
@@ -36,12 +51,13 @@ const Group = ({ feedbackLabels, label, value, classes, handleChange, keys }) =>
           checked={value === key}
           onChange={(e) => handleChange(e.currentTarget.value)}
           aria-label={feedbackLabels[key]} />
-        <Typography>{feedbackLabels[key]}</Typography>
+        <Typography
+          className={classes.label}
+          onClick={() => handleChange(key)}>{feedbackLabels[key]}</Typography>
       </div>);
     })}
   </div>
 )
-
 
 class FeedbackSelector extends React.Component {
 
@@ -64,6 +80,7 @@ class FeedbackSelector extends React.Component {
   }
 
   feedbackChange(feedback) {
+    console.log('feedbackChange:', feedback);
     this.setState({ feedback: feedback });
     this.onChange({
       feedbackType: this.state.feedbackType,
@@ -86,7 +103,6 @@ class FeedbackSelector extends React.Component {
     let feedbackKeys = keys || Object.keys(feedbackLabels);
 
     return <div className="feedback-selector">
-      {/* <p className="feedback-prompt">{this.props.label}</p> */}
       <Group
         classes={classes}
         keys={feedbackKeys}
@@ -96,40 +112,14 @@ class FeedbackSelector extends React.Component {
         feedbackLabels={feedbackLabels} />
       {this.state.feedbackType === 'custom' && <div className={classes.feedbackHolder}>
         <EditableHTML
+          className={classes.editor}
           placeholder={this.props.placeholder || "Enter feedback..."}
           onChange={this.feedbackChange}
           model={this.state.feedback} />
       </div>}
+      {this.state.feedbackType === 'default' && <div className={classes.defaultHolder}> {this.props.defaultFeedback}</div>}
     </div>;
   }
 }
-/*
 
-      <RadioButtonGroup
-        style={{ display: 'inline-block' }} name="feedback" defaultSelected="default"
-        valueSelected={this.state.feedbackType}
-        onChange={this.feedbackTypeChange.bind(this)}>
-        {
-          feedbackKeys.map((key) => {
-            return <RadioButton key={key} style={{ display: 'inline-block', width: 'auto' }} value={key} label={feedbackLabels[key]} />
-          })
-        }
-      </RadioButtonGroup>
-      {
-        (this.state.feedbackType === 'custom') ? (
-          <div className="feedback-holder">
-            <EditableHTML
-              placeholder={this.props.placeholder || "Enter feedback..."}
-              onChange={this.feedbackChange.bind(this)}
-              model={this.state.feedback} />
-          </div>
-        ) : (
-            (this.state.feedbackType === 'default') ? (
-              <div className="feedback-holder default">{this.props.defaultFeedback}</div>
-            ) : (
-                <div></div>
-              )
-          )
-      }
-*/
-export default injectSheet(style)(FeedbackSelector);
+export default withStyles(style)(FeedbackSelector);

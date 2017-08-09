@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@pie-libs/editable-html": "^0.0.1",
+    "@pie-libs/editable-html": "^0.0.2",
     "lodash": "^4.17.2",
     "material-ui": "1.0.0-beta.4",
     "react": "^15.6.1",
