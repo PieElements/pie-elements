@@ -19,6 +19,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import cloneDeep from 'lodash/cloneDeep';
+import { getMuiTheme } from 'material-ui/styles';
 
 // import { lineIsSwitched, switchGraphLine, toGraphFormat, toSessionFormat } from '@pie-elements/number-line/src/data-converter';
 
@@ -33,7 +34,7 @@ const { lineIsSwitched, switchGraphLine, toGraphFormat, toSessionFormat } = data
 
 require('./main.less');
 
-const muiTheme = getMuiTheme({
+const theme = getMuiTheme({
   palette: {
     primary1Color: green500,
     primary2Color: green700,
@@ -73,10 +74,6 @@ const defaultConfig = {
 const types = ['PF', 'PE', 'LFF', 'LEF', 'LFE', 'LEE', 'RFN', 'RFP', 'REN', 'REP'];
 
 class Main extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   domainChange(event, value) {
     let newValue = parseInt(value, 10);
@@ -186,7 +183,10 @@ class Main extends React.Component {
     let correctResponse = cloneDeep(this.props.model.correctResponse).map(toGraphFormat);
     let initialView = cloneDeep(this.props.model.model.config.initialElements).map(toGraphFormat);
 
-    return <MuiThemeProvider muiTheme={muiTheme}>
+    return <MuiThemeProvider theme={theme}>
+      hi
+    </MuiThemeProvider>;
+    /*return <MuiThemeProvider theme={theme}>
       <div className="corespring-choice-config-root">
         <p>In this interaction, students plot points, line segments or rays on a number line.</p>
         <h2>Number Line Attributes</h2>
@@ -301,7 +301,7 @@ class Main extends React.Component {
           )
         }
       </div>
-    </MuiThemeProvider>
+    </MuiThemeProvider>*/
   }
 }
 

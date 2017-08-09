@@ -6,13 +6,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import RootComponent from './number-line';
 import cloneDeep from 'lodash/cloneDeep';
+import dataConverter from './data-converter';
 import tickUtils from './number-line/graph/tick-utils';
 
 //Expose some additional modules for configuration
 export {
   Graph,
   NumberLineComponent,
-  tickUtils
+  tickUtils,
+  dataConverter
 }
 
 export default class NumberLine extends HTMLElement {
