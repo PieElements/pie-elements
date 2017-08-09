@@ -1,3 +1,5 @@
+import * as colors from '../../colors';
+
 import React, { PropTypes as PT } from 'react';
 
 import Arrow from '../arrow';
@@ -26,15 +28,24 @@ const style = {
     '& line': {
       cursor: 'pointer',
       strokeWidth: '5px',
-      stroke: 'black'
+      stroke: 'var(--line-stroke, black)'
     },
     '& line, & .arrow': {
       transition: 'stroke 150ms linear, fill 150ms linear'
     }
   },
-  selected: rayColor('#aaaaff'),
-  correct: rayColor('green'),
-  incorrect: rayColor('orange')
+  selected: rayColor(colors.selected),
+  correct: rayColor(colors.correct),
+  incorrect: rayColor(colors.incorrect),
+  arrowCorrect: {
+    '--arrow-color': colors.correct
+  },
+  arrowIncorrect: {
+    '--arrow-color': colors.incorrect
+  },
+  arrowSelected: {
+    '--arrow-color': colors.selected
+  }
 }
 
 export class Ray extends React.Component {
@@ -101,6 +112,12 @@ export class Ray extends React.Component {
 
     let noop = () => { }
 
+    const arrowClassNames = classNames({
+      [classes.arrowCorrect]: correct === true,
+      [classes.arrowIncorrect]: correct === false,
+      [classes.arrowSelected]: selected
+    });
+
     return <g className={className} transform={`translate(0, ${y})`}>
       <line
         onClick={disabled ? noop : this.props.onToggleSelect}
@@ -121,6 +138,7 @@ export class Ray extends React.Component {
       />
       <Arrow
         x={arrowX}
+        className={arrowClassNames}
         direction={arrowDirection} />
     </g>;
   }

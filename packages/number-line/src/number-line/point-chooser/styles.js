@@ -34,15 +34,15 @@ export default {
   pointChooser: {
     backgroundColor: 'white',
     display: 'flex',
+    justifyContent: 'space-between',
     alignItems: 'center',
     borderRadius: '4px',
-    height: `${iconHeight + 1}px`,
-    paddingLeft: '1px',
-    paddingRight: '1px'
+    padding: '1px'
   },
   deleteIconHolder: {
     position: 'relative',
-    top: '3px'
+    top: '3px',
+    width: '30px'
   },
   deleteIcon: {
     fill: 'black',
@@ -52,7 +52,9 @@ export default {
       opacity: '0.5'
     }
   },
-  elementSelector: Object.assign({}, noselect()),
+  elementSelector: Object.assign({
+    padding: '1px'
+  }, noselect()),
   pf: styleElement(0),
   pe: Object.assign(styleElement(9), {
     width: '40px'

@@ -1,11 +1,20 @@
 import React from 'react';
+import injectSheet from 'react-jss';
 
-export default function Line(props) {
+const style = {
+  root: {
+    strokeWidth: 2,
+    stroke: 'var(--line-stroke, black)'
+  }
+}
+
+export function Line({ y, width, classes }) {
   return <line
     x1={0}
-    y1={props.y}
-    x2={props.width}
-    y2={props.y}
-    strokeWidth="2"
-    stroke="black" />
+    y1={y}
+    x2={width}
+    y2={y}
+    className={classes.root} />
 }
+
+export default injectSheet(style)(Line);

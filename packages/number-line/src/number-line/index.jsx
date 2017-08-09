@@ -16,9 +16,17 @@ const styles = {
   numberLine: {
     padding: '10px',
   },
+  'black_on_rose': {
+    backgroundColor: 'mistyrose'
+  },
   'white_on_black': {
     backgroundColor: 'black',
     '--correct-answer-toggle-label-color': 'white',
+    '--tick-color': 'white',
+    '--line-stroke': 'white',
+    '--arrow-color': 'white',
+    '--point-stroke': 'white',
+    '--point-fill': 'black'
   }
 }
 
@@ -180,7 +188,7 @@ export class NumberLine extends React.Component {
 
     const names = classNames(classes.numberLine, classes[model.colorContrast]);
 
-    return <div className={names}>
+    return <div className={names} style={{ width }}>
       <div>
         <div style={{ width: adjustedWidth }}>
           <Toggle
@@ -215,7 +223,7 @@ export class NumberLine extends React.Component {
             {...model.feedback}
             width={adjustedWidth} />}
       </div>
-    </div>
+    </div >
   }
 }
 

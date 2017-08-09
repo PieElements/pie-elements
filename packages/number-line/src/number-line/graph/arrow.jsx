@@ -1,8 +1,15 @@
 import React, { PropTypes as PT } from 'react';
 
-export default function Arrow(props) {
+import classNames from 'classnames';
+import injectSheet from 'react-jss';
 
-  let { x, y, direction } = props;
+const style = {
+  root: {
+    fill: 'var(--arrow-color, black)'
+  }
+}
+
+export function Arrow({ x, y, direction, classes, className }) {
 
   let transform = `translate(${x || 0},${y})`;
 
@@ -10,10 +17,11 @@ export default function Arrow(props) {
     transform += ` rotate(180)`
   }
 
+  const names = classNames(classes.root, className);
   return <path
     d="m 0,0 8,-5 0,10 -8,-5"
     transform={transform}
-    className="arrow" />
+    className={names} />
 }
 
 Arrow.propTypes = {
@@ -27,3 +35,5 @@ Arrow.defaultProps = {
   x: 0,
   direction: 'left'
 }
+
+export default injectSheet(style)(Arrow);

@@ -14,7 +14,7 @@ const duration = '150ms';
 const style = {
   line: {
     '& .line-handle': {
-      stroke: 'black',
+      stroke: 'var(--line-stroke, black)',
       cursor: 'pointer',
       strokeWidth: '5px',
       transition: `opacity ${duration} linear, 

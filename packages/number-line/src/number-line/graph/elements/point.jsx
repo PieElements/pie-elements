@@ -14,8 +14,8 @@ const style = {
     fill ${duration} linear,
     stroke ${duration} linear`,
 
-    stroke: 'black',
-    fill: 'black',
+    stroke: 'var(--point-stroke, black)',
+    fill: 'var(--point-stroke, black)',
     '&.react-draggable-dragging': {
       opacity: 0.25,
       r: '10px'
@@ -35,7 +35,7 @@ const style = {
     fill: 'orange'
   },
   empty: {
-    fill: 'white'
+    fill: 'var(--point-fill, white)'
   }
 }
 

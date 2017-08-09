@@ -1,8 +1,18 @@
 import React, { PropTypes as PT } from 'react';
 
 import { buildTickModel } from './tick-utils';
+import injectSheet from 'react-jss';
 
-require('./ticks.less');
+const style = {
+  text: {
+    userSelect: 'none',
+    textAlign: 'center',
+    fill: 'var(--tick-color, black)'
+  },
+  line: {
+    stroke: 'var(--tick-color, black)'
+  }
+}
 
 export const TickValidator = PT.shape({
   /** the number of major ticks (including min + max) 
@@ -44,27 +54,24 @@ export class Tick extends React.Component {
 
   render() {
     //the domain value
-    let { label, x, y, major } = this.props;
+    let { label, x, y, major, classes } = this.props;
 
-    let style = {
-      userSelect: 'none',
-      textAlign: 'center'
-    }
 
     let xText = Number((label).toFixed(2));
     let height = major ? 20 : 10;
 
-    return <g className="tick"
+    return <g
       opacity="1"
       transform={`translate(${x}, ${y})`}>
       <line
+        className={classes.line}
         y1={(height / 2) * -1}
         y2={height / 2}
         x1="0.5"
         x2="0.5"></line>
       {major &&
         <text ref={text => this.text = text}
-          style={style}
+          className={classes.text}
           y="14"
           width="10"
           dy="0.71em">{xText}</text>
@@ -75,6 +82,7 @@ export class Tick extends React.Component {
 }
 
 Tick.propType = {
+  classes: PT.object.isRequired,
   label: PT.number.isRequired,
   y: PT.number.isRequired,
   x: PT.number.isRequired,
@@ -85,18 +93,19 @@ Tick.defaultProps = {
   major: false
 }
 
-export default class Ticks extends React.Component {
+export class Ticks extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    let { domain, ticks, interval, y } = this.props;
+    let { domain, ticks, interval, y, classes } = this.props;
     let { xScale } = this.context;
 
     let tickModel = buildTickModel(domain, ticks, interval, xScale);
     let nodes = tickModel.map(({ major, value, x }) => {
       return <Tick
+        classes={classes}
         major={major}
         key={value}
         label={value}
@@ -108,11 +117,14 @@ export default class Ticks extends React.Component {
   }
 }
 
+export default injectSheet(style)(Ticks);
+
 Ticks.contextTypes = {
   xScale: PT.func.isRequired
 }
 
 Ticks.propTypes = {
+  classes: PT.object.isRequired,
   domain: PT.shape({
     min: PT.number.isRequired,
     max: PT.number.isRequired
