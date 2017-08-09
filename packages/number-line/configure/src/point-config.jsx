@@ -1,7 +1,7 @@
-import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
+import React from 'react';
 
-require('./point-chooser.less');
+// require('./point-chooser.less');
 
 class PointConfig extends React.Component {
 
@@ -10,7 +10,6 @@ class PointConfig extends React.Component {
     this.state = {
       selection: props.selection
     };
-    console.log('props.selection', props.selection);
   }
 
   toggle(point) {
@@ -40,7 +39,7 @@ class PointConfig extends React.Component {
   }
 
   render() {
-    return ( 
+    return (
       <div className="point-config">
         <div className="element-selector">{
           PointConfig.types.map((point, key) => {
@@ -49,14 +48,14 @@ class PointConfig extends React.Component {
               className={`element-${point.toLowerCase()}`}
               key={point}>
               <a
-                className={this.active(point)} 
+                className={this.active(point)}
                 onClick={this.toggle.bind(this, point)}>&nbsp;</a>
-            </span> 
+            </span>
           })
         }</div>
         <div className="display-toggles">
-          <RaisedButton label="Display All" onClick={this.toggleAll.bind(this, true)}/>
-          <RaisedButton label="None" onClick={this.toggleAll.bind(this, false)}/>
+          <RaisedButton label="Display All" onClick={this.toggleAll.bind(this, true)} />
+          <RaisedButton label="None" onClick={this.toggleAll.bind(this, false)} />
         </div>
       </div>
     )

@@ -1,25 +1,30 @@
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import {
+  Graph,
+  NumberLineComponent,
+  tickUtils
+} from '@pie-elements/number-line';
 import { blue500, green500, green700, grey400, grey500, red500 } from 'material-ui/styles/colors';
-import { lineIsSwitched, switchGraphLine, toGraphFormat, toSessionFormat } from 'corespring-number-line/src/data-converter';
+import { lineIsSwitched, switchGraphLine, toGraphFormat, toSessionFormat } from '@pie-elements/number-line/src/data-converter';
 
 import Checkbox from 'material-ui/Checkbox';
 import FeedbackConfig from 'corespring-feedback-config/src/index.jsx';
 import FeedbackSelector from 'corespring-feedback-config/src/feedback-selector.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import NumberLine from 'corespring-number-line/src/number-line';
-import NumberLineGraph from 'corespring-number-line/src/number-line/graph';
+// import NumberLineGraph from '@pie-elements/number-line/src/number-line/graph';
 import NumberTextField from './number-text-field';
-import PointConfig from 'corespring-number-line/src/number-line/point-config';
+import PointConfig from './src/point-config';
+//@pie-elements/number-line/src/number-line/point-config';
 import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import { buildElementModel } from 'corespring-number-line/src/number-line/graph/elements/builder';
 import cloneDeep from 'lodash/cloneDeep';
-import { getInterval } from 'corespring-number-line/src/number-line/graph/tick-utils';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 
-injectTapEventPlugin();
+// import { getInterval } from '@pie-elements/number-line/src/number-line/graph/tick-utils';
+// import getMuiTheme from 'material-ui/styles/getMuiTheme';
+// import injectTapEventPlugin from 'react-tap-event-plugin';
+
+// injectTapEventPlugin();
 
 require('./main.less');
 
@@ -188,7 +193,7 @@ class Main extends React.Component {
           elements={[]}
           domain={this.getDomain()}
           ticks={this.getTicks()}
-          interval={getInterval(this.getDomain(), this.getTicks())}
+          interval={tickUtils.getInterval(this.getDomain(), this.getTicks())}
           width={defaultConfig.width}
           height={defaultConfig.height}
           onAddElement={noOp}

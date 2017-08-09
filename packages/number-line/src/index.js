@@ -1,15 +1,21 @@
 import { lineIsSwitched, switchGraphLine, toGraphFormat, toSessionFormat } from './data-converter';
 
+import Graph from './number-line/graph';
+import NumberLineComponent from './number-line';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import RootComponent from './number-line';
 import cloneDeep from 'lodash/cloneDeep';
+import tickUtils from './number-line/graph/tick-utils';
+
+//Expose some additional modules for configuration
+export {
+  Graph,
+  NumberLineComponent,
+  tickUtils
+}
 
 export default class NumberLine extends HTMLElement {
-
-  constructor() {
-    super();
-  }
 
   set model(m) {
     this._model = m;
