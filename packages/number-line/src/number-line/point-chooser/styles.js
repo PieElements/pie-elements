@@ -20,7 +20,7 @@ const styleElement = (index) => ({
   position: 'relative',
   top: '1px',
   cursor: 'pointer',
-  background: `url(${img}) -${index * iconWidth}px 0px`, // (-${index * iconWidth}px) 0px`,
+  background: `url(${img}) -${index * iconWidth}px 0px`,
   '&.active, &.active:hover': {
     backgroundPosition: `-${index * iconWidth}px -${2 * iconHeight}px`
   },
