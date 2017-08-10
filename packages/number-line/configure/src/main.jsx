@@ -204,12 +204,15 @@ class Main extends React.Component {
     const {model: {model: {config}}} = this.props;
     
     return <div className={classes.root}>
+
       <p>In this interaction, students plot points, line segments or rays on a number line.</p>
-      <h2>Number Line Attributes</h2>
+      <Card>
+        <CardContent>
+      <Typography type="headline">Number Line Attributes</Typography>
       <p>
-        Set up the number line by entering the domain and number of tick marks to display. Labels on the number
-          line can be edited or removed by clicking on the label.
-        </p>
+        Set up the number line by entering the domain and number of tick marks to display. 
+        Labels on the number line can be edited or removed by clicking on the label.
+      </p>
 
       <Graph
         elements={[]}
@@ -262,14 +265,16 @@ class Main extends React.Component {
             value={'showMinorTicks'} />
           </div>
         </div>
-        <div className={classes.resetDefaults}>
           <Button 
             raised 
             color="primary" 
             onClick={this.setDefaults} >Reset to default values</Button>
-        </div>
-        { !config.exhibitOnly && <div>
-          <h2>Correct Response</h2>
+        </CardContent>
+        </Card>
+        <br/>
+        { !config.exhibitOnly && <Card>
+            <CardContent>
+            <Typography type="headline">Correct Response</Typography>
           <p>
             Select answer type and place it on the number line. Intersecting points, line segments and/or rays will appear above the number
             line. <i>Note: A maximum of 20 points, line segments or rays may be plotted.</i>
@@ -280,9 +285,8 @@ class Main extends React.Component {
             onAddElement={this.addCorrectResponse}
             answer={correctResponse}
             model={this.props.model.model} />
-          <Card>
-            <CardContent>
-            <Typography type="headline">Available Types</Typography>
+            <hr/>
+            <Typography type="headline2">Available Types</Typography>
               <p>Click on the input options to be displayed to the students. All inputs will display by default.</p>
               <div className={classes.pointTypeChooser}>
                 <PointConfig
@@ -290,9 +294,8 @@ class Main extends React.Component {
                   selection={config.availableTypes} /> 
               </div>
             </CardContent>
-          </Card>
-          </div> }
-
+          </Card> }
+          <br/>
           <Card>
             <CardContent>
               <Typography type="headline">Initial view/Make Exhibit</Typography>
@@ -307,11 +310,13 @@ class Main extends React.Component {
               <Checkbox
                 label="Make exhibit"
                 checked={config.exhibitOnly}
-                onCheck={this.exhibitChanged}
+                onChange={this.exhibitChanged}
+                value={'exhibitOnly'}
               />
             </CardContent>
         </Card> 
 
+        { !config.exhibitOnly && <br/>}
         { !config.exhibitOnly && <FeedbackConfig
               feedback={this.props.model.feedback}
               onChange={this.props.onFeedbackChange.bind(this)}
