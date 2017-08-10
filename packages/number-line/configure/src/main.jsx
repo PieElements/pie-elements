@@ -1,4 +1,5 @@
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import Card, { CardActions, CardContent } from 'material-ui/Card';
+import { FormControlLabel, FormGroup } from 'material-ui/Form';
 import {
   Graph,
   NumberLineComponent,
@@ -8,6 +9,8 @@ import {
 import { blue500, green500, green700, grey400, grey500, red500 } from 'material-ui/styles/colors';
 import { createStyleSheet, getMuiTheme, withStyles } from 'material-ui/styles';
 
+//@pie-elements/number-line/src/number-line/point-config';
+import Button from 'material-ui/Button';
 import Checkbox from 'material-ui/Checkbox';
 import FeedbackConfig from '@pie-libs/feedback-config';
 // import FeedbackSelector from '@pie-libcorespring-feedback-config/src/feedback-selector.jsx';
@@ -15,10 +18,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // import NumberLineGraph from '@pie-elements/number-line/src/number-line/graph';
 import NumberTextField from './number-text-field';
 import PointConfig from './point-config';
-//@pie-elements/number-line/src/number-line/point-config';
-import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
+import classNames from 'classnames';
 import cloneDeep from 'lodash/cloneDeep';
 
 // import { lineIsSwitched, switchGraphLine, toGraphFormat, toSessionFormat } from '@pie-elements/number-line/src/data-converter';
@@ -29,7 +32,6 @@ import cloneDeep from 'lodash/cloneDeep';
 // import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // injectTapEventPlugin();
-console.log('dataConverter', dataConverter);
 const { lineIsSwitched, switchGraphLine, toGraphFormat, toSessionFormat } = dataConverter;
 
 //require('./main.less');
@@ -37,6 +39,24 @@ const { lineIsSwitched, switchGraphLine, toGraphFormat, toSessionFormat } = data
 const styles = createStyleSheet('Main', theme => ({
   root: {
 
+  },
+  domain: {
+    
+  },
+  row: {
+    display: 'flex'
+  },
+  minorTicks: {
+  
+  },
+  hide: {
+    opacity: 0.5
+  },
+  resetDefaults: {
+    margin: '20px 0'
+  },
+  pointTypeChooser: {
+    margin: '20px 0'
   }
 }));
 
@@ -81,14 +101,26 @@ const types = ['PF', 'PE', 'LFF', 'LEF', 'LFE', 'LEE', 'RFN', 'RFP', 'REN', 'REP
 
 class Main extends React.Component {
 
-  domainChange(event, value) {
+  constructor(props){
+    super(props);
+    this.onDomainBeginChange = this.domainChange.bind(this, domainBegin);
+    this.onDomainEndChange = this.domainChange.bind(this, domainEnd);
+    this.setDefaults = this.setDefaults.bind(this);
+    this.moveCorrectResponse = this.moveCorrectResponse.bind(this);
+    this.deleteCorrectResponse = this.deleteCorrectResponse.bind(this);
+    this.addCorrectResponse = this.addCorrectResponse.bind(this);
+    this.availableTypesChange = this.availableTypesChange.bind(this);
+  }
+  
+  domainChange(key, event, value) {
+    const {onDomainChange, model: { model : { config: { domain}}}} = this.props;
     let newValue = parseInt(value, 10);
-    if (event.target.name === domainBegin) {
-      this.props.model.model.config.domain[0] = newValue;
+    if (key === domainBegin) {
+      domain[0] = newValue;
     } else {
-      this.props.model.model.config.domain[1] = newValue;
+      domain[1] = newValue;
     }
-    this.props.onDomainChange(this.props.model.model.config.domain);
+    onDomainChange(domain);
   }
 
   getDomain() {
@@ -109,7 +141,7 @@ class Main extends React.Component {
     let config = this.props.model.model.config;
     return {
       major: config.tickFrequency || 2,
-      minor: config.snapPerTick || 0,
+      minor: config.showMinorTicks ? config.snapPerTick || 0 : 0,
     }
   }
 
@@ -191,6 +223,8 @@ class Main extends React.Component {
     let correctResponse = cloneDeep(this.props.model.correctResponse).map(toGraphFormat);
     let initialView = cloneDeep(this.props.model.model.config.initialElements).map(toGraphFormat);
 
+    const {model: {model: {config}}} = this.props;
+    
     return <div className={classes.root}>
       <p>In this interaction, students plot points, line segments or rays on a number line.</p>
       <h2>Number Line Attributes</h2>
@@ -198,6 +232,108 @@ class Main extends React.Component {
         Set up the number line by entering the domain and number of tick marks to display. Labels on the number
           line can be edited or removed by clicking on the label.
         </p>
+
+      <Graph
+        elements={[]}
+        domain={this.getDomain()}
+        ticks={this.getTicks()}
+        interval={tickUtils.getInterval(this.getDomain(), this.getTicks())}
+        width={defaultConfig.width}
+        height={defaultConfig.height}
+        onAddElement={noOp}
+        onMoveElement={noOp}
+        onToggleElement={noOp}
+        onDeselectElements={noOp} />
+        <div>
+          Domain =
+          <NumberTextField
+            value={config.domain[0]}
+            name={domainBegin}
+            style={numberFieldStyle}
+            onChange={this.onDomainBeginChange} /> to
+          <NumberTextField
+            value={config.domain[1]}
+            name={domainEnd}
+            style={numberFieldStyle}
+            onChange={this.onDomainEndChange} />
+        </div>
+        <div>
+        Number of Ticks:
+        <NumberTextField
+          value={config.tickFrequency}
+          name="numberOfTicks"
+          min={2}
+          style={numberFieldStyle}
+          onChange={this.props.onTickFrequencyChange.bind(this)} />
+          </div>
+         <div> 
+         <div className={classes.row}>
+           
+          <div className={classNames(classes.minorTicks, {[classes.hide]: !config.showMinorTicks })}>
+            Minor Tick Frequency:
+            <NumberTextField
+              name="snapPerTick"
+              style={numberFieldStyle}
+              value={config.snapPerTick}
+              onChange={this.props.onSnapPerTickChange.bind(this)} />
+          </div>
+          <FormControlLabel
+            control={ <Checkbox
+            checked={config.showMinorTicks}
+            onChange={this.props.onMinorTicksChanged.bind(this)} 
+            value={'showMinorTicks'} /> }
+            label="Show" />
+          </div>
+        </div>
+        <div className={classes.resetDefaults}>
+          <Button 
+            raised 
+            color="primary" 
+            onClick={this.setDefaults} >Reset to default values</Button>
+        </div>
+        { !config.exhibitOnly && <div>
+          <h2>Correct Response</h2>
+          <p>
+            Select answer type and place it on the number line. Intersecting points, line segments and/or rays will appear above the number
+            line. <i>Note: A maximum of 20 points, line segments or rays may be plotted.</i>
+          </p>
+          <NumberLineComponent 
+            onMoveElement={this.moveCorrectResponse}
+            onDeleteElements={this.deleteCorrectResponse}
+            onAddElement={this.addCorrectResponse}
+            answer={correctResponse}
+            model={this.props.model.model} />
+          <Card>
+            <CardContent>
+            <Typography type="headline">Available Types</Typography>
+              <p>Click on the input options to be displayed to the students. All inputs will display by default.</p>
+              <div className={classes.pointTypeChooser}>
+                <PointConfig
+                  onSelectionChange={this.availableTypesChange}
+                  selection={config.availableTypes} /> 
+              </div>
+            </CardContent>
+          </Card>
+          </div> }
+
+          <Card>
+            <Typography type="headline">Initial view/Make Exhibit</Typography>
+            <CardContent>
+              <p>Use this number line to set a starting point, line segment or ray. This is optional.</p>
+              <p>This number line may also be used to make an exhibit number line, which can not be manipulated by a student.</p>
+              <NumberLineComponent
+                onMoveElement={this.moveInitialView.bind(this)}
+                onDeleteElements={this.deleteInitialView.bind(this)}
+                onAddElement={this.addInitialView.bind(this)}
+                answer={initialView}
+                model={this.props.model.model} />
+              <Checkbox
+                label="Make exhibit"
+                checked={this.props.model.model.config.exhibitOnly}
+                onCheck={this.exhibitChanged.bind(this)}
+              />
+            </CardContent>
+        </Card> 
     </div>
     /*return <MuiThemeProvider theme={theme}>
       <div className="corespring-choice-config-root">
@@ -207,17 +343,6 @@ class Main extends React.Component {
           Set up the number line by entering the domain and number of tick marks to display. Labels on the number
           line can be edited or removed by clicking on the label.
         </p>
-        <NumberLineGraph
-          elements={[]}
-          domain={this.getDomain()}
-          ticks={this.getTicks()}
-          interval={tickUtils.getInterval(this.getDomain(), this.getTicks())}
-          width={defaultConfig.width}
-          height={defaultConfig.height}
-          onAddElement={noOp}
-          onMoveElement={noOp}
-          onToggleElement={noOp}
-          onDeselectElements={noOp} />
         <div className="domain">
           Domain =
           <NumberTextField

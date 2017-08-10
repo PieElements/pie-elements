@@ -17,24 +17,28 @@ let DeleteIcon = ({ classes }) => {
   </svg>
 };
 
+const RawPoint = (props) => {
+  const {iconKey, active, classes, onClick} = props;
+  const names = classNames(classes[iconKey], { active });
+  return <span
+    role="presentation"
+    key={iconKey}
+    onClick={onClick} >
+    <a className={names}>&nbsp;</a>
+  </span>
+}
+
+export const Point = injectSheet(styles)(RawPoint);
+
 const Points = ({ selectPoint, classes, selected, icons }) => {
-
-  const icon = (key, active) => {
-
-    let onClick = active ? () => { } : selectPoint.bind(null, key);
-    const names = classNames(classes[key], { active });
-
-    return <span
-      role="presentation"
-      key={key}
-      onClick={onClick} >
-      <a className={names}>&nbsp;</a>
-    </span>
-  }
-
-  let iconTags = icons.map(key => {
+  const iconTags = icons.map(key => {
     let active = key === selected;
-    return icon(key, active);
+    let onClick = active ? () => { } : selectPoint.bind(null, key);
+    return <Point
+      key={key.toLowerCase()} 
+      iconKey={key.toLowerCase()} 
+      active={active} 
+      onClick={onClick} /> //icon(key, active);
   });
 
   return <div className={classes.elementSelector}>

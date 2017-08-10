@@ -73,7 +73,7 @@ export class NumberLine extends React.Component {
     let config = this.props.model.config;
     return {
       major: config.tickFrequency || 2,
-      minor: config.snapPerTick || 0,
+      minor: config.showMinorTicks ? config.snapPerTick || 0 : 0,
     }
   }
 

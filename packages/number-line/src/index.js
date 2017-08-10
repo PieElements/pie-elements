@@ -1,4 +1,6 @@
 import * as dataConverter from './data-converter';
+import * as pointChooser from './number-line/point-chooser'
+import * as tickUtils from './number-line/graph/tick-utils';
 
 import { lineIsSwitched, switchGraphLine, toGraphFormat, toSessionFormat } from './data-converter';
 
@@ -8,14 +10,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import RootComponent from './number-line';
 import cloneDeep from 'lodash/cloneDeep';
-import tickUtils from './number-line/graph/tick-utils';
 
 //Expose some additional modules for configuration
 export {
   Graph,
   NumberLineComponent,
   tickUtils,
-  dataConverter
+  dataConverter,
+  pointChooser
 }
 
 export default class NumberLine extends HTMLElement {

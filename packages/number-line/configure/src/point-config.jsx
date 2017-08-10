@@ -1,7 +1,16 @@
-import RaisedButton from 'material-ui/RaisedButton';
-import React from 'react';
+import {createStyleSheet, withStyles} from 'material-ui/styles';
 
-// require('./point-chooser.less');
+import Button from 'material-ui/Button';
+import React from 'react';
+import {pointChooser} from '@pie-elements/number-line';
+
+const {Point} = pointChooser;
+
+const styles = createStyleSheet('PointConfig', theme => ({
+  displayToggles: {
+    paddingTop: '20px'
+  }
+}));
 
 class PointConfig extends React.Component {
 
@@ -39,30 +48,29 @@ class PointConfig extends React.Component {
   }
 
   render() {
+
+    const {classes} = this.props;
+    
+    const icons = PointConfig.types.map((point, key) => {
+    return <Point 
+          iconKey={point.toLowerCase()}
+          key={point.toLowerCase()}
+          onClick={this.toggle.bind(this, point)} 
+          active={this.active(point)}/>
+    });
+
     return (
-      <div className="point-config">
-        <div className="element-selector">{
-          PointConfig.types.map((point, key) => {
-            return <span
-              role="presentation"
-              className={`element-${point.toLowerCase()}`}
-              key={point}>
-              <a
-                className={this.active(point)}
-                onClick={this.toggle.bind(this, point)}>&nbsp;</a>
-            </span>
-          })
-        }</div>
-        <div className="display-toggles">
-          <RaisedButton label="Display All" onClick={this.toggleAll.bind(this, true)} />
-          <RaisedButton label="None" onClick={this.toggleAll.bind(this, false)} />
+      <div>
+        <div>{icons}</div>
+        <div className={classes.displayToggles}>
+          <Button raised onClick={this.toggleAll.bind(this, true)}>Display All</Button>
+          <Button raised onClick={this.toggleAll.bind(this, false)}>None</Button>
         </div>
       </div>
     )
   }
-
 }
 
 PointConfig.types = ["PF", "PE", "LFF", "LEF", "LFE", "LEE", "RFN", "RFP", "REN", "REP"];
 
-export default PointConfig;
+export default withStyles(styles)(PointConfig);
