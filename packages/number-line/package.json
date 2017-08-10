@@ -3,6 +3,9 @@
   "version": "0.5.0",
   "description": "A number line interaction for pie",
   "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "./node_modules/.bin/mocha --require babel-register --recursive test && cd controller && npm test"
   },
