@@ -6,6 +6,7 @@ import {
   tickUtils
 } from '@pie-elements/number-line';
 import { blue500, green500, green700, grey400, grey500, red500 } from 'material-ui/styles/colors';
+import { createStyleSheet, getMuiTheme, withStyles } from 'material-ui/styles';
 
 import Checkbox from 'material-ui/Checkbox';
 import FeedbackConfig from '@pie-libs/feedback-config';
@@ -19,7 +20,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import cloneDeep from 'lodash/cloneDeep';
-import { getMuiTheme } from 'material-ui/styles';
 
 // import { lineIsSwitched, switchGraphLine, toGraphFormat, toSessionFormat } from '@pie-elements/number-line/src/data-converter';
 
@@ -32,15 +32,21 @@ import { getMuiTheme } from 'material-ui/styles';
 console.log('dataConverter', dataConverter);
 const { lineIsSwitched, switchGraphLine, toGraphFormat, toSessionFormat } = dataConverter;
 
-require('./main.less');
+//require('./main.less');
 
-const theme = getMuiTheme({
-  palette: {
-    primary1Color: green500,
-    primary2Color: green700,
-    primary3Color: grey400,
+const styles = createStyleSheet('Main', theme => ({
+  root: {
+
   }
-});
+}));
+
+// const theme = getMuiTheme({
+//   palette: {
+//     primary1Color: green500,
+//     primary2Color: green700,
+//     primary3Color: grey400,
+//   }
+// });
 
 const domainBegin = "domainBegin";
 const domainEnd = "domainEnd";
@@ -173,6 +179,8 @@ class Main extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     const numberFieldStyle = {
       width: '50px',
       margin: '0 10px'
@@ -183,9 +191,14 @@ class Main extends React.Component {
     let correctResponse = cloneDeep(this.props.model.correctResponse).map(toGraphFormat);
     let initialView = cloneDeep(this.props.model.model.config.initialElements).map(toGraphFormat);
 
-    return <MuiThemeProvider theme={theme}>
-      hi
-    </MuiThemeProvider>;
+    return <div className={classes.root}>
+      <p>In this interaction, students plot points, line segments or rays on a number line.</p>
+      <h2>Number Line Attributes</h2>
+      <p>
+        Set up the number line by entering the domain and number of tick marks to display. Labels on the number
+          line can be edited or removed by clicking on the label.
+        </p>
+    </div>
     /*return <MuiThemeProvider theme={theme}>
       <div className="corespring-choice-config-root">
         <p>In this interaction, students plot points, line segments or rays on a number line.</p>
@@ -305,4 +318,4 @@ class Main extends React.Component {
   }
 }
 
-export default Main;
+export default withStyles(styles)(Main);
