@@ -104,8 +104,8 @@ export class Main extends React.Component {
         <Tab label="Design"></Tab>
         <Tab label="Scoring"></Tab>
       </Tabs>
-      {this.state.index === 0 && design}
-      {this.state.index === 1 && <PartialScoringConfig
+      {index === 0 && design}
+      {index === 1 && <PartialScoringConfig
         partialScoring={model.partialScoring}
         numberOfCorrectResponses={model.choices.filter(choice => choice.correct).length}
         onPartialScoringChange={onPartialScoringChanged} />}
