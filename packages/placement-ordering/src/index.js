@@ -7,6 +7,13 @@ export {
   withContext
 }
 
+/**
+ * TODO: 
+ * - move js to end of body pie-cli
+ * - shared components for config panels
+ * - polish config panel
+ */
+
 export default class CorespringOrdering extends HTMLElement {
 
   constructor() {
