@@ -9,51 +9,51 @@ export default class NumberTextField extends React.Component {
     this.state = {
       value: props.value
     };
+    this.onChange = this.onChange.bind(this);
   }
 
   componentWillReceiveProps(props) {
-    this.setState({
-      value: props.value
-    });
+    const v = parseInt(props.value, 10);
+    const value = isNaN(v) ? '' : props.value;
+    this.setState({ value });
   }
 
-  _clamp(value) {
-    if (this.props.max !== undefined) {
-      value = Math.min(value, this.props.max);
+  clamp(value) {
+    const { min, max } = this.props
+    if (max) {
+      value = Math.min(value, max);
     }
-    if (this.props.min !== undefined) {
-      value = Math.max(value, this.props.min);
+    if (min) {
+      value = Math.max(value, min);
     }
     return value;
   }
 
-  onChange(event, value) {
-    this.setState({
-      value: value
-    });
-    if (isNaN(value)) {
-      return;
-    } else if (value === '') {
-      this.props.onChange(event, value);
+  onChange(event) {
+    const value = event.target.value;
+    this.setState({ value });
+
+    if (isNaN(value) || value === '') {
+      this.props.onChange(event, undefined);
     } else {
-      let number = this._clamp(parseInt(value, 10));
+      let number = this.clamp(parseInt(value, 10));
       this.props.onChange(event, number);
     }
   }
 
   render() {
-    let { value, name, className } = this.props;
+    const { value, className } = this.props;
     return <TextField
-      name={name}
       className={className}
       value={this.state.value}
-      onChange={this.onChange.bind(this)} />;
+      onChange={this.onChange} />;
   }
 }
 
 NumberTextField.propTypes = {
-  name: PropTypes.string.isRequired,
   className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.number.isRequired
+  value: PropTypes.number,
+  min: PropTypes.number,
+  max: PropTypes.number
 }
