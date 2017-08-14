@@ -5,6 +5,7 @@ import { createStyleSheet, withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Checkbox from 'material-ui/Checkbox';
 import ChoiceConfig from './choice-config';
+import FeedbackConfig from '@pie-libs/feedback-config';
 import Langs from './langs';
 import MultiLangInput from './multi-lang-input';
 import PartialScoringConfig from './partial-scoring-config';
@@ -150,6 +151,7 @@ class Design extends React.Component {
         <Checkbox label="Remove all tiles after placing" checked={allMoveOnDrag} onChange={this.toggleAllOnDrag} />
         <ul className="choices-config-list">{model.correctResponse.map(this.toChoiceConfig)}</ul>
         <Button raised color="primary" onClick={this.onAddChoice.bind(this)} >Add a choice</Button>
+        <FeedbackConfig />
       </div>);
   }
 }

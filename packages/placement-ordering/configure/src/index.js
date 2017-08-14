@@ -18,7 +18,7 @@ export default class PlacementOrderingConfigReactElement extends HTMLElement {
     let detail = {
       update: this._model
     };
-    this.dispatchEvent(new CustomEvent('model.updated', {bubbles: true, detail}));
+    this.dispatchEvent(new CustomEvent('model.updated', { bubbles: true, detail }));
     this._rerender();
   }
 
@@ -27,7 +27,7 @@ export default class PlacementOrderingConfigReactElement extends HTMLElement {
     let detail = {
       update: this._model
     };
-    this.dispatchEvent(new CustomEvent('model.updated', {bubbles: true, detail}));
+    this.dispatchEvent(new CustomEvent('model.updated', { bubbles: true, detail }));
     this._rerender();
   }
 
@@ -36,7 +36,7 @@ export default class PlacementOrderingConfigReactElement extends HTMLElement {
     let detail = {
       update: this._model
     };
-    this.dispatchEvent(new CustomEvent('model.updated', {bubbles: true, detail}));
+    this.dispatchEvent(new CustomEvent('model.updated', { bubbles: true, detail }));
     this._rerender();
   }
 
@@ -46,18 +46,29 @@ export default class PlacementOrderingConfigReactElement extends HTMLElement {
     let detail = {
       update: this._model
     };
-    this.dispatchEvent(new CustomEvent('model.updated', {bubbles: true, detail}));
+    this.dispatchEvent(new CustomEvent('model.updated', { bubbles: true, detail }));
+    this._rerender();
+  }
+
+  onFeedbackChange(fb) {
+    this._model.feedback = fb;
+    let detail = {
+      update: this._model
+    };
+    this.dispatchEvent(new CustomEvent('model.updated', { bubbles: true, detail }));
     this._rerender();
   }
 
   _rerender() {
     let element = React.createElement(Main, {
       model: this._model,
-      onChoicesChanged: this.onChoicesChanged.bind(this),
-      onCorrectResponseChanged: this.onCorrectResponseChanged.bind(this),
-      onDefaultLangChanged: this.onDefaultLangChanged.bind(this),
-      onPartialScoringChange: this.onPartialScoringChange.bind(this)
+      onChoicesChanged: this.onChoicesChanged,
+      onCorrectResponseChanged: this.onCorrectResponseChanged,
+      onDefaultLangChanged: this.onDefaultLangChanged,
+      onPartialScoringChange: this.onPartialScoringChange,
+      onFeedbackChange: this.onFeedbackChange
     });
+
     ReactDOM.render(element, this);
   }
 
