@@ -39,5 +39,4 @@ export default class PartialScoringConfig extends React.Component {
       </Card>
     </div>;
   }
-
 }

@@ -5,171 +5,135 @@ import Button from 'material-ui/Button';
 import Decimal from 'decimal.js';
 import IconButton from 'material-ui/IconButton';
 import NumberTextField from './number-text-field';
+import PropTypes from 'prop-types';
 import React from 'react';
+import Typography from 'material-ui/Typography';
 import cloneDeep from 'lodash/cloneDeep';
-import each from 'lodash/each';
-import isEmpty from 'lodash/isEmpty';
 
 export const defaultPercent = 0.2;
 
+const RawRow = ({ classes, scorePercentage, numberOfCorrect, onRowChange, deletable, onDelete, maxAnswers }) => {
+
+  const onScoreChange = (event, scorePercentage) => onRowChange({ scorePercentage, numberOfCorrect });
+  const onNumberOfCorrectChange = (event, numberOfCorrect) => onRowChange({ scorePercentage, numberOfCorrect });
+
+  return <div className={classes.root}>
+    Award <NumberTextField
+      min={1}
+      max={99}
+      value={scorePercentage}
+      onChange={onScoreChange} />% for
+                <NumberTextField
+      min={1}
+      max={maxAnswers}
+      value={numberOfCorrect}
+      onChange={onNumberOfCorrectChange} />
+    correct answer{numberOfCorrect > 1 ? 's' : ''}.
+                {deletable && <IconButton
+      onClick={onDelete}><ActionDelete /></IconButton>}
+  </div>;
+};
+
+const rowStyles = createStyleSheet('Row', theme => ({
+  root: {
+    fontFamily: theme.typography.fontFamily
+  }
+}));
+
+const Row = withStyles(rowStyles)(RawRow);
+
+Row.propTypes = {
+  numberOfCorrect: PropTypes.number.isRequired,
+  scorePercentage: PropTypes.number.isRequired,
+  onRowChange: PropTypes.func.isRequired,
+  deletable: PropTypes.bool.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  maxAnswers: PropTypes.number.isRequired
+};
+
 export class ScoringConfigRow extends React.Component {
+
 
   constructor(props) {
     super(props);
-    this.state = this._toState(props);
+    this.toRow = this.toRow.bind(this);
+    this.addRow = this.addRow.bind(this);
   }
 
-  componentWillReceiveProps(props) {
-    this.setState(this._toState(props));
+  onRowChange(index, row) {
+    const { partialScoring } = this.props;
+    const ps = cloneDeep(partialScoring);
+    ps.splice(index, 1, row);
+    this.props.onChange(ps);
   }
 
-  _toState(props) {
-    return {
-      partialScoring: (props.partialScoring === undefined || isEmpty(props.partialScoring)) ? [
-        {
-          correctCount: '',
-          weight: ''
-        }
-      ] : props.partialScoring.map(({ correctCount, weight }) => {
-        return {
-          correctCount: correctCount,
-          weight: new Decimal(weight).mul(100).toNumber()
-        };
-      })
-    };
+  onDelete(index) {
+    const { partialScoring } = this.props;
+    const ps = cloneDeep(partialScoring);
+    ps.splice(index, 1);
+    this.props.onChange(ps);
   }
 
-  _fromState(partialScoring) {
-    return partialScoring.filter((partialScoring) => !this._isInProgress(partialScoring)).map((partialScoring) => {
-      return {
-        correctCount: partialScoring.correctCount,
-        weight: new Decimal(partialScoring.weight).div(100).toNumber()
-      };
+  toRow(ps, index) {
+    const { partialScoring, numberOfCorrectResponses } = this.props;
+    const onRowChange = this.onRowChange.bind(this, index);
+    const onDelete = this.onDelete.bind(this, index);
+    const maxAnswers = Math.max(1, numberOfCorrectResponses - 1);
+
+    return <Row
+      key={index}
+      {...ps}
+      onRowChange={onRowChange}
+      deletable={partialScoring && partialScoring.length > 1}
+      onDelete={onDelete}
+      maxAnswers={maxAnswers}
+    />;
+  }
+
+  addRow() {
+    const { partialScoring, onChange } = this.props;
+    const ps = cloneDeep(partialScoring);
+    ps.push({
+      numberOfCorrect: 1,
+      scorePercentage: 50
     });
-  }
-
-  _isInProgress({ correctCount, weight }) {
-    return correctCount === '' || weight === '';
-  }
-
-  addScoringScenario() {
-    let self = this;
-    function findMaxcorrectCountInScoringScenarios() {
-      let maxcorrectCount = 0;
-      each(self.state.partialScoring, (ps) => {
-        if (ps.correctCount > maxcorrectCount) {
-          maxcorrectCount = ps.correctCount;
-        }
-      });
-      return maxcorrectCount;
-    }
-
-    let maxcorrectCount = findMaxcorrectCountInScoringScenarios();
-    this.state.partialScoring.push(this._makeScenario(maxcorrectCount + 1, defaultPercent * 100));
-    this._updateScoring(this.state.partialScoring);
-  }
-
-
-  removeScoringScenario(index) {
-    this.state.partialScoring.splice(index, 1);
-    this._updateScoring(this.state.partialScoring);
-  }
-
-  _updateScoring(newScoring) {
-    this.props.onPartialScoringChange(this._fromState(newScoring));
-  }
-
-  _makeScenario(correctCount, weight) {
-    return {
-      correctCount: correctCount,
-      weight: weight
-    };
-  }
-
-  _onUpdate(index, value, key) {
-    let update = cloneDeep(this.state.partialScoring);
-    let newScoring = update[index];
-    this.state.partialScoring[index][key] = value;
-    try {
-      if (value === '') {
-        update.splice(index, 1);
-      } else {
-        newScoring[key] = parseFloat(value);
-      }
-      if (!this._isInProgress(newScoring)) {
-        this._updateScoring(update);
-      }
-    } catch (e) {
-      console.log('error', e);
-    }
-  }
-
-  onNumberOfCorrectChange(index, event, value) {
-    this._onUpdate(index, value, 'correctCount');
-  }
-
-  onPercentageChange(index, event, value) {
-    this._onUpdate(index, value, 'weight');
+    onChange(ps);
   }
 
   render() {
+    const { partialScoring, numberOfCorrectResponses } = this.props;
+    const maxAnswers = Math.max(1, numberOfCorrectResponses - 1);
+    const canAddRow = partialScoring.length < maxAnswers;
 
-    const { classes, numberOfCorrectResponses } = this.props;
-    const { partialScoring } = this.state;
-    const maxNumberOfScoringScenarios = Math.max(1, numberOfCorrectResponses - 1);
-    const canRemoveScoringScenario = partialScoring.length > 1;
-    const canAddScoringScenario = partialScoring.length < maxNumberOfScoringScenarios;
-
-    return (
-      <div>
-        {this.state.partialScoring &&
-          <ul className={classes.scenarios}>{
-            this.state.partialScoring.map((scenario, index) => {
-              return <li key={index}>
-                Award <NumberTextField
-                  id={`weight-${index}`}
-                  min={1}
-                  name={`weight-${index}`}
-                  max={99}
-                  value={scenario.weight}
-                  onChange={this.onPercentageChange.bind(this, index)} />% for
-                <NumberTextField
-                  id={`correct-count-${index}`}
-                  min={1}
-                  name={`correct-count-${index}`}
-                  max={maxNumberOfScoringScenarios}
-                  value={scenario.correctCount}
-                  onChange={this.onNumberOfCorrectChange.bind(this, index)} />
-                correct answer{scenario.correctCount > 1 ? 's' : ''}.
-                {canRemoveScoringScenario &&
-                  <IconButton
-                    onClick={this.removeScoringScenario.bind(this, index)}><ActionDelete /></IconButton>}
-              </li>
-            })
-          }</ul>}
-
-        {canAddScoringScenario &&
-          <div>
-            <hr />
-            <Button
-              raised
-              color="primary"
-              onClick={this.addScoringScenario.bind(this)}>Add another scenario</Button>
-          </div>}
-      </div>
-    );
+    return <div>{partialScoring.map(this.toRow)}
+      {canAddRow &&
+        <div>
+          <hr />
+          <Button
+            raised
+            color="primary"
+            onClick={this.addRow}>Add another scenario</Button>
+        </div>}
+    </div>;
   }
-
 }
 
-const styles = createStyleSheet('ScoringConfigRow', theme => {
-  return {
-    scenarios: {
-      listStyleType: 'none',
-      padding: '0',
-      margin: '0 0 0 15px'
-    }
-  }
-});
+const styles = createStyleSheet('ScoringConfigRow', theme => ({}));
 
-export default withStyles(styles)(ScoringConfigRow);
+const propTypes = {
+  numberOfCorrectResponses: PropTypes.number.isRequired,
+  partialScoring: PropTypes.arrayOf(PropTypes.shape({
+    numberOfCorrect: PropTypes.number.isRequired,
+    scorePercentage: PropTypes.number.isRequired
+  }))
+}
+
+ScoringConfigRow.propTypes = propTypes;
+
+const StyledConfigRow = withStyles(styles)(ScoringConfigRow);
+
+ScoringConfigRow.propTypes = Object.assign({ classes: PropTypes.object.isRequired }, propTypes);
+
+StyledConfigRow.propTypes = propTypes;
+
+export default StyledConfigRow;
