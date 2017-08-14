@@ -6,6 +6,11 @@ export default class PlacementOrderingConfigReactElement extends HTMLElement {
 
   constructor() {
     super();
+    this.onChoicesChanged = this.onChoicesChanged.bind(this);
+    this.onCorrectResponseChanged = this.onCorrectResponseChanged.bind(this);
+    this.onDefaultLangChanged = this.onDefaultLangChanged.bind(this);
+    this.onPartialScoringChange = this.onPartialScoringChange.bind(this);
+    this.onFeedbackChange = this.onFeedbackChange.bind(this);
   }
 
   set model(s) {
