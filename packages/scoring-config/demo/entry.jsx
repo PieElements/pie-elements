@@ -26,11 +26,17 @@ class Container extends React.Component {
 
   render() {
     return <div>
+      <em>Normal</em>
       <pre>{JSON.stringify(this.state.partialScoring, null, '  ')}</pre>
       <ScoringConfig
         partialScoring={this.state.partialScoring}
         numberOfCorrectResponses={4}
         onChange={(partialScoring) => this.setState({ partialScoring })} />
+      <em>Empty</em>
+      <ScoringConfig
+        partialScoring={this.state.partialScoring}
+        numberOfCorrectResponses={0}
+        onChange={() => { }} />
     </div>
   }
 }
