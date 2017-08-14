@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 
@@ -41,12 +42,18 @@ export default class NumberTextField extends React.Component {
   }
 
   render() {
-    let { value, name, style } = this.props;
-    return <TextField 
-      name={name} 
-      style={style}
-      value={this.state.value} 
+    let { value, name, className } = this.props;
+    return <TextField
+      name={name}
+      className={className}
+      value={this.state.value}
       onChange={this.onChange.bind(this)} />;
   }
+}
 
+NumberTextField.propTypes = {
+  name: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.number.isRequired
 }
