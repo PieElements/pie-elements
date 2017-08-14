@@ -9,18 +9,9 @@ import Langs from './langs';
 import MultiLangInput from './multi-lang-input';
 import PartialScoringConfig from './partial-scoring-config';
 import React from 'react';
+import ScoringConfig from '@pie-libs/scoring-config';
 import TextField from 'material-ui/TextField';
 import { withContext } from '@pie-elements/placement-ordering';
-
-// require('./main.less');
-
-// const muiTheme = getMuiTheme({
-//   palette: {
-//     primary1Color: green500,
-//     primary2Color: green700,
-//     primary3Color: grey400,
-//   }
-// });
 
 const styles = createStyleSheet('Main', theme => ({
 }));
@@ -163,6 +154,7 @@ class Design extends React.Component {
   }
 }
 
+
 class Main extends React.Component {
 
   constructor(props, context) {
@@ -173,18 +165,14 @@ class Main extends React.Component {
     this.onTabIndexChange = this.onTabIndexChange.bind(this);
   }
 
-  onPartialScoringChange(partialScoring) {
-    this.props.onPartialScoringChange(partialScoring);
-  }
-
-
-  onTabIndexChange(index) {
+  onTabIndexChange(event, index) {
+    console.log('arguments', arguments);
     this.setState({ index });
   }
 
   render() {
 
-    const { classes, model } = this.props;
+    const { classes, model, partialScoring, onPartialScoringChange } = this.props;
     const { index } = this.state;
 
 
@@ -196,7 +184,10 @@ class Main extends React.Component {
           <Tab label="Scoring" />
         </Tabs>
         {index === 0 && <Design {...this.props} />}
-        {index === 1 && <Scoring />}
+        {index === 1 && <ScoringConfig
+          partialScoring={model.partialScoring}
+          numberOfCorrectResponses={model.correctResponse.length}
+          onChange={onPartialScoringChange} />}
         {/* <Tabs>
           <Tab label="Design">
             <p>In Ordering, a student is asked to sequence events or inputs in a specific order.</p>

@@ -80,11 +80,13 @@ export class ScoringConfigRow extends React.Component {
     const onDelete = this.onDelete.bind(this, index);
     const maxAnswers = Math.max(1, numberOfCorrectResponses - 1);
 
+    //all partial score options can be deleted.
+
     return <Row
       key={index}
       {...ps}
       onRowChange={onRowChange}
-      deletable={partialScoring && partialScoring.length > 1}
+      deletable={true}
       onDelete={onDelete}
       maxAnswers={maxAnswers}
     />;
@@ -103,7 +105,7 @@ export class ScoringConfigRow extends React.Component {
   render() {
     const { partialScoring, numberOfCorrectResponses } = this.props;
     const maxAnswers = Math.max(1, numberOfCorrectResponses - 1);
-    const canAddRow = partialScoring.length < maxAnswers;
+    const canAddRow = partialScoring ? partialScoring.length < maxAnswers : true;
 
     return <div>{partialScoring.map(this.toRow)}
       {canAddRow &&
@@ -112,7 +114,7 @@ export class ScoringConfigRow extends React.Component {
           <Button
             raised
             color="primary"
-            onClick={this.addRow}>Add another scenario</Button>
+            onClick={this.addRow}>{partialScoring.length > 0 ? 'Add another scenario' : 'Add scenario'}</Button>
         </div>}
     </div>;
   }
@@ -126,6 +128,10 @@ const propTypes = {
     numberOfCorrect: PropTypes.number.isRequired,
     scorePercentage: PropTypes.number.isRequired
   }))
+}
+
+ScoringConfigRow.defaultProps = {
+  partialScoring: []
 }
 
 ScoringConfigRow.propTypes = propTypes;
