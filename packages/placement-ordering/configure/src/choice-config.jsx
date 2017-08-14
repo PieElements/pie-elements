@@ -3,7 +3,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 import Checkbox from 'material-ui/Checkbox';
 import { Delete } from 'material-ui-icons';
 import IconButton from 'material-ui/IconButton';
-import MultiLangInput from './multi-lang-input';
+import { MultiLangInput } from '@pie-libs/config-ui';
 import React from 'react';
 import { DragSource as dragSource } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
