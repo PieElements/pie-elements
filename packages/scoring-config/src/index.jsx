@@ -27,10 +27,11 @@ export default class PartialScoringConfig extends React.Component {
     const { numberOfCorrectResponses } = this.props;
 
     return <div>
-      <p>
+      <Typography>
         If there is more than one correct answer to this question, you may allow partial credit based
         on the number of correct answers submitted. This is optional.
-      </p>
+      </Typography>
+      <br />
       <Card>
         <CardContent>
           <Typography type="body1">Partial Scoring Rules</Typography>

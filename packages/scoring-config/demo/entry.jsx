@@ -32,6 +32,8 @@ class Container extends React.Component {
         partialScoring={this.state.partialScoring}
         numberOfCorrectResponses={4}
         onChange={(partialScoring) => this.setState({ partialScoring })} />
+      <br />
+      <br />
       <em>Empty</em>
       <ScoringConfig
         partialScoring={this.state.partialScoring}
