@@ -10,10 +10,12 @@ import { blue500, green500, green700, grey400, grey500, red500 } from 'material-
 import { createStyleSheet, getMuiTheme, withStyles } from 'material-ui/styles';
 
 import Button from 'material-ui/Button';
-import {Checkbox} from './ui';
+import { Checkbox } from './ui';
 import FeedbackConfig from '@pie-libs/feedback-config';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import NumberTextField from './number-text-field';
+import {
+  NumberTextField
+} from '@pie-libs/config-ui';
 import PointConfig from './point-config';
 import React from 'react';
 import TextField from 'material-ui/TextField';
@@ -28,7 +30,7 @@ const styles = createStyleSheet('Main', theme => ({
     display: 'flex'
   },
   minorTicks: {
-  
+
   },
   hide: {
     opacity: 0.5
@@ -74,7 +76,7 @@ const types = ['PF', 'PE', 'LFF', 'LEF', 'LFE', 'LEE', 'RFN', 'RFP', 'REN', 'REP
 
 class Main extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.onDomainBeginChange = this.domainChange.bind(this, domainBegin);
     this.onDomainEndChange = this.domainChange.bind(this, domainEnd);
@@ -89,9 +91,9 @@ class Main extends React.Component {
     this.deleteInitialView = this.deleteInitialView.bind(this);
     this.exhibitChanged = this.exhibitChanged.bind(this);
   }
-  
+
   domainChange(key, event, value) {
-    const {onDomainChange, model: { model : { config: { domain}}}} = this.props;
+    const { onDomainChange, model: { model: { config: { domain } } } } = this.props;
     let newValue = parseInt(value, 10);
     if (key === domainBegin) {
       domain[0] = newValue;
@@ -201,128 +203,128 @@ class Main extends React.Component {
     let correctResponse = cloneDeep(this.props.model.correctResponse).map(toGraphFormat);
     let initialView = cloneDeep(this.props.model.model.config.initialElements).map(toGraphFormat);
 
-    const {model: {model: {config}}} = this.props;
-    
+    const { model: { model: { config } } } = this.props;
+
     return <div className={classes.root}>
 
       <p>In this interaction, students plot points, line segments or rays on a number line.</p>
       <Card>
         <CardContent>
-      <Typography type="headline">Number Line Attributes</Typography>
-      <p>
-        Set up the number line by entering the domain and number of tick marks to display. 
+          <Typography type="headline">Number Line Attributes</Typography>
+          <p>
+            Set up the number line by entering the domain and number of tick marks to display.
         Labels on the number line can be edited or removed by clicking on the label.
       </p>
 
-      <Graph
-        elements={[]}
-        domain={this.getDomain()}
-        ticks={this.getTicks()}
-        interval={tickUtils.getInterval(this.getDomain(), this.getTicks())}
-        width={defaultConfig.width}
-        height={defaultConfig.height}
-        onAddElement={noOp}
-        onMoveElement={noOp}
-        onToggleElement={noOp}
-        onDeselectElements={noOp} />
-        <div>
-          Domain =
+          <Graph
+            elements={[]}
+            domain={this.getDomain()}
+            ticks={this.getTicks()}
+            interval={tickUtils.getInterval(this.getDomain(), this.getTicks())}
+            width={defaultConfig.width}
+            height={defaultConfig.height}
+            onAddElement={noOp}
+            onMoveElement={noOp}
+            onToggleElement={noOp}
+            onDeselectElements={noOp} />
+          <div>
+            Domain =
           <NumberTextField
-            value={config.domain[0]}
-            name={domainBegin}
-            style={numberFieldStyle}
-            onChange={this.onDomainBeginChange} /> to
-          <NumberTextField
-            value={config.domain[1]}
-            name={domainEnd}
-            style={numberFieldStyle}
-            onChange={this.onDomainEndChange} />
-        </div>
-        <div>
-        Number of Ticks:
-        <NumberTextField
-          value={config.tickFrequency}
-          name="numberOfTicks"
-          min={2}
-          style={numberFieldStyle}
-          onChange={this.props.onTickFrequencyChange.bind(this)} />
-          </div>
-         <div> 
-         <div className={classes.row}>
-           
-          <div className={classNames(classes.minorTicks, {[classes.hide]: !config.showMinorTicks })}>
-            Minor Tick Frequency:
-            <NumberTextField
-              name="snapPerTick"
+              value={config.domain[0]}
+              name={domainBegin}
               style={numberFieldStyle}
-              value={config.snapPerTick}
-              onChange={this.props.onSnapPerTickChange.bind(this)} />
+              onChange={this.onDomainBeginChange} /> to
+          <NumberTextField
+              value={config.domain[1]}
+              name={domainEnd}
+              style={numberFieldStyle}
+              onChange={this.onDomainEndChange} />
           </div>
-          <Checkbox 
-            checked={config.showMinorTicks}
-            label={'Show'}
-            onChange={this.props.onMinorTicksChanged.bind(this)} 
-            value={'showMinorTicks'} />
+          <div>
+            Number of Ticks:
+        <NumberTextField
+              value={config.tickFrequency}
+              name="numberOfTicks"
+              min={2}
+              style={numberFieldStyle}
+              onChange={this.props.onTickFrequencyChange.bind(this)} />
           </div>
-        </div>
-          <Button 
-            raised 
-            color="primary" 
+          <div>
+            <div className={classes.row}>
+
+              <div className={classNames(classes.minorTicks, { [classes.hide]: !config.showMinorTicks })}>
+                Minor Tick Frequency:
+            <NumberTextField
+                  name="snapPerTick"
+                  style={numberFieldStyle}
+                  value={config.snapPerTick}
+                  onChange={this.props.onSnapPerTickChange.bind(this)} />
+              </div>
+              <Checkbox
+                checked={config.showMinorTicks}
+                label={'Show'}
+                onChange={this.props.onMinorTicksChanged.bind(this)}
+                value={'showMinorTicks'} />
+            </div>
+          </div>
+          <Button
+            raised
+            color="primary"
             onClick={this.setDefaults} >Reset to default values</Button>
         </CardContent>
-        </Card>
-        <br/>
-        { !config.exhibitOnly && <Card>
-            <CardContent>
-            <Typography type="headline">Correct Response</Typography>
+      </Card>
+      <br />
+      {!config.exhibitOnly && <Card>
+        <CardContent>
+          <Typography type="headline">Correct Response</Typography>
           <p>
             Select answer type and place it on the number line. Intersecting points, line segments and/or rays will appear above the number
             line. <i>Note: A maximum of 20 points, line segments or rays may be plotted.</i>
           </p>
-          <NumberLineComponent 
+          <NumberLineComponent
             onMoveElement={this.moveCorrectResponse}
             onDeleteElements={this.deleteCorrectResponse}
             onAddElement={this.addCorrectResponse}
             answer={correctResponse}
             model={this.props.model.model} />
-            <hr/>
-            <Typography type="headline2">Available Types</Typography>
-              <p>Click on the input options to be displayed to the students. All inputs will display by default.</p>
-              <div className={classes.pointTypeChooser}>
-                <PointConfig
-                  onSelectionChange={this.availableTypesChange}
-                  selection={config.availableTypes} /> 
-              </div>
-            </CardContent>
-          </Card> }
-          <br/>
-          <Card>
-            <CardContent>
-              <Typography type="headline">Initial view/Make Exhibit</Typography>
-              <p>Use this number line to set a starting point, line segment or ray. This is optional.</p>
-              <p>This number line may also be used to make an exhibit number line, which can not be manipulated by a student.</p>
-              <NumberLineComponent
-                onMoveElement={this.moveInitialView}
-                onDeleteElements={this.deleteInitialView}
-                onAddElement={this.addInitialView}
-                answer={initialView}
-                model={this.props.model.model} />
-              <Checkbox
-                label="Make exhibit"
-                checked={config.exhibitOnly}
-                onChange={this.exhibitChanged}
-                value={'exhibitOnly'}
-              />
-            </CardContent>
-        </Card> 
+          <hr />
+          <Typography type="headline">Available Types</Typography>
+          <p>Click on the input options to be displayed to the students. All inputs will display by default.</p>
+          <div className={classes.pointTypeChooser}>
+            <PointConfig
+              onSelectionChange={this.availableTypesChange}
+              selection={config.availableTypes} />
+          </div>
+        </CardContent>
+      </Card>}
+      <br />
+      <Card>
+        <CardContent>
+          <Typography type="headline">Initial view/Make Exhibit</Typography>
+          <p>Use this number line to set a starting point, line segment or ray. This is optional.</p>
+          <p>This number line may also be used to make an exhibit number line, which can not be manipulated by a student.</p>
+          <NumberLineComponent
+            onMoveElement={this.moveInitialView}
+            onDeleteElements={this.deleteInitialView}
+            onAddElement={this.addInitialView}
+            answer={initialView}
+            model={this.props.model.model} />
+          <Checkbox
+            label="Make exhibit"
+            checked={config.exhibitOnly}
+            onChange={this.exhibitChanged}
+            value={'exhibitOnly'}
+          />
+        </CardContent>
+      </Card>
 
-        { !config.exhibitOnly && <br/>}
-        { !config.exhibitOnly && <FeedbackConfig
-              feedback={this.props.model.feedback}
-              onChange={this.props.onFeedbackChange.bind(this)}
-              defaultCorrectFeedback="Correct"
-              defaultPartialFeedback="Almost!"
-              defaultIncorrectFeedback="Incorrect" /> }
+      {!config.exhibitOnly && <br />}
+      {!config.exhibitOnly && <FeedbackConfig
+        feedback={this.props.model.feedback}
+        onChange={this.props.onFeedbackChange.bind(this)}
+        defaultCorrectFeedback="Correct"
+        defaultPartialFeedback="Almost!"
+        defaultIncorrectFeedback="Incorrect" />}
     </div>
   }
 }

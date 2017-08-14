@@ -8,7 +8,7 @@ import Button from 'material-ui/Button';
 import ChoiceConfig from './choice-config';
 import Langs from './langs';
 import { MuiThemeProvider } from 'material-ui/styles';
-import MultiLangInput from './multi-lang-input';
+import { MultiLangInput } from '@pie-libs/config-ui';
 import PartialScoringConfig from '@pie-libs/scoring-config/src/index.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
