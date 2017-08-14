@@ -23,7 +23,7 @@ const RawRow = ({ classes, scorePercentage, numberOfCorrect, onRowChange, deleta
       min={1}
       max={99}
       value={scorePercentage}
-      onChange={onScoreChange} />% for
+      onChange={onScoreChange} />% for&nbsp;
                 <NumberTextField
       className={classes.field}
       min={1}
