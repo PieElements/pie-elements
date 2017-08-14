@@ -2,15 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ScoringConfig from '../src/index';
 
-/*
-    <FeedbackConfig 
-      feedback={this.props.model.feedback} 
-      onChange={this.onFeedbackChange.bind(this)}
-      defaultCorrectFeedback="Correct"
-      defaultPartialFeedback="Almost!"
-      defaultIncorrectFeedback="Incorrect" />
-*/
-
 class Container extends React.Component {
   constructor(props) {
     super(props);

@@ -12,13 +12,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@pie-libs/config-ui": "^0.0.1",
     "decimal.js": "^7.2.3",
-    "less": "^2.7.2",
     "lodash": "^4.17.4",
     "material-ui": "1.0.0-beta.4",
     "material-ui-icons": "^1.0.0-alpha.19",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1",
     "react-tap-event-plugin": "^2.0.1"
   },
   "devDependencies": {
@@ -49,6 +48,7 @@
     "postcss-loader": "^2.0.6",
     "proxyquire": "^1.8.0",
     "react-addons-test-utils": "^15.6.0",
+    "react-dom": "^15.6.1",
     "release-helper": "github:pielabs/release-helper#v1.3.0",
     "sinon": "^2.3.8",
     "sinon-chai": "^2.12.0",

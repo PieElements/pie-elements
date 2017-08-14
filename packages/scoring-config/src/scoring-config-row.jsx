@@ -4,7 +4,7 @@ import ActionDelete from 'material-ui-icons/Delete';
 import Button from 'material-ui/Button';
 import Decimal from 'decimal.js';
 import IconButton from 'material-ui/IconButton';
-import NumberTextField from './number-text-field';
+import { NumberTextField } from '@pie-libs/config-ui';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Typography from 'material-ui/Typography';
@@ -19,11 +19,13 @@ const RawRow = ({ classes, scorePercentage, numberOfCorrect, onRowChange, deleta
 
   return <div className={classes.root}>
     Award <NumberTextField
+      className={classes.field}
       min={1}
       max={99}
       value={scorePercentage}
       onChange={onScoreChange} />% for
                 <NumberTextField
+      className={classes.field}
       min={1}
       max={maxAnswers}
       value={numberOfCorrect}
@@ -37,6 +39,9 @@ const RawRow = ({ classes, scorePercentage, numberOfCorrect, onRowChange, deleta
 const rowStyles = createStyleSheet('Row', theme => ({
   root: {
     fontFamily: theme.typography.fontFamily
+  },
+  field: {
+    width: '30px'
   }
 }));
 
