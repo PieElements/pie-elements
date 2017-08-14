@@ -6,7 +6,7 @@ import ActionFeedback from 'material-ui-icons/Feedback';
 import Checkbox from 'material-ui/Checkbox';
 import FeedbackMenu from './feedback-menu';
 import IconButton from 'material-ui/IconButton';
-import MultiLangInput from './multi-lang-input';
+import { MultiLangInput } from '@pie-libs/config-ui';
 import Radio from 'material-ui/Radio';
 import TextField from 'material-ui/TextField';
 import cloneDeep from 'lodash/cloneDeep';
