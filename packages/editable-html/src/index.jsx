@@ -10,7 +10,7 @@ import { stateToHTML } from 'draft-js-export-html';
 const style = {
   root: {
     border: '1px solid #cccccc',
-    borderRadius: '4px',
+    borderRadius: '0px',
     cursor: 'text'
   },
   editor: {
@@ -41,14 +41,18 @@ export class EditableHTML extends React.Component {
       hasText: currentContent.hasText(),
       editorState
     };
-    this.onStyle = this.onStyle.bind(this);
-    this.onChange = this.onChange.bind(this);
+    // this.onStyle = this.onStyle.bind(this);
+    this.onToggle = this.onToggle.bind(this);
+    this.onChange = this.onEditorStateChange.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
     this.onEditorBlur = this.onEditorBlur.bind(this);
     this.toggleHtml = this.toggleHtml.bind(this);
+    this.onEditorStateChange = this.onEditorStateChange.bind(this);
   }
 
-  onChange(editorState) {
+  onEditorStateChange(editorState) {
+    //editorState
+
     const currentContent = editorState.getCurrentContent();
     const markup = getMarkup(currentContent);
     this.setState({ editorState, hasText: currentContent.hasText() });
@@ -58,7 +62,7 @@ export class EditableHTML extends React.Component {
   handleKeyCommand(command) {
     const newState = RichUtils.handleKeyCommand(this.state.editorState, command);
     if (newState) {
-      this.onChange(newState)
+      this.onEditorStateChange(newState)
     }
   }
 
@@ -75,12 +79,37 @@ export class EditableHTML extends React.Component {
     clearTimeout(this.blurTimeoutId);
   }
 
-  onStyle(style) {
-    if (this.blurTimeoutId) {
-      clearTimeout(this.blurTimeoutId);
-      this.blurTimeoutId = undefined;
-    }
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, style));
+  // onStyle(style) {
+  //   if (this.blurTimeoutId) {
+  //     clearTimeout(this.blurTimeoutId);
+  //     this.blurTimeoutId = undefined;
+  //   }
+  //   this.onEditorStateChange(RichUtils.toggleInlineStyle(this.state.editorState, style));
+  // }
+  // onToggle(inlineStyle) {
+  //   this.onChange(
+  //     RichUtils.toggleInlineStyle(
+  //       this.state.editorState,
+  //       inlineStyle
+  //     )
+  //   );
+  // }
+
+  onToggle(inlineStyle) {
+    console.log('inlineStyle: ', inlineStyle);
+    const editorState = RichUtils.toggleInlineStyle(
+      this.state.editorState,
+      inlineStyle
+    );
+    this.onEditorStateChange(editorState);
+    // this.setState({ editorState }, () => {
+    // })
+    // this.onChange(
+    //   RichUtils.toggleBlockType(
+    //     this.state.editorState,
+    //     blockType
+    //   )
+    // );
   }
 
   toggleHtml() {
@@ -98,17 +127,17 @@ export class EditableHTML extends React.Component {
 
   render() {
     const { classes, placeholder, className } = this.props;
-    const { editorState, hasText } = this.state;
+    const { active, editorState, hasText } = this.state;
     return (
       <div className={className}>{
-        this.state.active ?
+        /*this.state.active*/ true ?
           <Active
             classes={classes}
-            onStyle={this.onStyle}
+            onToggle={this.onToggle}
             onBlur={this.onEditorBlur}
             editorState={this.state.editorState}
             handleKeyCommand={this.handleKeyCommand}
-            onChange={this.onChange} /> :
+            onChange={this.onEditorStateChange} /> :
           <Preview
             hasText={hasText}
             placeholder={placeholder}
@@ -126,10 +155,8 @@ const Preview = ({ onClick, hasText, markup, placeholder }) => {
     dangerouslySetInnerHTML={{ __html: html }}></div>;
 };
 
-const Active = ({ classes, onStyle, onBlur, editorState, handleKeyCommand, onChange }) => (
+const Active = ({ classes, onToggle, onBlur, editorState, handleKeyCommand, onChange }) => (
   <div className={classes.root}>
-    <Toolbar
-      onStyle={onStyle} />
     <div className={classes.editor}>
       <Editor
         onBlur={onBlur}
@@ -137,6 +164,7 @@ const Active = ({ classes, onStyle, onBlur, editorState, handleKeyCommand, onCha
         handleKeyCommand={handleKeyCommand}
         onChange={onChange} />
     </div>
+    <Toolbar onToggle={onToggle} editorState={editorState} />
   </div>
 )
 
