@@ -122,7 +122,7 @@ class Design extends React.Component {
         <p>In Ordering, a student is asked to sequence events or inputs in a specific order.</p>
         <p>After setting up the choices, drag and drop them into the correct order. Students will see a shuffled version of the choices.</p>
         <h2>Choices</h2>
-        <p>Add a label to choice area</p>
+        {/* <p>Add a label to choice area</p> */}
         <div>
           <Langs
             label="Choose language to edit"
