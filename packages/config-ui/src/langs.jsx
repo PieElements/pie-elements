@@ -23,9 +23,6 @@ const buttonStyles = createStyleSheet({
     marginLeft: '10px',
     minHeight: '24px',
     minWidth: '50px'
-    // boxShadow: '0 3px 5px 2px rgba(0,0,0, .30)',
-  },
-  label: {
   },
   icon: {
     fill: 'grey'
@@ -38,7 +35,7 @@ const RawSelectButton = (props) => {
     {...props}
     aria-owns="langs"
     aria-haspopup="true"
-    classes={{ root: classes.root, label: classes.label }}
+    classes={{ root: classes.root }}
   >{props.children}<KeyboardArrowDown className={classes.icon} /></Button>
 };
 
