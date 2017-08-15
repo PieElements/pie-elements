@@ -165,7 +165,7 @@ export class EditableHTML extends React.Component {
     const { active, editorState, hasText } = this.state;
     return (
       <div className={className}>{
-        /*this.state.active*/ true ?
+        this.state.active ?
           <Active
             classes={classes}
             onToggle={this.onToggle}
