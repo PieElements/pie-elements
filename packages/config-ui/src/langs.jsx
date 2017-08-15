@@ -2,17 +2,48 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import { createStyleSheet, withStyles } from 'material-ui/styles';
 
 import Button from 'material-ui/Button';
+import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown';
 import React from 'react';
 
-const styles = createStyleSheet('Langs', theme => {
-  return {
-    root: {
-      position: 'relative',
-      paddingTop: '10px',
-      paddingRight: '20px'
-    }
+const styles = createStyleSheet('Langs', theme => ({
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+    position: 'relative',
+    paddingTop: '10px',
+    paddingRight: '20px'
+  }
+}));
+
+
+const buttonStyles = createStyleSheet({
+  root: {
+    display: 'inline-flex',
+    padding: '5px',
+    marginLeft: '10px',
+    minHeight: '24px',
+    minWidth: '50px'
+    // boxShadow: '0 3px 5px 2px rgba(0,0,0, .30)',
+  },
+  label: {
+  },
+  icon: {
+    fill: 'grey'
   }
 });
+
+const RawSelectButton = (props) => {
+  const { classes } = props;
+  return <Button
+    {...props}
+    aria-owns="langs"
+    aria-haspopup="true"
+    classes={{ root: classes.root, label: classes.label }}
+  >{props.children}<KeyboardArrowDown className={classes.icon} /></Button>
+};
+
+const SelectButton = withStyles(buttonStyles)(RawSelectButton);
+
 
 class Langs extends React.Component {
 
@@ -47,7 +78,10 @@ class Langs extends React.Component {
     let { langs, selected, onChange, label, classes } = this.props;
     return <div className={classes.root}>
       <div>{label}</div>
-      <Button aria-owns="langs" aria-haspopup="true" onClick={this.onButtonClick}>{selected}</Button>
+      <SelectButton
+        aria-owns="langs"
+        aria-haspopup="true"
+        onClick={this.onButtonClick}>{selected}</SelectButton>
       <Menu id="langs"
         anchorEl={this.state.anchorEl}
         open={this.state.open}
