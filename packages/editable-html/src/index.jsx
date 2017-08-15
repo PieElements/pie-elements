@@ -1,11 +1,46 @@
-import { Editor, EditorState, RichUtils } from 'draft-js';
+import { AtomicBlockUtils, EditorState, RichUtils } from 'draft-js';
+import Editor, { composeDecorators } from 'draft-js-plugins-editor';
 
 import React from 'react';
 import Toolbar from './toolbar';
+// import createAlignmentPlugin from 'draft-js-alignment-plugin';
+// import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
+// import createDragNDropUploadPlugin from 'draft-js-drag-n-drop-upload-plugin';
+// import createFocusPlugin from 'draft-js-focus-plugin';
+// import createImagePlugin from 'draft-js-image-plugin';
+// import createResizeablePlugin from 'draft-js-resizeable-plugin';
 import injectSheet from 'react-jss';
 import isEmpty from 'lodash/isEmpty';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
+
+// const focusPlugin = createFocusPlugin();
+// const resizeablePlugin = createResizeablePlugin();
+// const blockDndPlugin = createBlockDndPlugin();
+// const alignmentPlugin = createAlignmentPlugin();
+// const { AlignmentTool } = alignmentPlugin;
+
+// const decorator = composeDecorators(
+//   resizeablePlugin.decorator,
+//   alignmentPlugin.decorator,
+//   focusPlugin.decorator,
+//   blockDndPlugin.decorator
+// );
+// const imagePlugin = createImagePlugin({ decorator });
+
+// const dragNDropFileUploadPlugin = createDragNDropUploadPlugin({
+//   handleUpload: mockUpload,
+//   addImage: imagePlugin.addImage,
+// });
+
+// const plugins = [
+//   dragNDropFileUploadPlugin,
+//   blockDndPlugin,
+//   focusPlugin,
+//   alignmentPlugin,
+//   resizeablePlugin,
+//   imagePlugin
+// ];
 
 const style = {
   root: {
@@ -126,7 +161,7 @@ export class EditableHTML extends React.Component {
   }
 
   render() {
-    const { classes, placeholder, className } = this.props;
+    const { classes, placeholder, className, onImageClick } = this.props;
     const { active, editorState, hasText } = this.state;
     return (
       <div className={className}>{
@@ -137,7 +172,8 @@ export class EditableHTML extends React.Component {
             onBlur={this.onEditorBlur}
             editorState={this.state.editorState}
             handleKeyCommand={this.handleKeyCommand}
-            onChange={this.onEditorStateChange} /> :
+            onChange={this.onEditorStateChange}
+            onImageClick={onImageClick} /> :
           <Preview
             hasText={hasText}
             placeholder={placeholder}
@@ -155,7 +191,7 @@ const Preview = ({ onClick, hasText, markup, placeholder }) => {
     dangerouslySetInnerHTML={{ __html: html }}></div>;
 };
 
-const Active = ({ classes, onToggle, onBlur, editorState, handleKeyCommand, onChange }) => (
+const Active = ({ classes, onToggle, onBlur, editorState, handleKeyCommand, onChange, onImageClick }) => (
   <div className={classes.root}>
     <div className={classes.editor}>
       <Editor
@@ -164,7 +200,10 @@ const Active = ({ classes, onToggle, onBlur, editorState, handleKeyCommand, onCh
         handleKeyCommand={handleKeyCommand}
         onChange={onChange} />
     </div>
-    <Toolbar onToggle={onToggle} editorState={editorState} />
+    <Toolbar
+      onToggle={onToggle}
+      onImageClick={onImageClick}
+      editorState={editorState} />
   </div>
 )
 

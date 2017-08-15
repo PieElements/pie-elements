@@ -3,12 +3,35 @@ import injectSheet from 'react-jss';
 
 const styles = {
   button: {
-    color: 'blue'
+    color: 'grey',
+    display: 'inline-flex',
+    padding: '2px',
+    '& :hover': {
+      color: 'black'
+    }
   },
   active: {
-    color: 'red'
+    color: 'black'
   }
 }
+
+const buttonStyles = {
+  root: Object.assign(styles.button, {
+    display: 'inline-flex'
+  })
+}
+
+export class RawButton extends React.Component {
+  render() {
+    const { classes, children, onClick } = this.props;
+    return <div
+      onClick={onClick}
+      className={classes.root}>{children}</div>;
+  }
+}
+
+export const Button = injectSheet(buttonStyles)(RawButton);
+
 
 export class StyleButton extends React.Component {
   constructor(props) {
