@@ -1,8 +1,19 @@
+import { createStyleSheet, withStyles } from 'material-ui/styles';
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import TextField from 'material-ui/TextField';
+import classNames from 'classnames';
 
-export default class NumberTextField extends React.Component {
+const styles = createStyleSheet('NumberTextField', theme => ({
+  root: {
+    width: '30px',
+    paddingLeft: '10px',
+    paddingRight: '10px',
+  }
+}));
+
+export class NumberTextField extends React.Component {
 
   constructor(props) {
     super(props);
@@ -42,18 +53,24 @@ export default class NumberTextField extends React.Component {
   }
 
   render() {
-    const { value, className } = this.props;
+    const { value, className, classes } = this.props;
+    const names = classNames(classes.root, className);
     return <TextField
-      className={className}
+      className={names}
+
       value={this.state.value}
       onChange={this.onChange} />;
   }
 }
 
-NumberTextField.propTypes = {
+const Out = withStyles(styles)(NumberTextField);
+
+Out.propTypes = {
   className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.number,
   min: PropTypes.number,
   max: PropTypes.number
 }
+
+export default Out;
