@@ -11,11 +11,10 @@ import { createStyleSheet, getMuiTheme, withStyles } from 'material-ui/styles';
 
 import Button from 'material-ui/Button';
 import { Checkbox } from './ui';
+import Domain from './domain';
 import FeedbackConfig from '@pie-libs/feedback-config';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {
-  NumberTextField
-} from '@pie-libs/config-ui';
+import { NumberTextField } from '@pie-libs/config-ui';
 import PointConfig from './point-config';
 import React from 'react';
 import TextField from 'material-ui/TextField';
@@ -42,9 +41,6 @@ const styles = createStyleSheet('Main', theme => ({
     margin: '20px 0'
   }
 }));
-
-const domainBegin = "domainBegin";
-const domainEnd = "domainEnd";
 
 const defaultConfig = {
   domain: [0, 5],
@@ -78,8 +74,6 @@ class Main extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onDomainBeginChange = this.domainChange.bind(this, domainBegin);
-    this.onDomainEndChange = this.domainChange.bind(this, domainEnd);
     this.setDefaults = this.setDefaults.bind(this);
     this.moveCorrectResponse = this.moveCorrectResponse.bind(this);
     this.deleteCorrectResponse = this.deleteCorrectResponse.bind(this);
@@ -92,16 +86,6 @@ class Main extends React.Component {
     this.exhibitChanged = this.exhibitChanged.bind(this);
   }
 
-  domainChange(key, event, value) {
-    const { onDomainChange, model: { model: { config: { domain } } } } = this.props;
-    let newValue = parseInt(value, 10);
-    if (key === domainBegin) {
-      domain[0] = newValue;
-    } else {
-      domain[1] = newValue;
-    }
-    onDomainChange(domain);
-  }
 
   getDomain() {
     let config = this.props.model.model.config;
@@ -191,7 +175,7 @@ class Main extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, onDomainChange } = this.props;
 
     const numberFieldStyle = {
       width: '50px',
@@ -227,19 +211,9 @@ class Main extends React.Component {
             onMoveElement={noOp}
             onToggleElement={noOp}
             onDeselectElements={noOp} />
-          <div>
-            Domain =
-          <NumberTextField
-              value={config.domain[0]}
-              name={domainBegin}
-              style={numberFieldStyle}
-              onChange={this.onDomainBeginChange} /> to
-          <NumberTextField
-              value={config.domain[1]}
-              name={domainEnd}
-              style={numberFieldStyle}
-              onChange={this.onDomainEndChange} />
-          </div>
+          <Domain
+            domain={config.domain}
+            onChange={onDomainChange} />
           <div>
             Number of Ticks:
         <NumberTextField
@@ -258,6 +232,7 @@ class Main extends React.Component {
                   name="snapPerTick"
                   style={numberFieldStyle}
                   value={config.snapPerTick}
+                  max={12}
                   onChange={this.props.onSnapPerTickChange.bind(this)} />
               </div>
               <Checkbox
