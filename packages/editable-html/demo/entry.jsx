@@ -1,3 +1,4 @@
+import CustomImageEditor from './custom-image-editor';
 import EditableHtml from '../src/index';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -38,11 +39,12 @@ class Demo extends React.Component {
   render() {
     const { us } = this.props;
     return <div>
-      Us:
+      <CustomImageEditor />
+      {/* Us:
     <input ref={r => this.fileInput = r} type="file" hidden></input>
       <EditableHtml {...us} onImageClick={this.onImageClick} />
       FB:
-  <RichEditorExample />
+  <RichEditorExample /> */}
     </div>
   }
 }
