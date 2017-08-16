@@ -1,4 +1,5 @@
 module.exports = {
+  devtool: 'cheap-eval-source-map',
   context: __dirname,
   entry: './entry.jsx',
   output: {
