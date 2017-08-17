@@ -1,7 +1,7 @@
 module.exports = {
   devtool: 'cheap-eval-source-map',
   context: __dirname,
-  entry: './entry.jsx',
+  entry: './new-entry.jsx',
   output: {
     filename: 'bundle.js',
     path: __dirname
