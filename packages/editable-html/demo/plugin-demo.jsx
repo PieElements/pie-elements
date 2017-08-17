@@ -17,81 +17,23 @@ import {
 
 import React from 'react';
 
-class ImgDemoEditor extends React.Component {
+class PluginDemoEditor extends React.Component {
 
   constructor(props) {
     super(props);
-    this.mediaBlockRenderer = this.mediaBlockRenderer.bind(this);
-  }
-
-  componentDidMount() {
-    this.editor.focus();
   }
 
 
-  mediaBlockRenderer(block) {
-    if (block.getType() === 'atomic') {
-      console.log('got atomic block: ', block);
-      return {
-        component: Image,
-        editable: false,
-        props: {
-          onDelete: this.onDeleteBlock
-        }
-      };
-    }
-    return null;
-  }
+
 
   render() {
     return <Editor
       editorState={this.props.editorState}
-      blockRendererFn={this.mediaBlockRenderer}
-      placeholder="Enter some text..."
       onChange={this.props.onChange}
       ref={r => this.editor = r} />
   }
 }
 
-export const Image = (props) => {
-  const { block, contentState } = props;
-  const e = block.getEntityAt(0);
-  const entity = contentState.getEntity(e);
-  const data = entity.getData();
-  const {
-    height,
-    src,
-    width,
-  } = data;
-
-  return <img src={src} height={height} width={width} />;
-};
-
-export const CustomContentStateConverter = (contentState) => {
-  // Correctly assign properties to images and links
-  const newBlockMap = contentState.getBlockMap().map(block => {
-    const entityKey = block.getEntityAt(0);
-    if (entityKey !== null) {
-      const entityBlock = contentState.getEntity(entityKey);
-      const entityType = entityBlock.getType();
-      switch (entityType) {
-        case 'IMAGE': {
-          const newBlock = block.merge({
-            type: 'atomic',
-            text: '',
-          });
-          return newBlock;
-        }
-        default:
-          return block;
-      }
-    }
-    return block;
-  });
-  const newContentState = contentState.set('blockMap', newBlockMap);
-
-  return newContentState;
-};
 
 ImgDemoEditor.fromHtml = (markup) => {
   const blocksFromHTML = convertFromHTML(markup);
