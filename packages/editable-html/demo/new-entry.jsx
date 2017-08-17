@@ -1,4 +1,5 @@
-import Demo from './img-demo';
+// import Demo from './img-demo';
+import Demo from './plugin-demo';
 import React from 'react';
 import ReactDOM from 'react-dom';
 

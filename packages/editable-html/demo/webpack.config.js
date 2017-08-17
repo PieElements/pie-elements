@@ -1,3 +1,5 @@
+const DashboardPlugin = require('webpack-dashboard/plugin');
+
 module.exports = {
   devtool: 'cheap-eval-source-map',
   context: __dirname,
@@ -22,5 +24,8 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx']
-  }
+  },
+  plugins: [
+    new DashboardPlugin()
+  ]
 }
