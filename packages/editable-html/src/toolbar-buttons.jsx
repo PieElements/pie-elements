@@ -33,13 +33,13 @@ export class RawButton extends React.Component {
 export const Button = injectSheet(buttonStyles)(RawButton);
 
 
-export class StyleButton extends React.Component {
+export class RawMarkButton extends React.Component {
   constructor(props) {
     super(props);
 
     this.onToggle = (e) => {
       e.preventDefault();
-      this.props.onToggle(this.props.style);
+      this.props.onToggle(this.props.mark);
     };
   }
 
@@ -57,4 +57,4 @@ export class StyleButton extends React.Component {
   }
 }
 
-export default injectSheet(styles)(StyleButton);
+export const MarkButton = injectSheet(styles)(RawMarkButton);

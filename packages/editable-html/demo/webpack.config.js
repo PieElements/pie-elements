@@ -1,4 +1,4 @@
-const DashboardPlugin = require('webpack-dashboard/plugin');
+// const DashboardPlugin = require('webpack-dashboard/plugin');
 
 module.exports = {
   devtool: 'cheap-eval-source-map',
@@ -16,7 +16,8 @@ module.exports = {
         options: {
           babelrc: false,
           presets: [
-            'react', 'es2015'
+            'react', 'es2015', 'stage-0'
+
           ]
         }
       }
@@ -26,6 +27,6 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   plugins: [
-    new DashboardPlugin()
+    // new DashboardPlugin()
   ]
 }

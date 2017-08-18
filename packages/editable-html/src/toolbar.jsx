@@ -1,4 +1,4 @@
-import StyleButton, { Button } from './style-button';
+import { Button, MarkButton } from './toolbar-buttons';
 
 import Bold from 'material-ui-icons/FormatBold';
 import Image from 'material-ui-icons/Image';
@@ -12,38 +12,55 @@ const toolbarStyle = {
     display: 'flex',
     cursor: 'pointer',
     background: 'var(--editable-html-toolbar-bg, #eeeeee)',
+    borderTop: 'solid 1px #cccccc',
     margin: '0px',
     padding: '2px'
   }
 }
 
 var INLINE_STYLES = [
-  { label: 'Bold', style: 'BOLD', icon: <Bold /> },
-  { label: 'Italic', style: 'ITALIC', icon: <Italic /> },
-  { label: 'Underline', style: 'UNDERLINE', icon: <Underlined /> }
+  { mark: 'b', label: 'Bold', icon: <Bold /> },
+  { mark: 'i', label: 'Italic', icon: <Italic /> },
+  { mark: 'u', label: 'Underline', icon: <Underlined /> }
 ];
 
-const RawToolbar = (props) => {
-  const { editorState, classes, onToggle, onImageClick } = props;
-  var currentStyle = props.editorState.getCurrentInlineStyle();
-  return (
-    <div className={classes.root}>
-      <div className={classes.inline}>
-        {INLINE_STYLES.map(type => {
+class RawToolbar extends React.Component {
 
-          return <StyleButton
-            key={type.label}
-            active={currentStyle.has(type.style)}
-            label={type.label}
-            onToggle={onToggle}
-            style={type.style}
-          >{type.icon}</StyleButton>
-        }
-        )}
-        <Button onClick={onImageClick}> <Image /></Button>
+  constructor(props) {
+    super(props);
+    this.hasMark = (type) => {
+      const { editorState } = this.props;
+      return editorState.marks.some(mark => mark.type == type)
+    }
+
+    this.hasBlock = (type) => {
+      const { editorState } = this.props;
+      return editorState.blocks.some(node => node.type == type)
+    }
+  }
+
+  render() {
+    const { editorState, classes, onToggleMark, onImageClick } = this.props;
+    // var currentStyle = props.editorState.getCurrentInlineStyle();
+    return (
+      <div className={classes.root}>
+        <div className={classes.inline}>
+          {INLINE_STYLES.map(type => {
+            const isActive = this.hasMark(type.mark);
+            return <MarkButton
+              key={type.label}
+              active={isActive}
+              label={type.label}
+              onToggle={onToggleMark}
+              mark={type.mark}
+            >{type.icon}</MarkButton>
+          }
+          )}
+          <Button onClick={onImageClick}> <Image /></Button>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default injectSheet(toolbarStyle)(RawToolbar);
