@@ -21,18 +21,23 @@ class EditableHTML extends React.Component {
 
     this.toggleHtml = () => {
       const { editorState } = this.state;
-      if (editorState === null) {
+      if (!editorState) {
         const newEditorState = htmlToState(this.props.markup);
-        console.log('raw:', Raw.serialize(newEditorState));
         this.setState({ editorState: newEditorState });
       } else {
         const markup = stateToHtml(editorState);
-        this.setState({ editorState: null });
-        this.props.onChange(markup);
+        this.setState({ editorState: undefined }, () => {
+          this.props.onChange(markup);
+        });
       }
     }
   }
 
+  componentWillReceiveProps(props) {
+    if (props.markup !== this.props.markup) {
+      this.setState({ editorState: undefined });
+    }
+  }
 
   render() {
     const { classes, placeholder, className, onImageClick, html } = this.props;
@@ -43,6 +48,7 @@ class EditableHTML extends React.Component {
           <TextEditor
             editorState={editorState}
             onChange={(editorState) => this.setState({ editorState })}
+            onBlur={this.toggleHtml}
             addImage={onImageClick} /> :
           <Preview
             hasText={true}

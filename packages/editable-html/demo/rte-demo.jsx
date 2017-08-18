@@ -68,7 +68,9 @@ class RteDemo extends React.Component {
 
       <h1>EditableHtml</h1>
 
-      <EditableHtml markup={this.state.markup} onChange={this.onMarkupChange} />
+      <EditableHtml
+        markup={this.state.markup}
+        onChange={this.onMarkupChange} />
 
       {/* <h1>Rte demo </h1>
       <hr /> */}

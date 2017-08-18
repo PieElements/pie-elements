@@ -5,11 +5,11 @@ import React from 'react';
 import Toolbar from './toolbar';
 import injectSheet from 'react-jss';
 
-const DEFAULT_NODE = 'paragraph'
+const DEFAULT_NODE = 'div'
 
 
 const defaultBlock = {
-  type: 'paragraph',
+  type: 'div',
   isVoid: false,
   data: {}
 }
@@ -25,6 +25,7 @@ const schema = {
   // },
   nodes: {
     image: Image,
+    div: props => <div {...props.attributes}>{props.children}</div>,
     paragraph: props => <p {...props.attributes}>{props.children}</p>
   },
   rules: [
@@ -105,6 +106,23 @@ const MARK_TAGS = {
 const RULES = [
   {
     deserialize(el, next) {
+      const name = el.tagName.toLowerCase();
+      if (name === 'div') {
+        return {
+          kind: 'block',
+          type: 'div',
+          nodes: next(el.childNodes)
+        }
+      }
+    },
+    serialize(object, children) {
+      if (object.kind === 'block' && object.type === 'div') {
+        return <div>{children}</div>;
+      }
+    }
+  },
+  {
+    deserialize(el, next) {
       const mark = MARK_TAGS[el.tagName.toLowerCase()]
       if (!mark) return
       return {
@@ -112,20 +130,52 @@ const RULES = [
         type: mark,
         nodes: next(el.childNodes)
       }
+    },
+    serialize(object, children) {
+      if (object.kind === 'mark' && MARK_TAGS[object.type]) {
+        return React.createElement(object.type, { children });
+      }
     }
   },
   {
     deserialize(el, next) {
       const name = el.tagName.toLowerCase();
+      const style = el.style || { width: '', height: '' };
+      const width = parseInt(style.width.replace('px', ''), 10) || null;
+      const height = parseInt(style.height.replace('px', ''), 10) || null;
       if (name === 'img') {
         return {
-          kind: 'block',
+          kind: 'inline',
           type: 'image',
           isVoid: true,
           data: {
-            src: el.getAttribute('src')
+            src: el.getAttribute('src'),
+            width, height
           }
         }
+      }
+    },
+    serialize(object, children) {
+      if (object.type === 'image') {
+        const { data } = object;
+        const src = data.get('src');
+        const width = data.get('width');
+        const height = data.get('height');
+        const style = {};
+        if (width) {
+          style.width = `${width}px`;
+        }
+
+        if (height) {
+          style.height = `${height}px`;
+        }
+
+        const props = {
+          src,
+          style
+        }
+
+        return <img {...props}></img>;
       }
     }
   }
@@ -206,7 +256,7 @@ class RichText extends React.Component {
 
 
   render() {
-    const { classes, editorState, addImage } = this.props;
+    const { classes, editorState, addImage, onBlur } = this.props;
     return (
       <div className={classes.root}>
         <Editor
@@ -215,6 +265,7 @@ class RichText extends React.Component {
           schema={schema}
           state={this.props.editorState}
           onChange={this.props.onChange}
+          onBlur={onBlur}
           onKeyDown={this.onKeyDown}
         />
         <Toolbar
@@ -261,8 +312,8 @@ class RichText extends React.Component {
 
 export const htmlToState = html => serializer.deserialize(html)
 
-export const stateToHtml = (html) => {
-  return '';
+export const stateToHtml = (state) => {
+  return serializer.serialize(state);
 }
 
 
