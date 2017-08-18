@@ -48,7 +48,7 @@ class EditableHTML extends React.Component {
           <TextEditor
             editorState={editorState}
             onChange={(editorState) => this.setState({ editorState })}
-            onBlur={this.toggleHtml}
+            onDone={this.toggleHtml}
             addImage={onImageClick} /> :
           <Preview
             hasText={true}

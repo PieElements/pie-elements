@@ -1,6 +1,7 @@
 import { Button, MarkButton } from './toolbar-buttons';
 
 import Bold from 'material-ui-icons/FormatBold';
+import Check from 'material-ui-icons/Check';
 import Image from 'material-ui-icons/Image';
 import Italic from 'material-ui-icons/FormatItalic';
 import React from 'react';
@@ -11,6 +12,7 @@ const toolbarStyle = {
   root: {
     display: 'flex',
     cursor: 'pointer',
+    justifyContent: 'space-between',
     background: 'var(--editable-html-toolbar-bg, #eeeeee)',
     borderTop: 'solid 1px #cccccc',
     margin: '0px',
@@ -40,7 +42,7 @@ class RawToolbar extends React.Component {
   }
 
   render() {
-    const { editorState, classes, onToggleMark, onImageClick } = this.props;
+    const { editorState, classes, onToggleMark, onImageClick, onDone } = this.props;
     // var currentStyle = props.editorState.getCurrentInlineStyle();
     return (
       <div className={classes.root}>
@@ -58,6 +60,7 @@ class RawToolbar extends React.Component {
           )}
           <Button onClick={onImageClick}> <Image /></Button>
         </div>
+        <Button onClick={onDone}><Check /></Button>
       </div>
     );
   }

@@ -256,7 +256,7 @@ class RichText extends React.Component {
 
 
   render() {
-    const { classes, editorState, addImage, onBlur } = this.props;
+    const { classes, editorState, addImage, onDone } = this.props;
     return (
       <div className={classes.root}>
         <Editor
@@ -265,14 +265,13 @@ class RichText extends React.Component {
           schema={schema}
           state={this.props.editorState}
           onChange={this.props.onChange}
-          onBlur={onBlur}
           onKeyDown={this.onKeyDown}
         />
         <Toolbar
           editorState={editorState}
           onToggleMark={this.onToggleMark}
-          onImageClick={() => addImage(this.insertImage)} />
-        {/* {this.renderEditor()} */}
+          onImageClick={() => addImage(this.insertImage)}
+          onDone={onDone} />
       </div>
     )
   }
