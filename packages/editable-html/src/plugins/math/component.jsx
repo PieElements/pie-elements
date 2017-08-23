@@ -8,25 +8,20 @@ export class MathComponent extends React.Component {
   constructor(props) {
     super(props);
     this.onChange = (latex) => {
-      console.log('latex: ', latex);
-      const { node } = this.props;
+      const { node, editor } = this.props;
       const { key } = node;
       const data = Data.create({ latex });
-      this.props.state.transform()
+      const newState = this.props.state.transform()
         .setNodeByKey(key, { data })
         .apply();
+      editor.onChange(newState);
     }
   }
 
   render() {
     const { node, state, editor, classes, attributes } = this.props;
     const latex = node.data.get('latex');
-    console.log('latex: ', latex);
-
-    return <div>
-
-      <MathInput latex={latex} onLatexChange={this.onChange} />
-    </div>;
+    return <MathInput latex={latex} onLatexChange={this.onChange} />;
   }
 }
 

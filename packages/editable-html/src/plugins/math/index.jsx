@@ -9,7 +9,18 @@ export default function MathPlugin(options) {
       nodes: {
         math: MathInput
       }
+    },
+    onBeforeInput: (event, data, state, editor) => {
+      //skip the core plugin's onBeforeInput handling.
+      console.log(event.target);
+      return undefined;
     }
+    // onKeyDown: (event, data, state, editor) => {
+    //   console.log('onKeyDown: ', event);
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    //   return state;
+    // }
   }
 }
 
@@ -22,7 +33,7 @@ export const serialization = [
       }
 
       const tagName = el.tagName.toLowerCase();
-      const hasMathJaxAttribute = el.getAttribute('mathjax') !== undefined;
+      const hasMathJaxAttribute = el.getAttribute('mathjax') !== undefined || el.getAttribute('data-mathjax') !== undefined;
 
       if (tagName === 'span' && hasMathJaxAttribute) {
         return {
@@ -37,7 +48,7 @@ export const serialization = [
     },
     serialize(object, children) {
       if (object.type === 'math') {
-        return <span mathjax="">{object.data.latex}</span>;
+        return <span data-mathjax="">{object.data.get('latex')}</span>;
       }
     }
   }
