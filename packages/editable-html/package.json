@@ -23,7 +23,8 @@
     "react": "^15.6.1",
     "react-jss": "^7.0.2",
     "react-portal": "^3.1.0",
-    "slate": "^0.21.2"
+    "slate": "^0.21.2",
+    "@pie-libs/math-input": "PieLabs/math-input"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
