@@ -11,23 +11,24 @@ export default function MathPlugin(options) {
       }
     },
     onBeforeInput: (event, data, state, editor) => {
+      console.log('>>> math plugin on focus..')
       //skip the core plugin's onBeforeInput handling.
-      console.log(event.target);
-      return undefined;
+      // event.preventDefault();
+      // event.stopPropagation();
+      // return state;
+    },
+    onBlur: (event, data, state, editor) => {
+      console.log('>>> math plugin on blur..')
+      // event.preventDefault();
+      // event.stopPropagation();
+      // return state;
     }
-    // onKeyDown: (event, data, state, editor) => {
-    //   console.log('onKeyDown: ', event);
-    //   event.preventDefault();
-    //   event.stopPropagation();
-    //   return state;
-    // }
   }
 }
 
 export const serialization = [
   {
     deserialize(el, next) {
-      console.log(el, el.nodeType);
       if (el.nodeType === TEXT_NODE) {
         return;
       }
