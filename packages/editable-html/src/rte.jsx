@@ -198,7 +198,7 @@ class RichText extends React.Component {
 
 
   render() {
-    const { classes, editorState, addImage, onDone } = this.props;
+    const { classes, editorState, addImage, onDone, readOnly } = this.props;
     return (
       <div className={classes.root}>
         <Editor
@@ -206,15 +206,16 @@ class RichText extends React.Component {
           placeholder={'Enter some rich text...'}
           schema={schema}
           plugins={plugins}
+          readOnly={readOnly}
           state={this.props.editorState}
           onChange={this.props.onChange}
           onKeyDown={this.onKeyDown}
         />
-        <Toolbar
+        {!readOnly && <Toolbar
           editorState={editorState}
           onToggleMark={this.onToggleMark}
           onImageClick={() => addImage(this.insertImage)}
-          onDone={onDone} />
+          onDone={onDone} />}
       </div>
     )
   }
@@ -222,9 +223,8 @@ class RichText extends React.Component {
 
 export const htmlToState = html => serializer.deserialize(html)
 
-export const stateToHtml = (state) => {
-  return serializer.serialize(state);
-}
+export const stateToHtml = (state) => serializer.serialize(state);
+
 
 const style = {
   root: {

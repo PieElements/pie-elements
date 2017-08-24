@@ -1,5 +1,9 @@
 import MathInput from './component';
 import React from 'react';
+import debug from 'debug';
+
+const log = debug('plugins:math');
+
 
 const TEXT_NODE = 3;
 
@@ -9,19 +13,6 @@ export default function MathPlugin(options) {
       nodes: {
         math: MathInput
       }
-    },
-    onBeforeInput: (event, data, state, editor) => {
-      console.log('>>> math plugin on focus..')
-      //skip the core plugin's onBeforeInput handling.
-      // event.preventDefault();
-      // event.stopPropagation();
-      // return state;
-    },
-    onBlur: (event, data, state, editor) => {
-      console.log('>>> math plugin on blur..')
-      // event.preventDefault();
-      // event.stopPropagation();
-      // return state;
     }
   }
 }

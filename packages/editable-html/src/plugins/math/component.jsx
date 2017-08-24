@@ -2,7 +2,10 @@ import { Data, findDOMNode } from 'slate';
 
 import MathInput from '@pie-libs/math-input';
 import React from 'react';
+import debug from 'debug';
 import injectSheet from 'react-jss';
+
+const log = debug('plugins:math:component');
 
 export class MathComponent extends React.Component {
 
@@ -16,58 +19,17 @@ export class MathComponent extends React.Component {
       const { node, editor } = this.props;
       const { key } = node;
       const data = Data.create({ latex });
-      const newState = this.props.state.transform()
+      const newState = this.props.editor.getState().transform()
         .setNodeByKey(key, { data })
         .apply();
       editor.onChange(newState);
     }
 
-    this.onFocus = (event) => {
-      console.log(">>>>>>>>>>>>>> disable blur");
-      this.setState({ disableBlur: true });
-      setTimeout(() => {
-        this.setState({ disableBlur: false });
-      }, 200)
+    this.onClick = (event) => {
+      log('--------> onClick');
+      event.preventDefault();
+      event.stopPropagation();
     }
-
-    this.onBlur = (event) => {
-
-      // const document = this.props.state.get('document');
-      // const rootNode = node = findDOMNode(this.props.state.get('document'));
-
-      // console.log('!! rootNode: ', rootNode);
-      // console.log('!! this.props: ', this.props);
-      // console.log('!! relatedTarget: ', event.relatedTarget);
-      const blurSrc = event.nativeEvent.path[0];
-
-      console.log('blur src: ', blurSrc);
-
-      if (this.mathInput.contains(blurSrc)) {
-        event.preventDefault();
-        event.stopPropagation();
-        const newState = this.props.state.transform()
-          .blur()
-          .apply();
-        this.props.editor.onChange(newState);
-      }
-      // if(event.nativeEvent.path)
-      // if (this.state.disableBlur) {
-      //   console.log(' >>>>>>>>>>> [MathComponent] blur disabled!');
-      //   //   this.props.editor.blur();
-      //   // event.preventDefault();
-      //   // event.stopPropagation();
-      //   //   event.stopImmediatePropagation();
-      //   this.setState({ disableBlur: false });
-      //   const newState = this.props.state.transform()
-      //     .blur()
-      //     .apply();
-      //   this.props.editor.onChange(newState);
-      // }
-    }
-  }
-
-  componentDidUpdate() {
-    console.log('componentDidUpdate: MathComponent');
   }
 
   render() {
@@ -78,7 +40,8 @@ export class MathComponent extends React.Component {
       latex={latex}
       onLatexChange={this.onChange}
       onBlur={this.onBlur}
-      onFocus={this.onFocus} />;
+      onFocus={this.onFocus}
+      onInputClick={this.onClick} />;
   }
 }
 

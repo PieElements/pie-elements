@@ -2,7 +2,10 @@ import TextEditor, { htmlToState, stateToHtml } from './rte';
 
 import { Raw } from 'slate';
 import React from 'react';
+import debug from 'debug';
 import injectSheet from 'react-jss';
+
+const log = debug('editable-html');
 
 const Preview = ({ onClick, hasText, markup, placeholder }) => {
   const html = hasText ? markup() : placeholder;
@@ -15,46 +18,47 @@ class EditableHTML extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
-      editorState: null
+      editorState: htmlToState(props.markup),
+      readOnly: true
     }
 
-    this.toggleHtml = () => {
-      const { editorState } = this.state;
-      if (!editorState) {
-        const newEditorState = htmlToState(this.props.markup);
-        this.setState({ editorState: newEditorState });
-      } else {
-        const markup = stateToHtml(editorState);
-        this.setState({ editorState: undefined }, () => {
-          this.props.onChange(markup);
-        });
+    this.onClick = () => {
+      log('onClick');
+      if (this.state.readOnly === true) {
+        this.setState({ readOnly: false });
       }
+    }
+
+    this.onEditingDone = () => {
+      this.setState({ readOnly: true });
+      const markup = stateToHtml(this.state.editorState);
+      this.props.onChange(markup);
     }
   }
 
   componentWillReceiveProps(props) {
     if (props.markup !== this.props.markup) {
-      this.setState({ editorState: undefined });
+      this.setState({
+        readOnly: true
+      });
     }
   }
 
   render() {
     const { classes, placeholder, className, onImageClick, html } = this.props;
-    const { editorState } = this.state;
+    const { editorState, readOnly } = this.state;
+    log('[render] readOnly: ', readOnly);
     return (
-      <div className={className}>{
-        editorState ?
-          <TextEditor
-            editorState={editorState}
-            onChange={(editorState) => this.setState({ editorState })}
-            onDone={this.toggleHtml}
-            addImage={onImageClick} /> :
-          <Preview
-            hasText={true}
-            placeholder={placeholder}
-            markup={() => this.props.markup}
-            onClick={this.toggleHtml} />}
+      <div className={className}
+        onClick={this.onClick}>
+        <TextEditor
+          readOnly={readOnly}
+          editorState={editorState}
+          onChange={(editorState) => this.setState({ editorState })}
+          onDone={this.onEditingDone}
+          addImage={onImageClick} />
       </div>
     );
   }

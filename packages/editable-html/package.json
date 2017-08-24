@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@pie-libs/math-input": "PieLabs/math-input",
+    "debug": "^3.0.0",
     "draft-js": "^0.10.1",
     "draft-js-alignment-plugin": "^2.0.0-rc4",
     "draft-js-drag-n-drop-plugin": "^2.0.0-rc4",
@@ -23,8 +25,7 @@
     "react": "^15.6.1",
     "react-jss": "^7.0.2",
     "react-portal": "^3.1.0",
-    "slate": "^0.21.2",
-    "@pie-libs/math-input": "PieLabs/math-input"
+    "slate": "^0.21.2"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",

@@ -4,7 +4,10 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import Portal from 'react-portal';
 import React from 'react';
 import classNames from 'classnames';
+import debug from 'debug';
 import injectSheet from 'react-jss';
+
+const log = debug('plugins:image:component');
 
 const RawMiniButton = ({ classes, children, first, last, onClick }) => {
   const className = classNames(classes.root, first && classes.first, last && classes.last);
