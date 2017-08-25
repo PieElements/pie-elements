@@ -1,7 +1,11 @@
 import { createStyleSheet, withStyles } from 'material-ui/styles';
 
+import EditableHtml from '@pie-libs/editable-html';
 import React from 'react';
 import TextField from 'material-ui/TextField';
+import debug from 'debug';
+
+const log = debug('config-ui:multi-lang-input');
 
 export class MultiLangInput extends React.Component {
   constructor(props) {
@@ -15,6 +19,10 @@ export class MultiLangInput extends React.Component {
     onChange(update, lang);
   }
 
+  onImageClick() {
+    log('onImageClick');
+  }
+
   render() {
 
     const { lang, value, textFieldLabel, classes } = this.props;
@@ -23,11 +31,15 @@ export class MultiLangInput extends React.Component {
       value : (value.find(t => t.lang === lang) || {}).value || '';
 
     return <div className={classes.root}>
-      <TextField
+      <EditableHtml
+        markup={renderValue}
+        onChange={this.onChange}
+        onImageClick={this.addImage} />
+      {/* <TextField
         label={textFieldLabel}
         value={renderValue}
         className={classes.textField}
-        onChange={this.onChange} />
+        onChange={this.onChange} /> */}
     </div>;
   }
 }
