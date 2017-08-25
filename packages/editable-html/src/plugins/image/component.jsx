@@ -1,6 +1,6 @@
 import { Data, Raw } from 'slate';
 
-import DeleteIcon from 'material-ui-icons/Delete';
+import { Delete } from '../../components/buttons';
 import Portal from 'react-portal';
 import React from 'react';
 import classNames from 'classnames';
@@ -36,14 +36,6 @@ const miniButtonStyles = {
 }
 
 const MiniButton = injectSheet(miniButtonStyles)(RawMiniButton);
-
-const Delete = ({ className, onClick }) => (
-  <div
-    onClick={onClick}
-    className={className}>
-    <DeleteIcon />
-  </div>
-);
 
 export class RawImage extends React.Component {
 
@@ -183,15 +175,9 @@ const styles = {
     border: 'solid 1px green'
   },
   delete: {
-    cursor: 'pointer',
     position: 'absolute',
-    transition: 'opacity 200ms linear',
     right: 0,
-    '&:hover': {
-      opacity: 0.5
-    }
   }
-
 }
 
 export default injectSheet(styles)(RawImage);

@@ -1,5 +1,6 @@
 import { Data, findDOMNode } from 'slate';
 
+import { Delete } from '../../components/buttons';
 import MathInput from '@pie-libs/math-input';
 import React from 'react';
 import debug from 'debug';
@@ -30,25 +31,47 @@ export class MathComponent extends React.Component {
       event.preventDefault();
       event.stopPropagation();
     }
+
+    this.onDeleteClick = (event) => {
+      log('delete click');
+      event.preventDefault();
+      event.stopPropagation();
+
+      const { node, editor } = this.props;
+
+      const newState = editor.getState()
+        .transform()
+        .removeNodeByKey(node.key)
+        .apply();
+      editor.onChange(newState);
+    }
   }
 
   render() {
     const { node, state, editor, classes, attributes } = this.props;
     const latex = node.data.get('latex');
-    log('[render] readOnly: ', editor.props.readOnly);
-    return <MathInput
-      innerRef={r => this.mathInput = r}
-      latex={latex}
-      onLatexChange={this.onChange}
-      onBlur={this.onBlur}
-      onFocus={this.onFocus}
-      onInputClick={this.onClick}
-      readOnly={editor.props.readOnly === true} />;
+    const readOnly = editor.props.readOnly === true;
+    log('[render] readOnly: ', readOnly);
+    return <div className={classes.root}>
+      <MathInput
+        innerRef={r => this.mathInput = r}
+        latex={latex}
+        onLatexChange={this.onChange}
+        onBlur={this.onBlur}
+        onFocus={this.onFocus}
+        onInputClick={this.onClick}
+        readOnly={readOnly} />
+      {!readOnly && <Delete onClick={this.onDeleteClick} />}
+    </div>;
+
   }
 }
 
 const styles = {
-
+  root: {
+    display: 'inline-flex',
+    alignItems: 'center'
+  }
 };
 
 export default injectSheet(styles)(MathComponent);
