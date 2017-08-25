@@ -127,6 +127,8 @@ export class RawImage extends React.Component {
     const src = node.data.get('src');
     const width = node.data.get('width');
     const height = node.data.get('height');
+    //TODO: There's probably a better way to get this info.
+    const readOnly = editor.props.readOnly;
 
     const style = {
       width: width ? `${width}px` : 'auto',
@@ -148,7 +150,7 @@ export class RawImage extends React.Component {
           </div>
         </div>
       </Portal>
-      <Delete className={classes.delete} onClick={this.onDelete} />
+      {!readOnly && <Delete className={classes.delete} onClick={this.onDelete} />}
       <img
         src={src}
         {...attributes}
@@ -166,11 +168,11 @@ const styles = {
   },
   floatingButtonRow: {
     backgroundColor: 'white',
-    borderRadius: '4px',
+    borderRadius: '1px',
     display: 'flex',
     padding: '10px',
     border: 'solid 1px #eeeeee',
-    boxShadow: '0px 2px 8px 0px rgba(0,0,0,0.75)'
+    boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)'
   },
   root: {
     position: 'relative',

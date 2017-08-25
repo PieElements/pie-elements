@@ -7,8 +7,14 @@ import React from 'react';
 class RteDemo extends React.Component {
 
   puppy = 'https://s-media-cache-ak0.pinimg.com/736x/ed/0e/68/ed0e68d1f8a0a1f4b5582ed180cce761--puppy-training-tips-images-photos.jpg';
-  markup = `<div>​​​<span mathjax="">96\\times884</span>​<div>`;
-  //markup = `<div><b>hi</b> there<img src="${this.puppy}"></img></div>`;
+  markup = `<div>​​​
+    <span mathjax="">96\\times884</span>​
+    <b>hi</b> there
+    <div>
+      <img src="${this.puppy}"></img> 
+    </div>
+  <div>`;
+  //markup = `<div>
 
   onChange = (editorState) => {
     console.log('editorState changed', Raw.serialize(editorState));

@@ -26,7 +26,7 @@ export class MathComponent extends React.Component {
     }
 
     this.onClick = (event) => {
-      log('--------> onClick');
+      log('--------> onClick, preventDefault and stopPropagation');
       event.preventDefault();
       event.stopPropagation();
     }
@@ -35,13 +35,15 @@ export class MathComponent extends React.Component {
   render() {
     const { node, state, editor, classes, attributes } = this.props;
     const latex = node.data.get('latex');
+    log('[render] readOnly: ', editor.props.readOnly);
     return <MathInput
       innerRef={r => this.mathInput = r}
       latex={latex}
       onLatexChange={this.onChange}
       onBlur={this.onBlur}
       onFocus={this.onFocus}
-      onInputClick={this.onClick} />;
+      onInputClick={this.onClick}
+      readOnly={editor.props.readOnly === true} />;
   }
 }
 
