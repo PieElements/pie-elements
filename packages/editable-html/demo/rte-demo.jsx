@@ -3,6 +3,9 @@ import TextEditor, { htmlToState, stateToHtml } from '../src/rte';
 import EditableHtml from '../src';
 import { Raw } from 'slate';
 import React from 'react';
+import debug from 'debug';
+
+const log = debug('editable-html:rte-demo');
 
 class RteDemo extends React.Component {
 
@@ -14,11 +17,6 @@ class RteDemo extends React.Component {
       <img src="${this.puppy}"></img> 
     </div>
   <div>`;
-
-  onChange = (editorState) => {
-    console.log('editorState changed', Raw.serialize(editorState));
-    this.setState({ editorState });
-  }
 
   state = {
     editorState: htmlToState(this.markup),
@@ -34,7 +32,7 @@ class RteDemo extends React.Component {
       this.state.insertImage(dataURL);
       this.setState({ insertImage: null });
     };
-    console.log('call readAsDataUrl...', file);
+    log('call readAsDataUrl...', file);
     reader.readAsDataURL(file);
   }
 
@@ -60,7 +58,7 @@ class RteDemo extends React.Component {
   }
 
   onMarkupChange = (markup) => {
-    console.log('new markup: ', markup);
+    log('new markup: ', markup);
     this.setState({ markup });
   }
 
@@ -74,6 +72,7 @@ class RteDemo extends React.Component {
         onChange={this.onMarkupChange}
         onImageClick={this.addImage} />
       <input type="file" hidden ref={r => this.fileInput = r}></input>
+      <pre style={{ maxWidth: '100%' }}>{this.state.markup}</pre>
     </div>;
   }
 }

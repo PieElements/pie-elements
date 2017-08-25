@@ -2,10 +2,12 @@ import { Button, MarkButton } from './toolbar-buttons';
 
 import Bold from 'material-ui-icons/FormatBold';
 import Check from 'material-ui-icons/Check';
+import Code from 'material-ui-icons/Code';
 import Functions from 'material-ui-icons/Functions';
 import Image from 'material-ui-icons/Image';
 import Italic from 'material-ui-icons/FormatItalic';
 import React from 'react';
+import Strikethrough from 'material-ui-icons/FormatStrikethrough';
 import Underlined from 'material-ui-icons/FormatUnderlined';
 import injectSheet from 'react-jss';
 
@@ -22,9 +24,11 @@ const toolbarStyle = {
 }
 
 var INLINE_STYLES = [
-  { mark: 'b', label: 'Bold', icon: <Bold /> },
-  { mark: 'i', label: 'Italic', icon: <Italic /> },
-  { mark: 'u', label: 'Underline', icon: <Underlined /> }
+  { mark: 'bold', label: 'Bold', icon: <Bold /> },
+  { mark: 'italic', label: 'Italic', icon: <Italic /> },
+  { mark: 'underline', label: 'Underline', icon: <Underlined /> },
+  { mark: 'code', label: 'code', icon: <Code /> },
+  { mark: 'strikethrough', label: 'Strikethrough', icon: <Strikethrough /> }
 ];
 
 class RawToolbar extends React.Component {

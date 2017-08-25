@@ -67,7 +67,8 @@ export class RawImage extends React.Component {
       event.preventDefault();
       event.stopPropagation();
 
-      const updatedState = state.transform()
+      const updatedState = state
+        .transform()
         .removeNodeByKey(node.key)
         .apply();
 
