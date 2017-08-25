@@ -1,3 +1,4 @@
+import { Inline } from 'slate';
 import MathInput from './component';
 import React from 'react';
 import debug from 'debug';
@@ -16,6 +17,16 @@ export default function MathPlugin(options) {
     }
   }
 }
+
+export const inlineMath = () => Inline.create({
+  kind: 'inline',
+  type: 'math',
+  isVoid: true,
+  data: {
+    latex: '1 + 1 = 2'
+  }
+});
+
 
 export const serialization = [
   {

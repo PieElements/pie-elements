@@ -1,6 +1,6 @@
 import { Block, Editor, Html, Raw } from 'slate';
 import ImagePlugin, { serialization as imageSerialization } from './plugins/image/index';
-import MathPlugin, { serialization as mathSerialization } from './plugins/math/index';
+import MathPlugin, { inlineMath, serialization as mathSerialization } from './plugins/math/index';
 
 import Image from './plugins/image/component';
 import React from 'react';
@@ -142,58 +142,49 @@ class RichText extends React.Component {
 
   constructor(props) {
     super(props);
-    this.insertImage = this.insertImage.bind(this);
-    this.onToggleMark = this.onToggleMark.bind(this);
-  }
-
-  insertImage(src) {
-    const { editorState, onChange } = this.props;
-    const transform = editorState.transform()
-
-    // if (target) transform.select(target)
-
-    const update = transform
-      .insertBlock({
-        type: 'image',
-        isVoid: true,
-        data: { src }
-      })
-      .apply();
-
-    onChange(update);
-  }
 
 
-  // onKeyDown = (e, data, state) => {
-  //   if (!data.isMod) return
-  //   let mark
+    this.insertImage = (src) => {
+      const { editorState, onChange } = this.props;
+      const transform = editorState.transform()
 
-  //   switch (data.key) {
-  //     case 'b':
-  //       mark = 'b'
-  //       break
-  //     default:
-  //       return
-  //   }
+      const update = transform
+        .insertBlock({
+          type: 'image',
+          isVoid: true,
+          data: { src }
+        })
+        .apply();
 
-  //   state = state
-  //     .transform()
-  //     .toggleMark(mark)
-  //     .apply()
+      onChange(update);
+    }
 
-  //   e.preventDefault()
-  //   return state
-  // }
 
-  onToggleMark = (type) => {
-    let { editorState } = this.props;
+    this.onToggleMark = (type) => {
+      let { editorState } = this.props;
 
-    editorState = editorState
-      .transform()
-      .toggleMark(type)
-      .apply()
+      editorState = editorState
+        .transform()
+        .toggleMark(type)
+        .apply()
 
-    this.props.onChange(editorState);
+      this.props.onChange(editorState);
+    }
+
+    this.insertMath = () => {
+
+      const { editorState } = this.props;
+
+      const math = inlineMath();
+
+      const newState = editorState
+        .transform()
+        .insertInline(math)
+        .apply();
+
+      this.props.onChange(newState);
+
+    }
   }
 
 
@@ -215,6 +206,7 @@ class RichText extends React.Component {
           editorState={editorState}
           onToggleMark={this.onToggleMark}
           onImageClick={() => addImage(this.insertImage)}
+          onInsertMath={this.insertMath}
           onDone={onDone} />}
       </div>
     )

@@ -14,7 +14,6 @@ class RteDemo extends React.Component {
       <img src="${this.puppy}"></img> 
     </div>
   <div>`;
-  //markup = `<div>
 
   onChange = (editorState) => {
     console.log('editorState changed', Raw.serialize(editorState));
@@ -68,24 +67,13 @@ class RteDemo extends React.Component {
   render() {
 
     const { editorState } = this.state;
-    // console.log('editorState: ', Raw.serialize(editorState));
     return <div>
-
-      <h1>EditableHtml</h1>
-
+      <h1>@pie-libs/editable-html</h1>
       <EditableHtml
         markup={this.state.markup}
         onChange={this.onMarkupChange}
         onImageClick={this.addImage} />
-
-      {/* <h1>Rte demo </h1>
-      <hr /> */}
       <input type="file" hidden ref={r => this.fileInput = r}></input>
-      {/* 
-      <TextEditor
-        editorState={editorState}
-        addImage={this.addImage}
-        onChange={this.onChange} /> */}
     </div>;
   }
 }

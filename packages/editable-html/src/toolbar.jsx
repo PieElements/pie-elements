@@ -2,6 +2,7 @@ import { Button, MarkButton } from './toolbar-buttons';
 
 import Bold from 'material-ui-icons/FormatBold';
 import Check from 'material-ui-icons/Check';
+import Functions from 'material-ui-icons/Functions';
 import Image from 'material-ui-icons/Image';
 import Italic from 'material-ui-icons/FormatItalic';
 import React from 'react';
@@ -42,8 +43,14 @@ class RawToolbar extends React.Component {
   }
 
   render() {
-    const { editorState, classes, onToggleMark, onImageClick, onDone } = this.props;
-    // var currentStyle = props.editorState.getCurrentInlineStyle();
+    const {
+      editorState,
+      classes,
+      onToggleMark,
+      onImageClick,
+      onInsertMath,
+      onDone } = this.props;
+
     return (
       <div className={classes.root}>
         <div className={classes.inline}>
@@ -59,6 +66,7 @@ class RawToolbar extends React.Component {
           }
           )}
           <Button onClick={onImageClick}> <Image /></Button>
+          <Button onClick={onInsertMath}> <Functions /></Button>
         </div>
         <Button onClick={onDone}><Check /></Button>
       </div>
