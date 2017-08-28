@@ -18,6 +18,8 @@ class RteDemo extends React.Component {
     </div>
   <div>`;
 
+  // markup = `<div><strong>hi</strong></div>`;
+
   state = {
     editorState: htmlToState(this.markup),
     markup: this.markup
