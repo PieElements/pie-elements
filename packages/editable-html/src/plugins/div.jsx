@@ -1,3 +1,4 @@
+import { Block } from 'slate';
 import React from 'react';
 
 const defaultBlock = {

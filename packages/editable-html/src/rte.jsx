@@ -1,14 +1,15 @@
 import { Block, Editor, Html, Raw } from 'slate';
-import { plugins, serializationRules } from './plugins';
+import { buildPlugins, serializationRules } from './plugins';
 
 import React from 'react';
 import Toolbar from './toolbar';
 import debug from 'debug';
 import injectSheet from 'react-jss';
+import { inlineMath } from './plugins/math';
 
 const log = debug('editable-html:rte');
 
-const serializer = new Html({ rules: serializationRules });
+const serializer = new Html({ rules: serializationRules, defaultBlockType: 'div' });
 
 class RichText extends React.Component {
 
@@ -58,6 +59,12 @@ class RichText extends React.Component {
       this.props.onChange(newState);
 
     }
+
+    this.plugins = buildPlugins({
+      image: {
+        onDelete: this.props.onDeleteImage
+      }
+    })
   }
 
 
@@ -65,16 +72,18 @@ class RichText extends React.Component {
     const { classes, editorState, addImage, onDone, readOnly } = this.props;
     return (
       <div className={classes.root}>
-        <Editor
-          spellCheck
-          placeholder={'Enter some rich text...'}
-          schema={{}}
-          plugins={plugins}
-          readOnly={readOnly}
-          state={this.props.editorState}
-          onChange={this.props.onChange}
-          onKeyDown={this.onKeyDown}
-        />
+        <div className={classes.editorHolder}>
+          <Editor
+            spellCheck
+            placeholder={'Enter some rich text...'}
+            schema={{}}
+            plugins={this.plugins}
+            readOnly={readOnly}
+            state={this.props.editorState}
+            onChange={this.props.onChange}
+            onKeyDown={this.onKeyDown}
+          />
+        </div>
         {!readOnly && <Toolbar
           editorState={editorState}
           onToggleMark={this.onToggleMark}
@@ -91,8 +100,10 @@ export const htmlToState = html => serializer.deserialize(html)
 export const stateToHtml = (state) => serializer.serialize(state);
 
 
+
 const style = {
   root: {
+    padding: '0px',
     border: '1px solid #cccccc',
     borderRadius: '0px',
     cursor: 'text',
@@ -100,6 +111,9 @@ const style = {
       overflow: 'scroll',
       maxHeight: '500px',
     }
+  },
+  editorHolder: {
+    padding: '10px'
   },
   editor: {
     padding: '8px',

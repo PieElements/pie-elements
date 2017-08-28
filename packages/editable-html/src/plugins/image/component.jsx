@@ -9,6 +9,10 @@ import injectSheet from 'react-jss';
 
 const log = debug('plugins:image:component');
 
+const logError = debug('plugins:image:component');
+
+logError.log = console.error.bind(console);
+
 const RawMiniButton = ({ classes, children, first, last, onClick }) => {
   const className = classNames(classes.root, first && classes.first, last && classes.last);
   return <div onClick={onClick} className={className}>{children}</div>
@@ -67,12 +71,19 @@ export class RawImage extends React.Component {
       event.preventDefault();
       event.stopPropagation();
 
-      const updatedState = editor.getState()
-        .transform()
-        .removeNodeByKey(node.key)
-        .apply();
 
-      editor.onChange(updatedState);
+      this.props.onDelete(node.data.get('src'), err => {
+        if (!err) {
+          const updatedState = editor.getState()
+            .transform()
+            .removeNodeByKey(node.key)
+            .apply();
+
+          editor.onChange(updatedState);
+        } else {
+          logError(err);
+        }
+      });
     }
 
     this.onOpen = (portal) => {

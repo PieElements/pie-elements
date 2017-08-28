@@ -1,11 +1,28 @@
 import Image from './component';
 import React from 'react';
+import debug from 'debug';
+
+const log = debug('editable-html:image');
+
+const Deletable = (Component, onDelete) => {
+
+  log('[Deletable] onDelete: ', onDelete);
+
+  return class extends React.Component {
+    render() {
+      return <Component {...this.props} onDelete={onDelete} />
+    }
+  }
+}
 
 export default function ImagePlugin(options) {
+
+  log('[ImagePlugin] options: ', options);
+
   return {
     schema: {
       nodes: {
-        image: Image
+        image: Deletable(Image, options.onDelete)
       }
     }
   }

@@ -10,15 +10,15 @@ const log = debug('editable-html:rte-demo');
 class RteDemo extends React.Component {
 
   puppy = 'https://s-media-cache-ak0.pinimg.com/736x/ed/0e/68/ed0e68d1f8a0a1f4b5582ed180cce761--puppy-training-tips-images-photos.jpg';
-  markup = `<div>​​​
-    <span mathjax="">96\\times884</span>​
-    <b>hi</b> there
-    <div>
-      <img src="${this.puppy}"></img> 
-    </div>
-  <div>`;
+  // markup = `<div>​​​
+  //   <span mathjax="">96\\times884</span>​
+  //   <b>hi</b> there
+  //   <div>
+  //     <img src="${this.puppy}"></img> 
+  //   </div>
+  // <div>`;
 
-  // markup = `<div><strong>hi</strong></div>`;
+  markup = `hi`;
 
   state = {
     editorState: htmlToState(this.markup),
@@ -59,6 +59,11 @@ class RteDemo extends React.Component {
     this.fileInput.click();
   }
 
+  onDeleteImage = (url, done) => {
+    log('delete image src: ', url);
+    done();
+  }
+
   onMarkupChange = (markup) => {
     log('new markup: ', markup);
     this.setState({ markup });
@@ -72,7 +77,8 @@ class RteDemo extends React.Component {
       <EditableHtml
         markup={this.state.markup}
         onChange={this.onMarkupChange}
-        onImageClick={this.addImage} />
+        onImageClick={this.addImage}
+        onDeleteImage={this.onDeleteImage} />
       <input type="file" hidden ref={r => this.fileInput = r}></input>
       <pre style={{ maxWidth: '100%' }}>{this.state.markup}</pre>
     </div>;

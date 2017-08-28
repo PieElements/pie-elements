@@ -1,5 +1,6 @@
 import TextEditor, { htmlToState, stateToHtml } from './rte';
 
+import PropTypes from 'prop-types';
 import { Raw } from 'slate';
 import React from 'react';
 import debug from 'debug';
@@ -47,7 +48,7 @@ class EditableHTML extends React.Component {
   }
 
   render() {
-    const { classes, placeholder, className, onImageClick, html } = this.props;
+    const { classes, placeholder, className, onImageClick, onDeleteImage, html } = this.props;
     const { editorState, readOnly } = this.state;
     log('[render] readOnly: ', readOnly);
     return (
@@ -58,10 +59,16 @@ class EditableHTML extends React.Component {
           editorState={editorState}
           onChange={(editorState) => this.setState({ editorState })}
           onDone={this.onEditingDone}
-          addImage={onImageClick} />
+          addImage={onImageClick}
+          onDeleteImage={onDeleteImage} />
       </div>
     );
   }
+}
+
+EditableHTML.propTypes = {
+  onImageClick: PropTypes.func.isRequired,
+  onDeleteImage: PropTypes.func.isRequired
 }
 
 const style = {
