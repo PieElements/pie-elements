@@ -8,30 +8,37 @@ import injectSheet from 'react-jss';
 import { inlineMath } from './plugins/math';
 
 const log = debug('editable-html:rte');
+const logError = debug('editable-html:rte');
+logError.log = console.error.bind(console);
 
-const serializer = new Html({ rules: serializationRules, defaultBlockType: 'div' });
+const serializer = new Html({
+  rules: serializationRules,
+  defaultBlockType: 'div'
+});
 
 class RichText extends React.Component {
 
   constructor(props) {
     super(props);
 
+    this.insertImage = (err, src) => {
+      if (err) {
+        logError(err);
+      } else {
+        const { editorState, onChange } = this.props;
+        const transform = editorState.transform()
 
-    this.insertImage = (src) => {
-      const { editorState, onChange } = this.props;
-      const transform = editorState.transform()
+        const update = transform
+          .insertBlock({
+            type: 'image',
+            isVoid: true,
+            data: { src }
+          })
+          .apply();
 
-      const update = transform
-        .insertBlock({
-          type: 'image',
-          isVoid: true,
-          data: { src }
-        })
-        .apply();
-
-      onChange(update);
+        onChange(update);
+      }
     }
-
 
     this.onToggleMark = (type) => {
       log('[onToggleMark] type: ', type);
@@ -57,8 +64,88 @@ class RichText extends React.Component {
         .apply();
 
       this.props.onChange(newState);
-
     }
+
+    this.addImage = () => {
+      const { editorState, onChange } = this.props;
+      const block = Block.create({
+        type: 'image',
+        isVoid: true,
+        data: {
+          loaded: false,
+          src: undefined
+        }
+      });
+
+      let newState = editorState
+        .transform()
+        .insertBlock(block)
+        .apply();
+
+      onChange(newState);
+
+      const handler = {
+        done: (err, src) => {
+          log('done: err:', err);
+          if (err) {
+            logError(err);
+          } else {
+            const child = newState.document.getChild(block.key);
+            log('child: ', child);
+            const data = child.data
+              .set('loaded', true)
+              .set('src', src)
+              .set('percent', 100);
+
+            newState = newState
+              .transform()
+              .setNodeByKey(block.key, { data })
+              .apply();
+
+            onChange(newState);
+          }
+        },
+        file: file => {
+          if (!file) {
+            return;
+          }
+
+          log('got file: ', file);
+          const reader = new FileReader();
+          reader.onload = () => {
+            const dataURL = reader.result;
+            const child = newState.document.getChild(block.key);
+            log('child: ', child);
+            const data = child.data.set('src', dataURL);
+
+            newState = newState
+              .transform()
+              .setNodeByKey(block.key, { data })
+              .apply();
+            onChange(newState);
+          };
+
+          reader.readAsDataURL(file);
+        },
+        progress: (percent, bytes, total) => {
+          log('progress: ', percent, bytes, total);
+          const child = newState.document.getChild(block.key);
+          log('child: ', child);
+          const data = child.data.set('percent', percent);
+
+
+          newState = newState
+            .transform()
+            .setNodeByKey(block.key, { data })
+            .apply();
+
+          onChange(newState);
+        }
+      }
+
+      this.props.addImage(handler);
+
+    };
 
     this.plugins = buildPlugins({
       image: {
@@ -66,7 +153,6 @@ class RichText extends React.Component {
       }
     })
   }
-
 
   render() {
     const { classes, editorState, addImage, onDone, readOnly } = this.props;
@@ -76,19 +162,18 @@ class RichText extends React.Component {
           <Editor
             spellCheck
             placeholder={'Enter some rich text...'}
-            schema={{}}
             plugins={this.plugins}
             readOnly={readOnly}
             state={this.props.editorState}
             onChange={this.props.onChange}
-            onKeyDown={this.onKeyDown}
-          />
+            onKeyDown={this.onKeyDown} />
         </div>
+        {/* onImageClick={() => addImage(this.insertImage)} */}
         {!readOnly && <Toolbar
           editorState={editorState}
           onToggleMark={this.onToggleMark}
-          onImageClick={() => addImage(this.insertImage)}
           onInsertMath={this.insertMath}
+          onImageClick={this.addImage}
           onDone={onDone} />}
       </div>
     )

@@ -3,6 +3,7 @@ import TextEditor, { htmlToState, stateToHtml } from '../src/rte';
 import EditableHtml from '../src';
 import { Raw } from 'slate';
 import React from 'react';
+import _ from 'lodash';
 import debug from 'debug';
 
 const log = debug('editable-html:rte-demo');
@@ -26,15 +27,26 @@ class RteDemo extends React.Component {
   }
 
   handleFileSelect = (event) => {
+    const { imageHandler } = this.state;
     const file = event.target.files[0];
+    imageHandler.file(file);
     this.fileInput.value = '';
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = () => {
       const dataURL = reader.result;
-      this.state.insertImage(dataURL);
-      this.setState({ insertImage: null });
+      setTimeout(() => {
+        imageHandler.done(null, dataURL);
+        this.setState({ imageHandler: null });
+      }, 2000);
     };
     log('call readAsDataUrl...', file);
+    let progress = 0;
+    imageHandler.progress(progress);
+    _.range(1, 100).forEach(n => {
+      setTimeout(() => {
+        imageHandler.progress(n);
+      }, n * 20);
+    });
     reader.readAsDataURL(file);
   }
 
@@ -54,8 +66,8 @@ class RteDemo extends React.Component {
     this.fileInput.removeEventListener('change', this.handleFileSelect);
   }
 
-  addImage = (insertImage) => {
-    this.setState({ insertImage });
+  addImage = (imageHandler) => {
+    this.setState({ imageHandler });
     this.fileInput.click();
   }
 

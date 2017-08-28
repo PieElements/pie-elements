@@ -1,11 +1,14 @@
+import { CircularProgress, LinearProgress } from 'material-ui/Progress';
 import { Data, Raw } from 'slate';
 
 import { Delete } from '../../components/buttons';
 import Portal from 'react-portal';
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import debug from 'debug';
 import injectSheet from 'react-jss';
+import { withStyles } from 'material-ui/styles';
 
 const log = debug('plugins:image:component');
 
@@ -57,7 +60,8 @@ export class RawImage extends React.Component {
 
       const { data } = this.props.node;
       const update = data.merge(Data.create({ width, height }));
-      const updatedState = this.props.state.transform()
+      const updatedState = editor.getState()
+        .transform()
         .setNodeByKey(key, { data: update })
         .apply();
 
@@ -128,9 +132,12 @@ export class RawImage extends React.Component {
 
     const { node, state, editor, classes, attributes } = this.props;
     const active = state.isFocused && state.selection.hasEdgeIn(node);
+    log('[render] data: ', node.data.toJSON());
     const src = node.data.get('src');
+    const loaded = node.data.get('loaded');
     const width = node.data.get('width');
     const height = node.data.get('height');
+    const percent = node.data.get('percent');
     //TODO: There's probably a better way to get this info.
     const readOnly = editor.props.readOnly;
 
@@ -139,7 +146,9 @@ export class RawImage extends React.Component {
       height: height ? `${height}px` : 'auto'
     }
 
-    const className = classNames(classes.root, active && classes.active);
+    const className = classNames(classes.root, active && classes.active, !loaded && classes.loading);
+
+    const progressClasses = classNames(classes.progress, loaded && classes.hideProgress);
 
     const resize = (amount) => this.resizeBy.bind(this, amount);
 
@@ -154,14 +163,22 @@ export class RawImage extends React.Component {
           </div>
         </div>
       </Portal>
-      {!readOnly && <Delete className={classes.delete} onClick={this.onDelete} />}
+      {!readOnly && loaded && <Delete className={classes.delete} onClick={this.onDelete} />}
       <img
         src={src}
         {...attributes}
         ref={r => this.img = r}
         style={style} />
+      <LinearProgress
+        mode="determinate"
+        value={percent}
+        className={progressClasses} />
     </div>
   }
+}
+
+RawImage.propTypes = {
+  onDelete: PropTypes.func.isRequired
 }
 
 const styles = {
@@ -178,10 +195,25 @@ const styles = {
     border: 'solid 1px #eeeeee',
     boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)'
   },
+  progress: {
+    position: 'absolute',
+    left: '5%',
+    width: '90%',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    transition: 'opacity 200ms linear'
+  },
+  hideProgress: {
+    opacity: 0
+  },
+  loading: {
+    opacity: 0.3
+  },
   root: {
     position: 'relative',
     border: 'solid 1px white',
-    display: 'inline-block'
+    display: 'inline-block',
+    transition: 'opacity 200ms linear'
   },
   active: {
     border: 'solid 1px green'
