@@ -29,7 +29,7 @@ class RteDemo extends React.Component {
   handleFileSelect = (event) => {
     const { imageHandler } = this.state;
     const file = event.target.files[0];
-    imageHandler.file(file);
+    imageHandler.fileChosen(file);
     this.fileInput.value = '';
     const reader = new FileReader();
     reader.onload = () => {
@@ -41,7 +41,7 @@ class RteDemo extends React.Component {
     };
     log('call readAsDataUrl...', file);
     let progress = 0;
-    imageHandler.progress(progress);
+    this.insertImageHandler.progress(progress);
     _.range(1, 100).forEach(n => {
       setTimeout(() => {
         imageHandler.progress(n);

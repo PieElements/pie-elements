@@ -42,7 +42,8 @@ class EditableHTML extends React.Component {
   componentWillReceiveProps(props) {
     if (props.markup !== this.props.markup) {
       this.setState({
-        readOnly: true
+        readOnly: true,
+        editorState: htmlToState(props.markup)
       });
     }
   }
@@ -50,7 +51,6 @@ class EditableHTML extends React.Component {
   render() {
     const { classes, placeholder, className, onImageClick, onDeleteImage, html } = this.props;
     const { editorState, readOnly } = this.state;
-    log('[render] readOnly: ', readOnly);
     return (
       <div className={className}
         onClick={this.onClick}>

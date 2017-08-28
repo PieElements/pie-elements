@@ -85,13 +85,15 @@ class RichText extends React.Component {
       onChange(newState);
 
       const handler = {
+        cancel: () => {
+          log('insert cancelled');
+        },
         done: (err, src) => {
           log('done: err:', err);
           if (err) {
             logError(err);
           } else {
             const child = newState.document.getChild(block.key);
-            log('child: ', child);
             const data = child.data
               .set('loaded', true)
               .set('src', src)
@@ -105,7 +107,7 @@ class RichText extends React.Component {
             onChange(newState);
           }
         },
-        file: file => {
+        fileChosen: file => {
           if (!file) {
             return;
           }
@@ -115,7 +117,6 @@ class RichText extends React.Component {
           reader.onload = () => {
             const dataURL = reader.result;
             const child = newState.document.getChild(block.key);
-            log('child: ', child);
             const data = child.data.set('src', dataURL);
 
             newState = newState
@@ -130,7 +131,6 @@ class RichText extends React.Component {
         progress: (percent, bytes, total) => {
           log('progress: ', percent, bytes, total);
           const child = newState.document.getChild(block.key);
-          log('child: ', child);
           const data = child.data.set('percent', percent);
 
 
@@ -189,7 +189,8 @@ export const stateToHtml = (state) => serializer.serialize(state);
 const style = {
   root: {
     padding: '0px',
-    border: '1px solid #cccccc',
+    border: 'none',
+    borderBottom: '2px solid #cccccc',
     borderRadius: '0px',
     cursor: 'text',
     '& [data-slate-editor="true"]': {
@@ -198,7 +199,7 @@ const style = {
     }
   },
   editorHolder: {
-    padding: '10px'
+    padding: '7px'
   },
   editor: {
     padding: '8px',

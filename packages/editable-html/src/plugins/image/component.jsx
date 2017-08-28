@@ -134,7 +134,7 @@ export class RawImage extends React.Component {
     const active = state.isFocused && state.selection.hasEdgeIn(node);
     log('[render] data: ', node.data.toJSON());
     const src = node.data.get('src');
-    const loaded = node.data.get('loaded');
+    const loaded = node.data.get('loaded') !== false;
     const width = node.data.get('width');
     const height = node.data.get('height');
     const percent = node.data.get('percent');
