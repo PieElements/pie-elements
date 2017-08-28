@@ -13,34 +13,26 @@ export class MultiLangInput extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  onChange(e) {
-    log('onChange - e: ', e);
+  onChange(update) {
+    log('onChange - e: ', update);
     const { lang, onChange } = this.props;
-    const update = e.target.value;
     onChange(update, lang);
   }
 
-  onImageClick() {
-    log('onImageClick');
-  }
-
   render() {
-
-    const { lang, value, textFieldLabel, classes } = this.props;
+    const { lang, value, textFieldLabel, classes, onInsertImage, onDeleteImage } = this.props;
 
     const renderValue = (typeof value === 'string') ?
       value : (value.find(t => t.lang === lang) || {}).value || '';
+
+    log('[render] renderValue: ', renderValue);
 
     return <div className={classes.root}>
       <EditableHtml
         markup={renderValue}
         onChange={this.onChange}
-        onImageClick={this.addImage} />
-      {/* <TextField
-        label={textFieldLabel}
-        value={renderValue}
-        className={classes.textField}
-        onChange={this.onChange} /> */}
+        onImageClick={onInsertImage}
+        onDeleteImage={onDeleteImage} />
     </div>;
   }
 }
@@ -49,6 +41,7 @@ const styles = createStyleSheet('MultiLangInput', theme => {
 
   return {
     root: {
+      position: 'relative',
       display: 'block',
       width: '100%'
     },

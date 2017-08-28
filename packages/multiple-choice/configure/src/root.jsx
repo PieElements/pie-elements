@@ -122,7 +122,8 @@ export default class Root extends React.Component {
       onPromptChanged: this.onPromptChanged,
       onDefaultLangChanged: this.onDefaultLangChanged,
       onPartialScoringChanged: this.onPartialScoringChanged,
-      onInsertImage: this.props.onInsertImage
+      onInsertImage: this.props.onInsertImage,
+      onDeleteImage: this.props.onDeleteImage
     }
 
     return <Main {...props} />;

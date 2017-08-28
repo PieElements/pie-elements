@@ -45,6 +45,7 @@ export class Main extends React.Component {
       onDefaultLangChanged,
       onPartialScoringChanged,
       onInsertImage,
+      onDeleteImage,
       classes
     } = this.props;
 
@@ -77,7 +78,8 @@ export class Main extends React.Component {
         value={model.prompt}
         lang={this.state.activeLang}
         onChange={onPromptChanged}
-        onInsertImage={onInsertImage} />
+        onInsertImage={onInsertImage}
+        onDeleteImage={onDeleteImage} />
 
 
       {model.choices.map((choice, index) => {
@@ -89,7 +91,9 @@ export class Main extends React.Component {
           activeLang: this.state.activeLang,
           defaultLang: model.defaultLang,
           onChoiceChanged: onChoiceChanged.bind(null, index),
-          onRemoveChoice: onRemoveChoice.bind(null, index)
+          onRemoveChoice: onRemoveChoice.bind(null, index),
+          onInsertImage,
+          onDeleteImage
         }
         return <ChoiceConfig key={index} {...choiceProps} />;
       })}

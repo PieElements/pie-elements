@@ -18,10 +18,10 @@ export class ModelUpdatedEvent extends CustomEvent {
 }
 
 export class DeleteImageEvent extends CustomEvent {
-  constructor(done) {
+  constructor(src, done) {
     super('delete.image', {
       bubbles: true,
-      detail: { done }
+      detail: { src, done }
     });
   }
 }
@@ -64,8 +64,8 @@ export default class extends HTMLElement {
     this.dispatchEvent(new InsertImageEvent(handler));
   }
 
-  onDeleteImage(done) {
-    this.dispatchEvent(new DeleteImageEvent(done));
+  onDeleteImage(src, done) {
+    this.dispatchEvent(new DeleteImageEvent(src, done));
   }
 
   _render() {

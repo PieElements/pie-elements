@@ -102,7 +102,9 @@ export class ChoiceConfig extends React.Component {
       onChoiceChanged,
       onRemoveChoice,
       activeLang,
-      classes } = this.props;
+      classes,
+      onInsertImage,
+      onDeleteImage } = this.props;
 
     const ChoiceModeTag = choiceMode === 'checkbox' ? Checkbox : Radio;
 
@@ -117,14 +119,14 @@ export class ChoiceConfig extends React.Component {
           label="value"
           value={choice.value}
           onChange={this.onValueChanged}
-          className={classes.valueField}
-
-        />
+          className={classes.valueField} />
         <MultiLangInput
           textFieldLabel="label"
           value={choice.label}
           lang={activeLang}
-          onChange={this.onLabelChanged} />
+          onChange={this.onLabelChanged}
+          onInsertImage={onInsertImage}
+          onDeleteImage={onDeleteImage} />
         <FeedbackMenu
           value={choice.feedback.type}
           onChange={this.onFeedbackTypeChanged} />
@@ -139,7 +141,9 @@ export class ChoiceConfig extends React.Component {
             textFieldLabel="feedback"
             value={choice.feedback.custom}
             lang={activeLang}
-            onChange={this.onFeedbackChanged} />
+            onChange={this.onFeedbackChanged}
+            onInsertImage={onInsertImage}
+            onDeleteImage={onDeleteImage} />
         </div>
       }
 
