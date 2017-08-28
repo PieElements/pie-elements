@@ -14,6 +14,7 @@ export class MultiLangInput extends React.Component {
   }
 
   onChange(e) {
+    log('onChange - e: ', e);
     const { lang, onChange } = this.props;
     const update = e.target.value;
     onChange(update, lang);
