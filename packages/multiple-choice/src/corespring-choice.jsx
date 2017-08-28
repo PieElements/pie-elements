@@ -14,8 +14,6 @@ const styles = createStyleSheet('MultipleChoice', theme => {
       }
     },
     prompt: {
-      height: '43px',
-      lineHeight: '43px',
       verticalAlign: 'middle'
     },
     choice: {
@@ -116,7 +114,7 @@ export class MultipleChoice extends React.Component {
         show={isEvaluateMode && !responseCorrect}
         toggled={this.state.showCorrect}
         onToggle={this.onToggle.bind(this)} />
-      <div className={classes.prompt}>{prompt}</div>
+      <div className={classes.prompt} dangerouslySetInnerHTML={{ __html: prompt }}></div>
       {choices.map(choiceToTag)}
     </div>;
   }

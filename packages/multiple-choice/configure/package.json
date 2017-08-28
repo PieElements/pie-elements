@@ -14,7 +14,8 @@
     "lodash": "^4.17.4",
     "material-ui": "1.0.0-beta.4",
     "material-ui-icons": "1.0.0-alpha.19",
-    "prop-types": "^15.5.10"
+    "prop-types": "^15.5.10",
+    "debug": "^3.0.1"
   },
   "devDependencies": {
     "babel-preset-airbnb": "^2.1.1",

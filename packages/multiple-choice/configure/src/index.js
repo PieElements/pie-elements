@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './root.jsx';
+import debug from 'debug';
 import merge from 'lodash/merge';
+
+const log = debug('multiple-choice:configure');
 
 export class ModelUpdatedEvent extends CustomEvent {
   constructor(m) {
@@ -10,6 +13,24 @@ export class ModelUpdatedEvent extends CustomEvent {
       detail: {
         update: m
       }
+    });
+  }
+}
+
+export class DeleteImageEvent extends CustomEvent {
+  constructor(done) {
+    super('delete.image', {
+      bubbles: true,
+      detail: { done }
+    });
+  }
+}
+
+export class InsertImageEvent extends CustomEvent {
+  constructor(handler) {
+    super('insert.image', {
+      bubbles: true,
+      detail: { handler }
     });
   }
 }
@@ -35,11 +56,25 @@ export default class extends HTMLElement {
     this.dispatchModelUpdated();
   }
 
+  /**
+   * 
+   * @param {done, progress, file} handler 
+   */
+  insertImage(handler) {
+    this.dispatchEvent(new InsertImageEvent(handler));
+  }
+
+  onDeleteImage(done) {
+    this.dispatchEvent(new DeleteImageEvent(done));
+  }
+
   _render() {
-    console.log('_render..');
+    log('_render');
     let element = React.createElement(Root, {
       model: this._model,
-      onModelChanged: this.onModelChanged
+      onModelChanged: this.onModelChanged,
+      onInsertImage: this.insertImage.bind(this),
+      onDeleteImage: this.onDeleteImage.bind(this)
     });
     ReactDOM.render(element, this);
   }

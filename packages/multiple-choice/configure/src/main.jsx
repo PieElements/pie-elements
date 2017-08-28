@@ -6,7 +6,7 @@ import { createStyleSheet, withStyles } from 'material-ui/styles';
 
 import Button from 'material-ui/Button';
 import ChoiceConfig from './choice-config';
-import Langs from './langs';
+import { Langs } from '@pie-libs/config-ui';
 import { MuiThemeProvider } from 'material-ui/styles';
 import { MultiLangInput } from '@pie-libs/config-ui';
 import PartialScoringConfig from '@pie-libs/scoring-config/src/index.jsx';
@@ -44,6 +44,7 @@ export class Main extends React.Component {
       model,
       onDefaultLangChanged,
       onPartialScoringChanged,
+      onInsertImage,
       classes
     } = this.props;
 
@@ -75,7 +76,8 @@ export class Main extends React.Component {
         textFieldLabel="prompt"
         value={model.prompt}
         lang={this.state.activeLang}
-        onChange={onPromptChanged} />
+        onChange={onPromptChanged}
+        onInsertImage={onInsertImage} />
 
 
       {model.choices.map((choice, index) => {
