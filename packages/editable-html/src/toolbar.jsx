@@ -6,6 +6,7 @@ import Code from 'material-ui-icons/Code';
 import Functions from 'material-ui-icons/Functions';
 import Image from 'material-ui-icons/Image';
 import Italic from 'material-ui-icons/FormatItalic';
+import PropTypes from 'prop-types';
 import React from 'react';
 import Strikethrough from 'material-ui-icons/FormatStrikethrough';
 import Underlined from 'material-ui-icons/FormatUnderlined';
@@ -14,7 +15,7 @@ import injectSheet from 'react-jss';
 const toolbarStyle = {
   toolbar: {
     position: 'absolute',
-    zIndex: 1000,
+    zIndex: 10,
     display: 'flex',
     cursor: 'pointer',
     justifyContent: 'space-between',
@@ -53,15 +54,17 @@ class RawToolbar extends React.Component {
 
   render() {
     const {
-      editorState,
       classes,
       onToggleMark,
       onImageClick,
       onInsertMath,
-      onDone } = this.props;
+      onDone,
+      zIndex } = this.props;
+
+    const style = zIndex ? { zIndex } : {};
 
     return (
-      <div className={classes.toolbar}>
+      <div className={classes.toolbar} style={style}>
         <div className={classes.inline}>
           {INLINE_STYLES.map(type => {
             const isActive = this.hasMark(type.mark);
@@ -81,6 +84,15 @@ class RawToolbar extends React.Component {
       </div>
     );
   }
+}
+
+RawToolbar.propTypes = {
+  zIndex: PropTypes.number,
+  editorState: PropTypes.object.isRequired,
+  onToggleMark: PropTypes.func.isRequired,
+  onImageClick: PropTypes.func.isRequired,
+  onInsertMath: PropTypes.func.isRequired,
+  onDone: PropTypes.func.isRequired
 }
 
 export default injectSheet(toolbarStyle)(RawToolbar);

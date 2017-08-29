@@ -60,7 +60,8 @@ export class MathComponent extends React.Component {
         onBlur={this.onBlur}
         onFocus={this.onFocus}
         onInputClick={this.onClick}
-        readOnly={readOnly} />
+        readOnly={readOnly}
+        zIndex={11} />
       {!readOnly && <Delete onClick={this.onDeleteClick} />}
     </div>;
 

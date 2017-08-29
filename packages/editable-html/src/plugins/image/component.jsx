@@ -10,9 +10,9 @@ import debug from 'debug';
 import injectSheet from 'react-jss';
 import { withStyles } from 'material-ui/styles';
 
-const log = debug('plugins:image:component');
+const log = debug('editable-html:plugins:image:component');
 
-const logError = debug('plugins:image:component');
+const logError = debug('editable-html:plugins:image:component');
 
 logError.log = console.error.bind(console);
 
@@ -75,10 +75,18 @@ export class RawImage extends React.Component {
       event.preventDefault();
       event.stopPropagation();
 
+      const update = node.data.merge(Data.create({ deleteStatus: 'pending' }));
+
+      let updatedState = editor.getState()
+        .transform()
+        .setNodeByKey(node.key, { data: update })
+        .apply();
+
+      editor.onChange(updatedState);
 
       this.props.onDelete(node.data.get('src'), err => {
         if (!err) {
-          const updatedState = editor.getState()
+          updatedState = editor.getState()
             .transform()
             .removeNodeByKey(node.key)
             .apply();
@@ -86,6 +94,14 @@ export class RawImage extends React.Component {
           editor.onChange(updatedState);
         } else {
           logError(err);
+          const deleteFailedUpdate = node.data.merge(
+            Data.create({ deleteStatus: 'failed' })
+          );
+          updatedState = editor.getState()
+            .transform()
+            .setNodeByKey(node.key, { data: deleteFailedUpdate })
+            .apply();
+          editor.onChange(updatedState);
         }
       });
     }
@@ -138,6 +154,7 @@ export class RawImage extends React.Component {
     const width = node.data.get('width');
     const height = node.data.get('height');
     const percent = node.data.get('percent');
+    const deleteStatus = node.data.get('deleteStatus');
     //TODO: There's probably a better way to get this info.
     const readOnly = editor.props.readOnly;
 
@@ -146,11 +163,19 @@ export class RawImage extends React.Component {
       height: height ? `${height}px` : 'auto'
     }
 
-    const className = classNames(classes.root, active && classes.active, !loaded && classes.loading);
+    const className = classNames(
+      classes.root,
+      active && classes.active,
+      !loaded && classes.loading,
+      deleteStatus === 'pending' && classes.pendingDelete);
 
-    const progressClasses = classNames(classes.progress, loaded && classes.hideProgress);
+    const progressClasses = classNames(
+      classes.progress,
+      loaded && classes.hideProgress);
 
     const resize = (amount) => this.resizeBy.bind(this, amount);
+
+    const showDelete = !readOnly && loaded && deleteStatus !== 'pending';
 
     return <div className={className}>
       <Portal isOpened onOpen={this.onOpen}>
@@ -163,7 +188,7 @@ export class RawImage extends React.Component {
           </div>
         </div>
       </Portal>
-      {!readOnly && loaded && <Delete className={classes.delete} onClick={this.onDelete} />}
+      {showDelete && <Delete className={classes.delete} onClick={this.onDelete} />}
       <img
         src={src}
         {...attributes}
@@ -207,6 +232,9 @@ const styles = {
     opacity: 0
   },
   loading: {
+    opacity: 0.3
+  },
+  pendingDelete: {
     opacity: 0.3
   },
   root: {

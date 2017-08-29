@@ -1,4 +1,4 @@
-import { Block, Editor, Html, Raw } from 'slate';
+import { Block, Data, Editor, Html, Raw } from 'slate';
 import { buildPlugins, serializationRules } from './plugins';
 
 import React from 'react';
@@ -94,10 +94,9 @@ class RichText extends React.Component {
             logError(err);
           } else {
             const child = newState.document.getChild(block.key);
-            const data = child.data
-              .set('loaded', true)
-              .set('src', src)
-              .set('percent', 100);
+            const data = child.data.merge(
+              Data.create({ loaded: true, src, percent: 100 })
+            );
 
             newState = newState
               .transform()
