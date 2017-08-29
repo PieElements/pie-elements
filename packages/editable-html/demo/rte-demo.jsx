@@ -19,7 +19,7 @@ class RteDemo extends React.Component {
   //   </div>
   // <div>`;
 
-  markup = `hi`;
+  markup = `hi <span data-mathjax="">\\(2\\div1 = x\\)</span>`;
 
   state = {
     editorState: htmlToState(this.markup),
