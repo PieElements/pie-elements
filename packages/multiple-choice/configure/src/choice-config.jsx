@@ -110,11 +110,13 @@ export class ChoiceConfig extends React.Component {
 
     return <div className={classes.root}>
       <div className={classes.main}>
-        <span className={classes.index}>{this._indexToSymbol(index)}</span>
-        <ChoiceModeTag
-          checked={choice.correct === true}
-          style={{ width: 'auto', paddingLeft: '5px' }}
-          onClick={() => this.onToggleCorrect()} />
+        <div className={classes.indexAndModeTag}>
+          <span className={classes.index}>{this._indexToSymbol(index)}</span>
+          <ChoiceModeTag
+            checked={choice.correct === true}
+            style={{ width: 'auto', paddingLeft: '5px' }}
+            onClick={() => this.onToggleCorrect()} />
+        </div>
         <TextField
           label="value"
           value={choice.value}
@@ -170,17 +172,20 @@ const styles = createStyleSheet('ChoiceConfig', theme => {
     },
     main: {
       display: 'flex',
-      alignItems: 'baseline',
+      alignItems: 'flex-end',
       paddingBottom: '8px'
     },
     feedback: {
       display: 'flex'
     },
+    indexAndModeTag: {
+      display: 'flex',
+      alignItems: 'center'
+    },
     index: {
-
       display: 'inline-block',
       position: 'relative',
-      top: '-4px',
+      top: '0px',
       fontWeight: 'bold',
       fontSize: '18px',
     },
