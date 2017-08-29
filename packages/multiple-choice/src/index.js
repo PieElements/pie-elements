@@ -6,6 +6,7 @@ import debug from 'debug';
 import katex from 'katex';
 import { updateSessionValue } from './session-updater';
 
+//Auto render requires the katex global
 window.katex = katex;
 const renderMathInElement = require('katex/dist/contrib/auto-render.min');
 
