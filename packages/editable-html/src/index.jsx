@@ -3,6 +3,7 @@ import TextEditor, { htmlToState, stateToHtml } from './rte';
 import PropTypes from 'prop-types';
 import { Raw } from 'slate';
 import React from 'react';
+import classNames from 'classnames';
 import debug from 'debug';
 import injectSheet from 'react-jss';
 
@@ -51,8 +52,10 @@ class EditableHTML extends React.Component {
   render() {
     const { classes, placeholder, className, onImageClick, onDeleteImage, html } = this.props;
     const { editorState, readOnly } = this.state;
+
+    const rootNames = classNames(classes.editableHtml, className);
     return (
-      <div className={className}
+      <div className={rootNames}
         onClick={this.onClick}>
         <TextEditor
           readOnly={readOnly}
@@ -72,14 +75,26 @@ EditableHTML.propTypes = {
 }
 
 const style = {
-  root: {
-    border: '1px solid #cccccc',
-    borderRadius: '0px',
-    cursor: 'text'
-  },
-  editor: {
-    padding: '8px',
-    background: '#ffffff'
+  editableHtml: {
+    cursor: 'text',
+    position: 'relative',
+    '&::after': {
+      left: '0',
+      right: '0',
+      bottom: '0',
+      height: '1px',
+      content: '""',
+      position: 'absolute',
+      // transform: 'scaleX(0%)',
+      transition: 'transform 200ms cubic-bezier(0.0, 0.0, 0.2, 1) 0ms',
+      backgroundColor: 'rgba(0, 0, 0, 0.42)',
+    },
+    '&:hover': {
+      '&::after': {
+        backgroundColor: 'black',
+        height: '2px'
+      }
+    }
   }
 }
 

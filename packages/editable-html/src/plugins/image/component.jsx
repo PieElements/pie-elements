@@ -114,7 +114,7 @@ export class RawImage extends React.Component {
 
       const left = Math.max(0, rect.left + window.scrollX - menu.offsetWidth / 2 + rect.width / 2);
       menu.style.opacity = 1
-      menu.style.top = `${rect.top + (rect.height * 0.5)}px`
+      menu.style.top = `${rect.top + (rect.height * 0.5) + window.scrollY}px`
       menu.style.transform = 'translateY(-50%)';
       menu.style.left = `${left}px`
     }

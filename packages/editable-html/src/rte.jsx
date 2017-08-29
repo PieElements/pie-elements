@@ -190,7 +190,7 @@ const style = {
   root: {
     padding: '0px',
     border: 'none',
-    borderBottom: '2px solid #cccccc',
+    borderBottom: '0px solid #cccccc',
     borderRadius: '0px',
     cursor: 'text',
     '& [data-slate-editor="true"]': {
