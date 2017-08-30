@@ -1,10 +1,9 @@
 import { FormControl, FormControlLabel, FormLabel } from 'material-ui/Form';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 
-// import EditableHTML from '@pie-libs/editable-html';
+import EditableHTML from '@pie-libs/editable-html';
 import React from 'react';
 import Typography from 'material-ui/Typography';
-import injectSheet from 'react-jss';
 import { withStyles } from 'material-ui/styles';
 
 const style = theme => ({
@@ -107,13 +106,10 @@ class FeedbackSelector extends React.Component {
         handleChange={this.feedbackTypeChange}
         feedbackLabels={feedbackLabels} />
       {this.state.feedbackType === 'custom' && <div className={classes.feedbackHolder}>
-        {/* <EditableHTML
+        <EditableHTML
           className={classes.editor}
-          placeholder={this.props.placeholder || "Enter feedback..."}
           onChange={this.feedbackChange}
-          model={this.state.feedback}
-          onImageClick={onImageClick}
-          onDeleteImage={onDeleteImage} /> */}
+          markup={this.state.feedback} />
       </div>}
       {this.state.feedbackType === 'default' && <div className={classes.defaultHolder}> {this.props.defaultFeedback}</div>}
     </div>;

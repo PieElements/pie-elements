@@ -1,3 +1,4 @@
+import FeedbackConfig from './feedback-config';
 import Langs from './langs';
 import MultiLangInput from './multi-lang-input';
 import NumberTextField from './number-text-field';
@@ -5,5 +6,6 @@ import NumberTextField from './number-text-field';
 export {
   Langs,
   MultiLangInput,
-  NumberTextField
+  NumberTextField,
+  FeedbackConfig
 }

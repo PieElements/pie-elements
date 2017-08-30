@@ -30,8 +30,11 @@ export class MultiLangInput extends React.Component {
       <EditableHtml
         markup={renderValue}
         onChange={this.onChange}
-        onImageClick={onInsertImage}
-        onDeleteImage={onDeleteImage} />
+        imageSupport={{
+          add: onInsertImage,
+          delete: onDeleteImage
+        }}
+      />
     </div>;
   }
 }
