@@ -35,14 +35,14 @@ const RawRow = ({ classes, scorePercentage, numberOfCorrect, onRowChange, deleta
   </div>;
 };
 
-const rowStyles = {
+const rowStyles = theme => ({
   root: {
     fontFamily: theme.typography.fontFamily
   },
   field: {
     width: '30px'
   }
-}
+});
 
 const Row = withStyles(rowStyles, { name: 'Row' })(RawRow);
 
