@@ -4,19 +4,21 @@ import MarksPlugin, { serialization as marksSerialization } from './marks';
 import MathPlugin, { inlineMath, serialization as mathSerialization } from './math';
 import ParagraphPlugin, { serialization as pSerialization } from './paragraph';
 
+import compact from 'lodash/compact';
 import debug from 'debug';
 
 const log = debug('editable-html:plugins');
 
 export const buildPlugins = (opts) => {
   log('[buildPlugins] opts: ', opts);
-  return [
+
+  return compact([
     DivPlugin(),
     ParagraphPlugin(),
-    ImagePlugin(opts.image),
+    opts.image && opts.image.onDelete && ImagePlugin(opts.image),
     MathPlugin(),
     MarksPlugin()
-  ];
+  ]);
 }
 
 export const serializationRules = [

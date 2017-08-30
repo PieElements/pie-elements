@@ -1,4 +1,4 @@
-import TextEditor, { htmlToState, stateToHtml } from './rte';
+import TextEditor, { ImageSupportType, htmlToState, stateToHtml } from './rte';
 
 import PropTypes from 'prop-types';
 import { Raw } from 'slate';
@@ -50,7 +50,7 @@ class EditableHTML extends React.Component {
   }
 
   render() {
-    const { classes, placeholder, className, onImageClick, onDeleteImage, html } = this.props;
+    const { classes, placeholder, className, imageSupport, html } = this.props;
     const { editorState, readOnly } = this.state;
 
     const rootNames = classNames(classes.editableHtml, className);
@@ -62,16 +62,15 @@ class EditableHTML extends React.Component {
           editorState={editorState}
           onChange={(editorState) => this.setState({ editorState })}
           onDone={this.onEditingDone}
-          addImage={onImageClick}
-          onDeleteImage={onDeleteImage} />
+          imageSupport={imageSupport}
+        />
       </div>
     );
   }
 }
 
 EditableHTML.propTypes = {
-  onImageClick: PropTypes.func.isRequired,
-  onDeleteImage: PropTypes.func.isRequired
+  imageSupport: ImageSupportType
 }
 
 const style = {

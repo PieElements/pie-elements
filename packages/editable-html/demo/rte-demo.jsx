@@ -41,7 +41,7 @@ class RteDemo extends React.Component {
     };
     log('call readAsDataUrl...', file);
     let progress = 0;
-    this.insertImageHandler.progress(progress);
+    imageHandler.progress(progress);
     _.range(1, 100).forEach(n => {
       setTimeout(() => {
         imageHandler.progress(n);
@@ -67,6 +67,7 @@ class RteDemo extends React.Component {
   }
 
   addImage = (imageHandler) => {
+    log('[addImage]', imageHandler);
     this.setState({ imageHandler });
     this.fileInput.click();
   }
@@ -83,14 +84,19 @@ class RteDemo extends React.Component {
 
   render() {
 
+    const imageSupport = {
+      add: this.addImage,
+      delete: this.onDeleteImage
+    }
+
     const { editorState } = this.state;
     return <div>
       <h1>@pie-libs/editable-html</h1>
       <EditableHtml
         markup={this.state.markup}
+        imageSupport={imageSupport}
         onChange={this.onMarkupChange}
-        onImageClick={this.addImage}
-        onDeleteImage={this.onDeleteImage} />
+      />
       <input type="file" hidden ref={r => this.fileInput = r}></input>
       <pre style={{ maxWidth: '100%' }}>{this.state.markup}</pre>
     </div>;

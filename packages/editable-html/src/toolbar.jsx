@@ -77,7 +77,7 @@ class RawToolbar extends React.Component {
             >{type.icon}</MarkButton>
           }
           )}
-          <Button onClick={onImageClick}> <Image /></Button>
+          {onImageClick && <Button onClick={onImageClick}> <Image /></Button>}
           <Button onClick={onInsertMath}> <Functions /></Button>
         </div>
         <Button onClick={onDone}><Check /></Button>
@@ -90,7 +90,7 @@ RawToolbar.propTypes = {
   zIndex: PropTypes.number,
   editorState: PropTypes.object.isRequired,
   onToggleMark: PropTypes.func.isRequired,
-  onImageClick: PropTypes.func.isRequired,
+  onImageClick: PropTypes.func,
   onInsertMath: PropTypes.func.isRequired,
   onDone: PropTypes.func.isRequired
 }

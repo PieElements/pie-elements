@@ -1,6 +1,7 @@
 import { Block, Data, Editor, Html, Raw } from 'slate';
 import { buildPlugins, serializationRules } from './plugins';
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import Toolbar from './toolbar';
 import debug from 'debug';
@@ -142,19 +143,19 @@ class RichText extends React.Component {
         }
       }
 
-      this.props.addImage(handler);
+      this.props.imageSupport.add(handler);
 
     };
 
     this.plugins = buildPlugins({
       image: {
-        onDelete: this.props.onDeleteImage
+        onDelete: this.props.imageSupport && this.props.imageSupport.delete
       }
     })
   }
 
   render() {
-    const { classes, editorState, addImage, onDone, readOnly } = this.props;
+    const { classes, editorState, onDone, readOnly, imageSupport } = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.editorHolder}>
@@ -167,16 +168,24 @@ class RichText extends React.Component {
             onChange={this.props.onChange}
             onKeyDown={this.onKeyDown} />
         </div>
-        {/* onImageClick={() => addImage(this.insertImage)} */}
         {!readOnly && <Toolbar
           editorState={editorState}
           onToggleMark={this.onToggleMark}
           onInsertMath={this.insertMath}
-          onImageClick={this.addImage}
+          onImageClick={imageSupport && this.addImage}
           onDone={onDone} />}
       </div>
     )
   }
+}
+
+export const ImageSupportType = PropTypes.shape({
+  add: PropTypes.func.isRequired,
+  delete: PropTypes.func.isRequired
+});
+
+RichText.propTypes = {
+  imageSupport: ImageSupportType
 }
 
 export const htmlToState = html => serializer.deserialize(html)
