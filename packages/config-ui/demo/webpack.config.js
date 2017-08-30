@@ -16,6 +16,17 @@ module.exports = {
             require('babel-preset-react'), require('babel-preset-es2015')
           ]
         }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2|otf)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000
+        }
       }
     ]
   },

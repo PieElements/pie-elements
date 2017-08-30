@@ -1,4 +1,5 @@
-import { NumberTextField } from '../src/index';
+import { FeedbackConfig, NumberTextField, feedbackConfigDefaults } from '../src/index';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -9,7 +10,11 @@ class Container extends React.Component {
       numberTextField: {
         one: 1,
         two: 2
-      }
+      },
+      feedback: feedbackConfigDefaults({
+        correctFeedbackType: 'custom',
+        correctFeedback: 'custom message'
+      })
     }
     this.updateOne = this.updateOne.bind(this);
   }
@@ -27,11 +32,17 @@ class Container extends React.Component {
     return <div>
       <em>Normal</em>
       <pre>{JSON.stringify(this.state, null, '  ')}</pre>
+      <hr />
       <NumberTextField
         value={this.state.numberTextField.one}
         max={10}
         min={1}
         onChange={this.updateOne} />
+      <hr />
+      <h1>FeedbackConfig</h1>
+      <FeedbackConfig
+        feedback={this.state.feedback}
+        onChange={(feedback) => this.setState({ feedback })} />
     </div>
   }
 }
