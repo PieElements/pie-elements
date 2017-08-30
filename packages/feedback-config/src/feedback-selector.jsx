@@ -1,16 +1,13 @@
 import { FormControl, FormControlLabel, FormLabel } from 'material-ui/Form';
 import Radio, { RadioGroup } from 'material-ui/Radio';
-import { createStyleSheet, withStyles } from 'material-ui/styles';
 
 import EditableHTML from '@pie-libs/editable-html';
 import React from 'react';
 import Typography from 'material-ui/Typography';
 import injectSheet from 'react-jss';
+import { withStyles } from 'material-ui/styles';
 
-const style = createStyleSheet('feedback-selector', theme => ({
-  group: {
-
-  },
+const style = theme => ({
   label: {
     cursor: 'pointer',
     transform: 'translateX(-7px)'
@@ -38,8 +35,7 @@ const style = createStyleSheet('feedback-selector', theme => ({
   editor: {
     fontFamily: theme.typography.fontFamily,
   }
-
-}));
+});
 
 const Group = ({ feedbackLabels, label, value, classes, handleChange, keys }) => (
   <div className={classes.choiceHolder}>
@@ -122,4 +118,4 @@ class FeedbackSelector extends React.Component {
   }
 }
 
-export default withStyles(style)(FeedbackSelector);
+export default withStyles(style, { name: 'FeedbackSelector' })(FeedbackSelector);

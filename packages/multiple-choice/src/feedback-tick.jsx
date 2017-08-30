@@ -1,51 +1,48 @@
-import { createStyleSheet, withStyles } from 'material-ui/styles';
-
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classNames from 'classnames';
+import { withStyles } from 'material-ui/styles';
 
-const stylesheet = createStyleSheet('feedback-tick', theme => {
-  return {
-    incorrect: {
-      fill: 'var(--feedback-incorrect-bg-color, orange)'
-    },
-    correct: {
-      fill: 'var(--feedback-correct-bg-color, green)'
-    },
-    feedbackTick: {
+const stylesheet = {
+  incorrect: {
+    fill: 'var(--feedback-incorrect-bg-color, orange)'
+  },
+  correct: {
+    fill: 'var(--feedback-correct-bg-color, green)'
+  },
+  feedbackTick: {
+    width: '33px',
+    height: '33px',
+    '& svg': {
+      position: 'absolute',
+      display: 'inline-block',
       width: '33px',
       height: '33px',
-      '& svg': {
-        position: 'absolute',
-        display: 'inline-block',
-        width: '33px',
-        height: '33px',
-        verticalAlign: 'middle',
-        '& hide': {
-          display: 'none'
-        }
+      verticalAlign: 'middle',
+      '& hide': {
+        display: 'none'
       }
-    },
-    feedbackTickEnter: {
-      opacity: '0',
-      left: '-50px'
-    },
-    feedbackTickEnterActive: {
-      opacity: '1',
-      left: '0px',
-      transition: 'left 500ms ease-in 200ms, opacity 500ms linear 200ms'
-    },
-    feedbackTickLeave: {
-      opacity: '1',
-      left: '0px'
-    },
-    feedbackTickLeaveActive: {
-      opacity: '0',
-      left: '-50px',
-      transition: 'left 300ms ease-in, opacity 300ms'
     }
+  },
+  feedbackTickEnter: {
+    opacity: '0',
+    left: '-50px'
+  },
+  feedbackTickEnterActive: {
+    opacity: '1',
+    left: '0px',
+    transition: 'left 500ms ease-in 200ms, opacity 500ms linear 200ms'
+  },
+  feedbackTickLeave: {
+    opacity: '1',
+    left: '0px'
+  },
+  feedbackTickLeaveActive: {
+    opacity: '0',
+    left: '-50px',
+    transition: 'left 300ms ease-in, opacity 300ms'
   }
-});
+};
 
 class FeedbackTick extends React.Component {
 
@@ -119,4 +116,4 @@ FeedbackTick.propTypes = {
   correctness: React.PropTypes.string
 }
 
-export default withStyles(stylesheet)(FeedbackTick);
+export default withStyles(stylesheet, { name: 'FeedbackTick' })(FeedbackTick);

@@ -1,54 +1,52 @@
-import { createStyleSheet, withStyles, withTheme } from 'material-ui/styles';
+import { withStyles, withTheme } from 'material-ui/styles';
 
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import classNames from 'classnames';
 
-const styleSheet = createStyleSheet('Feedback', theme => {
-  return {
-    corespringFeedback: {
-      transformOrigin: '0% 0px 0px',
-      width: '100%',
-      display: 'block',
-      overflow: 'hidden',
-      '&:.incorrect': {
-        color: '#946202'
-      }
-    },
-    content: {
-      '-webkit-font-smoothing': 'antialiased',
-      backgroundColor: 'var(--feedback-bg-color, grey)',
-      borderRadius: '4px',
-      fontFamily: "'Roboto', 'Noto', sans-serif",
-      fontSize: '12px',
-      lineHeight: '25px',
-      margin: '0px',
-      padding: '10px',
-      verticalAlign: 'middle',
-      color: 'var(--feedback-color, purple)'
-    },
-    correct: {
-      backgroundColor: 'var(--feedback-correct-bg-color, blue)'
-    },
-    incorrect: {
-      backgroundColor: 'var(--feedback-incorrect-bg-color, orange)'
-    },
-    feedbackEnter: {
-      height: '1px'
-    },
-    feedbackEnterActive: {
-      height: '45px',
-      transition: 'height 500ms'
-    },
-    feedbackLeave: {
-      height: '45px'
-    },
-    feedbackLeaveActive: {
-      height: '1px',
-      transition: 'height 200ms'
+const styleSheet = {
+  corespringFeedback: {
+    transformOrigin: '0% 0px 0px',
+    width: '100%',
+    display: 'block',
+    overflow: 'hidden',
+    '&:.incorrect': {
+      color: '#946202'
     }
+  },
+  content: {
+    '-webkit-font-smoothing': 'antialiased',
+    backgroundColor: 'var(--feedback-bg-color, grey)',
+    borderRadius: '4px',
+    fontFamily: "'Roboto', 'Noto', sans-serif",
+    fontSize: '12px',
+    lineHeight: '25px',
+    margin: '0px',
+    padding: '10px',
+    verticalAlign: 'middle',
+    color: 'var(--feedback-color, purple)'
+  },
+  correct: {
+    backgroundColor: 'var(--feedback-correct-bg-color, blue)'
+  },
+  incorrect: {
+    backgroundColor: 'var(--feedback-incorrect-bg-color, orange)'
+  },
+  feedbackEnter: {
+    height: '1px'
+  },
+  feedbackEnterActive: {
+    height: '45px',
+    transition: 'height 500ms'
+  },
+  feedbackLeave: {
+    height: '45px'
+  },
+  feedbackLeaveActive: {
+    height: '1px',
+    transition: 'height 200ms'
   }
-});
+};
 
 export class Feedback extends React.Component {
 
@@ -87,4 +85,4 @@ Feedback.propTypes = {
   feedback: React.PropTypes.string
 }
 
-export default withStyles(styleSheet)(Feedback);
+export default withStyles(styleSheet, { name: 'Feedback' })(Feedback);

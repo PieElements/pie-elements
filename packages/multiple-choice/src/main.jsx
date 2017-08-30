@@ -1,5 +1,5 @@
-import { createStyleSheet, withStyles, withTheme } from 'material-ui/styles';
 import { green, orange, pink } from 'material-ui/colors';
+import { withStyles, withTheme } from 'material-ui/styles';
 
 import CorespringChoice from './corespring-choice.jsx';
 import { MuiThemeProvider } from 'material-ui/styles';
@@ -7,7 +7,7 @@ import React from 'react';
 import classNames from 'classnames';
 import createMuiTheme from 'material-ui/styles/theme';
 
-const styleSheet = createStyleSheet('multiple-choice-main', theme => {
+const styleSheet = theme => {
   const root = {
     '--feedback-correct-bg-color': green[500],
     '--feedback-incorrect-bg-color': orange[500],
@@ -21,6 +21,7 @@ const styleSheet = createStyleSheet('multiple-choice-main', theme => {
     '--choice-input-disabled-color': theme.palette.grey[500],
     backgroundColor: 'var(--mc-bg-color, rgba(0,0,0,0))'
   }
+
   return {
     root,
     'white-on-black': {
@@ -36,7 +37,7 @@ const styleSheet = createStyleSheet('multiple-choice-main', theme => {
       '--mc-bg-color': pink[50]
     }
   };
-});
+};
 
 class Main extends React.Component {
 
@@ -68,7 +69,7 @@ Main.defaultProps = {
   session: {}
 }
 
-const Styled = withStyles(styleSheet)(Main);
+const Styled = withStyles(styleSheet, { name: 'Main' })(Main);
 
 const theme = createMuiTheme();
 

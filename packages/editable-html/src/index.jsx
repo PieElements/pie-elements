@@ -1,152 +1,13 @@
-import { Editor, EditorState, RichUtils } from 'draft-js';
+import TextEditor, { htmlToState, stateToHtml } from './rte';
 
+import PropTypes from 'prop-types';
+import { Raw } from 'slate';
 import React from 'react';
-import Toolbar from './toolbar';
+import classNames from 'classnames';
+import debug from 'debug';
 import injectSheet from 'react-jss';
-import isEmpty from 'lodash/isEmpty';
-import { stateFromHTML } from 'draft-js-import-html';
-import { stateToHTML } from 'draft-js-export-html';
 
-const style = {
-  root: {
-    border: '1px solid #cccccc',
-    borderRadius: '0px',
-    cursor: 'text'
-  },
-  editor: {
-    padding: '8px',
-    background: '#ffffff'
-  }
-}
-
-const getMarkup = (editorContent) => {
-  const div = document.createElement('div');
-  div.innerHTML = stateToHTML(editorContent);
-  const out = div.firstChild.innerHTML;
-  return out;
-}
-
-export class EditableHTML extends React.Component {
-
-  constructor(props) {
-    super(props);
-    const content = this.props.model === undefined ? '' : this.props.model;
-    const editorState = EditorState.createWithContent(stateFromHTML(content));
-
-    const currentContent = editorState.getCurrentContent();
-
-    this.state = {
-      showToolbar: false,
-      active: false,
-      hasText: currentContent.hasText(),
-      editorState
-    };
-    // this.onStyle = this.onStyle.bind(this);
-    this.onToggle = this.onToggle.bind(this);
-    this.onChange = this.onEditorStateChange.bind(this);
-    this.handleKeyCommand = this.handleKeyCommand.bind(this);
-    this.onEditorBlur = this.onEditorBlur.bind(this);
-    this.toggleHtml = this.toggleHtml.bind(this);
-    this.onEditorStateChange = this.onEditorStateChange.bind(this);
-  }
-
-  onEditorStateChange(editorState) {
-    //editorState
-
-    const currentContent = editorState.getCurrentContent();
-    const markup = getMarkup(currentContent);
-    this.setState({ editorState, hasText: currentContent.hasText() });
-    this.props.onChange(markup);
-  }
-
-  handleKeyCommand(command) {
-    const newState = RichUtils.handleKeyCommand(this.state.editorState, command);
-    if (newState) {
-      this.onEditorStateChange(newState)
-    }
-  }
-
-  onEditorBlur(event) {
-    this.blurTimeoutId = setTimeout(() => {
-      this.setState({
-        active: false
-      });
-      this.blurTimeoutId = undefined;
-    }, 140);
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.blurTimeoutId);
-  }
-
-  // onStyle(style) {
-  //   if (this.blurTimeoutId) {
-  //     clearTimeout(this.blurTimeoutId);
-  //     this.blurTimeoutId = undefined;
-  //   }
-  //   this.onEditorStateChange(RichUtils.toggleInlineStyle(this.state.editorState, style));
-  // }
-  // onToggle(inlineStyle) {
-  //   this.onChange(
-  //     RichUtils.toggleInlineStyle(
-  //       this.state.editorState,
-  //       inlineStyle
-  //     )
-  //   );
-  // }
-
-  onToggle(inlineStyle) {
-    console.log('inlineStyle: ', inlineStyle);
-    const editorState = RichUtils.toggleInlineStyle(
-      this.state.editorState,
-      inlineStyle
-    );
-    this.onEditorStateChange(editorState);
-    // this.setState({ editorState }, () => {
-    // })
-    // this.onChange(
-    //   RichUtils.toggleBlockType(
-    //     this.state.editorState,
-    //     blockType
-    //   )
-    // );
-  }
-
-  toggleHtml() {
-    if (this.state.active) {
-      this.setState({
-        active: false
-      });
-    } else {
-      this.setState({
-        active: true,
-        editorState: EditorState.moveFocusToEnd(this.state.editorState)
-      });
-    }
-  }
-
-  render() {
-    const { classes, placeholder, className } = this.props;
-    const { active, editorState, hasText } = this.state;
-    return (
-      <div className={className}>{
-        /*this.state.active*/ true ?
-          <Active
-            classes={classes}
-            onToggle={this.onToggle}
-            onBlur={this.onEditorBlur}
-            editorState={this.state.editorState}
-            handleKeyCommand={this.handleKeyCommand}
-            onChange={this.onEditorStateChange} /> :
-          <Preview
-            hasText={hasText}
-            placeholder={placeholder}
-            markup={() => getMarkup(editorState.getCurrentContent())}
-            onClick={this.toggleHtml} />}
-      </div>
-    );
-  }
-}
+const log = debug('editable-html');
 
 const Preview = ({ onClick, hasText, markup, placeholder }) => {
   const html = hasText ? markup() : placeholder;
@@ -155,17 +16,87 @@ const Preview = ({ onClick, hasText, markup, placeholder }) => {
     dangerouslySetInnerHTML={{ __html: html }}></div>;
 };
 
-const Active = ({ classes, onToggle, onBlur, editorState, handleKeyCommand, onChange }) => (
-  <div className={classes.root}>
-    <div className={classes.editor}>
-      <Editor
-        onBlur={onBlur}
-        editorState={editorState}
-        handleKeyCommand={handleKeyCommand}
-        onChange={onChange} />
-    </div>
-    <Toolbar onToggle={onToggle} editorState={editorState} />
-  </div>
-)
+class EditableHTML extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      editorState: htmlToState(props.markup),
+      readOnly: true
+    }
+
+    this.onClick = () => {
+      log('onClick');
+      if (this.state.readOnly === true) {
+        this.setState({ readOnly: false });
+      }
+    }
+
+    this.onEditingDone = () => {
+      this.setState({ readOnly: true });
+      const markup = stateToHtml(this.state.editorState);
+      this.props.onChange(markup);
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.markup !== this.props.markup) {
+      this.setState({
+        readOnly: true,
+        editorState: htmlToState(props.markup)
+      });
+    }
+  }
+
+  render() {
+    const { classes, placeholder, className, onImageClick, onDeleteImage, html } = this.props;
+    const { editorState, readOnly } = this.state;
+
+    const rootNames = classNames(classes.editableHtml, className);
+    return (
+      <div className={rootNames}
+        onClick={this.onClick}>
+        <TextEditor
+          readOnly={readOnly}
+          editorState={editorState}
+          onChange={(editorState) => this.setState({ editorState })}
+          onDone={this.onEditingDone}
+          addImage={onImageClick}
+          onDeleteImage={onDeleteImage} />
+      </div>
+    );
+  }
+}
+
+EditableHTML.propTypes = {
+  onImageClick: PropTypes.func.isRequired,
+  onDeleteImage: PropTypes.func.isRequired
+}
+
+const style = {
+  editableHtml: {
+    cursor: 'text',
+    position: 'relative',
+    '&::after': {
+      left: '0',
+      right: '0',
+      bottom: '0',
+      height: '1px',
+      content: '""',
+      position: 'absolute',
+      // transform: 'scaleX(0%)',
+      transition: 'transform 200ms cubic-bezier(0.0, 0.0, 0.2, 1) 0ms',
+      backgroundColor: 'rgba(0, 0, 0, 0.42)',
+    },
+    '&:hover': {
+      '&::after': {
+        backgroundColor: 'black',
+        height: '2px'
+      }
+    }
+  }
+}
+
 
 export default injectSheet(style)(EditableHTML);

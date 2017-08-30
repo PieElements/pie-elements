@@ -1,33 +1,29 @@
 import React, { PropTypes } from 'react';
-import { createStyleSheet, withStyles } from 'material-ui/styles';
 
 import ChoiceInput from './choice-input';
 import CorrectAnswerToggle from '@pie-libs/correct-answer-toggle';
 import classNames from 'classnames';
+import { withStyles } from 'material-ui/styles';
 
-const styles = createStyleSheet('MultipleChoice', theme => {
-  return {
-    corespringChoice: {
-      '& *': {
-        fontFamily: "'Roboto', Arial, Helvetica, sans-serif",
-        '-webkit-font-smoothing': 'antialiased'
-      }
-    },
-    prompt: {
-      height: '43px',
-      lineHeight: '43px',
-      verticalAlign: 'middle'
-    },
-    choice: {
-      paddingTop: '20px',
-      paddingBottom: '10px',
-      borderBottom: '1px solid #E0DEE0',
-    },
-    last: {
-      borderBottom: 'none'
+const styles = {
+  corespringChoice: {
+    '& *': {
+      fontFamily: "'Roboto', Arial, Helvetica, sans-serif",
+      '-webkit-font-smoothing': 'antialiased'
     }
+  },
+  prompt: {
+    verticalAlign: 'middle'
+  },
+  choice: {
+    paddingTop: '20px',
+    paddingBottom: '10px',
+    borderBottom: '1px solid #E0DEE0',
+  },
+  last: {
+    borderBottom: 'none'
   }
-});
+}
 
 export class MultipleChoice extends React.Component {
 
@@ -116,7 +112,7 @@ export class MultipleChoice extends React.Component {
         show={isEvaluateMode && !responseCorrect}
         toggled={this.state.showCorrect}
         onToggle={this.onToggle.bind(this)} />
-      <div className={classes.prompt}>{prompt}</div>
+      <div className={classes.prompt} dangerouslySetInnerHTML={{ __html: prompt }}></div>
       {choices.map(choiceToTag)}
     </div>;
   }
@@ -138,4 +134,4 @@ MultipleChoice.defaultProps = {
   }
 };
 
-export default withStyles(styles)(MultipleChoice);
+export default withStyles(styles, { name: 'MultipleChoice' })(MultipleChoice);

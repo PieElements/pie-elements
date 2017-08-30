@@ -1,107 +1,98 @@
+import { Button, MarkButton } from './toolbar-buttons';
+
 import Bold from 'material-ui-icons/FormatBold';
+import Check from 'material-ui-icons/Check';
+import Code from 'material-ui-icons/Code';
+import Functions from 'material-ui-icons/Functions';
+import Image from 'material-ui-icons/Image';
 import Italic from 'material-ui-icons/FormatItalic';
+import PropTypes from 'prop-types';
 import React from 'react';
-import StyleButton from './style-button';
+import Strikethrough from 'material-ui-icons/FormatStrikethrough';
 import Underlined from 'material-ui-icons/FormatUnderlined';
 import injectSheet from 'react-jss';
+
 const toolbarStyle = {
-  root: {
+  toolbar: {
+    position: 'absolute',
+    zIndex: 10,
+    display: 'flex',
     cursor: 'pointer',
-    background: 'var(--editable-html-toolbar-bg, #eeeeee)',
-    listStyleType: 'none',
-    margin: 0,
-    padding: '2px'
-  },
-  button: {
-    margin: '3px',
-    borderRadius: '0',
-    display: 'inline-flex',
-    textAlign: 'center',
-    background: 'white',
-    color: 'black'
+    justifyContent: 'space-between',
+    background: 'var(--editable-html-toolbar-bg, #efefef)',
+    margin: '0px',
+    padding: '2px',
+    width: '100%',
+    borderTop: 'solid 1px #cccccc',
+    boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
+    boxSizing: 'border-box'
   }
 }
 
-const BLOCK_TYPES = [
-  { label: 'H1', style: 'header-one' },
-  { label: 'H2', style: 'header-two' },
-  { label: 'H3', style: 'header-three' },
-  { label: 'H4', style: 'header-four' },
-  { label: 'H5', style: 'header-five' },
-  { label: 'H6', style: 'header-six' },
-  { label: 'Blockquote', style: 'blockquote' },
-  { label: 'UL', style: 'unordered-list-item' },
-  { label: 'OL', style: 'ordered-list-item' },
-  { label: 'Code Block', style: 'code-block' },
-];
-
 var INLINE_STYLES = [
-  { label: 'Bold', style: 'BOLD', icon: <Bold /> },
-  { label: 'Italic', style: 'ITALIC', icon: <Italic /> },
-  { label: 'Underline', style: 'UNDERLINE', icon: <Underlined /> }
+  { mark: 'bold', label: 'Bold', icon: <Bold /> },
+  { mark: 'italic', label: 'Italic', icon: <Italic /> },
+  { mark: 'underline', label: 'Underline', icon: <Underlined /> },
+  { mark: 'code', label: 'code', icon: <Code /> },
+  { mark: 'strikethrough', label: 'Strikethrough', icon: <Strikethrough /> }
 ];
 
-const RawToolbar = (props) => {
-  const { editorState, classes, onToggle } = props;
-  var currentStyle = props.editorState.getCurrentInlineStyle();
-  return (
-    <div className={classes.root}>
-      {INLINE_STYLES.map(type => {
+class RawToolbar extends React.Component {
 
-        return <StyleButton
-          key={type.label}
-          active={currentStyle.has(type.style)}
-          label={type.label}
-          onToggle={onToggle}
-          style={type.style}
-        >{type.icon}</StyleButton>
-      }
-      )}
-    </div>
-  );
-};
+  constructor(props) {
+    super(props);
+    this.hasMark = (type) => {
+      const { editorState } = this.props;
+      return editorState.marks.some(mark => mark.type == type)
+    }
 
-// const RawToolbar = (props) => {
-//   const { editorState, classes, onToggle } = props;
-//   const selection = editorState.getSelection();
-//   const blockType = editorState
-//     .getCurrentContent()
-//     .getBlockForKey(selection.getStartKey())
-//     .getType();
+    this.hasBlock = (type) => {
+      const { editorState } = this.props;
+      return editorState.blocks.some(node => node.type == type)
+    }
+  }
 
-//   return (
-//     <div className={classes.root}>
-//       {BLOCK_TYPES.map((type) => {
+  render() {
+    const {
+      classes,
+      onToggleMark,
+      onImageClick,
+      onInsertMath,
+      onDone,
+      zIndex } = this.props;
 
-//         const icon = <Bold />;
+    const style = zIndex ? { zIndex } : {};
 
-//         return <StyleButton
-//           key={type.label}
-//           active={type.style === blockType}
-//           label={type.label}
-//           onToggle={onToggle}
-//           style={type.style}>{icon}</StyleButton>
-//       }
-//       )}
-//     </div>
-//   );
-// };
+    return (
+      <div className={classes.toolbar} style={style}>
+        <div className={classes.inline}>
+          {INLINE_STYLES.map(type => {
+            const isActive = this.hasMark(type.mark);
+            return <MarkButton
+              key={type.label}
+              active={isActive}
+              label={type.label}
+              onToggle={onToggleMark}
+              mark={type.mark}
+            >{type.icon}</MarkButton>
+          }
+          )}
+          <Button onClick={onImageClick}> <Image /></Button>
+          <Button onClick={onInsertMath}> <Functions /></Button>
+        </div>
+        <Button onClick={onDone}><Check /></Button>
+      </div>
+    );
+  }
+}
 
-
-// const RawToolbar = ({ classes, onStyle, editorState }) => {
-
-//   const selection = editorState.getSelection();
-//   const blockType = editorState
-//     .getCurrentContent()
-//     .getBlockForKey(selection.getStartKey())
-//     .getType();
-
-//   return <div className={classes.root}>
-//     <StyleButton><Bold /></StyleButton>
-//     {/* <li className={classes.button} onClick={() => onStyle('BOLD')}><Bold /></li>
-//     <li className={classes.button} onClick={() => onStyle('ITALIC')}><Italic /></li>
-//     <li className={classes.button} onClick={() => onStyle('UNDERLINE')}><Underlined /></li> */}
-//   </ul>
-// };
+RawToolbar.propTypes = {
+  zIndex: PropTypes.number,
+  editorState: PropTypes.object.isRequired,
+  onToggleMark: PropTypes.func.isRequired,
+  onImageClick: PropTypes.func.isRequired,
+  onInsertMath: PropTypes.func.isRequired,
+  onDone: PropTypes.func.isRequired
+}
 
 export default injectSheet(toolbarStyle)(RawToolbar);

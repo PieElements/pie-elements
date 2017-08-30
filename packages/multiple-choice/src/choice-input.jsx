@@ -1,6 +1,6 @@
 import { FormControlLabel, FormGroup } from 'material-ui/Form';
 import React, { PropTypes } from 'react';
-import { createStyleSheet, withStyles, withTheme } from 'material-ui/styles';
+import { withStyles, withTheme } from 'material-ui/styles';
 
 import Checkbox from 'material-ui/Checkbox';
 import Feedback from './feedback.jsx';
@@ -16,74 +16,66 @@ const tagStyle = {
   marginRight: '5px'
 }
 
-const styleSheet = createStyleSheet('ChoiceInput', theme => {
-
-  return {
-    label: {
-      color: 'var(--choice-input-color, black)',
-      display: 'inline-block',
-      verticalAlign: 'middle',
-      cursor: 'pointer'
-    },
-    row: {
-      display: 'flex',
-      alignItems: 'center'
-    },
-    checkboxHolder: {
-      display: 'flex',
-      alignItems: 'center',
-      width: 'auto',
-      '& label': {
-        width: 'auto !important'
-      }
+const styleSheet = {
+  label: {
+    color: 'var(--choice-input-color, black)',
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    cursor: 'pointer'
+  },
+  row: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  checkboxHolder: {
+    display: 'flex',
+    alignItems: 'center',
+    width: 'auto',
+    '& label': {
+      width: 'auto !important'
     }
   }
-});
+};
 
-
-const formStyleSheet = createStyleSheet('StyledFormControlLabel', theme => {
-  return {
-    label: {
-      color: 'var(--choice-input-color, black)'
-    }
+const formStyleSheet = {
+  label: {
+    color: 'var(--choice-input-color, black)'
   }
-});
+};
 
-export const StyledFormControlLabel = withStyles(formStyleSheet)((props) => <FormControlLabel {...props} classes={{ label: props.classes.label }} />);
+export const StyledFormControlLabel = withStyles(formStyleSheet, { name: 'FormControlLabel' })((props) => <FormControlLabel {...props} classes={{ label: props.classes.label }} />);
 
-const inputStyles = createStyleSheet('StyledCheckbox', theme => {
-  return {
-    'correct-root': {
-      color: 'var(--choice-input-correct-color, black)',
-    },
-    'correct-checked': {
-      color: 'var(--choice-input-correct-selected-color, black)',
-    },
-    'correct-disabled': {
-      color: 'var(--choice-input-correct-disabled-color, black)',
-    },
-    'incorrect-root': {
-      color: 'var(--choice-input-incorrect-color, black)',
-    },
-    'incorrect-checked': {
-      color: 'var(--choice-input-incorrect-selected-color, black)',
-    },
-    'incorrect-disabled': {
-      color: 'var(--choice-input-incorrect-disabled-color, black)',
-    },
-    root: {
-      color: 'var(--choice-input-color, black)'
-    },
-    checked: {
-      color: 'var(--choice-input-selected-color, black)'
-    },
-    disabled: {
-      color: 'var(--choice-input-disabled-color, black)'
-    }
+const inputStyles = {
+  'correct-root': {
+    color: 'var(--choice-input-correct-color, black)',
+  },
+  'correct-checked': {
+    color: 'var(--choice-input-correct-selected-color, black)',
+  },
+  'correct-disabled': {
+    color: 'var(--choice-input-correct-disabled-color, black)',
+  },
+  'incorrect-root': {
+    color: 'var(--choice-input-incorrect-color, black)',
+  },
+  'incorrect-checked': {
+    color: 'var(--choice-input-incorrect-selected-color, black)',
+  },
+  'incorrect-disabled': {
+    color: 'var(--choice-input-incorrect-disabled-color, black)',
+  },
+  root: {
+    color: 'var(--choice-input-color, black)'
+  },
+  checked: {
+    color: 'var(--choice-input-selected-color, black)'
+  },
+  disabled: {
+    color: 'var(--choice-input-disabled-color, black)'
   }
-});
+};
 
-export const StyledCheckbox = withStyles(inputStyles)((props) => {
+export const StyledCheckbox = withStyles(inputStyles, { name: 'Checkbox' })((props) => {
 
   const { correctness, classes, checked, onChange, disabled } = props;
   const key = (k) => correctness ? `${correctness}-${k}` : k;
@@ -192,4 +184,4 @@ ChoiceInput.propTypes = {
 ChoiceInput.defaultProps = {
 };
 
-export default withStyles(styleSheet)(ChoiceInput);
+export default withStyles(styleSheet, { name: 'ChoiceInput' })(ChoiceInput);

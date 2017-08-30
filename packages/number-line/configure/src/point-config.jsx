@@ -1,16 +1,15 @@
-import {createStyleSheet, withStyles} from 'material-ui/styles';
-
 import Button from 'material-ui/Button';
 import React from 'react';
-import {pointChooser} from '@pie-elements/number-line';
+import { pointChooser } from '@pie-elements/number-line';
+import { withStyles } from 'material-ui/styles';
 
-const {Point} = pointChooser;
+const { Point } = pointChooser;
 
-const styles = createStyleSheet('PointConfig', theme => ({
+const styles = {
   displayToggles: {
     paddingTop: '20px'
   }
-}));
+};
 
 class PointConfig extends React.Component {
 
@@ -49,14 +48,14 @@ class PointConfig extends React.Component {
 
   render() {
 
-    const {classes} = this.props;
-    
+    const { classes } = this.props;
+
     const icons = PointConfig.types.map((point, key) => {
-    return <Point 
-          iconKey={point.toLowerCase()}
-          key={point.toLowerCase()}
-          onClick={this.toggle.bind(this, point)} 
-          active={this.active(point)}/>
+      return <Point
+        iconKey={point.toLowerCase()}
+        key={point.toLowerCase()}
+        onClick={this.toggle.bind(this, point)}
+        active={this.active(point)} />
     });
 
     return (
@@ -73,4 +72,4 @@ class PointConfig extends React.Component {
 
 PointConfig.types = ["PF", "PE", "LFF", "LEF", "LFE", "LEE", "RFN", "RFP", "REN", "REP"];
 
-export default withStyles(styles)(PointConfig);
+export default withStyles(styles, { name: 'PointConfig' })(PointConfig);

@@ -2,9 +2,19 @@ import Main from './main.jsx';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash/debounce';
+import debug from 'debug';
+import katex from 'katex';
 import { updateSessionValue } from './session-updater';
 
-export default class CorespringChoice extends HTMLElement {
+//Auto render requires the katex global
+window.katex = katex;
+const renderMathInElement = require('katex/dist/contrib/auto-render.min');
+
+require('katex/dist/katex.css');
+
+const log = debug('pie-elements:multiple-choice');
+
+export default class MultipleChoice extends HTMLElement {
 
   constructor() {
     super();
@@ -19,10 +29,13 @@ export default class CorespringChoice extends HTMLElement {
             session: this._session,
             onChoiceChanged: this._onChange.bind(this)
           });
-        ReactDOM.render(element, this);
+        ReactDOM.render(element, this, () => {
+          log('render complete - render math');
+          renderMathInElement(this);
+        });
 
       } else {
-        console.log('skip');
+        log('skip');
       }
     }, 50, { leading: false, trailing: true });
 

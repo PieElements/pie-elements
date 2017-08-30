@@ -2,11 +2,10 @@ import { ChoiceType, KeyType } from './choice-type';
 import { FormControl, FormControlLabel, FormLabel } from 'material-ui/Form';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import Tabs, { Tab } from 'material-ui/Tabs';
-import { createStyleSheet, withStyles } from 'material-ui/styles';
 
 import Button from 'material-ui/Button';
 import ChoiceConfig from './choice-config';
-import Langs from './langs';
+import { Langs } from '@pie-libs/config-ui';
 import { MuiThemeProvider } from 'material-ui/styles';
 import { MultiLangInput } from '@pie-libs/config-ui';
 import PartialScoringConfig from '@pie-libs/scoring-config/src/index.jsx';
@@ -14,6 +13,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import createMuiTheme from 'material-ui/styles/theme';
+import { withStyles } from 'material-ui/styles';
 
 const theme = createMuiTheme({});
 
@@ -44,6 +44,8 @@ export class Main extends React.Component {
       model,
       onDefaultLangChanged,
       onPartialScoringChanged,
+      onInsertImage,
+      onDeleteImage,
       classes
     } = this.props;
 
@@ -75,7 +77,9 @@ export class Main extends React.Component {
         textFieldLabel="prompt"
         value={model.prompt}
         lang={this.state.activeLang}
-        onChange={onPromptChanged} />
+        onChange={onPromptChanged}
+        onInsertImage={onInsertImage}
+        onDeleteImage={onDeleteImage} />
 
 
       {model.choices.map((choice, index) => {
@@ -87,7 +91,9 @@ export class Main extends React.Component {
           activeLang: this.state.activeLang,
           defaultLang: model.defaultLang,
           onChoiceChanged: onChoiceChanged.bind(null, index),
-          onRemoveChoice: onRemoveChoice.bind(null, index)
+          onRemoveChoice: onRemoveChoice.bind(null, index),
+          onInsertImage,
+          onDeleteImage
         }
         return <ChoiceConfig key={index} {...choiceProps} />;
       })}
@@ -100,7 +106,7 @@ export class Main extends React.Component {
     </div>;
 
     return <div>
-      <Tabs onChange={this.onTabsChange} index={index}>
+      <Tabs onChange={this.onTabsChange} value={index}>
         <Tab label="Design"></Tab>
         <Tab label="Scoring"></Tab>
       </Tabs>
@@ -115,27 +121,25 @@ export class Main extends React.Component {
 
 }
 
-const main = createStyleSheet('main', theme => {
-  return {
-    root: {
-      paddingTop: '10px',
-      paddingBottom: '10px'
-    },
-    languageControls: {
-      display: 'flex'
-    },
-    baseTypes: {
-      display: 'flex'
-    },
-    divider: {
-      paddingTop: '5px',
-      paddingBottom: '1px',
-      border: 'none',
-      borderBottom: 'solid 1px rgba(0, 0, 0, 0.128039)'
-    }
+const main = {
+  root: {
+    paddingTop: '10px',
+    paddingBottom: '10px'
+  },
+  languageControls: {
+    display: 'flex'
+  },
+  baseTypes: {
+    display: 'flex'
+  },
+  divider: {
+    paddingTop: '5px',
+    paddingBottom: '1px',
+    border: 'none',
+    borderBottom: 'solid 1px rgba(0, 0, 0, 0.128039)'
   }
-});
+};
 
-const StyledMain = withStyles(main)(Main);
+const StyledMain = withStyles(main, { name: 'Main' })(Main);
 
 export default (props) => <MuiThemeProvider theme={theme}><StyledMain {...props} /></MuiThemeProvider>;
