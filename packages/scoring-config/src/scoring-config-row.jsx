@@ -16,7 +16,7 @@ const RawRow = ({ classes, scorePercentage, numberOfCorrect, onRowChange, deleta
   const onScoreChange = (event, scorePercentage) => onRowChange({ scorePercentage, numberOfCorrect });
   const onNumberOfCorrectChange = (event, numberOfCorrect) => onRowChange({ scorePercentage, numberOfCorrect });
 
-  return <div className={classes.root}>
+  return <div className={classes.row}>
     Award <NumberTextField
       className={classes.field}
       min={1}
@@ -36,8 +36,10 @@ const RawRow = ({ classes, scorePercentage, numberOfCorrect, onRowChange, deleta
 };
 
 const rowStyles = theme => ({
-  root: {
-    fontFamily: theme.typography.fontFamily
+  row: {
+    fontFamily: theme.typography.fontFamily,
+    display: 'flex',
+    alignItems: 'center'
   },
   field: {
     width: '30px'
@@ -114,7 +116,6 @@ export class ScoringConfigRow extends React.Component {
     return <div>{partialScoring.map(this.toRow)}
       {canAddRow &&
         <div>
-          <hr />
           <Button
             raised
             color="primary"

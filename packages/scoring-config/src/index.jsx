@@ -19,23 +19,26 @@ const Empty = ({ classes }) => <div className={classes.root}>
 
 const StyledEmpty = withStyles(emptyStyles, { name: 'Empty' })(Empty);
 
-export default class PartialScoringConfig extends React.Component {
+export class PartialScoringConfig extends React.Component {
 
   render() {
-    const { numberOfCorrectResponses } = this.props;
+    const { numberOfCorrectResponses, classes } = this.props;
 
-    return <div>
-      <p>
+    return <div className={classes.scoringConfig}>
+      <Typography type="subheading">Partial Scoring Rules</Typography>
+      <br />
+      <Typography>
         If there is more than one correct answer to this question, you may allow partial credit based
         on the number of correct answers submitted. This is optional.
-      </p>
+      </Typography>
       <br />
-      <Card>
-        <CardContent>
-          <Typography type="body1">Partial Scoring Rules</Typography>
-          {numberOfCorrectResponses > 1 ? <ScoringConfigRow {...this.props} /> : <StyledEmpty />}
-        </CardContent>
-      </Card>
+      {numberOfCorrectResponses > 1 ? <ScoringConfigRow {...this.props} /> : <StyledEmpty />}
     </div>;
   }
 }
+
+export default withStyles({
+  scoringConfig: {
+    paddingTop: '10px'
+  }
+}, { name: 'PartialScoringConfig' })(PartialScoringConfig);
