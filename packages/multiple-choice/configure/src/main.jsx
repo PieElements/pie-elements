@@ -2,7 +2,6 @@ import { ChoiceType, KeyType } from './choice-type';
 import { FormControl, FormControlLabel, FormLabel } from 'material-ui/Form';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import Tabs, { Tab } from 'material-ui/Tabs';
-import { createStyleSheet, withStyles } from 'material-ui/styles';
 
 import Button from 'material-ui/Button';
 import ChoiceConfig from './choice-config';
@@ -14,6 +13,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import createMuiTheme from 'material-ui/styles/theme';
+import { withStyles } from 'material-ui/styles';
 
 const theme = createMuiTheme({});
 
@@ -121,27 +121,25 @@ export class Main extends React.Component {
 
 }
 
-const main = createStyleSheet('main', theme => {
-  return {
-    root: {
-      paddingTop: '10px',
-      paddingBottom: '10px'
-    },
-    languageControls: {
-      display: 'flex'
-    },
-    baseTypes: {
-      display: 'flex'
-    },
-    divider: {
-      paddingTop: '5px',
-      paddingBottom: '1px',
-      border: 'none',
-      borderBottom: 'solid 1px rgba(0, 0, 0, 0.128039)'
-    }
+const main = {
+  root: {
+    paddingTop: '10px',
+    paddingBottom: '10px'
+  },
+  languageControls: {
+    display: 'flex'
+  },
+  baseTypes: {
+    display: 'flex'
+  },
+  divider: {
+    paddingTop: '5px',
+    paddingBottom: '1px',
+    border: 'none',
+    borderBottom: 'solid 1px rgba(0, 0, 0, 0.128039)'
   }
-});
+};
 
-const StyledMain = withStyles(main)(Main);
+const StyledMain = withStyles(main, { name: 'Main' })(Main);
 
 export default (props) => <MuiThemeProvider theme={theme}><StyledMain {...props} /></MuiThemeProvider>;

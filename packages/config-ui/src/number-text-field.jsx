@@ -1,17 +1,16 @@
-import { createStyleSheet, withStyles } from 'material-ui/styles';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import classNames from 'classnames';
+import { withStyles } from 'material-ui/styles';
 
-const styles = createStyleSheet('NumberTextField', theme => ({
+const styles = {
   root: {
     width: '30px',
     paddingLeft: '10px',
     paddingRight: '10px',
   }
-}));
+};
 
 export class NumberTextField extends React.Component {
 
@@ -63,7 +62,7 @@ export class NumberTextField extends React.Component {
   }
 }
 
-const Out = withStyles(styles)(NumberTextField);
+const Out = withStyles(styles, { name: 'NumberTextField' })(NumberTextField);
 
 Out.propTypes = {
   className: PropTypes.string,

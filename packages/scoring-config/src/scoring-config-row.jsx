@@ -1,5 +1,3 @@
-import { createStyleSheet, withStyles } from 'material-ui/styles';
-
 import ActionDelete from 'material-ui-icons/Delete';
 import Button from 'material-ui/Button';
 import Decimal from 'decimal.js';
@@ -9,6 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Typography from 'material-ui/Typography';
 import cloneDeep from 'lodash/cloneDeep';
+import { withStyles } from 'material-ui/styles';
 
 export const defaultPercent = 0.2;
 
@@ -36,16 +35,16 @@ const RawRow = ({ classes, scorePercentage, numberOfCorrect, onRowChange, deleta
   </div>;
 };
 
-const rowStyles = createStyleSheet('Row', theme => ({
+const rowStyles = {
   root: {
     fontFamily: theme.typography.fontFamily
   },
   field: {
     width: '30px'
   }
-}));
+}
 
-const Row = withStyles(rowStyles)(RawRow);
+const Row = withStyles(rowStyles, { name: 'Row' })(RawRow);
 
 Row.propTypes = {
   numberOfCorrect: PropTypes.number.isRequired,
@@ -125,7 +124,7 @@ export class ScoringConfigRow extends React.Component {
   }
 }
 
-const styles = createStyleSheet('ScoringConfigRow', theme => ({}));
+const styles = {};
 
 const propTypes = {
   numberOfCorrectResponses: PropTypes.number.isRequired,
@@ -141,7 +140,7 @@ ScoringConfigRow.defaultProps = {
 
 ScoringConfigRow.propTypes = propTypes;
 
-const StyledConfigRow = withStyles(styles)(ScoringConfigRow);
+const StyledConfigRow = withStyles(styles, { name: 'ScoringConfigRow' })(ScoringConfigRow);
 
 ScoringConfigRow.propTypes = Object.assign({ classes: PropTypes.object.isRequired }, propTypes);
 

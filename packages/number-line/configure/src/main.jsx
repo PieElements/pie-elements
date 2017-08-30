@@ -7,7 +7,6 @@ import {
   tickUtils
 } from '@pie-elements/number-line';
 import { blue500, green500, green700, grey400, grey500, red500 } from 'material-ui/styles/colors';
-import { createStyleSheet, getMuiTheme, withStyles } from 'material-ui/styles';
 
 import Button from 'material-ui/Button';
 import { Checkbox } from './ui';
@@ -21,15 +20,13 @@ import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
 import classNames from 'classnames';
 import cloneDeep from 'lodash/cloneDeep';
+import { withStyles } from 'material-ui/styles';
 
 const { lineIsSwitched, switchGraphLine, toGraphFormat, toSessionFormat } = dataConverter;
 
-const styles = createStyleSheet('Main', theme => ({
+const styles = {
   row: {
     display: 'flex'
-  },
-  minorTicks: {
-
   },
   hide: {
     opacity: 0.5
@@ -40,7 +37,7 @@ const styles = createStyleSheet('Main', theme => ({
   pointTypeChooser: {
     margin: '20px 0'
   }
-}));
+};
 
 const defaultConfig = {
   domain: [0, 5],
@@ -304,4 +301,4 @@ class Main extends React.Component {
   }
 }
 
-export default withStyles(styles)(Main);
+export default withStyles(styles, { name: 'Main' })(Main);

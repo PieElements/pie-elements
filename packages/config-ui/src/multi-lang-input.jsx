@@ -1,9 +1,8 @@
-import { createStyleSheet, withStyles } from 'material-ui/styles';
-
 import EditableHtml from '@pie-libs/editable-html';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import debug from 'debug';
+import { withStyles } from 'material-ui/styles';
 
 const log = debug('config-ui:multi-lang-input');
 
@@ -37,18 +36,16 @@ export class MultiLangInput extends React.Component {
   }
 }
 
-const styles = createStyleSheet('MultiLangInput', theme => {
-
-  return {
-    root: {
-      position: 'relative',
-      display: 'block',
-      width: '100%'
-    },
-    textField: {
-      width: '100%'
-    }
+const styles = {
+  root: {
+    position: 'relative',
+    display: 'block',
+    width: '100%'
+  },
+  textField: {
+    width: '100%'
   }
-});
+};
 
-export default withStyles(styles)(MultiLangInput);
+
+export default withStyles(styles, { name: 'MultiLangInput' })(MultiLangInput);

@@ -1,10 +1,10 @@
 import { FormControl, FormControlLabel, FormLabel } from 'material-ui/Form';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import Tabs, { Tab } from 'material-ui/Tabs';
-import { createStyleSheet, withStyles } from 'material-ui/styles';
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import { withStyles } from 'material-ui/styles';
 
 const TwoChoice = ({ value, header, selectedValue, onChange, one, two, classes }) => (
   <FormControl className={classes.root}>
@@ -24,15 +24,13 @@ const TwoChoice = ({ value, header, selectedValue, onChange, one, two, classes }
 TwoChoice.propTypes = {
 };
 
-const styles = createStyleSheet('TwoChoice', theme => {
-  return {
-    root: {
-      paddingRight: '20px'
-    }
+const styles = {
+  root: {
+    paddingRight: '20px'
   }
-});
+};
 
-const StyledTwoChoice = withStyles(styles)(TwoChoice);
+const StyledTwoChoice = withStyles(styles, { name: 'TwoChoice' })(TwoChoice);
 
 export const ChoiceType = (props) => {
   let choiceProps = {

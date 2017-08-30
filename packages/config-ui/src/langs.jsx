@@ -1,11 +1,11 @@
 import Menu, { MenuItem } from 'material-ui/Menu';
-import { createStyleSheet, withStyles } from 'material-ui/styles';
 
 import Button from 'material-ui/Button';
 import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown';
 import React from 'react';
+import { withStyles } from 'material-ui/styles';
 
-const styles = createStyleSheet('Langs', theme => ({
+const styles = {
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -13,10 +13,10 @@ const styles = createStyleSheet('Langs', theme => ({
     paddingTop: '10px',
     paddingRight: '20px'
   }
-}));
+};
 
 
-const buttonStyles = createStyleSheet({
+const buttonStyles = {
   root: {
     display: 'inline-flex',
     padding: '5px',
@@ -27,7 +27,7 @@ const buttonStyles = createStyleSheet({
   icon: {
     fill: 'grey'
   }
-});
+};
 
 const RawSelectButton = (props) => {
   const { classes } = props;
@@ -39,7 +39,7 @@ const RawSelectButton = (props) => {
   >{props.children}<KeyboardArrowDown className={classes.icon} /></Button>
 };
 
-const SelectButton = withStyles(buttonStyles)(RawSelectButton);
+const SelectButton = withStyles(buttonStyles, { name: 'SelectButton' })(RawSelectButton);
 
 
 class Langs extends React.Component {
@@ -89,4 +89,4 @@ class Langs extends React.Component {
   }
 }
 
-export default withStyles(styles)(Langs);
+export default withStyles(styles, { name: 'Langs' })(Langs);

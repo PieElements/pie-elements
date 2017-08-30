@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { createStyleSheet, withStyles } from 'material-ui/styles';
 
 import ActionDelete from 'material-ui-icons/Delete';
 import ActionFeedback from 'material-ui-icons/Feedback';
@@ -12,6 +11,7 @@ import TextField from 'material-ui/TextField';
 import cloneDeep from 'lodash/cloneDeep';
 import isString from 'lodash/isString';
 import merge from 'lodash/merge';
+import { withStyles } from 'material-ui/styles';
 
 const defaultFeedback = (c) => c ? 'Correct!' : 'Incorrect';
 export class ChoiceConfig extends React.Component {
@@ -164,38 +164,36 @@ ChoiceConfig.props = {
   activeLang: PropTypes.string.isRequired
 }
 
-const styles = createStyleSheet('ChoiceConfig', theme => {
-  return {
-    root: {
-      paddingBottom: '10px',
-      paddingTop: '10px',
-    },
-    main: {
-      display: 'flex',
-      alignItems: 'flex-end',
-      paddingBottom: '8px'
-    },
-    feedback: {
-      display: 'flex'
-    },
-    indexAndModeTag: {
-      display: 'flex',
-      alignItems: 'center'
-    },
-    index: {
-      display: 'inline-block',
-      position: 'relative',
-      top: '0px',
-      fontWeight: 'bold',
-      fontSize: '18px',
-    },
-    valueField: {
-      width: '100px',
-      maxWidth: '100px',
-      marginRight: '10px',
-      marginLeft: '10px'
-    }
+const styles = {
+  root: {
+    paddingBottom: '10px',
+    paddingTop: '10px',
+  },
+  main: {
+    display: 'flex',
+    alignItems: 'flex-end',
+    paddingBottom: '8px'
+  },
+  feedback: {
+    display: 'flex'
+  },
+  indexAndModeTag: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  index: {
+    display: 'inline-block',
+    position: 'relative',
+    top: '0px',
+    fontWeight: 'bold',
+    fontSize: '18px',
+  },
+  valueField: {
+    width: '100px',
+    maxWidth: '100px',
+    marginRight: '10px',
+    marginLeft: '10px'
   }
-});
+};
 
-export default withStyles(styles)(ChoiceConfig);
+export default withStyles(styles, { name: 'ChoiceConfig' })(ChoiceConfig);
