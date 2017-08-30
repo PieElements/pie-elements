@@ -106,7 +106,7 @@ export class Main extends React.Component {
     </div>;
 
     return <div>
-      <Tabs onChange={this.onTabsChange} index={index}>
+      <Tabs onChange={this.onTabsChange} value={index}>
         <Tab label="Design"></Tab>
         <Tab label="Scoring"></Tab>
       </Tabs>

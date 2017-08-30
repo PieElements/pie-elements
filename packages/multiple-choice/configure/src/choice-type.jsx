@@ -12,7 +12,7 @@ const TwoChoice = ({ value, header, selectedValue, onChange, one, two, classes }
     <RadioGroup
       aria-label="choice-type"
       name={header}
-      selectedValue={value}
+      value={value}
       onChange={onChange}>
       <FormControlLabel value={one.value} control={<Radio />} label={one.label} />
       <FormControlLabel value={two.value} control={<Radio />} label={two.label} />
