@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@pie-libs/math-input": "PieLabs/math-input",
+    "@pie-libs/math-input": "^0.3.0",
     "debug": "^3.0.0",
     "keycode": "^2.1.9",
     "material-ui": "1.0.0-beta.6",
