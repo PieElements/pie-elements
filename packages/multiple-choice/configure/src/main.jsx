@@ -114,7 +114,7 @@ export class Main extends React.Component {
       {index === 1 && <PartialScoringConfig
         partialScoring={model.partialScoring}
         numberOfCorrectResponses={model.choices.filter(choice => choice.correct).length}
-        onPartialScoringChange={onPartialScoringChanged} />}
+        onChange={onPartialScoringChanged} />}
     </div>;
   }
 
