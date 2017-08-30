@@ -1,4 +1,5 @@
 import {
+  FeedbackConfig,
   Langs,
   MultiLangInput
 } from '@pie-libs/config-ui';
@@ -6,7 +7,6 @@ import {
 import Button from 'material-ui/Button';
 import Checkbox from 'material-ui/Checkbox';
 import ChoiceConfig from './choice-config';
-import FeedbackConfig from '@pie-libs/feedback-config';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 
