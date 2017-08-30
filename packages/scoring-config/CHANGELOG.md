@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/scoring-config@0.2.5...@pie-libs/scoring-config@0.3.0) (2017-08-30)
+
+
+### Features
+
+* **ui:** polish ui ([2157dc0](https://github.com/pieelements/pie-elements/commit/2157dc0))
+
+
+
+
 <a name="0.2.5"></a>
 ## [0.2.5](https://github.com/pieelements/pie-elements/compare/@pie-libs/scoring-config@0.2.4...@pie-libs/scoring-config@0.2.5) (2017-08-30)
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.9"></a>
+## [0.1.9](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.1.8...@pie-elements/multiple-choice@0.1.9) (2017-08-30)
+
+
+### Bug Fixes
+
+* **scoring:** fix change handler name ([09ce9b0](https://github.com/PieElements/pie-elements/commit/09ce9b0))
+
+
+
+
 <a name="0.1.8"></a>
 ## [0.1.8](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.1.7...@pie-elements/multiple-choice@0.1.8) (2017-08-30)
 

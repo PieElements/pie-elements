@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@0.1.4...@pie-libs/config-ui@0.2.0) (2017-08-30)
+
+
+### Features
+
+* **feedback-config:** add feedback config component ([a049392](https://github.com/pieelements/pie-elements/commit/a049392))
+
+
+
+
 <a name="0.1.4"></a>
 ## [0.1.4](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@0.1.3...@pie-libs/config-ui@0.1.4) (2017-08-30)
 
