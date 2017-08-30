@@ -9,7 +9,7 @@
     "react-tap-event-plugin": "^2.0.1",
     "@pie-elements/number-line": "..",
     "@pie-libs/feedback-config": "^0.0.1",
-    "@pie-libs/config-ui": "^0.0.1",
+    "@pie-libs/config-ui": "^0.1.3",
     "material-ui": "1.0.0-beta.6"
   }
 }
