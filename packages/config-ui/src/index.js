@@ -1,4 +1,4 @@
-import FeedbackConfig, { defaults as feedbackConfigDefaults } from './feedback-config';
+import FeedbackConfig, { FeedbackSelector, buildDefaults as feedbackConfigDefaults } from './feedback-config';
 
 import Langs from './langs';
 import MultiLangInput from './multi-lang-input';
@@ -9,5 +9,6 @@ export {
   MultiLangInput,
   NumberTextField,
   FeedbackConfig,
+  FeedbackSelector,
   feedbackConfigDefaults
 }

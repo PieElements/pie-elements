@@ -1,20 +1,21 @@
 import Card, { CardContent } from 'material-ui/Card';
 
 import FeedbackSelector from './feedback-selector';
+import PropTypes from 'prop-types';
 import React from 'react';
 import Typography from 'material-ui/Typography';
 import cloneDeep from 'lodash/cloneDeep';
 import { withStyles } from 'material-ui/styles';
 
+export { FeedbackSelector };
+
 const style = {}
 
-export const defaults = (input) => {
-  Object.assign({}, {
-    correctFeedbackType: 'default',
-    incorrectFeedbackType: 'default',
-    partialFeedbackType: 'default'
-  }, input)
-}
+export const buildDefaults = (input) => Object.assign({}, {
+  correctFeedbackType: 'default',
+  incorrectFeedbackType: 'default',
+  partialFeedbackType: 'default'
+}, input)
 
 export class FeedbackConfig extends React.Component {
 
@@ -27,40 +28,63 @@ export class FeedbackConfig extends React.Component {
 
   onChange(key, data) {
     const { defaults, onChange, feedback } = this.props;
-    const { feedbackType } = data;
+    const { type, default: defaultFeedback, customFeedback } = data;
     const out = cloneDeep(feedback);
-    out[`${key}FeedbackType`] = feedbackType;
-    out[`${key}Feedback`] = feedbackType === 'custom' ? data.feedback : (feedbackType === 'default' ? defaults[key] : '');
+    out[`${key}FeedbackType`] = type;
+    out[`${key}Feedback`] = type === 'custom' ? customFeedback : (type === 'default' ? defaults[key] : '');
     onChange(out);
   }
 
+  mkModel(key) {
+    const { feedback, defaults } = this.props;
+    return {
+      type: feedback[`${key}FeedbackType`],
+      default: defaults[key],
+      customFeedback: feedback[`${key}Feedback`]
+    }
+  }
 
   render() {
     const { defaults, feedback } = this.props;
+
+    const correct = this.mkModel('correct');
+    const incorrect = this.mkModel('incorrect');
+    const partial = this.mkModel('partial');
+
     return <Card>
       <CardContent>
         <Typography type="headline">Feedback</Typography>
         <FeedbackSelector
           label="If correct, show"
-          feedbackType={feedback.correctFeedbackType}
-          customFeedback={feedback.correctFeedback}
-          defaultFeedback={defaults.correct}
-          onChange={this.onCorrectChange} />
+          feedback={correct}
+          onFeedbackChange={this.onCorrectChange} />
         <FeedbackSelector
           label="If partially correct, show"
-          feedbackType={feedback.partialFeedbackType}
-          customFeedback={feedback.partialFeedback}
-          defaultFeedback={defaults.partial}
-          onChange={this.onPartialChange} />
+          feedback={partial}
+          onFeedbackChange={this.onPartialChange} />
         <FeedbackSelector
           label="If incorrect, show"
-          feedbackType={feedback.incorrectFeedbackType}
-          customFeedback={feedback.incorrectFeedback}
-          defaultFeedback={defaults.incorrect}
-          onChange={this.onIncorrectChange} />
+          feedback={incorrect}
+          onFeedbackChange={this.onIncorrectChange} />
       </CardContent>
     </Card>;
   }
+}
+
+FeedbackConfig.propTypes = {
+  defaults: PropTypes.shape({
+    correct: PropTypes.string.isRequired,
+    incorrect: PropTypes.string.isRequired,
+    partial: PropTypes.string.isRequired
+  }),
+  feedback: PropTypes.shape({
+    correctFeedback: PropTypes.string,
+    correctFeedbackType: PropTypes.string,
+    incorrectFeedback: PropTypes.string,
+    incorrectFeedbackType: PropTypes.string,
+    defaultFeedback: PropTypes.string,
+    defaultFeedbackType: PropTypes.string,
+  })
 }
 
 FeedbackConfig.defaultProps = {
