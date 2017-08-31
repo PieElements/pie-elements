@@ -6,9 +6,9 @@ export default class PlacementOrderingConfigReactElement extends HTMLElement {
 
   constructor() {
     super();
-    this.onChoicesChanged = this.onChoicesChanged.bind(this);
-    this.onCorrectResponseChanged = this.onCorrectResponseChanged.bind(this);
-    this.onDefaultLangChanged = this.onDefaultLangChanged.bind(this);
+    this.onChoicesChange = this.onChoicesChange.bind(this);
+    this.onCorrectResponseChange = this.onCorrectResponseChange.bind(this);
+    this.onDefaultLangChange = this.onDefaultLangChange.bind(this);
     this.onPartialScoringChange = this.onPartialScoringChange.bind(this);
     this.onFeedbackChange = this.onFeedbackChange.bind(this);
   }
@@ -18,7 +18,7 @@ export default class PlacementOrderingConfigReactElement extends HTMLElement {
     this._rerender();
   }
 
-  onChoicesChanged(choices) {
+  onChoicesChange(choices) {
     this._model.model.choices = choices;
     let detail = {
       update: this._model
@@ -27,7 +27,7 @@ export default class PlacementOrderingConfigReactElement extends HTMLElement {
     this._rerender();
   }
 
-  onCorrectResponseChanged(correctResponse) {
+  onCorrectResponseChange(correctResponse) {
     this._model.correctResponse = correctResponse;
     let detail = {
       update: this._model
@@ -36,7 +36,7 @@ export default class PlacementOrderingConfigReactElement extends HTMLElement {
     this._rerender();
   }
 
-  onDefaultLangChanged(lang) {
+  onDefaultLangChange(lang) {
     this._model.defaultLang = lang;
     let detail = {
       update: this._model
@@ -67,9 +67,9 @@ export default class PlacementOrderingConfigReactElement extends HTMLElement {
   _rerender() {
     let element = React.createElement(Main, {
       model: this._model,
-      onChoicesChanged: this.onChoicesChanged,
-      onCorrectResponseChanged: this.onCorrectResponseChanged,
-      onDefaultLangChanged: this.onDefaultLangChanged,
+      onChoicesChange: this.onChoicesChange,
+      onCorrectResponseChange: this.onCorrectResponseChange,
+      onDefaultLangChange: this.onDefaultLangChange,
       onPartialScoringChange: this.onPartialScoringChange,
       onFeedbackChange: this.onFeedbackChange
     });

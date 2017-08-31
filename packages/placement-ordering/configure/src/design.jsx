@@ -7,6 +7,7 @@ import {
 import Button from 'material-ui/Button';
 import Checkbox from 'material-ui/Checkbox';
 import ChoiceConfig from './choice-config';
+import PropTypes from 'prop-types';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 
@@ -148,6 +149,10 @@ class Design extends React.Component {
           onChange={onFeedbackChange} />
       </div>);
   }
+}
+
+Design.propTypes = {
+  onPromptChanged: PropTypes.func.isRequired
 }
 
 export default Design;
