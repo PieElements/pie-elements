@@ -116,7 +116,7 @@ class Design extends React.Component {
 
   render() {
 
-    const { model, onDefaultLangChanged, onPromptChanged, onFeedbackChange } = this.props;
+    const { model, onDefaultLangChange, onPromptChange, onFeedbackChange } = this.props;
     const { activeLang, allMoveOnDrag } = this.state;
     return (
       <div>
@@ -134,13 +134,13 @@ class Design extends React.Component {
             label="Default language"
             langs={model.langs}
             selected={model.defaultLang}
-            onChange={(e, index, l) => onDefaultLangChanged(l)} />
+            onChange={(e, index, l) => onDefaultLangChange(l)} />
         </div>
         <MultiLangInput
           textFieldLabel="Prompt"
           value={model.model.prompt}
           lang={activeLang}
-          onChange={onPromptChanged} />
+          onChange={onPromptChange} />
         <Checkbox label="Remove all tiles after placing" checked={allMoveOnDrag} onChange={this.toggleAllOnDrag} />
         <ul className="choices-config-list">{model.correctResponse.map(this.toChoiceConfig)}</ul>
         <Button raised color="primary" onClick={this.onAddChoice.bind(this)} >Add a choice</Button>
@@ -152,7 +152,9 @@ class Design extends React.Component {
 }
 
 Design.propTypes = {
-  onPromptChanged: PropTypes.func.isRequired
+  onPromptChange: PropTypes.func.isRequired,
+  onDefaultLangChange: PropTypes.func.isRequired,
+  onFeedbackChange: PropTypes.func.isRequired,
 }
 
 export default Design;
