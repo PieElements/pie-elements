@@ -44,7 +44,11 @@ export function model(question, session, env) {
   /**
    * If there is a shuffled order stored in the session, restore it. Otherwise shuffle
    * all choices which do not have their shuffle property explicitly set to false. 
+   * 
+   * TODO: need to add a method to `model`: `saveSession: (session) => Promise<session>`
+   * To allow the shuffle to be persisted.
    */
+
   function shuffle(session, choices) {
     if (session.stash && session.stash.shuffledOrder) {
       return session.stash.shuffledOrder.map((choiceId) => {

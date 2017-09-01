@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { DragSource as dragSource } from 'react-dnd';
+import { withStyles } from 'material-ui/styles';
 
 const choiceSource = {
   beginDrag(props) {
     return {
       id: props.choiceId,
-      index: props.index,
       sourceId: props.sourceId,
-      componentId: props.componentId
     };
   },
 
@@ -34,8 +34,9 @@ function collect(connect, monitor) {
 
 class DraggableChoice extends Component {
   render() {
-    const { connectDragSource, isDragging, text } = this.props;
-    let className = "choice " + (isDragging ? 'dragging' : '') + (this.props.outcome || '');
+    const { connectDragSource, isDragging, text, classes } = this.props;
+    let className = classNames(classes.draggableChoice, isDragging && classes.dragging);
+    // "choice " + (isDragging ? 'dragging' : '') + (this.props.outcome || '');
     return connectDragSource(
       <div
         className={className}
@@ -48,16 +49,27 @@ class DraggableChoice extends Component {
   }
 }
 
+const styles = {
+  draggableChoice: {
+
+  },
+  dragging: {
+
+  }
+}
+
+const Styled = withStyles(styles)(DraggableChoice);
+
 DraggableChoice.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
-  index: PropTypes.number.isRequired,
+  // index: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
   outcome: PropTypes.string,
   choiceId: PropTypes.string.isRequired,
-  componentId: PropTypes.string.isRequired,
+  // componentId: PropTypes.string.isRequired,
   onDragInvalid: PropTypes.func
 };
 
-export default dragSource('CHOICE', choiceSource, collect)(DraggableChoice);
+export default dragSource('CHOICE', choiceSource, collect)(Styled);
