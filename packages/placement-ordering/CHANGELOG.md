@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.0.7"></a>
+## [0.0.7](https://github.com/PieELements/pie-elements/compare/@pie-elements/placement-ordering@0.0.6...@pie-elements/placement-ordering@0.0.7) (2017-09-01)
+
+
+### Bug Fixes
+
+* **configure:** use new `Checkbox` from `config-ui` ([4caca42](https://github.com/PieELements/pie-elements/commit/4caca42))
+
+
+
+
 <a name="0.0.6"></a>
 ## [0.0.6](https://github.com/PieELements/pie-elements/compare/@pie-elements/placement-ordering@0.0.5...@pie-elements/placement-ordering@0.0.6) (2017-09-01)
 

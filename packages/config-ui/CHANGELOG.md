@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.0.0...@pie-libs/config-ui@1.1.0) (2017-09-01)
+
+
+### Features
+
+* **Checkbox:** add Checkbox component ([01ffcae](https://github.com/pieelements/pie-elements/commit/01ffcae))
+
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@0.2.0...@pie-libs/config-ui@1.0.0) (2017-09-01)
 
