@@ -1,9 +1,8 @@
+import { Checkbox, MultiLangInput } from '@pie-libs/config-ui';
 import { DragSource, DropTarget } from 'react-dnd';
 
-import Checkbox from './checkbox';
 import { Delete } from 'material-ui-icons';
 import IconButton from 'material-ui/IconButton';
-import { MultiLangInput } from '@pie-libs/config-ui';
 import React from 'react';
 import { DragSource as dragSource } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
@@ -45,12 +44,12 @@ class ChoiceConfig extends React.Component {
     super(props);
   }
 
-  onLabelChanged(value, lang) {
-    this.props.onLabelChanged(value, lang);
+  onLabelChange(value, lang) {
+    this.props.onLabelChange(value, lang);
   }
 
-  onMoveOnDragChanged(event, value) {
-    this.props.onMoveOnDragChanged(!value);
+  onMoveOnDragChange(event, value) {
+    this.props.onMoveOnDragChange(!value);
   }
 
   render() {
@@ -62,9 +61,9 @@ class ChoiceConfig extends React.Component {
         placeholder="Enter a choice"
         value={choice.label}
         lang={this.props.activeLang}
-        onChange={this.onLabelChanged.bind(this)} />
+        onChange={this.onLabelChange.bind(this)} />
       <IconButton style={{ flex: 1 }} onClick={this.props.onDelete.bind(this)}><Delete /></IconButton>
-      <Checkbox label="Remove tile after placing" checked={choice.moveOnDrag === false} onChange={this.onMoveOnDragChanged.bind(this)} />
+      <Checkbox label="Remove tile after placing" checked={choice.moveOnDrag === false} onChange={this.onMoveOnDragChange.bind(this)} />
     </li>));
   }
 

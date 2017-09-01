@@ -1,4 +1,5 @@
 import {
+  Checkbox,
   FeedbackConfig,
   Langs,
   MultiLangInput
@@ -6,7 +7,6 @@ import {
 import { FormControlLabel, FormGroup } from 'material-ui/Form';
 
 import Button from 'material-ui/Button';
-import Checkbox from './checkbox';
 import ChoiceConfig from './choice-config';
 import PropTypes from 'prop-types';
 import React from 'react';
