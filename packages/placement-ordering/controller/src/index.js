@@ -1,6 +1,9 @@
 import { flattenCorrect, score } from './scoring';
 
 import _ from 'lodash';
+import debug from 'debug';
+
+const log = debug('pie-elements:placement-ordering:controller');
 
 export function outcome(question, session, env) {
   session.value = session.value || [];
@@ -15,7 +18,6 @@ export function outcome(question, session, env) {
       });
     }
   });
-
 }
 
 export function model(question, session, env) {
@@ -24,6 +26,8 @@ export function model(question, session, env) {
   console.log('[state] env:', JSON.stringify(env, null, '  '));
 
   function getLabel(arr, lang, fallbackLang) {
+    fallbackLang = fallbackLang || 'en-US';
+    log('arr: ', arr, 'lang: ', lang, 'fallbackLang:', fallbackLang);
     let label = arr.find(l => l.lang === lang);
 
     if (label && !_.isEmpty(label.value)) {

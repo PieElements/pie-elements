@@ -109,7 +109,7 @@ const styles = {
 };
 
 
-const Choice = ({ componentId, disabled, isDroppedAlready, choice, index }) => {
+export const Choice = ({ componentId, disabled, isDroppedAlready, choice, index }) => {
   return (isDroppedAlready && choice.moveOnDrag) ?
     <div className="choice placeholder" key={index}></div> :
     <DraggableChoice
