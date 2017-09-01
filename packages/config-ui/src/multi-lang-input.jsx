@@ -1,9 +1,9 @@
 import EditableHtml from '@pie-libs/editable-html';
+import PropTypes from 'prop-types';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import debug from 'debug';
 import { withStyles } from 'material-ui/styles';
-
 const log = debug('config-ui:multi-lang-input');
 
 export class MultiLangInput extends React.Component {
@@ -19,8 +19,8 @@ export class MultiLangInput extends React.Component {
   }
 
   render() {
-    const { lang, value, textFieldLabel, classes, onInsertImage, onDeleteImage } = this.props;
-
+    const { lang, value, textFieldLabel, classes, imageSupport } = this.props;
+    log('value: ', value);
     const renderValue = (typeof value === 'string') ?
       value : (value.find(t => t.lang === lang) || {}).value || '';
 
@@ -30,11 +30,7 @@ export class MultiLangInput extends React.Component {
       <EditableHtml
         markup={renderValue}
         onChange={this.onChange}
-        imageSupport={{
-          add: onInsertImage,
-          delete: onDeleteImage
-        }}
-      />
+        imageSupport={imageSupport} />
     </div>;
   }
 }
@@ -50,5 +46,22 @@ const styles = {
   }
 };
 
+const LangValue = PropTypes.shape({
+  lang: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired
+});
+
+MultiLangInput.propTypes = {
+  imageSupport: PropTypes.shape({
+    add: PropTypes.func.isRequired,
+    delete: PropTypes.func.isRequired
+  }),
+  lang: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(LangValue)]).isRequired
+}
+
+MultiLangInput.defaultProps = {
+  imageSupport: null
+}
 
 export default withStyles(styles, { name: 'MultiLangInput' })(MultiLangInput);
