@@ -8,7 +8,7 @@
     "react-dom": "^15.4.1",
     "react-tap-event-plugin": "^2.0.1",
     "@pie-elements/number-line": "..",
-    "@pie-libs/config-ui": "^0.2.0",
+    "@pie-libs/config-ui": "^1.1.0",
     "material-ui": "1.0.0-beta.6"
   }
 }

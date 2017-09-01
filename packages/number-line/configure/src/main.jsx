@@ -1,5 +1,9 @@
 import Card, { CardActions, CardContent } from 'material-ui/Card';
-import { FeedbackConfig, NumberTextField } from '@pie-libs/config-ui';
+import {
+  Checkbox,
+  FeedbackConfig,
+  NumberTextField
+} from '@pie-libs/config-ui';
 import { FormControlLabel, FormGroup } from 'material-ui/Form';
 import {
   Graph,
@@ -10,7 +14,6 @@ import {
 import { blue500, green500, green700, grey400, grey500, red500 } from 'material-ui/styles/colors';
 
 import Button from 'material-ui/Button';
-import { Checkbox } from './ui';
 import Domain from './domain';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PointConfig from './point-config';
