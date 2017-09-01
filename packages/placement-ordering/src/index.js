@@ -2,7 +2,15 @@ import Main from './main.jsx';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import compact from 'lodash/compact';
+import katex from 'katex';
 import withContext from './with-context';
+
+//Auto render requires the katex global
+window.katex = katex;
+const renderMathInElement = require('katex/dist/contrib/auto-render.min');
+
+require('katex/dist/katex.css');
+
 export {
   withContext
 }
@@ -28,7 +36,9 @@ export default class CorespringOrdering extends HTMLElement {
         session: this._session,
         sessionChanged: this.sessionChanged
       });
-      ReactDOM.render(element, this);
+      ReactDOM.render(element, this, () => {
+        renderMathInElement(this);
+      });
     }
   }
 

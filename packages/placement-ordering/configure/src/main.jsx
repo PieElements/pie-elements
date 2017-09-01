@@ -26,7 +26,7 @@ class Main extends React.Component {
 
     return (
       <div>
-        <Tabs onChange={this.onTabIndexChange} index={index}>
+        <Tabs onChange={this.onTabIndexChange} value={index}>
           <Tab label="Design" />
           <Tab label="Scoring" />
         </Tabs>

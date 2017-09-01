@@ -1,6 +1,6 @@
 import { DragSource, DropTarget } from 'react-dnd';
 
-import Checkbox from 'material-ui/Checkbox';
+import Checkbox from './checkbox';
 import { Delete } from 'material-ui-icons';
 import IconButton from 'material-ui/IconButton';
 import { MultiLangInput } from '@pie-libs/config-ui';

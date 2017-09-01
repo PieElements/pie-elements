@@ -238,7 +238,9 @@ export class PlacementOrdering extends React.Component {
     return (
       <div className={names}>
 
-        <div className={classes.prompt}>{model.prompt}</div>
+        <div className={classes.prompt}
+          dangerouslySetInnerHTML={{ __html: model.prompt }}></div>
+
         <CorrectAnswerToggle
           show={showToggle}
           toggled={this.state.showingCorrect}
