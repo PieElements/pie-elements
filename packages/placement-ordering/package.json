@@ -1,6 +1,6 @@
 {
   "name": "@pie-elements/placement-ordering",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "src/index.js",
   "description": "A pie placement component",
   "keywords": [
