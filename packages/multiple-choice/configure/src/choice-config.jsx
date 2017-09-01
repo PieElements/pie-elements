@@ -108,6 +108,11 @@ export class ChoiceConfig extends React.Component {
 
     const ChoiceModeTag = choiceMode === 'checkbox' ? Checkbox : Radio;
 
+    const imageSupport = {
+      add: onInsertImage,
+      delete: onDeleteImage
+    }
+
     return <div className={classes.root}>
       <div className={classes.main}>
         <div className={classes.indexAndModeTag}>
@@ -127,8 +132,7 @@ export class ChoiceConfig extends React.Component {
           value={choice.label}
           lang={activeLang}
           onChange={this.onLabelChanged}
-          onInsertImage={onInsertImage}
-          onDeleteImage={onDeleteImage} />
+          imageSupport={imageSupport} />
         <FeedbackMenu
           value={choice.feedback.type}
           onChange={this.onFeedbackTypeChanged} />
@@ -144,8 +148,7 @@ export class ChoiceConfig extends React.Component {
             value={choice.feedback.custom}
             lang={activeLang}
             onChange={this.onFeedbackChanged}
-            onInsertImage={onInsertImage}
-            onDeleteImage={onDeleteImage} />
+            imageSupport={imageSupport} />
         </div>
       }
 

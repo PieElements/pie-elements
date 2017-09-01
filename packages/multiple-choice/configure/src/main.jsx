@@ -78,8 +78,11 @@ export class Main extends React.Component {
         value={model.prompt}
         lang={this.state.activeLang}
         onChange={onPromptChanged}
-        onInsertImage={onInsertImage}
-        onDeleteImage={onDeleteImage} />
+        imageSupport={{
+          add: onInsertImage,
+          delete: onDeleteImage
+        }}
+      />
 
 
       {model.choices.map((choice, index) => {
