@@ -1,5 +1,6 @@
 import FeedbackConfig, { FeedbackSelector, buildDefaults as feedbackConfigDefaults } from './feedback-config';
 
+import Checkbox from './checkbox';
 import Langs from './langs';
 import MultiLangInput from './multi-lang-input';
 import NumberTextField from './number-text-field';
@@ -10,5 +11,6 @@ export {
   NumberTextField,
   FeedbackConfig,
   FeedbackSelector,
-  feedbackConfigDefaults
+  feedbackConfigDefaults,
+  Checkbox
 }
