@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
+import { DropTarget } from 'react-dnd';
 import PropTypes from 'prop-types';
-import { DropTarget as dropTarget } from 'react-dnd';
 
 const choiceTarget = {
   drop(props, monitor, dropZone) {
@@ -46,4 +46,4 @@ DroppableTarget.propTypes = {
   onDropChoice: PropTypes.func
 };
 
-export default dropTarget('CHOICE', choiceTarget, collect)(DroppableTarget);
+export default DropTarget('CHOICE', choiceTarget, collect)(DroppableTarget);
