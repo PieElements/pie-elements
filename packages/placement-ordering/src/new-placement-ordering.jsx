@@ -2,18 +2,22 @@ import mkDraggable, { ConnectedComponent } from './draggable-choice';
 import mkDroppable, { ConnectedDropTarget } from './droppable-target';
 
 import CorrectAnswerToggle from '@pie-libs/correct-answer-toggle';
+import CustomDragLayer from './drag-layer';
 import DraggableChoice from './DraggableChoice';
 import PropTypes from 'prop-types';
 import React from 'react';
 import compact from 'lodash/compact';
 import debug from 'debug';
+import viewModel from './view-model';
 import { withStyles } from 'material-ui/styles';
 
 //https://github.com/react-dnd/react-dnd/issues/442
 const log = debug('pie-elements:placement-ordering');
 
 export const RawChoice = (props) => {
-  return <pre style={{ border: 'solid 1px red' }}>{JSON.stringify(props, null, '  ')}</pre>
+
+  const opacity = props.isDragging ? 0.5 : 1;
+  return <pre style={{ height: '120px', border: 'solid 1px red', opacity }}>{JSON.stringify(props, null, '  ')}</pre>
 }
 
 export const DropTarget = (props) => {
@@ -42,7 +46,6 @@ class PlacementOrdering extends React.Component {
       return compact(session.value).indexOf(choice.id) !== -1;
     }
 
-
     this.buildTargetView = () => {
       const { session, model } = this.props;
       const length = model.choices.length;
@@ -56,7 +59,7 @@ class PlacementOrdering extends React.Component {
             onDropChoice: function () {
               log('[onDropChoice]', arguments);
             }
-          })
+          });
         } else {
           const tv = Object.assign({}, s, {
             onDropChoice: function () {
@@ -99,21 +102,21 @@ class PlacementOrdering extends React.Component {
 
     log('[render] targetView', targetView);
 
+    const viewModel = new ViewModel(model.choices, session.value, { disabled: model.disabled }, this.props.onSessionChange);
+
     return <div className={classes.placementOrdering}>
       <CorrectAnswerToggle
         show={showToggle}
         toggled={this.state.showingCorrect}
         onToggle={this.toggleCorrect} />
+
+      {/* <CustomDragLayer /> */}
       <div className={classes.prompt}
         dangerouslySetInnerHTML={{ __html: model.prompt }}></div>
 
       <div className={classes.choicesAndTargets}>
-        <div className={classes.choices}>
-          {choiceView.map((c, index) => <NewDraggableChoice {...c} key={index} />)}
-        </div>
-        <div className={classes.targets}>
-          {targetView.map((t, index) => <NewDropTarget {...t} key={index} />)}
-        </div>
+        {choiceView.map((c, index) => <NewDraggableChoice {...c} key={index} />)}
+        {targetView.map((t, index) => <NewDropTarget {...t} key={index} />)}
       </div>
     </div>;
   }
@@ -124,7 +127,11 @@ const styles = {
     padding: '5px'
   },
   choicesAndTargets: {
-    display: 'flex'
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gridTemplateRows: 'repeat(4, 1fr)',
+    gridAutoFlow: 'column',
+    gridGap: '10px'
   },
   choices: {
     backgroundColor: 'magenta'

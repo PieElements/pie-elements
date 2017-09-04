@@ -9,7 +9,6 @@ import injectSheet from 'react-jss';
 import isEmpty from 'lodash/isEmpty';
 import some from 'lodash/some';
 import uniqueId from 'lodash/uniqueId';
-
 const choiceWidth = 150;
 
 const styles = {
