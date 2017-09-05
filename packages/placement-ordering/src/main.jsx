@@ -1,4 +1,4 @@
-import PlacementOrdering from './new-placement-ordering.jsx'
+import PlacementOrdering from './placement-ordering'
 import React from 'react';
 import withContext from './with-context';
 
