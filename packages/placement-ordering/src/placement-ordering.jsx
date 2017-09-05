@@ -49,8 +49,9 @@ class PlacementOrdering extends React.Component {
       buildState(model.choices, model.correctResponse, model.correctResponse.map(id => ({ id, outcome: 'correct' })), { includeTargets }) :
       buildState(model.choices, session.value, model.outcomes, { includeTargets });
 
-    const mainAxisCount = `repeat(${model.choices.length}, 1fr)`;
-    const minorAxisCount = `repeat(${includeTargets ? '2' : '1'}, 1fr)`;
+    const tileSize = model.config ? (model.config.tileSize || '1fr') : '1fr';
+    const mainAxisCount = `repeat(${model.choices.length}, ${tileSize})`;
+    const minorAxisCount = `repeat(${includeTargets ? '2' : '1'}, ${tileSize})`;
 
     const choicesAndTargetStyle = {
       gridAutoFlow: vertical ? 'column' : 'row',
@@ -79,8 +80,15 @@ class PlacementOrdering extends React.Component {
 }
 
 const styles = {
+  placementOrdering: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    boxSizing: 'border-box'
+  },
   prompt: {
-    padding: '5px'
+    padding: '5px',
+    paddingBottom: '15px'
   },
   choicesAndTargets: {
     display: 'grid',

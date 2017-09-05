@@ -50,8 +50,8 @@ function buildTiles(choices, response, outcomes, opts) {
       const r = response[i];
 
       const choice = choices.find(c => r && c.id === r);
-
-      const outcome = outcomes.find(o => r && o.id === r);
+      //TODO: index needs to match too!!
+      const outcome = outcomes[i];
 
       const out = Object.assign(
         { type: 'target', index: i, empty: choice === undefined },

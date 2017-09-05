@@ -135,7 +135,10 @@ const StyledTile = withStyles({
     boxSizing: 'border-box',
     overflow: 'hidden',
     margin: '0px',
-    padding: '0px'
+    padding: '0px',
+    width: '100%',
+    height: '100%',
+    textAlign: 'center'
   }
 })(Tile);
 

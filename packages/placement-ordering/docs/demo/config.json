@@ -107,7 +107,8 @@
       "config": {
         "shuffle": true,
         "placementType": "placement",
-        "choiceAreaLayout": "horizontal"
+        "choiceAreaLayout": "vertical",
+        "tileSize": "100px"
       }
     }
   ]
