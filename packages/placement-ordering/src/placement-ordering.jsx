@@ -8,7 +8,12 @@ import debug from 'debug';
 import { withStyles } from 'material-ui/styles';
 
 const log = debug('pie-elements:placement-ordering');
-
+/**
+ * TODO: 
+ * labels
+ * hide choice placholders
+ * drag out removes response
+ */
 class PlacementOrdering extends React.Component {
 
   constructor(props) {
