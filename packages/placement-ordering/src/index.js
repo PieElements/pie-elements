@@ -15,37 +15,33 @@ export {
   withContext
 }
 
-/**
- * TODO: 
- * - move js to end of body pie-cli
- * - shared components for config panels
- * - polish config panel
- */
-
-export default class CorespringOrdering extends HTMLElement {
+export default class Ordering extends HTMLElement {
 
   constructor() {
     super();
-    this.sessionChanged = this.sessionChanged.bind(this);
+    this.sessionChange = this.sessionChange.bind(this);
   }
 
   render() {
     if (this._model && this._session) {
-      var element = React.createElement(Main, {
+      const element = React.createElement(Main, {
         model: this._model,
         session: this._session,
-        sessionChanged: this.sessionChanged
+        onSessionChange: this.sessionChange
       });
+
       ReactDOM.render(element, this, () => {
         renderMathInElement(this);
       });
     }
   }
 
-  sessionChanged() {
+  sessionChange(session) {
+    this._session.value = session.value;
     this.dispatchEvent(new CustomEvent('session-changed', {
       bubbles: true,
       detail: {
+        component: this.tagName.toLowerCase(),
         complete: this._session && this._session.value && compact(this._session.value).length === this._model.completeLength
       }
     }));

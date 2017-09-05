@@ -21,9 +21,9 @@ export function outcome(question, session, env) {
 }
 
 export function model(question, session, env) {
-  console.log('[state] question:', JSON.stringify(question, null, '  '));
-  console.log('[state] session:', JSON.stringify(session, null, '  '));
-  console.log('[state] env:', JSON.stringify(env, null, '  '));
+  // console.log('[state] question:', JSON.stringify(question, null, '  '));
+  // console.log('[state] session:', JSON.stringify(session, null, '  '));
+  // console.log('[state] env:', JSON.stringify(env, null, '  '));
 
   function getLabel(arr, lang, fallbackLang) {
     fallbackLang = fallbackLang || 'en-US';
@@ -85,6 +85,11 @@ export function model(question, session, env) {
     return c;
   });
 
+  base.config = {
+    orientation: question.config.choiceAreaLayout,
+    includeTargets: question.config.placementType === 'placement'
+  }
+
   if (env.mode !== 'gather') {
     base.disabled = true;
   }
@@ -114,6 +119,6 @@ export function model(question, session, env) {
     base.className = map[env.accessibility.colorContrast];
   }
 
-  console.log('[state] return: ' + JSON.stringify(base, null, '  '));
+  // console.log('[state] return: ' + JSON.stringify(base, null, '  '));
   return Promise.resolve(base);
 }

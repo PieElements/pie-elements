@@ -50,7 +50,7 @@
             "label": [
               {
                 "lang": "en-US",
-                "value": "Lemon"
+                "value": "<div><strong>Lemon</strong><br/><br/><h4>hi</h4><img width=\"300\" src=\"https://realfood.tesco.com/media/images/Lemon-easter-biscuits-hero-1d74c01d-8906-45fe-8135-322f0520c434-0-472x310.jpg\"></img></div>"
               },
               {
                 "lang": "es-ES",
@@ -58,7 +58,7 @@
               }
             ],
             "shuffle": false,
-            "moveOnDrag": false
+            "moveOnDrag": true
           },
           {
             "id": "c3",
@@ -105,7 +105,9 @@
         ]
       },
       "config": {
-        "shuffle": true
+        "shuffle": true,
+        "placementType": "placement",
+        "choiceAreaLayout": "horizontal"
       }
     }
   ]
