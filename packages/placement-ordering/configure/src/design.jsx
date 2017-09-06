@@ -159,6 +159,12 @@ class Design extends React.Component {
           lang={activeLang}
           onChange={this.onPromptChange} />
 
+        <div>
+          layout
+          choiceAreaLabel
+          answerAreaLabel
+          includePlacementArea
+          </div>
         <div className={classes.choices}>
           <Typography type="heading">Choices</Typography>
           <ChoiceEditor
