@@ -24,7 +24,18 @@ const defaults = {
   disabled: false
 }
 
+const buildTiles = (props) => {
+  return (tile, index) => {
+    tile.onDropChoice = (source, index) => props.onDropChoice(tile, source, index);
+    tile.onRemoveChoice = () => props.onRemoveChoice(tile);
+    tile.instanceId = props.instanceId;
+    tile.disabled = props.disabled;
+    return <Tile {...tile} key={index} />;
+  }
+}
+
 class HTiler extends React.Component {
+
 
   render() {
     const {
@@ -36,7 +47,8 @@ class HTiler extends React.Component {
       tileSize,
       disabled,
       onDropChoice,
-      onRemoveChoice } = this.props;
+      onRemoveChoice,
+      instanceId } = this.props;
 
     const rows = includeTargets ? `auto ${tileSize} auto ${tileSize}` : `auto ${tileSize} auto`;
     const columns = (includeTargets ? (tiles.length / 2) : tiles.length);
@@ -57,14 +69,7 @@ class HTiler extends React.Component {
       {includeTargets && <div
         className={classes.targetLabel}
         style={labelStyle}>{targetLabel}</div>}
-      {
-        tiles.map((t, index) => {
-          t.onDropChoice = (source, index) => onDropChoice(t, source, index);
-          t.onRemoveChoice = () => onRemoveChoice(t);
-          t.disabled = disabled;
-          return <Tile {...t} key={index} />;
-        })
-      }
+      {tiles.map(buildTiles(this.props))}
     </div >
   }
 }
@@ -111,12 +116,7 @@ class VTiler extends React.Component {
     return <div className={classes.vtiler} style={style}>
       <div className={classes.choiceLabel}>{choiceLabel}</div>
       {includeTargets && <div className={classes.targetLabel}>{targetLabel}</div>}
-      {tiles.map((t, index) => {
-        t.onDropChoice = (source, index) => onDropChoice(t, source, index);
-        t.onRemoveChoice = () => onRemoveChoice(t);
-        t.disabled = disabled;
-        return <Tile {...t} key={index} />;
-      })}
+      {tiles.map(buildTiles(this.props))}
     </div>
   }
 }

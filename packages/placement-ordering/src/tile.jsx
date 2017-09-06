@@ -147,9 +147,12 @@ const StyledTile = withStyles({
 
 
 const tileTarget = {
-  drop(props, monitor, dropZone) {
-    const draggedItem = monitor.getItem();
-    props.onDropChoice(draggedItem, props.index);
+  drop(props, targetMonitor) {
+    const draggedItem = targetMonitor.getItem();
+    log('props.instanceId', props.instanceId, 'draggedItem.instanceId:', draggedItem.instanceId);
+    if (draggedItem.instanceId === props.instanceId) {
+      props.onDropChoice(draggedItem, props.index);
+    }
   }
 }
 
@@ -162,15 +165,19 @@ const tileSource = {
   canDrag(props) {
     return props.draggable && !props.disabled;
   },
-  beginDrag(props) {
+  beginDrag(props, monitor, component) {
     return {
       id: props.id,
-      type: props.type
+      type: props.type,
+      instanceId: props.instanceId
     };
   },
-  endDrag(props, monitor) {
-    if (!monitor.didDrop() && props.type === 'target') {
-      props.onRemoveChoice(monitor.getItem())
+  endDrag(props, monitor, container) {
+    if (!monitor.didDrop()) {
+      console.log('dont drop!!!');
+      if (props.type === 'target') {
+        props.onRemoveChoice(monitor.getItem())
+      }
     }
   }
 };

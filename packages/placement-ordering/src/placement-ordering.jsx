@@ -8,6 +8,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import compact from 'lodash/compact';
 import debug from 'debug';
 import isEmpty from 'lodash/isEmpty';
+import uniqueId from 'lodash/uniqueId';
 import { withStyles } from 'material-ui/styles';
 
 const log = debug('pie-elements:placement-ordering');
@@ -19,6 +20,8 @@ class PlacementOrdering extends React.Component {
     this.state = {
       showingCorrect: false
     }
+
+    this.instanceId = uniqueId();
 
     this.toggleCorrect = (showingCorrect) => {
       this.setState({ showingCorrect });
@@ -93,6 +96,7 @@ class PlacementOrdering extends React.Component {
         dangerouslySetInnerHTML={{ __html: model.prompt }}></div>
 
       <Tiler
+        instanceId={this.instanceId}
         choiceLabel={config.choiceLabel}
         targetLabel={config.targetLabel}
         tiles={ordering.tiles}
