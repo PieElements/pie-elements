@@ -19,7 +19,7 @@ export class MultiLangInput extends React.Component {
   }
 
   render() {
-    const { lang, value, textFieldLabel, classes, imageSupport } = this.props;
+    const { lang, value, label, classes, imageSupport } = this.props;
     log('value: ', value);
     const renderValue = (typeof value === 'string') ?
       value : (value.find(t => t.lang === lang) || {}).value || '';
@@ -27,6 +27,7 @@ export class MultiLangInput extends React.Component {
     log('[render] renderValue: ', renderValue);
 
     return <div className={classes.root}>
+      {label && <div className={classes.label}>{label}</div>}
       <EditableHtml
         markup={renderValue}
         onChange={this.onChange}
@@ -43,6 +44,10 @@ const styles = {
   },
   textField: {
     width: '100%'
+  },
+  label: {
+    fontSize: '10px',
+    color: 'rgba(0,0,0,0.4)'
   }
 };
 

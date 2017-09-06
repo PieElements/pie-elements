@@ -2,7 +2,9 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 
 import Button from 'material-ui/Button';
 import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown';
+import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 
 const styles = {
@@ -42,7 +44,7 @@ const RawSelectButton = (props) => {
 const SelectButton = withStyles(buttonStyles, { name: 'SelectButton' })(RawSelectButton);
 
 
-class Langs extends React.Component {
+class RawLangs extends React.Component {
 
   constructor(props) {
     super(props);
@@ -89,4 +91,42 @@ class Langs extends React.Component {
   }
 }
 
-export default withStyles(styles, { name: 'Langs' })(Langs);
+
+const Langs = withStyles(styles, { name: 'Langs' })(RawLangs);
+export default Langs;
+
+export const LanguageControls = withStyles({
+  languageControls: {
+    display: 'flex'
+  }
+})(({
+  classes,
+  langs,
+  activeLang,
+  defaultLang,
+  onActiveLangChange,
+  onDefaultLangChange,
+  className }) => {
+  const names = classNames(classes.languageControls, className);
+
+  return <div className={names}>
+    <Langs
+      label="Choose language to edit"
+      langs={langs}
+      selected={activeLang}
+      onChange={(e, index, l) => onActiveLangChange(l)} />
+    <Langs
+      label="Default language"
+      langs={langs}
+      selected={defaultLang}
+      onChange={(e, index, l) => onDefaultLangChange(l)} />
+  </div>
+});
+
+LanguageControls.propTypes = {
+  langs: PropTypes.array,
+  activeLang: PropTypes.string.isRequired,
+  defaultLang: PropTypes.string.isRequired,
+  onActiveLangChange: PropTypes.func.isRequired,
+  onDefaultLangChange: PropTypes.func.isRequired
+}
