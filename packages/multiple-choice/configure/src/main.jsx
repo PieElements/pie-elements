@@ -56,20 +56,15 @@ export class Main extends React.Component {
         <ChoiceType value={model.choiceMode} onChange={onChoiceModeChanged} />
         <KeyType value={model.keyMode} onChange={onKeyModeChanged} />
       </div>
+
       <hr className={classes.divider} />
 
-      <div className={classes.languageControls}>
-        <Langs
-          label="Choose language to edit"
-          langs={model.langs}
-          selected={this.state.activeLang}
-          onChange={(e, index, l) => this.setState({ activeLang: l })} />
-        <Langs
-          label="Default language"
-          langs={model.langs}
-          selected={model.defaultLang}
-          onChange={(e, index, l) => onDefaultLangChanged(l)} />
-      </div>
+      <LanguageControls
+        langs={model.langs}
+        activeLang={this.state.activeLang}
+        defaultLang={model.defaultLang}
+        onActiveLangChange={activeLang => this.setState({ activeLang })}
+        onDefaultLangChange={onDefaultLangChanged} />
 
       <hr className={classes.divider} />
 
@@ -99,14 +94,15 @@ export class Main extends React.Component {
           onDeleteImage
         }
         return <ChoiceConfig key={index} {...choiceProps} />;
-      })}
+      })
+      }
 
       <br />
       <Button
         raised
         color="primary"
         onClick={() => onAddChoice(this.state.activeLang)} >Add a choice</Button>
-    </div>;
+    </div >;
 
     return <div>
       <Tabs onChange={this.onTabsChange} value={index}>
