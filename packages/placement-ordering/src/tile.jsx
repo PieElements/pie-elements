@@ -147,12 +147,17 @@ const StyledTile = withStyles({
 
 
 const tileTarget = {
-  drop(props, targetMonitor) {
-    const draggedItem = targetMonitor.getItem();
+  drop(props, monitor) {
+    const draggedItem = monitor.getItem();
     log('props.instanceId', props.instanceId, 'draggedItem.instanceId:', draggedItem.instanceId);
     if (draggedItem.instanceId === props.instanceId) {
       props.onDropChoice(draggedItem, props.index);
     }
+  },
+  canDrop(props, monitor) {
+    const draggedItem = monitor.getItem();
+    const canDrop = draggedItem.instanceId === props.instanceId;
+    return canDrop;
   }
 }
 

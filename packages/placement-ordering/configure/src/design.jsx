@@ -1,19 +1,21 @@
 import {
   Checkbox,
   FeedbackConfig,
-  Langs,
+  LanguageControls,
   MultiLangInput
 } from '@pie-libs/config-ui';
 import { FormControlLabel, FormGroup } from 'material-ui/Form';
 
 import Button from 'material-ui/Button';
-import ChoiceConfig from './choice-config';
+import ChoiceEditor from './choice-editor';
 import PropTypes from 'prop-types';
 import React from 'react';
-import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
 import cloneDeep from 'lodash/cloneDeep';
+import { withStyles } from 'material-ui/styles';
 
 const choiceForId = (choices, choiceId) => choices.find(({ id }) => choiceId === id);
+
 
 class Design extends React.Component {
 
@@ -131,43 +133,49 @@ class Design extends React.Component {
     this.props.onCorrectResponseChange(this.props.model.correctResponse);
   }
 
+  onChoicesChange(choices) {
+    //Update choice data.
+  }
+  onCorrectResponseChange(correctResponse) {
+    //Update choice data.
+  }
 
   render() {
 
-    const { model, onDefaultLangChange, onFeedbackChange } = this.props;
+    const { model, onDefaultLangChange, onFeedbackChange, classes } = this.props;
     const { activeLang, allMoveOnDrag } = this.state;
     return (
       <div>
-        <p>In Ordering, a student is asked to sequence events or inputs in a specific order.</p>
-        <p>After setting up the choices, drag and drop them into the correct order. Students will see a shuffled version of the choices.</p>
-        <h2>Choices</h2>
-        {/* <p>Add a label to choice area</p> */}
-        <div>
-          <Langs
-            label="Choose language to edit"
-            langs={model.langs}
-            selected={activeLang}
-            onChange={(e, index, l) => this.setState({ activeLang: l })} />
-          <Langs
-            label="Default language"
-            langs={model.langs}
-            selected={model.defaultLang}
-            onChange={(e, index, l) => onDefaultLangChange(l)} />
-        </div>
+        <LanguageControls
+          langs={model.langs}
+          activeLang={activeLang}
+          defaultLang={model.defaultLang}
+          onActiveLangChange={activeLang => this.setState({ activeLang })}
+          onDefaultLangChange={onDefaultLangChange}
+          className={classes.langControls} />
         <MultiLangInput
-          textFieldLabel="Prompt"
+          label="Prompt"
           value={model.model.prompt}
           lang={activeLang}
           onChange={this.onPromptChange} />
 
-        <Checkbox
+        <div className={classes.choices}>
+          <Typography type="heading">Choices</Typography>
+          <ChoiceEditor
+            activeLang={activeLang}
+            correctResponse={model.correctResponse}
+            onCorrectResponseChange={this.onCorrectResponseChange}
+            choices={model.model.choices}
+            onChoicesChange={this.onChoicesChange} />
+
+          {/* {model.correctResponse.map(this.toChoiceConfig)} */}
+        </div>
+        {/* <Checkbox
           checked={allMoveOnDrag}
           onChange={this.toggleAllOnDrag}
           value="allMoveOnDrag"
           label="Remove all tiles after placing" />
-
-        <ul className="choices-config-list">{model.correctResponse.map(this.toChoiceConfig)}</ul>
-        <Button raised color="primary" onClick={this.onAddChoice.bind(this)} >Add a choice</Button>
+        <Button raised color="primary" onClick={this.onAddChoice.bind(this)} >Add a choice</Button> */}
         <FeedbackConfig
           feedback={model.feedback}
           onChange={onFeedbackChange} />
@@ -182,4 +190,13 @@ Design.propTypes = {
   onFeedbackChange: PropTypes.func.isRequired,
 }
 
-export default Design;
+export default withStyles({
+  langControls: {
+    marginTop: '20px',
+    marginBottom: '20px'
+  },
+  choices: {
+    marginTop: '20px',
+    marginBottom: '20px'
+  }
+})(Design);
