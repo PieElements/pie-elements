@@ -88,7 +88,9 @@ export function model(question, session, env) {
   base.config = {
     orientation: question.config.choiceAreaLayout,
     includeTargets: question.config.placementType === 'placement',
-    tileSize: question.config.tileSize
+    tileSize: question.config.tileSize,
+    targetLabel: question.config.answerAreaLabel,
+    choiceLabel: question.config.choiceAreaLabel
   }
 
   if (env.mode !== 'gather') {

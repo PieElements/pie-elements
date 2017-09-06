@@ -72,7 +72,7 @@
                 "value": "Melón"
               }
             ],
-            "moveOnDrag": false
+            "moveOnDrag": true
           },
           {
             "id": "c1",
@@ -108,7 +108,8 @@
         "shuffle": true,
         "placementType": "placement",
         "choiceAreaLayout": "vertical",
-        "tileSize": "100px"
+        "choiceAreaLabel": "choices: ",
+        "answerAreaLabel": "aa"
       }
     }
   ]

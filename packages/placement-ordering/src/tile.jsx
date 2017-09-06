@@ -15,13 +15,18 @@ const PlaceHolder = withStyles({
     background: '#f8f6f6',
     boxShadow: 'inset 3px 4px 2px 0 rgba(0,0,0,0.08)',
     border: '1px solid #c2c2c2',
-    transition: 'background-color 200ms linear'
+    transition: 'background-color 200ms linear',
+    boxSizing: 'border-box'
   },
   over: {
     backgroundColor: '#ddd'
+  },
+  //hide choice placeholders
+  choice: {
+    opacity: '0.0'
   }
-})(({ classes, isOver }) => {
-  const names = classNames(classes.placeholder, isOver && classes.over);
+})(({ classes, isOver, type }) => {
+  const names = classNames(classes.placeholder, isOver && classes.over, classes[type]);
   return (
     <div className={names}></div>
   )
@@ -57,10 +62,10 @@ const TileContent = withStyles({
   }
 })((props) => {
   log('[TileContent] render: ', props);
-  const { classes, isDragging, empty, isOver, label, disabled, outcome } = props;
+  const { type, classes, isDragging, empty, isOver, label, disabled, outcome } = props;
 
   if (empty) {
-    return <PlaceHolder isOver={isOver} disabled={disabled} />;
+    return <PlaceHolder type={type} isOver={isOver} disabled={disabled} />;
   } else {
     const names = classNames(
       classes.tileContent,
@@ -113,7 +118,7 @@ export class Tile extends React.Component {
             isDragging={isDragging}
             disabled={disabled}
             outcome={outcome}
-          />
+            type={type} />
         </div>,
       ),
       dragSourceOpts
@@ -136,8 +141,6 @@ const StyledTile = withStyles({
     overflow: 'hidden',
     margin: '0px',
     padding: '0px',
-    width: '100%',
-    height: '100%',
     textAlign: 'center'
   }
 })(Tile);
@@ -164,6 +167,11 @@ const tileSource = {
       id: props.id,
       type: props.type
     };
+  },
+  endDrag(props, monitor) {
+    if (!monitor.didDrop() && props.type === 'target') {
+      props.onRemoveChoice(monitor.getItem())
+    }
   }
 };
 

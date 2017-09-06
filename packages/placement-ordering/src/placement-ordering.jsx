@@ -1,19 +1,17 @@
+import { HorizontalTiler, VerticalTiler } from './tiler';
 import { buildState, reducer } from './ordering';
 
 import CorrectAnswerToggle from '@pie-libs/correct-answer-toggle';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Tile from './tile';
+import cloneDeep from 'lodash/cloneDeep';
+import compact from 'lodash/compact';
 import debug from 'debug';
+import isEmpty from 'lodash/isEmpty';
 import { withStyles } from 'material-ui/styles';
 
 const log = debug('pie-elements:placement-ordering');
-/**
- * TODO: 
- * labels
- * hide choice placholders
- * drag out removes response
- */
+
 class PlacementOrdering extends React.Component {
 
   constructor(props) {
@@ -33,36 +31,57 @@ class PlacementOrdering extends React.Component {
     }
   }
 
-  onDropChoice(target, ordering, source, index) {
+  onDropChoice(ordering, target, source, index) {
     const { onSessionChange, session } = this.props;
     const from = ordering.tiles.find(t => t.id === source.id && t.type === source.type);
     const to = target;
     log('[onDropChoice] ', from, to);
     const update = reducer({ type: 'move', from, to }, ordering);
-    const sessionUpdate = Object.assign({}, session, { value: update.response })
+    const sessionUpdate = Object.assign({}, session, { value: update.response });
     onSessionChange(sessionUpdate);
+  }
+
+  onRemoveChoice(ordering, target) {
+    const { onSessionChange, session } = this.props;
+    log('[onRemoveChoice]', target);
+    const update = reducer({ type: 'remove', target }, ordering);
+    const sessionUpdate = Object.assign({}, session, { value: update.response });
+    onSessionChange(sessionUpdate);
+  }
+
+  componentDidUpdate() {
+    this.initSessionIfNeeded();
+  }
+
+  componentDidMount() {
+    this.initSessionIfNeeded();
+  }
+
+  initSessionIfNeeded() {
+    const { model, session, onSessionChange } = this.props;
+    const config = model.config || { includeTargets: true }
+
+    if (!config.includeTargets && isEmpty(compact(session.value))) {
+      log('[initSessionIfNeeded] initing session...');
+      const update = cloneDeep(session)
+      update.value = model.choices.map(m => m.id);
+      onSessionChange(update);
+    }
   }
 
   render() {
     const { classes, model, session, onSessionChange } = this.props;
     const showToggle = model.correctResponse && model.correctResponse.length > 0;
     const { showingCorrect } = this.state;
-    const { orientation, includeTargets } = model.config || { orientation: 'vertical', includeTargets: true };
+    const config = model.config || { orientation: 'vertical', includeTargets: true };
+    const { orientation, includeTargets } = config;
     const vertical = orientation === 'vertical';
 
     const ordering = showingCorrect ?
       buildState(model.choices, model.correctResponse, model.correctResponse.map(id => ({ id, outcome: 'correct' })), { includeTargets }) :
       buildState(model.choices, session.value, model.outcomes, { includeTargets });
 
-    const tileSize = model.config ? (model.config.tileSize || '1fr') : '1fr';
-    const mainAxisCount = `repeat(${model.choices.length}, ${tileSize})`;
-    const minorAxisCount = `repeat(${includeTargets ? '2' : '1'}, ${tileSize})`;
-
-    const choicesAndTargetStyle = {
-      gridAutoFlow: vertical ? 'column' : 'row',
-      gridTemplateColumns: vertical ? minorAxisCount : mainAxisCount,
-      gridTemplateRows: vertical ? mainAxisCount : minorAxisCount
-    }
+    const Tiler = vertical ? VerticalTiler : HorizontalTiler;
 
     return <div className={classes.placementOrdering}>
       <CorrectAnswerToggle
@@ -73,13 +92,15 @@ class PlacementOrdering extends React.Component {
       <div className={classes.prompt}
         dangerouslySetInnerHTML={{ __html: model.prompt }}></div>
 
-      <div className={classes.choicesAndTargets} style={choicesAndTargetStyle}>
-        {ordering.tiles.map((t, index) => {
-          t.onDropChoice = this.onDropChoice.bind(this, t, ordering);
-          t.disabled = model.disabled;
-          return <Tile {...t} key={index} />;
-        })}
-      </div>
+      <Tiler
+        choiceLabel={config.choiceLabel}
+        targetLabel={config.targetLabel}
+        tiles={ordering.tiles}
+        disabled={model.disabled}
+        tileSize={model.config && model.config.tileSize}
+        includeTargets={includeTargets}
+        onDropChoice={this.onDropChoice.bind(this, ordering)}
+        onRemoveChoice={this.onRemoveChoice.bind(this, ordering)} />
     </div>;
   }
 }
@@ -94,19 +115,6 @@ const styles = {
   prompt: {
     padding: '5px',
     paddingBottom: '15px'
-  },
-  choicesAndTargets: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gridTemplateRows: 'repeat(4, 1fr)',
-    gridAutoFlow: 'column',
-    gridGap: '10px'
-  },
-  choices: {
-    backgroundColor: 'magenta'
-  },
-  targets: {
-    backgroundColor: 'lightblue'
   }
 }
 

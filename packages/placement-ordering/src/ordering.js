@@ -17,6 +17,17 @@ const swap = (arr, fromIndex, toIndex) => {
   return update;
 }
 
+function removeResponse(state, targetTile) {
+  const update = cloneDeep(state.response);
+
+  if (update[targetTile.index] === targetTile.id) {
+    update[targetTile.index] = undefined;
+  } else {
+    throw new Error(`Tried to remove from index: ${targetTile.index}, but the id doesn't match: array: ${update}, target: ${targetTile.id}`);
+  }
+  return update;
+}
+
 function updateResponse(state, from, to) {
   const { response, opts } = state;
   const update = cloneDeep(response);
@@ -83,7 +94,13 @@ function buildTiles(choices, response, outcomes, opts) {
     return processedChoices.concat(targets);
 
   } else {
-    return response.map(id => Object.assign({ type: 'choice', draggable: true, droppable: true }, choices.find(m => m.id === id)));
+    return response.map((id, index) => {
+      return Object.assign(
+        { type: 'choice', draggable: true, droppable: true },
+        choices.find(m => m.id === id),
+        outcomes[index]
+      )
+    });
   }
 }
 
@@ -108,6 +125,12 @@ export function reducer(action, state) {
       const tiles = buildTiles(state.choices, response, state.outcomes, state.opts);
       return Object.assign({}, state, { response, tiles });
       break;
+    case 'remove': {
+      const { target } = action;
+      const response = removeResponse(state, target);
+      const tiles = buildTiles(state.choices, response, state.outcomes, state.opts);
+      return Object.assign({}, state, { response, tiles });
+    }
   }
   return state;
 }
