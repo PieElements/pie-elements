@@ -1,6 +1,7 @@
 import {
   Checkbox,
   FeedbackConfig,
+  FormSection,
   InputCheckbox,
   InputContainer,
   InputSwitch,
@@ -100,18 +101,20 @@ class Design extends React.Component {
             onChange={this.onLayoutChange}
             one={{ label: 'vertical', value: 'vertical' }}
             two={{ label: 'horizontal', value: 'horizontal' }} />
+        </div>
+        <div className={classes.row}>
           <InputCheckbox
             label="Include placement area"
             checked={model.config.placementType === 'placement'}
             onChange={this.onPlacementTypeChange}
             aria-label="include-placment" />
-          <InputSwitch
-            label="shuffle"
+          <InputCheckbox
+            label="Shuffle"
             checked={model.config.shuffle}
             onChange={this.onShuffleChange}
             aria-label="shuffle" />
-          <InputSwitch
-            label="numbered guides"
+          <InputCheckbox
+            label="Numbered guides"
             checked={model.config.showOrdering}
             onChange={this.onShowOrderingChange}
             aria-label="shuffle" />
@@ -144,16 +147,13 @@ class Design extends React.Component {
               fullWidth />
           }
         </div>
-        <div className={classes.choices}>
-          <InputContainer label="Choices">
-            <ChoiceEditor
-              activeLang={activeLang}
-              correctResponse={model.correctResponse}
-              choices={model.model.choices}
-              onChange={this.onChoiceEditorChange}
-            />
-          </InputContainer>
-        </div>
+        <FormSection label="Choices">
+          <ChoiceEditor
+            activeLang={activeLang}
+            correctResponse={model.correctResponse}
+            choices={model.model.choices}
+            onChange={this.onChoiceEditorChange} />
+        </FormSection>
         <FeedbackConfig
           feedback={model.feedback}
           onChange={this.onFeedbackChange} />
@@ -168,11 +168,11 @@ Design.propTypes = {
 }
 
 export default withStyles({
-  choiceLabel: {
-    marginRight: '10px'
-  },
   row: {
-    display: 'flex'
+    display: 'grid',
+    gridAutoFlow: 'column',
+    gridAutoColumns: '1fr',
+    gridGap: '8px'
   },
   design: {
     paddingTop: '10px'
