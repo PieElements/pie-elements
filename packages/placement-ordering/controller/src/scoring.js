@@ -7,23 +7,14 @@ function defaultScore(question, session) {
   let allCorrect = _.isEqual(_.cloneDeep(session.value).sort(), _.cloneDeep(flattenCorrect(question)).sort());
   return allCorrect ? 1 : 0;
 }
- 
+
 function partialScore(question, session) {
   let allCorrect = _.isEqual(_.cloneDeep(session.value).sort(), _.cloneDeep(flattenCorrect(question)).sort());
   let numCorrect = flattenCorrect(question).reduce((score, response, index) => {
     return (session.value[index] === response) ? score + 1 : score;
   }, 0);
-  let weighting = question.partialScoring.find(({correctCount}) => correctCount === numCorrect);
+  let weighting = question.partialScoring.find(({ correctCount }) => correctCount === numCorrect);
   return allCorrect ? maxScore : (weighting !== undefined && weighting.weight !== undefined) ? weighting.weight * maxScore : 0;
-}
-
-function weightedScore(question, session) {
-  return question.correctResponse.reduce((score, response, index) => {
-    if (session.value[index] === response.id) {
-      return (response.weight) ? score + (response.weight * maxScore) : score;
-    }
-    return score;
-  }, 0);
 }
 
 /**
@@ -32,7 +23,7 @@ function weightedScore(question, session) {
  */
 export function flattenCorrect(question) {
   return question.correctResponse.find((response) => response instanceof Object) === undefined ? question.correctResponse :
-    question.correctResponse.map(({id}) => id);
+    question.correctResponse.map(({ id }) => id);
 }
 
 /**
@@ -42,14 +33,12 @@ export function flattenCorrect(question) {
  * for all correct) will be used. 
  */
 export function score(question, session) {
-  var weightedScoring = question.correctResponse.find((correct) => { 
-    return correct instanceof Object && correct.weight !== undefined; 
-  }) !== undefined;
-
-  if (weightedScoring) {
-    return weightedScore(question, session);
-  } else if (question.partialScoring !== undefined) {
+  /**
+   * Note: weighted scoring has been removed for now - the existing component doesn't have it,* Can add it back when needed.
+   */
+  if (question.partialScoring !== undefined) {
     return partialScore(question, session);
+  } else {
+    return defaultScore(question, session);
   }
-  return defaultScore(question, session);
 }

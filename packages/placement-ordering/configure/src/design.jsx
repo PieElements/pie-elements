@@ -1,166 +1,127 @@
 import {
   Checkbox,
   FeedbackConfig,
+  InputCheckbox,
+  InputContainer,
+  InputSwitch,
   LanguageControls,
   MultiLangInput,
   TwoChoice
 } from '@pie-libs/config-ui';
 import { FormControlLabel, FormGroup } from 'material-ui/Form';
+import { get, set } from 'nested-property';
 
 import Button from 'material-ui/Button';
 import ChoiceEditor from './choice-editor';
 import PropTypes from 'prop-types';
 import React from 'react';
+import Switch from 'material-ui/Switch';
 import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
 import cloneDeep from 'lodash/cloneDeep';
+import debug from 'debug';
 import { withStyles } from 'material-ui/styles';
 
-const choiceForId = (choices, choiceId) => choices.find(({ id }) => choiceId === id);
-
+const log = debug('pie-elements:placement-ordering:design');
 
 class Design extends React.Component {
 
   constructor(props) {
     super(props);
-    this.toggleAllOnDrag = this.toggleAllOnDrag.bind(this);
-    this.toChoiceConfig = this.toChoiceConfig.bind(this);
-    this.moveChoice = this.moveChoice.bind(this);
-    this.onLabelChange = this.onLabelChange.bind(this);
-    this.onMoveOnDragChange = this.onMoveOnDragChange.bind(this);
-    this.onDeleteChoice = this.onDeleteChoice.bind(this);
-    this.onAddChoice = this.onAddChoice.bind(this);
-    this.onPromptChange = this.onPromptChange.bind(this);
+
+
+    this.applyUpdate = (modelFn) => {
+      const { model, onModelChange } = this.props;
+      modelFn(model);
+      onModelChange(model);
+    }
+
+    this.changeHandler = (modelPath, valuePath) => {
+      return value => {
+        log('[changeHandler] value: ', value);
+        const v = valuePath ? get(value, valuePath) : value;
+        this.applyUpdate(model => set(model, modelPath, v));
+      }
+    }
+
+    this.onLayoutChange = (layout) => {
+      this.applyUpdate(model => {
+        model.config.choiceAreaLayout = layout;
+      });
+    }
+
+    this.onPlacementTypeChange = (event) => {
+      const includePlacment = event.currentTarget.checked;
+      this.applyUpdate(model => {
+        model.config.placementType = includePlacment ? 'placement' : 'none';
+      })
+    }
+
+    this.onDefaultLangChange = (defaultLang) => {
+      this.applyUpdate(model => model.defaultLang = defaultLang);
+    }
+
+    this.onChoiceAreaLabelChange = this.changeHandler('config.choiceAreaLabel', 'target.value');
+    this.onAnswerAreaLabelChange = this.changeHandler('config.answerAreaLabel', 'target.value')
+
+    this.onFeedbackChange = this.changeHandler('feedback');
+
+    this.onShuffleChange = this.changeHandler('config.shuffle', 'target.checked');
+
+    this.onShowOrderingChange = this.changeHandler('config.showOrdering', 'target.checked');
+
+
+    this.onChoiceEditorChange = (choices, correctResponse) => {
+      const { model, onModelChange } = this.props;
+      model.model.choices = choices;
+      model.correctResponse = correctResponse;
+      onModelChange(model);
+    };
+
+    this.onPromptChange = this.changeHandler('prompt');
 
     this.state = {
-      activeLang: props.model.defaultLang,
-      allMoveOnDrag: this.moveAllOnDrag()
+      activeLang: props.model.defaultLang
     }
-  }
-
-  componentWillReceiveProps(props) {
-    this.setState({
-      allMoveOnDrag: this.moveAllOnDrag(props)
-    });
-  }
-
-  moveAllOnDrag(props) {
-    const { model } = (props || this.props);
-    return model.model.choices.find(({ moveOnDrag }) => moveOnDrag !== false) === undefined;
-  }
-
-  toggleAllOnDrag() {
-    const { model, onChoicesChange } = this.props;
-    const { allMoveOnDrag } = this.state;
-    model.model.choices.forEach(choice => choice.moveOnDrag = allMoveOnDrag);
-    onChoicesChange(model.model.choices);
-  }
-
-  toChoiceConfig(response, index) {
-    const { model } = this.props;
-    let id = response instanceof Object ? response.id : response;
-    let choice = choiceForId(model.model.choices, id);
-    return <ChoiceConfig
-      moveChoice={this.moveChoice.bind(this)}
-      index={index}
-      onLabelChange={this.onLabelChange.bind(this, id)}
-      onMoveOnDragChange={this.onMoveOnDragChange.bind(this, id)}
-      onDelete={this.onDeleteChoice.bind(this, choice)}
-      activeLang={this.state.activeLang}
-      key={index}
-      choice={choice} />;
-  }
-
-  moveChoice(dragIndex, hoverIndex) {
-    const choices = this.props.model.correctResponse;
-    const dragId = choices[dragIndex];
-    choices.splice(dragIndex, 1);
-    choices.splice(hoverIndex, 0, dragId);
-    this.props.onCorrectResponseChange(this.props.model.correctResponse);
-  }
-
-  onLabelChange(choiceId, value, targetLang) {
-    let translation = this.props.model.model.choices.find(({ id }) => id === choiceId).label.find(({ lang }) => lang === targetLang);
-    translation.value = value;
-    this.props.onChoicesChange(this.props.model.model.choices);
-  }
-
-  onPromptChange(value) {
-    const { model, onPromptChange } = this.props;
-    const { activeLang } = this.state;
-    const prompt = cloneDeep(model.model.prompt);
-    const targetPrompt = prompt.find(p => p.lang === activeLang);
-    if (!targetPrompt) {
-      prompt.push({ lang: activeLang, value });
-    } else {
-      const update = Object.assign(targetPrompt, { value });
-      prompt.splice(prompt.indexOf(targetPrompt), 1, update);
-    }
-
-    onPromptChange(prompt);
-  }
-
-  onMoveOnDragChange(choiceId, value) {
-    let choice = this.props.model.model.choices.find(({ id }) => id === choiceId);
-    choice.moveOnDrag = value;
-    this.props.onChoicesChange(this.props.model.model.choices);
-  }
-
-  onDeleteChoice(choice) {
-    let { id } = choice;
-    this.props.model.model.choices = this.props.model.model.choices.filter((choice) => {
-      return choice.id !== id;
-    });
-    this.props.model.correctResponse = this.props.model.correctResponse.filter((choiceId) => { return id !== choiceId; });
-    this.props.onChoicesChange(this.props.model.model.choices);
-    this.props.onCorrectResponseChange(this.props.model.correctResponse);
-  }
-
-  onAddChoice() {
-    function findFreeChoiceSlot(props) {
-      let slot = 1;
-      let ids = props.model.model.choices.map(({ id }) => id);
-      while (ids.includes(`c${slot}`)) {
-        slot++;
-      }
-      return slot;
-    }
-    let id = `c${findFreeChoiceSlot(this.props)}`;
-    this.props.model.model.choices.push({
-      id: id,
-      label: [{ lang: this.state.activeLang, value: '' }],
-    });
-    this.props.model.correctResponse.push(id);
-    this.props.onChoicesChange(this.props.model.model.choices);
-    this.props.onCorrectResponseChange(this.props.model.correctResponse);
-  }
-
-  onChoicesChange(choices) {
-    //Update choice data.
-  }
-  onCorrectResponseChange(correctResponse) {
-    //Update choice data.
   }
 
   render() {
 
-    const { model, onDefaultLangChange, onFeedbackChange, classes } = this.props;
+    const { model, onFeedbackChange, classes } = this.props;
     const { activeLang, allMoveOnDrag } = this.state;
     return (
-      <div>
-        <TwoChoice
-          className={classes.orientation}
-          header={'Orientation'}
-          value={model.config.choiceAreaLayout}
-          onChange={this.onLayoutChange}
-          one={{ label: 'vertical', value: 'vertical' }}
-          two={{ label: 'horizontal', value: 'horizontal' }} />
+      <div className={classes.design}>
+
+        <div className={classes.row}>
+          <TwoChoice
+            className={classes.orientation}
+            header={'Orientation'}
+            value={model.config.choiceAreaLayout}
+            onChange={this.onLayoutChange}
+            one={{ label: 'vertical', value: 'vertical' }}
+            two={{ label: 'horizontal', value: 'horizontal' }} />
+          <InputCheckbox
+            label="Include placement area"
+            checked={model.config.placementType === 'placement'}
+            onChange={this.onPlacementTypeChange}
+            aria-label="include-placment" />
+          <InputSwitch
+            label="shuffle"
+            checked={model.config.shuffle}
+            onChange={this.onShuffleChange}
+            aria-label="shuffle" />
+          <InputSwitch
+            label="numbered guides"
+            checked={model.config.showOrdering}
+            onChange={this.onShowOrderingChange}
+            aria-label="shuffle" />
+        </div>
         <LanguageControls
           langs={model.langs}
           activeLang={activeLang}
           defaultLang={model.defaultLang}
           onActiveLangChange={activeLang => this.setState({ activeLang })}
-          onDefaultLangChange={onDefaultLangChange}
+          onDefaultLangChange={this.onDefaultLangChange}
           className={classes.langControls} />
         <MultiLangInput
           label="Prompt"
@@ -168,60 +129,64 @@ class Design extends React.Component {
           lang={activeLang}
           onChange={this.onPromptChange} />
 
-        <div>
+        <div className={classes.row}>
           <TextField
+            className={classes.choiceLabel}
             label="Choice label"
-            value={model.config.choiceAreaLabel} />
-          <Checkbox
-            label="Include placement area"
-            value={model.config.placementType === 'placement'}
-            onChange={this.onPlacementTypeChange} />
-          {model.config.placementType === 'placement' && <TextField
-            label="Answer label"
-            value={model.config.answerAreaLabel} />}
+            value={model.config.choiceAreaLabel}
+            onChange={this.onChoiceAreaLabelChange}
+            fullWidth />
+          {model.config.placementType === 'placement' &&
+            <TextField
+              label="Answer label"
+              value={model.config.answerAreaLabel}
+              onChange={this.onAnswerAreaLabelChange}
+              fullWidth />
+          }
         </div>
         <div className={classes.choices}>
-          <Typography type="heading">Choices</Typography>
-          <ChoiceEditor
-            activeLang={activeLang}
-            correctResponse={model.correctResponse}
-            onCorrectResponseChange={this.onCorrectResponseChange}
-            choices={model.model.choices}
-            onChoicesChange={this.onChoicesChange} />
-
-          {/* {model.correctResponse.map(this.toChoiceConfig)} */}
+          <InputContainer label="Choices">
+            <ChoiceEditor
+              activeLang={activeLang}
+              correctResponse={model.correctResponse}
+              choices={model.model.choices}
+              onChange={this.onChoiceEditorChange}
+            />
+          </InputContainer>
         </div>
-        {/* <Checkbox
-          checked={allMoveOnDrag}
-          onChange={this.toggleAllOnDrag}
-          value="allMoveOnDrag"
-          label="Remove all tiles after placing" />
-        <Button raised color="primary" onClick={this.onAddChoice.bind(this)} >Add a choice</Button> */}
         <FeedbackConfig
           feedback={model.feedback}
-          onChange={onFeedbackChange} />
+          onChange={this.onFeedbackChange} />
       </div>);
   }
 }
 
 
 Design.propTypes = {
-  onPromptChange: PropTypes.func.isRequired,
-  onDefaultLangChange: PropTypes.func.isRequired,
-  onFeedbackChange: PropTypes.func.isRequired,
+  model: PropTypes.object.isRequired,
+  onModelChanged: PropTypes.func.isRequired
 }
 
 export default withStyles({
+  choiceLabel: {
+    marginRight: '10px'
+  },
+  row: {
+    display: 'flex'
+  },
+  design: {
+    paddingTop: '10px'
+  },
   langControls: {
-    marginTop: '10px',
-    marginBottom: '10px'
+    marginTop: '0px',
+    marginBottom: '0px'
   },
   choices: {
     marginTop: '20px',
     marginBottom: '20px'
   },
   orientation: {
-    marginTop: '10px',
-    marginBottom: '10px'
+    marginTop: '0px',
+    marginBottom: '0px'
   }
 })(Design);

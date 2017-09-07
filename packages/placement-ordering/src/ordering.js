@@ -5,7 +5,7 @@ import map from 'lodash/map';
 
 const log = debug('pie-elements:placement-ordering:ordering');
 
-const swap = (arr, fromIndex, toIndex) => {
+export const swap = (arr, fromIndex, toIndex) => {
   log('[swap]', arr, fromIndex, toIndex);
   if (!arr || arr.length <= 1 || fromIndex === undefined || toIndex === undefined) {
     throw new Error(`swap requires a non-empty array, fromIndex, toIndex: ${arr}, ${fromIndex} ${toIndex}`);

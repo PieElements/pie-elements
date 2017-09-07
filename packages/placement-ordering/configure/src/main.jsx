@@ -19,20 +19,37 @@ class Main extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      index: 0
-    };
-    this.onTabIndexChange = this.onTabIndexChange.bind(this);
-  }
 
-  onTabIndexChange(event, index) {
-    this.setState({ index });
+    this.state = {
+      index: 0,
+      model: props.initialModel
+    };
+
+    this.onTabIndexChange = (event, index) => {
+      this.setState({ index });
+    }
+
+    this.onPartialScoringChange = (partialScoring) => {
+      const { onModelChange } = this.props;
+      const model = cloneDeep(this.state.model);
+      model.partialScoring = partialScoring;
+      this.setState({ model }, () => {
+        onModelChange(this.state.model);
+      });
+    }
+
+    this.onModelChange = (model) => {
+      const { onModelChange } = this.props;
+      this.setState({ model }, () => {
+        onModelChange(this.state.model);
+      });
+    }
   }
 
   render() {
 
-    const { classes, model, partialScoring, onPartialScoringChange } = this.props;
-    const { index } = this.state;
+    const { classes } = this.props;
+    const { index, model } = this.state;
 
     return (
       <div>
@@ -43,11 +60,11 @@ class Main extends React.Component {
           </Tabs>
           <Help />
         </div>
-        {index === 0 && <Design {...omit(this.props, 'classes') } />}
+        {index === 0 && <Design model={model} onModelChange={this.onModelChange} />}
         {index === 1 && <ScoringConfig
           partialScoring={model.partialScoring}
           numberOfCorrectResponses={model.correctResponse.length}
-          onChange={onPartialScoringChange} />}
+          onChange={this.onPartialScoringChange} />}
       </div>
     );
   }

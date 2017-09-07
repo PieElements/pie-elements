@@ -42,19 +42,27 @@ export function model(question, session, env) {
   }
 
   /**
+   * remove any ids from the stashed shuffle that arent in choices 
+   * @param {*} choices 
+   * @param {*} shuffled 
+   */
+  function normalize(choices, shuffled) {
+    return shuffled && shuffled.filter(s => choices.findIndex(c => c.id === s) !== -1);
+  }
+
+  /**
    * If there is a shuffled order stored in the session, restore it. Otherwise shuffle
    * all choices which do not have their shuffle property explicitly set to false. 
    * 
    * TODO: need to add a method to `model`: `saveSession: (session) => Promise<session>`
    * To allow the shuffle to be persisted.
    */
-
   function shuffle(session, choices) {
-    if (session.stash && session.stash.shuffledOrder) {
-      return session.stash.shuffledOrder.map((choiceId) => {
-        return choices.find(({ id }) => {
-          return id === choiceId;
-        });
+
+    const stashedShuffle = normalize(choices, session.stash && session.stash.shuffledOrder);
+    if (stashedShuffle) {
+      return stashedShuffle.map((choiceId) => {
+        return choices.find(c => c.id === choiceId);
       });
     } else {
       let result = _.cloneDeep(choices);

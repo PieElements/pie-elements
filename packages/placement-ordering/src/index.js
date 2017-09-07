@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import compact from 'lodash/compact';
 import katex from 'katex';
+import { swap } from './ordering';
 import withContext from './with-context';
 
 //Auto render requires the katex global
@@ -12,7 +13,8 @@ const renderMathInElement = require('katex/dist/contrib/auto-render.min');
 require('katex/dist/katex.css');
 
 export {
-  withContext
+  withContext,
+  swap
 }
 
 export default class Ordering extends HTMLElement {

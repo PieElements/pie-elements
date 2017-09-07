@@ -4,17 +4,21 @@ import { DragSource, DropTarget } from 'react-dnd';
 import IconButton from 'material-ui/IconButton';
 import React from 'react';
 import { RemoveCircle } from 'material-ui-icons';
+import debug from 'debug';
 import { DragSource as dragSource } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 import { withStyles } from 'material-ui/styles';
+
+const log = debug('pie-elements:placement-ordering:configure:choice-tile');
 
 class ChoiceTile extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onLabelChange = (value, lang) => {
+
+    this.onLabelChange = (label) => {
       const { choice, onChoiceChange } = this.props;
-      //TODO map update to lang..
+      choice.label = label;
       onChoiceChange(choice);
     }
 
@@ -45,7 +49,7 @@ class ChoiceTile extends React.Component {
           onChange={this.onLabelChange} />
         <div className={classes.controls}>
           <Checkbox label="Remove tile after placing"
-            checked={choice.moveOnDrag === false}
+            checked={choice.moveOnDrag}
             onChange={this.onMoveOnDragChange} />
           <IconButton
             color="primary"
@@ -67,6 +71,8 @@ const Styled = withStyles((theme) => ({
     fill: theme.palette.error[500]
   },
   choiceTile: {
+    cursor: 'move',
+    backgroundColor: 'white',
     border: '1px solid #c2c2c2',
     marginTop: '5px',
     marginBottom: '5px',
@@ -83,7 +89,7 @@ const NAME = 'choice-config';
 const choiceSource = {
   beginDrag(props) {
     return {
-      id: props.id,
+      id: props.choice.id,
       index: props.index
     };
   }
@@ -101,23 +107,30 @@ const StyledSource = DragSource(
 
 const choiceTarget = {
   hover(props, monitor, component) {
-    const dragIndex = monitor.getItem().index;
-    const hoverIndex = props.index;
-    if (dragIndex === hoverIndex) {
-      return;
-    }
-    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
-    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-    const clientOffset = monitor.getClientOffset();
-    const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-    if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-      return;
-    }
-    if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-      return;
-    }
-    props.moveChoice(dragIndex, hoverIndex);
-    monitor.getItem().index = hoverIndex;
+
+    log('[hover]');
+    //   const dragIndex = monitor.getItem().index;
+    //   const hoverIndex = props.index;
+    //   if (dragIndex === hoverIndex) {
+    //     return;
+    //   }
+    //   const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+    //   const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+    //   const clientOffset = monitor.getClientOffset();
+    //   const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+    //   if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+    //     return;
+    //   }
+    //   if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+    //     return;
+    //   }
+    //   props.moveChoice(dragIndex, hoverIndex);
+    //   monitor.getItem().index = hoverIndex;
+  },
+  drop(props, monitor) {
+    const item = monitor.getItem();
+    log('[drop] item: ', item, 'didDrop?', monitor.didDrop());
+    props.onMoveChoice(item.index, props.index);
   }
 }
 
