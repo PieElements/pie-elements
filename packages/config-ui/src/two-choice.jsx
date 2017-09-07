@@ -1,8 +1,10 @@
 import { FormControl, FormControlLabel, FormLabel } from 'material-ui/Form';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 
+import InputContainer from './input-container';
 import InputLabel from 'material-ui/Input/InputLabel';
 import PropTypes from 'prop-types';
+import RadioWithLabel from './radio-with-label';
 import React from 'react';
 import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
@@ -23,24 +25,22 @@ class TwoChoice extends React.Component {
   render() {
     const { value, header, onChange, one, two, classes, className } = this.props;
 
-    return <FormControl className={classNames(classes.root, className)}>
-      <InputLabel shrink={true}>{header}</InputLabel>
+    return <InputContainer
+      label={header}
+      className={className}>
       <div className={classes.group}>
-        <FormControlLabel
+        <RadioWithLabel
           value={one.value}
-          control={<Radio
-            checked={value === one.value}
-            onChange={this.handleChange} />}
+          checked={value === one.value}
+          onChange={this.handleChange}
           label={one.label} />
-        <FormControlLabel
+        <RadioWithLabel
           value={two.value}
-          control={<Radio
-            checked={value === two.value}
-            onChange={this.handleChange}
-          />}
+          checked={value === two.value}
+          onChange={this.handleChange}
           label={two.label} />
       </div>
-    </FormControl>
+    </InputContainer>
   }
 }
 
@@ -65,9 +65,11 @@ const styles = theme => ({
     padding: 0,
     margin: 0
   },
+  formLabel: {
+    color: 'red'
+  },
   group: {
     display: 'flex',
-    paddingTop: '5px',
     paddingLeft: 0
   }
 });

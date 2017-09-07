@@ -1,12 +1,19 @@
 import {
   FeedbackConfig,
   FeedbackSelector,
+  InputContainer,
+  InputSwitch,
+  Langs,
+  MultiLangInput,
   NumberTextField,
+  TwoChoice,
   feedbackConfigDefaults
 } from '../src/index';
 
+import Radio from 'material-ui/Radio';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Typography from 'material-ui/Typography';
 import debug from 'debug';
 import { withStyles } from 'material-ui/styles';
 
@@ -29,7 +36,7 @@ const Section = withStyles({
     }
   }
 })(({ name, children, classes }) => <div className={classes.section}>
-  <h4>{name}</h4>
+  <Typography>{name}</Typography>
   {children}
 </div>);
 
@@ -68,6 +75,36 @@ class Container extends React.Component {
     return <div>
       <em>Normal</em>
       <pre>{JSON.stringify(this.state, null, '  ')}</pre>
+
+      <Section name="Input Container">
+        <div style={{ display: 'flex' }}>
+          <InputContainer label="just a vanilla radio">
+            <Radio />
+          </InputContainer>
+          <InputSwitch
+            label="toggle something"
+            checked={true}
+          />
+          <TwoChoice header="two-choice" one={{ label: 'one', value: 'one' }} two={{ label: 'two', value: 'two' }} />
+        </div>
+        <div style={{ display: 'flex' }}>
+          <InputContainer label="just a vanilla radio">
+            <Radio />
+          </InputContainer>
+          <InputSwitch
+            label="toggle something"
+            checked={true}
+          />
+          <TwoChoice header="two-choice" one={{ label: 'one', value: 'one' }} two={{ label: 'two', value: 'two' }} />
+        </div>
+      </Section>
+      <Section name="MultiLangInput">
+        <MultiLangInput
+          label={'label'}
+          lang={'en-US'}
+          value={[{ lang: 'en-US', value: '<div><strong>hi</strong></div>' }]}>
+        </MultiLangInput>
+      </Section>
       <Section name="NumberTextField">
         <NumberTextField
           value={this.state.numberTextField.one}
@@ -75,7 +112,6 @@ class Container extends React.Component {
           min={1}
           onChange={this.updateOne} />
       </Section>
-      <h1>FeedbackSelector</h1>
       <Section name="FeedbackSelector">
         <FeedbackSelector
           label={'Some Feedback:'}
@@ -86,6 +122,14 @@ class Container extends React.Component {
         <FeedbackConfig
           feedback={this.state.feedback}
           onChange={(feedback) => this.setState({ feedback })} />
+      </Section>
+      <Section name="Langs">
+        <Langs
+          label="Langs to choose"
+          langs={['en-US', 'es-ES']}
+          selected={'en-US'}
+          defaultLang={'en-US'}
+        />
       </Section>
     </div>
   }

@@ -1,7 +1,9 @@
 import Radio, { RadioGroup } from 'material-ui/Radio';
 
 import EditableHTML from '@pie-libs/editable-html';
+import InputContainer from '../input-container';
 import PropTypes from 'prop-types';
+import RadioWithLabel from '../radio-with-label';
 import React from 'react';
 import Typography from 'material-ui/Typography';
 import debug from 'debug';
@@ -16,6 +18,9 @@ const feedbackLabels = {
 };
 
 const style = theme => ({
+  feedbackSelector: {
+    marginBottom: '10px'
+  },
   label: {
     cursor: 'pointer',
   },
@@ -28,13 +33,13 @@ const style = theme => ({
     alignItems: 'center'
   },
   feedbackHolder: {
-    marginTop: '10px',
+    marginTop: '0px',
     background: '#e0dee0',
     padding: '13px'
   },
   defaultHolder: {
     fontFamily: theme.typography.fontFamily,
-    marginTop: '10px',
+    marginTop: '0px',
     background: '#e0dee0',
     padding: '20px',
     cursor: 'default'
@@ -46,17 +51,13 @@ const style = theme => ({
 
 const Group = ({ feedbackLabels, label, value, classes, handleChange, keys }) => (
   <div className={classes.choiceHolder}>
-    <Typography type="body1">{label}</Typography>
     {keys.map((key) => {
       return (<div className={classes.choice} key={key}>
-        <Radio
+        <RadioWithLabel
           value={key}
           checked={value === key}
           onChange={(e) => handleChange(e.currentTarget.value)}
-          aria-label={feedbackLabels[key]} />
-        <Typography
-          className={classes.label}
-          onClick={() => handleChange(key)}>{feedbackLabels[key]}</Typography>
+          label={feedbackLabels[key]} />
       </div>);
     })}
   </div>
@@ -87,14 +88,16 @@ class FeedbackSelector extends React.Component {
 
     let feedbackKeys = keys || Object.keys(feedbackLabels);
 
-    return <div>
-      <Group
-        classes={classes}
-        keys={feedbackKeys}
-        label={label}
-        value={feedback.type}
-        handleChange={this.onTypeChange}
-        feedbackLabels={feedbackLabels} />
+    return <div className={classes.feedbackSelector}>
+      <InputContainer label={label}>
+        <Group
+          classes={classes}
+          keys={feedbackKeys}
+          label={label}
+          value={feedback.type}
+          handleChange={this.onTypeChange}
+          feedbackLabels={feedbackLabels} />
+      </InputContainer>
       {feedback.type === 'custom' && <div className={classes.feedbackHolder}>
         <EditableHTML
           className={classes.editor}

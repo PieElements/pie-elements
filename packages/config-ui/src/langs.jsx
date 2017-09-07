@@ -1,6 +1,7 @@
 import Menu, { MenuItem } from 'material-ui/Menu';
 
 import Button from 'material-ui/Button';
+import InputLabel from 'material-ui/Input/InputLabel';
 import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -9,20 +10,21 @@ import { withStyles } from 'material-ui/styles';
 
 const styles = {
   root: {
+    flexDirection: 'column',
+    alignItems: 'start',
     display: 'flex',
-    alignItems: 'center',
     position: 'relative',
-    paddingTop: '10px',
-    paddingRight: '20px'
+    paddingTop: '0px',
+    paddingRight: '0px'
   }
 };
-
 
 const buttonStyles = {
   root: {
     display: 'inline-flex',
-    padding: '5px',
-    marginLeft: '10px',
+    padding: '8px',
+    marginTop: '0px',
+    marginBottom: '10px',
     minHeight: '24px',
     minWidth: '50px'
   },
@@ -76,7 +78,7 @@ class RawLangs extends React.Component {
   render() {
     let { langs, selected, onChange, label, classes } = this.props;
     return <div className={classes.root}>
-      <div>{label}</div>
+      <InputLabel shrink={true}>{label}</InputLabel>
       <SelectButton
         aria-owns="langs"
         aria-haspopup="true"
@@ -97,7 +99,7 @@ export default Langs;
 
 export const LanguageControls = withStyles({
   languageControls: {
-    display: 'flex'
+    display: 'flex',
   }
 })(({
   classes,
