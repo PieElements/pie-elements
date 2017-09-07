@@ -5,6 +5,7 @@ import Checkbox from './checkbox';
 import Help from './help';
 import MultiLangInput from './multi-lang-input';
 import NumberTextField from './number-text-field';
+import TwoChoice from './two-choice';
 
 export {
   Langs,
@@ -15,5 +16,6 @@ export {
   FeedbackSelector,
   feedbackConfigDefaults,
   Checkbox,
-  Help
+  Help,
+  TwoChoice
 }
