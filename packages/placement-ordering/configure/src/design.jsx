@@ -2,7 +2,8 @@ import {
   Checkbox,
   FeedbackConfig,
   LanguageControls,
-  MultiLangInput
+  MultiLangInput,
+  TwoChoice
 } from '@pie-libs/config-ui';
 import { FormControlLabel, FormGroup } from 'material-ui/Form';
 
@@ -10,6 +11,7 @@ import Button from 'material-ui/Button';
 import ChoiceEditor from './choice-editor';
 import PropTypes from 'prop-types';
 import React from 'react';
+import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
 import cloneDeep from 'lodash/cloneDeep';
 import { withStyles } from 'material-ui/styles';
@@ -146,6 +148,13 @@ class Design extends React.Component {
     const { activeLang, allMoveOnDrag } = this.state;
     return (
       <div>
+        <TwoChoice
+          className={classes.orientation}
+          header={'Orientation'}
+          value={model.config.choiceAreaLayout}
+          onChange={this.onLayoutChange}
+          one={{ label: 'vertical', value: 'vertical' }}
+          two={{ label: 'horizontal', value: 'horizontal' }} />
         <LanguageControls
           langs={model.langs}
           activeLang={activeLang}
@@ -160,11 +169,17 @@ class Design extends React.Component {
           onChange={this.onPromptChange} />
 
         <div>
-          layout
-          choiceAreaLabel
-          answerAreaLabel
-          includePlacementArea
-          </div>
+          <TextField
+            label="Choice label"
+            value={model.config.choiceAreaLabel} />
+          <Checkbox
+            label="Include placement area"
+            value={model.config.placementType === 'placement'}
+            onChange={this.onPlacementTypeChange} />
+          {model.config.placementType === 'placement' && <TextField
+            label="Answer label"
+            value={model.config.answerAreaLabel} />}
+        </div>
         <div className={classes.choices}>
           <Typography type="heading">Choices</Typography>
           <ChoiceEditor
@@ -198,11 +213,15 @@ Design.propTypes = {
 
 export default withStyles({
   langControls: {
-    marginTop: '20px',
-    marginBottom: '20px'
+    marginTop: '10px',
+    marginBottom: '10px'
   },
   choices: {
     marginTop: '20px',
     marginBottom: '20px'
+  },
+  orientation: {
+    marginTop: '10px',
+    marginBottom: '10px'
   }
 })(Design);
