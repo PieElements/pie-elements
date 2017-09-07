@@ -1,3 +1,4 @@
+import Checkbox from 'material-ui/Checkbox';
 import InputContainer from './input-container';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -10,6 +11,9 @@ const RawInputSwitch = ({ classes, className, label, checked, onChange }) => {
       className={className}
       label={label}>
       <Switch
+        classes={{
+          root: classes.switchRoot
+        }}
         checked={checked}
         onChange={onChange}
         aria-label={label} />
@@ -17,7 +21,12 @@ const RawInputSwitch = ({ classes, className, label, checked, onChange }) => {
   )
 }
 
-const InputSwitch = withStyles({})(RawInputSwitch);
+const InputSwitch = withStyles({
+  switchRoot: {
+    justifyContent: 'inherit',
+    transform: 'translate(-20%)'
+  }
+})(RawInputSwitch);
 
 const RawInputCheckbox = ({ classes, className, label, checked, onChange }) => {
   return (
@@ -25,6 +34,9 @@ const RawInputCheckbox = ({ classes, className, label, checked, onChange }) => {
       className={className}
       label={label}>
       <Checkbox
+        classes={{
+          root: classes.checkboxRoot
+        }}
         checked={checked}
         onChange={onChange}
         aria-label={label} />
@@ -32,7 +44,11 @@ const RawInputCheckbox = ({ classes, className, label, checked, onChange }) => {
   )
 }
 
-const InputCheckbox = withStyles({})(RawInputCheckbox);
+const InputCheckbox = withStyles({
+  checkboxRoot: {
+    justifyContent: 'inherit'
+  }
+})(RawInputCheckbox);
 
 export {
   InputSwitch,

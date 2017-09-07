@@ -27,7 +27,8 @@ export default withStyles(theme => ({
     position: 'relative'
   },
   label: {
-    position: 'relative'
+    position: 'relative',
+    whiteSpace: 'nowrap'
   },
   inputContainer: {
     display: 'flex',

@@ -1,6 +1,7 @@
 import Card, { CardContent } from 'material-ui/Card';
 
 import FeedbackSelector from './feedback-selector';
+import FormSection from '../form-section';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Typography from 'material-ui/Typography';
@@ -51,23 +52,20 @@ export class FeedbackConfig extends React.Component {
     const incorrect = this.mkModel('incorrect');
     const partial = this.mkModel('partial');
 
-    return <Card>
-      <CardContent>
-        <Typography type="headline">Feedback</Typography>
-        <FeedbackSelector
-          label="If correct, show"
-          feedback={correct}
-          onFeedbackChange={this.onCorrectChange} />
-        <FeedbackSelector
-          label="If partially correct, show"
-          feedback={partial}
-          onFeedbackChange={this.onPartialChange} />
-        <FeedbackSelector
-          label="If incorrect, show"
-          feedback={incorrect}
-          onFeedbackChange={this.onIncorrectChange} />
-      </CardContent>
-    </Card>;
+    return <FormSection label="Feedback">
+      <FeedbackSelector
+        label="If correct, show"
+        feedback={correct}
+        onFeedbackChange={this.onCorrectChange} />
+      <FeedbackSelector
+        label="If partially correct, show"
+        feedback={partial}
+        onFeedbackChange={this.onPartialChange} />
+      <FeedbackSelector
+        label="If incorrect, show"
+        feedback={incorrect}
+        onFeedbackChange={this.onIncorrectChange} />
+    </FormSection>;
   }
 }
 

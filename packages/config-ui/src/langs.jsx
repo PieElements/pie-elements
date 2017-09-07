@@ -99,7 +99,10 @@ export default Langs;
 
 export const LanguageControls = withStyles({
   languageControls: {
-    display: 'flex',
+    display: 'grid',
+    gridAutoFlow: 'column',
+    gridAutoColumns: '1fr',
+    gridGap: '8px'
   }
 })(({
   classes,

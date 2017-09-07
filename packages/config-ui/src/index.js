@@ -3,6 +3,7 @@ import { InputCheckbox, InputSwitch } from './inputs';
 import Langs, { LanguageControls } from './langs';
 
 import Checkbox from './checkbox';
+import FormSection from './form-section';
 import Help from './help';
 import InputContainer from './input-container';
 import MultiLangInput from './multi-lang-input';
@@ -14,8 +15,10 @@ export {
   FeedbackConfig,
   FeedbackSelector,
   feedbackConfigDefaults,
+  FormSection,
   Help,
   InputContainer,
+  InputCheckbox,
   InputSwitch,
   Langs,
   LanguageControls,
