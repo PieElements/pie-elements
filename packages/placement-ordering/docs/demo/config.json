@@ -106,7 +106,7 @@
       },
       "config": {
         "shuffle": false,
-        "placementType": "placement",
+        "placementType": "none",
         "choiceAreaLayout": "vertical",
         "choiceAreaLabel": "choices: ",
         "answerAreaLabel": "aa",

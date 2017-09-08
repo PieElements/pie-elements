@@ -2,9 +2,12 @@ import Main from './main.jsx';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import compact from 'lodash/compact';
+import debug from 'debug';
 import katex from 'katex';
 import { swap } from './ordering';
 import withContext from './with-context';
+
+const log = debug('pie-elements:placement-ordering');
 
 //Auto render requires the katex global
 window.katex = katex;
@@ -26,6 +29,9 @@ export default class Ordering extends HTMLElement {
 
   render() {
     if (this._model && this._session) {
+      log('[render] session: ', this._session);
+      log('[render] model: ', this._model);
+
       const element = React.createElement(Main, {
         model: this._model,
         session: this._session,
@@ -40,6 +46,7 @@ export default class Ordering extends HTMLElement {
 
   sessionChange(session) {
     this._session.value = session.value;
+    this.render();
     this.dispatchEvent(new CustomEvent('session-changed', {
       bubbles: true,
       detail: {

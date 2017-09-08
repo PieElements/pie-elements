@@ -33,21 +33,25 @@ class Design extends React.Component {
 
     this.applyUpdate = (modelFn) => {
       const { model, onModelChange } = this.props;
-      modelFn(model);
-      onModelChange(model);
+      const update = modelFn(cloneDeep(model));
+      onModelChange(update);
     }
 
     this.changeHandler = (modelPath, valuePath) => {
       return value => {
         log('[changeHandler] value: ', value);
         const v = valuePath ? get(value, valuePath) : value;
-        this.applyUpdate(model => set(model, modelPath, v));
+        this.applyUpdate(model => {
+          set(model, modelPath, v)
+          return model;
+        });
       }
     }
 
     this.onLayoutChange = (layout) => {
       this.applyUpdate(model => {
         model.config.choiceAreaLayout = layout;
+        return model;
       });
     }
 
@@ -55,11 +59,15 @@ class Design extends React.Component {
       const includePlacment = event.currentTarget.checked;
       this.applyUpdate(model => {
         model.config.placementType = includePlacment ? 'placement' : 'none';
+        return model;
       })
     }
 
     this.onDefaultLangChange = (defaultLang) => {
-      this.applyUpdate(model => model.defaultLang = defaultLang);
+      this.applyUpdate(model => {
+        model.defaultLang = defaultLang;
+        return model;
+      });
     }
 
     this.onChoiceAreaLabelChange = this.changeHandler('config.choiceAreaLabel', 'target.value');
@@ -71,12 +79,12 @@ class Design extends React.Component {
 
     this.onShowOrderingChange = this.changeHandler('config.showOrdering', 'target.checked');
 
-
     this.onChoiceEditorChange = (choices, correctResponse) => {
       const { model, onModelChange } = this.props;
-      model.model.choices = choices;
-      model.correctResponse = correctResponse;
-      onModelChange(model);
+      const update = cloneDeep(model);
+      update.model.choices = choices;
+      update.correctResponse = correctResponse;
+      onModelChange(update);
     };
 
     this.onPromptChange = this.changeHandler('prompt');

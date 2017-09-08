@@ -102,6 +102,8 @@ export function model(question, session, env) {
     showOrdering: question.config.showOrdering
   }
 
+  console.log('base.config: ', base.config);
+
   if (env.mode !== 'gather') {
     base.disabled = true;
   }

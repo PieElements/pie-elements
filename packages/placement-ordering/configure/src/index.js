@@ -9,14 +9,14 @@ export default class PlacementOrdering extends HTMLElement {
 
   constructor() {
     super();
-    this.onModelChange = (model) => {
+    this.onModelChange = (model, resetSession) => {
       this._model = model;
-      this.dispatchUpdate();
+      this.dispatchUpdate(resetSession);
     }
   }
 
-  dispatchUpdate() {
-    const detail = { update: this._model }
+  dispatchUpdate(reset) {
+    const detail = { update: this._model, reset }
     this.dispatchEvent(new CustomEvent('model.updated', { bubbles: true, detail }));
   }
 

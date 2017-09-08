@@ -4,23 +4,12 @@ import withContext from './with-context';
 
 class Main extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      session: props.session ? props.session : { value: [] }
-    }
-
-    this.onSessionChange = (session) => {
-      this.setState({ session });
-      this.props.onSessionChange(session);
-    }
-  }
-
   render() {
+    const { model, session, onSessionChange } = this.props;
     return <PlacementOrdering
-      model={this.props.model}
-      session={this.state.session}
-      onSessionChange={this.onSessionChange} />
+      model={model}
+      session={session}
+      onSessionChange={onSessionChange} />
   }
 }
 

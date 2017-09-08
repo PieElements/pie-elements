@@ -64,8 +64,9 @@ class PlacementOrdering extends React.Component {
     const { model, session, onSessionChange } = this.props;
     const config = model.config || { includeTargets: true }
 
+    log('[initSessionIfNeeded] config:', config, 'session.value: ', session.value);
     if (!config.includeTargets && isEmpty(compact(session.value))) {
-      log('[initSessionIfNeeded] initing session...');
+      log('[initSessionIfNeeded] initing session...', config.includeTargets);
       const update = cloneDeep(session)
       update.value = model.choices.map(m => m.id);
       onSessionChange(update);
