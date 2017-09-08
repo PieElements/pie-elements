@@ -16,7 +16,10 @@ const PlaceHolder = withStyles({
     boxShadow: 'inset 3px 4px 2px 0 rgba(0,0,0,0.08)',
     border: '1px solid #c2c2c2',
     transition: 'background-color 200ms linear',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   over: {
     backgroundColor: '#ddd'
@@ -24,11 +27,19 @@ const PlaceHolder = withStyles({
   //hide choice placeholders
   choice: {
     opacity: '0.0'
+  },
+  number: {
+    width: '100%',
+    fontSize: '30px',
+    textAlign: 'center',
+    color: 'rgba(0,0,0,0.6)'
   }
-})(({ classes, isOver, type }) => {
+})(({ classes, isOver, type, index }) => {
   const names = classNames(classes.placeholder, isOver && classes.over, classes[type]);
   return (
-    <div className={names}></div>
+    <div className={names}>
+      {type === 'target' && index !== undefined && <div className={classes.number}>{index}</div>}
+    </div>
   )
 });
 
@@ -62,10 +73,14 @@ const TileContent = withStyles({
   }
 })((props) => {
   log('[TileContent] render: ', props);
-  const { type, classes, isDragging, empty, isOver, label, disabled, outcome } = props;
+  const { type, classes, isDragging, empty, isOver, label, disabled, outcome, guideIndex } = props;
 
   if (empty) {
-    return <PlaceHolder type={type} isOver={isOver} disabled={disabled} />;
+    return <PlaceHolder
+      type={type}
+      index={guideIndex}
+      isOver={isOver}
+      disabled={disabled} />;
   } else {
     const names = classNames(
       classes.tileContent,
@@ -95,7 +110,9 @@ export class Tile extends React.Component {
       empty,
       disabled,
       moveOnDrag,
-      outcome } = this.props;
+      outcome,
+      index,
+      guideIndex } = this.props;
 
     const opacity = isDragging ? 0.5 : 1;
 
@@ -114,6 +131,8 @@ export class Tile extends React.Component {
             label={label}
             id={id}
             empty={empty}
+            index={index}
+            guideIndex={guideIndex}
             isOver={isOver}
             isDragging={isDragging}
             disabled={disabled}

@@ -104,16 +104,17 @@ class Design extends React.Component {
         </div>
         <div className={classes.row}>
           <InputCheckbox
-            label="Include placement area"
-            checked={model.config.placementType === 'placement'}
-            onChange={this.onPlacementTypeChange}
-            aria-label="include-placment" />
-          <InputCheckbox
             label="Shuffle"
             checked={model.config.shuffle}
             onChange={this.onShuffleChange}
             aria-label="shuffle" />
           <InputCheckbox
+            label="Include placement area"
+            checked={model.config.placementType === 'placement'}
+            onChange={this.onPlacementTypeChange}
+            aria-label="include-placment" />
+          <InputCheckbox
+            disabled={model.config.placementType !== 'placement'}
             label="Numbered guides"
             checked={model.config.showOrdering}
             onChange={this.onShowOrderingChange}
@@ -164,7 +165,7 @@ class Design extends React.Component {
 
 Design.propTypes = {
   model: PropTypes.object.isRequired,
-  onModelChanged: PropTypes.func.isRequired
+  onModelChange: PropTypes.func.isRequired
 }
 
 export default withStyles({

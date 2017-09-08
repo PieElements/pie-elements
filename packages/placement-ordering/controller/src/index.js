@@ -98,7 +98,8 @@ export function model(question, session, env) {
     includeTargets: question.config.placementType === 'placement',
     tileSize: question.config.tileSize,
     targetLabel: question.config.answerAreaLabel,
-    choiceLabel: question.config.choiceAreaLabel
+    choiceLabel: question.config.choiceAreaLabel,
+    showOrdering: question.config.showOrdering
   }
 
   if (env.mode !== 'gather') {

@@ -120,8 +120,7 @@ class ChoiceEditor extends React.Component {
 ChoiceEditor.propTypes = {
   correctResponse: PropTypes.array.isRequired,
   choices: PropTypes.array.isRequired,
-  onCorrectResponseChange: PropTypes.func.isRequired,
-  onChoicesChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired
 }
 
 const styles = theme => ({

@@ -105,11 +105,12 @@
         ]
       },
       "config": {
-        "shuffle": true,
+        "shuffle": false,
         "placementType": "placement",
         "choiceAreaLayout": "vertical",
         "choiceAreaLabel": "choices: ",
-        "answerAreaLabel": "aa"
+        "answerAreaLabel": "aa",
+        "showOrdering": true
       }
     }
   ]

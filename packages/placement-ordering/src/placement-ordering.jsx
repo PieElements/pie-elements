@@ -101,6 +101,7 @@ class PlacementOrdering extends React.Component {
         targetLabel={config.targetLabel}
         tiles={ordering.tiles}
         disabled={model.disabled}
+        addGuide={model.config.showOrdering}
         tileSize={model.config && model.config.tileSize}
         includeTargets={includeTargets}
         onDropChoice={this.onDropChoice.bind(this, ordering)}

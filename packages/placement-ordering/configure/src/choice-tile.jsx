@@ -49,7 +49,7 @@ class ChoiceTile extends React.Component {
           onChange={this.onLabelChange} />
         <div className={classes.controls}>
           <Checkbox label="Remove tile after placing"
-            checked={choice.moveOnDrag}
+            checked={choice.moveOnDrag === true}
             onChange={this.onMoveOnDragChange} />
           <IconButton
             color="primary"

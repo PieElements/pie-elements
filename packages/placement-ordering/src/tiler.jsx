@@ -16,12 +16,14 @@ const types = {
   disabled: PropTypes.bool,
   onDropChoice: PropTypes.func.isRequired,
   tiles: PropTypes.array.isRequired,
-  tileSize: PropTypes.string
+  tileSize: PropTypes.string,
+  addGuide: PropTypes.bool
 }
 
 const defaults = {
   tileSize: '1fr',
-  disabled: false
+  disabled: false,
+  addGuide: false
 }
 
 const buildTiles = (props) => {
@@ -30,12 +32,12 @@ const buildTiles = (props) => {
     tile.onRemoveChoice = () => props.onRemoveChoice(tile);
     tile.instanceId = props.instanceId;
     tile.disabled = props.disabled;
+    tile.guideIndex = props.addGuide ? (tile.index + 1) : undefined;
     return <Tile {...tile} key={index} />;
   }
 }
 
 class HTiler extends React.Component {
-
 
   render() {
     const {
