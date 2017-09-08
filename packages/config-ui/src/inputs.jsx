@@ -28,7 +28,7 @@ const InputSwitch = withStyles({
   }
 })(RawInputSwitch);
 
-const RawInputCheckbox = ({ classes, className, label, checked, onChange }) => {
+const RawInputCheckbox = ({ classes, className, label, checked, onChange, disabled }) => {
   return (
     <InputContainer
       className={className}
@@ -37,6 +37,7 @@ const RawInputCheckbox = ({ classes, className, label, checked, onChange }) => {
         classes={{
           root: classes.checkboxRoot
         }}
+        disabled={disabled}
         checked={checked}
         onChange={onChange}
         aria-label={label} />
@@ -46,7 +47,7 @@ const RawInputCheckbox = ({ classes, className, label, checked, onChange }) => {
 
 const InputCheckbox = withStyles({
   checkboxRoot: {
-    justifyContent: 'inherit'
+    transform: 'translateX(-25%)'
   }
 })(RawInputCheckbox);
 
