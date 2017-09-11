@@ -19,16 +19,6 @@ const serializer = new Html({
   defaultBlock: 'div'
 });
 
-const armBlur = () => {      /// k 
-  this.setState({ blur: true });
-  setTimeout(() => {
-    if (this.state.blur) {
-      onBlur()
-    }
-    this.setState({ blur: false });
-  });
-}
-
 class RichText extends React.Component {
 
   constructor(props) {
@@ -49,12 +39,18 @@ class RichText extends React.Component {
     }
 
     this.onBlur = (event, data, change, editor) => {
-      log('[onBlur]', event);
+      // event.persist();
+      // window.requestAnimationFrame(() => {
+      log('[onBlur]', event, event.relatedTarget);
       log('[onBlur] activeElement', document.activeElement);
-      // event.preventDefault();
-      this.setState({ inFocus: false });
-      editor.blur();
-      return change;
+
+      if (!this.root.contains(document.activeElement)) {
+        this.setState({ inFocus: false });
+        editor.blur();
+      } else {
+        editor.focus();
+      }
+      // });
       // this.setState({ blur: true });
       // setTimeout(() => {
       //   if (this.state.blur) {
@@ -97,7 +93,7 @@ class RichText extends React.Component {
 
     this.insertMath = () => {
 
-      this.setState({ blur: false });
+      log('[insertMath]');
 
       const { editorState } = this.props;
 
@@ -242,7 +238,9 @@ class RichText extends React.Component {
     const names = classNames(classes.root, inFocus && classes.inFocus);
 
     return (
-      <div className={names}>
+      <div
+        ref={r => this.root = r}
+        className={names}>
         in focus ? {inFocus}
         <div className={classes.editorHolder}>
           <Editor
@@ -257,14 +255,14 @@ class RichText extends React.Component {
             onChange={this.props.onChange}
             onKeyDown={this.onKeyDown} />
         </div>
-        <Toolbar
+        {inFocus && <Toolbar
           editorState={editorState}
           onToggleMark={this.onToggleMark}
           onInsertMath={this.insertMath}
           onFocus={this.onToolbarFocus}
           onBlur={this.onToolbarBlur}
           onImageClick={imageSupport && this.addImage}
-          onDone={onDone} />
+          onDone={onDone} />}
       </div>
     )
   }
