@@ -9,6 +9,7 @@
   "dependencies": {
     "@pie-libs/scoring-config": "~0.2.1",
     "@pie-libs/config-ui": "^1.0.0",
+    "@pie-libs/pie-configure-events": "^1.1.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "lodash": "^4.17.4",

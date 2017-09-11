@@ -1,3 +1,5 @@
+import { DeleteImageEvent, InsertImageEvent, ModelUpdatedEvent } from '@pie-libs/pie-configure-events';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './root.jsx';
@@ -5,24 +7,6 @@ import debug from 'debug';
 import merge from 'lodash/merge';
 
 const log = debug('multiple-choice:configure');
-
-export class ModelUpdatedEvent extends CustomEvent {
-  constructor(update) {
-    super('model.updated', { bubbles: true, detail: { update } });
-  }
-}
-
-export class DeleteImageEvent extends CustomEvent {
-  constructor(detail) {
-    super('delete.image', { bubbles: true, detail });
-  }
-}
-
-export class InsertImageEvent extends CustomEvent {
-  constructor(detail) {
-    super('insert.image', { bubbles: true, detail });
-  }
-}
 
 export default class extends HTMLElement {
 
@@ -37,7 +21,7 @@ export default class extends HTMLElement {
   }
 
   dispatchModelUpdated() {
-    this.dispatchEvent(new ModelUpdatedEvent(this._model));
+    this.dispatchEvent(new ModelUpdatedEvent(this._model, false));
   }
 
   onModelChanged(m) {
@@ -54,7 +38,7 @@ export default class extends HTMLElement {
   }
 
   onDeleteImage(src, done) {
-    this.dispatchEvent(new DeleteImageEvent({ src, done }));
+    this.dispatchEvent(new DeleteImageEvent(src, done));
   }
 
   _render() {
