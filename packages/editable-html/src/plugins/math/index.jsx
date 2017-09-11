@@ -12,9 +12,13 @@ export default function MathPlugin(options) {
   return {
     schema: {
       nodes: {
-        math: MathInput
+        math: (props) => <MathInput
+          {...props}
+          onFocus={options.onFocus}
+          onBlur={options.onBlur} />
       }
-    }
+    },
+
   }
 }
 

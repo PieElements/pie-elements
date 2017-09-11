@@ -59,12 +59,17 @@ class RawToolbar extends React.Component {
       onImageClick,
       onInsertMath,
       onDone,
-      zIndex } = this.props;
+      zIndex,
+      onFocus,
+      onBlur } = this.props;
 
     const style = zIndex ? { zIndex } : {};
 
     return (
-      <div className={classes.toolbar} style={style}>
+      <div className={classes.toolbar}
+        style={style}
+        onFocus={onFocus}
+        onBlur={onBlur}>
         <div className={classes.inline}>
           {INLINE_STYLES.map(type => {
             const isActive = this.hasMark(type.mark);

@@ -4,7 +4,9 @@ import { buildPlugins, serializationRules } from './plugins';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Toolbar from './toolbar';
+import classNames from 'classnames';
 import debug from 'debug';
+import { findDOMNode } from 'react-dom';
 import injectSheet from 'react-jss';
 import { inlineMath } from './plugins/math';
 
@@ -14,28 +16,69 @@ logError.log = console.error.bind(console);
 
 const serializer = new Html({
   rules: serializationRules,
-  defaultBlockType: 'div'
+  defaultBlock: 'div'
 });
+
+const armBlur = () => {      /// k 
+  this.setState({ blur: true });
+  setTimeout(() => {
+    if (this.state.blur) {
+      onBlur()
+    }
+    this.setState({ blur: false });
+  });
+}
 
 class RichText extends React.Component {
 
   constructor(props) {
     super(props);
 
+    this.state = {
+      inFocus: false
+    }
+
+    this.onFocus = (event, data, change, editor) => {
+      log('[onFocus]', change);
+      this.setState({ inFocus: true, cancelBlur: true });
+      editor.focus();
+      return change;
+      // this.setState({ focus: true });
+      // this.editor.focus();
+      // this.props.onFocus();
+    }
+
+    this.onBlur = (event, data, change, editor) => {
+      log('[onBlur]', event);
+      log('[onBlur] activeElement', document.activeElement);
+      // event.preventDefault();
+      this.setState({ inFocus: false });
+      editor.blur();
+      return change;
+      // this.setState({ blur: true });
+      // setTimeout(() => {
+      //   if (this.state.blur) {
+      //     this.props.onBlur();
+      //   }
+      //   this.setState({ blur: false });
+      // }, 500);
+    }
+
     this.insertImage = (err, src) => {
+      this.setState({ blur: false });
+
       if (err) {
         logError(err);
       } else {
         const { editorState, onChange } = this.props;
-        const transform = editorState.transform()
+        const change = editorState.change()
 
-        const update = transform
+        const update = change
           .insertBlock({
             type: 'image',
             isVoid: true,
             data: { src }
-          })
-          .apply();
+          });
 
         onChange(update);
       }
@@ -45,26 +88,26 @@ class RichText extends React.Component {
       log('[onToggleMark] type: ', type);
       let { editorState } = this.props;
 
-      editorState = editorState
-        .transform()
-        .toggleMark(type)
-        .apply()
+      const change = editorState
+        .change()
+        .toggleMark(type);
 
-      this.props.onChange(editorState);
+      this.props.onChange(change);
     }
 
     this.insertMath = () => {
+
+      this.setState({ blur: false });
 
       const { editorState } = this.props;
 
       const math = inlineMath();
 
-      const newState = editorState
-        .transform()
-        .insertInline(math)
-        .apply();
+      const change = editorState
+        .change()
+        .insertInline(math);
 
-      this.props.onChange(newState);
+      this.props.onChange(change);
     }
 
     this.addImage = () => {
@@ -78,12 +121,11 @@ class RichText extends React.Component {
         }
       });
 
-      let newState = editorState
-        .transform()
-        .insertBlock(block)
-        .apply();
+      let change = editorState
+        .change()
+        .insertBlock(block);
 
-      onChange(newState);
+      onChange(change);
 
       const handler = {
         cancel: () => {
@@ -99,12 +141,11 @@ class RichText extends React.Component {
               Data.create({ loaded: true, src, percent: 100 })
             );
 
-            newState = newState
-              .transform()
-              .setNodeByKey(block.key, { data })
-              .apply();
+            change = this.editor.getState()
+              .change()
+              .setNodeByKey(block.key, { data });
 
-            onChange(newState);
+            onChange(change);
           }
         },
         fileChosen: file => {
@@ -119,11 +160,10 @@ class RichText extends React.Component {
             const child = newState.document.getChild(block.key);
             const data = child.data.set('src', dataURL);
 
-            newState = newState
-              .transform()
-              .setNodeByKey(block.key, { data })
-              .apply();
-            onChange(newState);
+            change = editor.getState()
+              .change()
+              .setNodeByKey(block.key, { data });
+            onChange(change);
           };
 
           reader.readAsDataURL(file);
@@ -134,12 +174,11 @@ class RichText extends React.Component {
           const data = child.data.set('percent', percent);
 
 
-          newState = newState
-            .transform()
+          change = this.editor.getState()
+            .change()
             .setNodeByKey(block.key, { data })
-            .apply();
 
-          onChange(newState);
+          onChange(change);
         }
       }
 
@@ -147,33 +186,85 @@ class RichText extends React.Component {
 
     };
 
+    this.onPluginBlur = (event) => {
+      log('[onPluginBlur] activeElement: ', document.activeElement);
+      event.preventDefault();
+
+      if (document.activeElement !== findDOMNode(this.editor)) {
+        this.setState({ inFocus: false });
+      }
+      // this.setState({ inFocus: true });
+      // setTimeout(() => {
+      //   log('[onPluginBlur] state:', this.state);
+      //   if (this.state.cancelBlur) {
+      //     this.setState({ cancelBlur: false });
+      //   } else {
+      //     this.setState({ inFocus: false })
+      //   }
+
+      // }, 500);
+    }
+
+    this.onPluginFocus = (event) => {
+      log('[onPluginFocus]');
+      this.setState({ inFocus: true });
+    }
+
+    // this.onToolbarBlur = (event) => {
+    //   log('[onToolbarBlur]');
+    // }
+
+    // this.onToolbarFocus = (event) => {
+    //   log('[onToolbarFocus]');
+    //   this.setState({ blur: false });
+    // }
+
     this.plugins = buildPlugins({
+      math: {
+        onFocus: this.onPluginFocus,
+        onBlur: this.onPluginBlur
+      },
       image: {
-        onDelete: this.props.imageSupport && this.props.imageSupport.delete
+        onDelete: this.props.imageSupport && this.props.imageSupport.delete,
+        onFocus: this.onPluginFocus,
+        onBlur: this.onPluginBlur
       }
     })
   }
 
   render() {
-    const { classes, editorState, onDone, readOnly, imageSupport } = this.props;
+    const { classes, editorState, focus, onDone, imageSupport } = this.props;
+
+    const { inFocus } = this.state;
+
+    log('[render] inFocus?', inFocus);
+
+    const names = classNames(classes.root, inFocus && classes.inFocus);
+
     return (
-      <div className={classes.root}>
+      <div className={names}>
+        in focus ? {inFocus}
         <div className={classes.editorHolder}>
           <Editor
+            ref={r => this.editor = r}
             spellCheck
+            tabIndex={0}
             placeholder={'Enter some rich text...'}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
             plugins={this.plugins}
-            readOnly={readOnly}
             state={this.props.editorState}
             onChange={this.props.onChange}
             onKeyDown={this.onKeyDown} />
         </div>
-        {!readOnly && <Toolbar
+        <Toolbar
           editorState={editorState}
           onToggleMark={this.onToggleMark}
           onInsertMath={this.insertMath}
+          onFocus={this.onToolbarFocus}
+          onBlur={this.onToolbarBlur}
           onImageClick={imageSupport && this.addImage}
-          onDone={onDone} />}
+          onDone={onDone} />
       </div>
     )
   }
@@ -195,6 +286,10 @@ export const stateToHtml = (state) => serializer.serialize(state);
 
 
 const style = {
+  inFocus: {
+    color: 'orange',
+    border: 'solid 1px orange'
+  },
   root: {
     padding: '0px',
     border: 'none',

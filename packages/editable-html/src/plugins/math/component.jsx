@@ -6,7 +6,7 @@ import React from 'react';
 import debug from 'debug';
 import injectSheet from 'react-jss';
 
-const log = debug('plugins:math:component');
+const log = debug('editable-html:plugins:math:component');
 
 export class MathComponent extends React.Component {
 
@@ -16,14 +16,26 @@ export class MathComponent extends React.Component {
       disableBlur: false
     }
 
+    this.onFocus = (event) => {
+      if (this.props.onFocus) {
+        this.props.onFocus(event);
+      }
+    }
+
+    this.onBlur = (event) => {
+      if (this.props.onBlur) {
+        this.props.onBlur(event);
+      }
+    }
+
     this.onChange = (latex) => {
+      log('[onChange]', latex);
       const { node, editor } = this.props;
       const { key } = node;
       const data = Data.create({ latex });
-      const newState = this.props.editor.getState().transform()
-        .setNodeByKey(key, { data })
-        .apply();
-      editor.onChange(newState);
+      const change = this.props.editor.getState().change()
+        .setNodeByKey(key, { data });
+      editor.onChange(change);
     }
 
     this.onClick = (event) => {
@@ -39,11 +51,10 @@ export class MathComponent extends React.Component {
 
       const { node, editor } = this.props;
 
-      const newState = editor.getState()
-        .transform()
-        .removeNodeByKey(node.key)
-        .apply();
-      editor.onChange(newState);
+      const change = editor.getState()
+        .change()
+        .removeNodeByKey(node.key);
+      editor.onChange(change);
     }
   }
 

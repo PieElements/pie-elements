@@ -23,27 +23,38 @@ class EditableHTML extends React.Component {
 
     this.state = {
       editorState: htmlToState(props.markup),
-      readOnly: true
+      focus: false
     }
 
     this.onClick = () => {
       log('onClick');
-      if (this.state.readOnly === true) {
-        this.setState({ readOnly: false });
-      }
+      this.setState({ focus: true });
     }
 
     this.onEditingDone = () => {
-      this.setState({ readOnly: true });
       const markup = stateToHtml(this.state.editorState);
       this.props.onChange(markup);
+    }
+
+    this.onBlur = () => {
+      // this.setState({ focus: false });
+      this.onEditingDone();
+    }
+
+    this.onFocus = () => {
+      // this.setState({ focus: true });
+    }
+
+    this.onChange = (change) => {
+      log('[onChange]', change);
+      this.setState({ editorState: change.state });
     }
   }
 
   componentWillReceiveProps(props) {
     if (props.markup !== this.props.markup) {
       this.setState({
-        readOnly: true,
+        focus: false,
         editorState: htmlToState(props.markup)
       });
     }
@@ -51,19 +62,21 @@ class EditableHTML extends React.Component {
 
   render() {
     const { classes, placeholder, className, imageSupport, html } = this.props;
-    const { editorState, readOnly } = this.state;
+    const { editorState, focus } = this.state;
+
+    log('[render] focus: ', focus);
 
     const rootNames = classNames(classes.editableHtml, className);
     return (
-      <div className={rootNames}
-        onClick={this.onClick}>
+      <div className={rootNames} onClick={this.onClick}>
         <TextEditor
-          readOnly={readOnly}
+          ref={r => this.editor = r}
           editorState={editorState}
-          onChange={(editorState) => this.setState({ editorState })}
+          onChange={this.onChange}
           onDone={this.onEditingDone}
           imageSupport={imageSupport}
-        />
+          onBlur={this.onBlur}
+          onFocus={this.onFocus} />
       </div>
     );
   }

@@ -60,12 +60,11 @@ export class RawImage extends React.Component {
 
       const { data } = this.props.node;
       const update = data.merge(Data.create({ width, height }));
-      const updatedState = editor.getState()
-        .transform()
-        .setNodeByKey(key, { data: update })
-        .apply();
+      const change = editor.getState()
+        .change()
+        .setNodeByKey(key, { data: update });
 
-      editor.onChange(updatedState);
+      editor.onChange(change);
     }
 
     this.onDelete = (event) => {
@@ -77,31 +76,28 @@ export class RawImage extends React.Component {
 
       const update = node.data.merge(Data.create({ deleteStatus: 'pending' }));
 
-      let updatedState = editor.getState()
-        .transform()
-        .setNodeByKey(node.key, { data: update })
-        .apply();
+      let change = editor.getState()
+        .change()
+        .setNodeByKey(node.key, { data: update });
 
-      editor.onChange(updatedState);
+      editor.onChange(change);
 
       this.props.onDelete(node.data.get('src'), err => {
         if (!err) {
-          updatedState = editor.getState()
-            .transform()
-            .removeNodeByKey(node.key)
-            .apply();
+          change = editor.getState()
+            .change()
+            .removeNodeByKey(node.key);
 
-          editor.onChange(updatedState);
+          editor.onChange(change);
         } else {
           logError(err);
           const deleteFailedUpdate = node.data.merge(
             Data.create({ deleteStatus: 'failed' })
           );
-          updatedState = editor.getState()
-            .transform()
-            .setNodeByKey(node.key, { data: deleteFailedUpdate })
-            .apply();
-          editor.onChange(updatedState);
+          change = editor.getState()
+            .change()
+            .setNodeByKey(node.key, { data: deleteFailedUpdate });
+          editor.onChange(change);
         }
       });
     }

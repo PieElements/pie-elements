@@ -16,7 +16,7 @@ export const buildPlugins = (opts) => {
     DivPlugin(),
     ParagraphPlugin(),
     opts.image && opts.image.onDelete && ImagePlugin(opts.image),
-    MathPlugin(),
+    MathPlugin(opts.math),
     MarksPlugin()
   ]);
 }

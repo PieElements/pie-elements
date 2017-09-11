@@ -29,15 +29,12 @@ export default Plugin = (options) => {
     schema: {
       marks: buildMarks()
     },
-    onKeyDown: (event, data, state) => {
+    onKeyDown: (event, data, change) => {
       const mark = MARKS.find(m => m.key === keycode(event.which));
       const isAltKey = mark && mark.isAltKey === true;
       if (mark && event.metaKey && event.altKey === isAltKey) {
         event.preventDefault();
-        return state
-          .transform()
-          .toggleMark(mark.type)
-          .apply();
+        return change.toggleMark(mark.type);
       }
     }
   }

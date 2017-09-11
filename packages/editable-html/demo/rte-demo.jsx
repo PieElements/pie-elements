@@ -92,11 +92,19 @@ class RteDemo extends React.Component {
     const { editorState } = this.state;
     return <div>
       <h1>@pie-libs/editable-html</h1>
+      <input type="text"></input>
       <EditableHtml
         markup={this.state.markup}
         imageSupport={imageSupport}
         onChange={this.onMarkupChange}
       />
+      <p>other</p>
+      <input type="text"></input>
+      {/* <EditableHtml
+        markup={this.state.markup}
+        imageSupport={imageSupport}
+        onChange={this.onMarkupChange}
+      /> */}
       <input type="file" hidden ref={r => this.fileInput = r}></input>
       <pre style={{ maxWidth: '100%' }}>{this.state.markup}</pre>
     </div>;

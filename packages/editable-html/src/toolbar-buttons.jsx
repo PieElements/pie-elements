@@ -25,6 +25,7 @@ export class RawButton extends React.Component {
   render() {
     const { classes, children, onClick } = this.props;
     return <div
+      tabIndex={1}
       onClick={onClick}
       className={classes.root}>{children}</div>;
   }
