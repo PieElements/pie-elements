@@ -1,3 +1,5 @@
+import { DeleteImageEvent, InsertImageEvent, ModelUpdatedEvent } from '@pie-libs/pie-configure-events';
+
 import Main from './main';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -13,11 +15,19 @@ export default class PlacementOrdering extends HTMLElement {
       this._model = model;
       this.dispatchUpdate(resetSession);
     }
+
+    this.insertImage = (handler) => {
+      this.dispatchEvent(new InsertImageEvent(handler));
+    }
+
+    this.deleteImage = (src, done) => {
+      this.dispatchEvent(new DeleteImageEvent(src, done));
+    }
   }
 
   dispatchUpdate(reset) {
     const detail = { update: this._model, reset }
-    this.dispatchEvent(new CustomEvent('model.updated', { bubbles: true, detail }));
+    this.dispatchEvent(new ModelUpdatedEvent(this._model, reset));
   }
 
   set model(s) {
@@ -28,7 +38,11 @@ export default class PlacementOrdering extends HTMLElement {
   _rerender() {
     let element = React.createElement(Main, {
       initialModel: this._model,
-      onModelChange: this.onModelChange
+      onModelChange: this.onModelChange,
+      imageSupport: {
+        add: this.insertImage,
+        delete: this.deleteImage
+      }
     });
     ReactDOM.render(element, this);
   }

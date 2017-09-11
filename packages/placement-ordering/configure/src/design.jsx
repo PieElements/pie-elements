@@ -30,6 +30,9 @@ class Design extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      activeLang: props.model.defaultLang
+    }
 
     this.applyUpdate = (modelFn) => {
       const { model, onModelChange } = this.props;
@@ -70,13 +73,11 @@ class Design extends React.Component {
       });
     }
 
+    this.onPromptChange = this.changeHandler('prompt');
     this.onChoiceAreaLabelChange = this.changeHandler('config.choiceAreaLabel', 'target.value');
     this.onAnswerAreaLabelChange = this.changeHandler('config.answerAreaLabel', 'target.value')
-
     this.onFeedbackChange = this.changeHandler('feedback');
-
     this.onShuffleChange = this.changeHandler('config.shuffle', 'target.checked');
-
     this.onShowOrderingChange = this.changeHandler('config.showOrdering', 'target.checked');
 
     this.onChoiceEditorChange = (choices, correctResponse) => {
@@ -86,17 +87,11 @@ class Design extends React.Component {
       update.correctResponse = correctResponse;
       onModelChange(update);
     };
-
-    this.onPromptChange = this.changeHandler('prompt');
-
-    this.state = {
-      activeLang: props.model.defaultLang
-    }
   }
 
   render() {
 
-    const { model, onFeedbackChange, classes } = this.props;
+    const { model, onFeedbackChange, classes, imageSupport } = this.props;
     const { activeLang, allMoveOnDrag } = this.state;
     return (
       <div className={classes.design}>
@@ -139,7 +134,8 @@ class Design extends React.Component {
           label="Prompt"
           value={model.model.prompt}
           lang={activeLang}
-          onChange={this.onPromptChange} />
+          onChange={this.onPromptChange}
+          imageSupport={imageSupport} />
 
         <div className={classes.row}>
           <TextField
@@ -161,11 +157,13 @@ class Design extends React.Component {
             activeLang={activeLang}
             correctResponse={model.correctResponse}
             choices={model.model.choices}
-            onChange={this.onChoiceEditorChange} />
+            onChange={this.onChoiceEditorChange}
+            imageSupport={imageSupport} />
         </FormSection>
         <FeedbackConfig
           feedback={model.feedback}
-          onChange={this.onFeedbackChange} />
+          onChange={this.onFeedbackChange}
+          imageSupport={imageSupport} />
       </div>);
   }
 }

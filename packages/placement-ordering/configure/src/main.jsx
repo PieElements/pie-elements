@@ -49,7 +49,7 @@ class Main extends React.Component {
 
   render() {
 
-    const { classes } = this.props;
+    const { classes, imageSupport } = this.props;
     const { index, model } = this.state;
 
     return (
@@ -61,7 +61,7 @@ class Main extends React.Component {
           </Tabs>
           <Help />
         </div>
-        {index === 0 && <Design model={model} onModelChange={this.onModelChange} />}
+        {index === 0 && <Design model={model} onModelChange={this.onModelChange} imageSupport={imageSupport} />}
         {index === 1 && <ScoringConfig
           partialScoring={model.partialScoring}
           numberOfCorrectResponses={model.correctResponse.length}

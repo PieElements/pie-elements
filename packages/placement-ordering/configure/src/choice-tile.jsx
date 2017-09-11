@@ -2,6 +2,7 @@ import { Checkbox, MultiLangInput } from '@pie-libs/config-ui';
 import { DragSource, DropTarget } from 'react-dnd';
 
 import IconButton from 'material-ui/IconButton';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { RemoveCircle } from 'material-ui-icons';
 import debug from 'debug';
@@ -36,7 +37,8 @@ class ChoiceTile extends React.Component {
       isDragging,
       classes,
       activeLang,
-      onDelete } = this.props;
+      onDelete,
+      imageSupport } = this.props;
 
     const opacity = isDragging ? 0 : 1;
     const markup = (
@@ -46,6 +48,7 @@ class ChoiceTile extends React.Component {
           placeholder="Enter a choice"
           value={choice.label}
           lang={activeLang}
+          imageSupport={imageSupport}
           onChange={this.onLabelChange} />
         <div className={classes.controls}>
           <Checkbox label="Remove tile after placing"
@@ -63,7 +66,10 @@ class ChoiceTile extends React.Component {
       connectDropTarget(markup)
     );
   }
+}
 
+ChoiceTile.propTypes = {
+  imageSupport: PropTypes.shape({ add: PropTypes.func.isRequired, delete: PropTypes.func.isRequired })
 }
 
 const Styled = withStyles((theme) => ({

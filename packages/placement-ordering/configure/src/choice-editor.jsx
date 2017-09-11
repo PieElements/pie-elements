@@ -79,7 +79,7 @@ class ChoiceEditor extends React.Component {
   }
 
   render() {
-    const { classes, correctResponse, choices, activeLang } = this.props;
+    const { classes, correctResponse, choices, activeLang, imageSupport } = this.props;
 
     const sortedChoices = compact(
       correctResponse.map(cr => choices.find(c => c.id === cr.id))
@@ -96,7 +96,8 @@ class ChoiceEditor extends React.Component {
           onDelete={this.onDelete.bind(this, c)}
           onChoiceChange={this.onChoiceChange}
           index={index}
-          key={index} />
+          key={index}
+          imageSupport={imageSupport} />
       })}
       <div className={classes.controls}>
         <InputSwitch
@@ -120,7 +121,11 @@ class ChoiceEditor extends React.Component {
 ChoiceEditor.propTypes = {
   correctResponse: PropTypes.array.isRequired,
   choices: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  imageSupport: PropTypes.shape({
+    add: PropTypes.func.isRequired,
+    delete: PropTypes.func.isRequired
+  })
 }
 
 const styles = theme => ({
