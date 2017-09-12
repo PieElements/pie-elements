@@ -4,6 +4,7 @@ import InputLabel from 'material-ui/Input/InputLabel';
 import PropTypes from 'prop-types';
 import React from 'react';
 import TextField from 'material-ui/TextField';
+import classNames from 'classnames';
 import debug from 'debug';
 import { withStyles } from 'material-ui/styles';
 
@@ -31,15 +32,16 @@ export class MultiLangInput extends React.Component {
   }
 
   render() {
-    const { lang, value, label, classes, imageSupport } = this.props;
+    const { lang, value, label, classes, imageSupport, className } = this.props;
     log('value: ', value);
     const renderValue = (typeof value === 'string') ?
       value : (value.find(t => t.lang === lang) || {}).value || '';
 
     log('[render] renderValue: ', renderValue);
 
+    const names = classNames(classes.container, className);
     return (
-      <InputContainer label={label} className={classes.container}>
+      <InputContainer label={label} className={names}>
         <EditableHtml
           markup={renderValue}
           onChange={this.onChange}
@@ -53,7 +55,8 @@ export class MultiLangInput extends React.Component {
 const styles = {
   container: {
     marginTop: '0px',
-    marginBottom: '20px'
+    marginBottom: '20px',
+    width: '100%'
   },
   editor: {
     marginTop: '10px'
