@@ -1,5 +1,6 @@
 import Main from './Main';
 import React from 'react';
+import cloneDeep from 'lodash/cloneDeep';
 import merge from 'lodash/merge';
 
 export default class Root extends React.Component {
@@ -99,16 +100,10 @@ export default class Root extends React.Component {
     this.setState({ [model.defaultLang]: l }, () => this.modelChanged());
   }
 
-  onPromptChanged(update, lang) {
-    const { model } = this.state;
-    let t = model.prompt.find(t => t.lang === lang);
-
-    if (t) {
-      t.value = update;
-    } else {
-      model.prompt.push({ lang: lang, value: update });
-    }
-    this.updateModel(model);
+  onPromptChanged(prompt) {
+    const update = cloneDeep(this.state.model);
+    update.prompt = prompt;
+    this.updateModel(update);
   }
 
   render() {
