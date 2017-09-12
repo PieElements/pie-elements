@@ -174,7 +174,7 @@ ChoiceInput.propTypes = {
   checked: PropTypes.bool.isRequired,
   correctness: PropTypes.string,
   disabled: PropTypes.bool.isRequired,
-  feedback: PropTypes.string.isRequired,
+  feedback: PropTypes.string,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired

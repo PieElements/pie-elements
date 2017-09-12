@@ -1,5 +1,6 @@
 import { ChoiceType, KeyType } from './choice-type';
 import { FormControl, FormControlLabel, FormLabel } from 'material-ui/Form';
+import { LanguageControls, MultiLangInput } from '@pie-libs/config-ui';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
@@ -7,7 +8,6 @@ import Button from 'material-ui/Button';
 import ChoiceConfig from './choice-config';
 import { Langs } from '@pie-libs/config-ui';
 import { MuiThemeProvider } from 'material-ui/styles';
-import { MultiLangInput } from '@pie-libs/config-ui';
 import PartialScoringConfig from '@pie-libs/scoring-config/src/index.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -66,18 +66,15 @@ export class Main extends React.Component {
         onActiveLangChange={activeLang => this.setState({ activeLang })}
         onDefaultLangChange={onDefaultLangChanged} />
 
-      <hr className={classes.divider} />
-
       <MultiLangInput
-        textFieldLabel="prompt"
+        label="Prompt"
         value={model.prompt}
         lang={this.state.activeLang}
         onChange={onPromptChanged}
         imageSupport={{
           add: onInsertImage,
           delete: onDeleteImage
-        }}
-      />
+        }} />
 
 
       {model.choices.map((choice, index) => {

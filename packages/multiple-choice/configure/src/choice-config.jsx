@@ -1,3 +1,4 @@
+import { InputContainer, MultiLangInput } from '@pie-libs/config-ui';
 import React, { PropTypes } from 'react';
 
 import ActionDelete from 'material-ui-icons/Delete';
@@ -5,7 +6,6 @@ import ActionFeedback from 'material-ui-icons/Feedback';
 import Checkbox from 'material-ui/Checkbox';
 import FeedbackMenu from './feedback-menu';
 import IconButton from 'material-ui/IconButton';
-import { MultiLangInput } from '@pie-libs/config-ui';
 import Radio from 'material-ui/Radio';
 import TextField from 'material-ui/TextField';
 import cloneDeep from 'lodash/cloneDeep';
@@ -46,33 +46,16 @@ export class ChoiceConfig extends React.Component {
     this.props.onChoiceChanged(update);
   }
 
-  onLabelChanged(value, lang) {
-    if (!lang) {
-      throw new Error('You must specify the lang');
-    }
-
+  onLabelChanged(label) {
     let update = cloneDeep(this.props.choice);
-    update.label = update.label || [];
-    let t = update.label.find(t => t.lang === lang);
-    if (!t) {
-      update.label.push({ lang: lang, value });
-    } else {
-      t.value = value;
-    }
-
+    update.label = label;
     this.props.onChoiceChanged(update);
   }
 
-  onFeedbackChanged(v, lang) {
+  onFeedbackChanged(custom) {
     const { choice } = this.props;
     const update = cloneDeep(choice);
-    update.feedback.custom = update.feedback.custom || [];
-    const fb = update.feedback.custom.find(t => t.lang === lang);
-    if (fb) {
-      fb.value = v;
-    } else {
-      update.feedback.custom.push({ lang: lang, value: v });
-    }
+    update.feedback.custom = custom;
     this.props.onChoiceChanged(update);
   }
 
@@ -123,12 +106,13 @@ export class ChoiceConfig extends React.Component {
             onClick={() => this.onToggleCorrect()} />
         </div>
         <TextField
-          label="value"
+          label="Value"
           value={choice.value}
           onChange={this.onValueChanged}
           className={classes.valueField} />
         <MultiLangInput
-          textFieldLabel="label"
+          label="Label"
+          className={classes.multiLangInput}
           value={choice.label}
           lang={activeLang}
           onChange={this.onLabelChanged}
@@ -144,7 +128,7 @@ export class ChoiceConfig extends React.Component {
       {choice.feedback.type === 'custom' &&
         <div className={classes.feedback}>
           <MultiLangInput
-            textFieldLabel="feedback"
+            label="Feedback"
             value={choice.feedback.custom}
             lang={activeLang}
             onChange={this.onFeedbackChanged}
@@ -168,6 +152,9 @@ ChoiceConfig.props = {
 }
 
 const styles = {
+  multiLangInput: {
+    marginBottom: 0
+  },
   root: {
     paddingBottom: '10px',
     paddingTop: '10px',
@@ -195,7 +182,8 @@ const styles = {
     width: '100px',
     maxWidth: '100px',
     marginRight: '10px',
-    marginLeft: '10px'
+    marginLeft: '10px',
+    paddingBottom: '8px'
   }
 };
 

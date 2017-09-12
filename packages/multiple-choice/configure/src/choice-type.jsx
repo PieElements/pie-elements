@@ -4,25 +4,8 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import { TwoChoice } from '@pie-libs/config-ui';
 import { withStyles } from 'material-ui/styles';
-
-const TwoChoice = ({ value, header, selectedValue, onChange, one, two, classes }) => (
-  <FormControl className={classes.root}>
-    <FormLabel>{header}</FormLabel>
-    <RadioGroup
-      aria-label="choice-type"
-      name={header}
-      value={value}
-      onChange={onChange}>
-      <FormControlLabel value={one.value} control={<Radio />} label={one.label} />
-      <FormControlLabel value={two.value} control={<Radio />} label={two.label} />
-    </RadioGroup>
-  </FormControl>
-);
-
-
-TwoChoice.propTypes = {
-};
 
 const styles = {
   root: {

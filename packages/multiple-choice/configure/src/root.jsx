@@ -20,7 +20,7 @@ export default class Root extends React.Component {
     this.onPartialScoringChanged = this.onPartialScoringChanged.bind(this);
   }
 
-  onChoiceModeChanged(event, value) {
+  onChoiceModeChanged(value) {
     const { model } = this.state;
     model.choiceMode = value;
     if (value === 'radio') {
@@ -45,7 +45,7 @@ export default class Root extends React.Component {
   onRemoveChoice(index) {
     const { model } = this.state;
     model.choices.splice(index, 1);
-    this.updateModel();
+    this.updateModel(model);
   }
 
   onPartialScoringChanged(partialScoring) {
@@ -67,8 +67,8 @@ export default class Root extends React.Component {
   onAddChoice(activeLang) {
     const { model } = this.state;
     model.choices.push({
-      label: [{ lang: activeLang, value: '' }],
-      value: '',
+      label: [{ lang: activeLang, value: 'label' }],
+      value: 'value',
       feedback: {
         type: 'none'
       }
@@ -76,7 +76,7 @@ export default class Root extends React.Component {
     this.updateModel(model);
   }
 
-  onKeyModeChanged(event, value) {
+  onKeyModeChanged(value) {
     const { model } = this.state;
     model.keyMode = value;
     this.updateModel(model);
