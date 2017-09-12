@@ -90,23 +90,7 @@ const style = {
   editableHtml: {
     cursor: 'text',
     position: 'relative',
-    '&::after': {
-      left: '0',
-      right: '0',
-      bottom: '0',
-      height: '1px',
-      content: '""',
-      position: 'absolute',
-      // transform: 'scaleX(0%)',
-      transition: 'transform 200ms cubic-bezier(0.0, 0.0, 0.2, 1) 0ms',
-      backgroundColor: 'rgba(0, 0, 0, 0.42)',
-    },
-    '&:hover': {
-      '&::after': {
-        backgroundColor: 'black',
-        height: '2px'
-      }
-    }
+
   }
 }
 

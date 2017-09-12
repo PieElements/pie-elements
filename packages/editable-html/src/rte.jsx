@@ -1,4 +1,4 @@
-import { Block, Data, Editor, Html, Raw } from 'slate';
+import { Block, Data, Editor, Html, Model, Raw } from 'slate';
 import { buildPlugins, serializationRules } from './plugins';
 
 import PropTypes from 'prop-types';
@@ -30,38 +30,35 @@ class RichText extends React.Component {
 
     this.onFocus = (event, data, change, editor) => {
       log('[onFocus]', change);
-      this.setState({ inFocus: true, cancelBlur: true });
+      this.setState({ inFocus: true, pendingBlur: false });
       editor.focus();
       return change;
-      // this.setState({ focus: true });
-      // this.editor.focus();
-      // this.props.onFocus();
+    }
+
+    this.completeBlur = () => {
+      log('[completeBlur] state: ', this.state);
+      if (this.state.pendingBlur) {
+        if (!this.root.contains(document.activeElement)) {
+          log('[completeBlur] trigger a blur');
+          this.setState({ inFocus: false });
+          this.props.onDone();
+        }
+        this.setState({ pendingBlur: false });
+      }
     }
 
     this.onBlur = (event, data, change, editor) => {
-      // event.persist();
-      // window.requestAnimationFrame(() => {
-      log('[onBlur]', event, event.relatedTarget);
+      log('[onBlur] preventDefault');
+      event.preventDefault();
+      event.stopPropagation();
       log('[onBlur] activeElement', document.activeElement);
-
-      if (!this.root.contains(document.activeElement)) {
-        this.setState({ inFocus: false });
-        editor.blur();
-      } else {
-        editor.focus();
-      }
-      // });
-      // this.setState({ blur: true });
-      // setTimeout(() => {
-      //   if (this.state.blur) {
-      //     this.props.onBlur();
-      //   }
-      //   this.setState({ blur: false });
-      // }, 500);
+      this.setState({ pendingBlur: true });
+      setTimeout(this.completeBlur, 200);
     }
 
     this.insertImage = (err, src) => {
-      this.setState({ blur: false });
+      log('[insertImage]')
+      this.setState({ pendingBlur: false, insertingImage: true });
 
       if (err) {
         logError(err);
@@ -93,6 +90,8 @@ class RichText extends React.Component {
 
     this.insertMath = () => {
 
+      this.setState({ pendingBlur: false });
+
       log('[insertMath]');
 
       const { editorState } = this.props;
@@ -107,7 +106,12 @@ class RichText extends React.Component {
     }
 
     this.addImage = () => {
+      log('[insertImage]')
+
+      this.setState({ pendingBlur: false });
+
       const { editorState, onChange } = this.props;
+
       const block = Block.create({
         type: 'image',
         isVoid: true,
@@ -123,6 +127,8 @@ class RichText extends React.Component {
 
       onChange(change);
 
+      log('after image block insertion', Raw.deserialize(this.editor.getState()));
+
       const handler = {
         cancel: () => {
           log('insert cancelled');
@@ -132,15 +138,13 @@ class RichText extends React.Component {
           if (err) {
             logError(err);
           } else {
-            const child = newState.document.getChild(block.key);
+            const state = this.editor.getState();
+            const child = state.document.getChild(block.key);
             const data = child.data.merge(
               Data.create({ loaded: true, src, percent: 100 })
             );
 
-            change = this.editor.getState()
-              .change()
-              .setNodeByKey(block.key, { data });
-
+            change = state.change().setNodeByKey(block.key, { data });
             onChange(change);
           }
         },
@@ -152,13 +156,14 @@ class RichText extends React.Component {
           log('got file: ', file);
           const reader = new FileReader();
           reader.onload = () => {
+            const state = this.editor.getState();
+
+            log('[fileChosen] current state', Raw.deserialize(state));
             const dataURL = reader.result;
-            const child = newState.document.getChild(block.key);
+            const child = state.document.getChild(block.key);
             const data = child.data.set('src', dataURL);
 
-            change = editor.getState()
-              .change()
-              .setNodeByKey(block.key, { data });
+            change = state.change().setNodeByKey(block.key, { data });
             onChange(change);
           };
 
@@ -166,54 +171,34 @@ class RichText extends React.Component {
         },
         progress: (percent, bytes, total) => {
           log('progress: ', percent, bytes, total);
-          const child = newState.document.getChild(block.key);
+          const state = this.editor.getState();
+          const child = state.document.getChild(block.key);
           const data = child.data.set('percent', percent);
-
-
-          change = this.editor.getState()
-            .change()
-            .setNodeByKey(block.key, { data })
-
+          change = state.change().setNodeByKey(block.key, { data });
           onChange(change);
         }
       }
 
       this.props.imageSupport.add(handler);
-
     };
 
     this.onPluginBlur = (event) => {
       log('[onPluginBlur] activeElement: ', document.activeElement);
       event.preventDefault();
-
-      if (document.activeElement !== findDOMNode(this.editor)) {
-        this.setState({ inFocus: false });
-      }
-      // this.setState({ inFocus: true });
-      // setTimeout(() => {
-      //   log('[onPluginBlur] state:', this.state);
-      //   if (this.state.cancelBlur) {
-      //     this.setState({ cancelBlur: false });
-      //   } else {
-      //     this.setState({ inFocus: false })
-      //   }
-
-      // }, 500);
+      this.setState({ pendingBlur: true });
+      setTimeout(this.completeBlur, 200);
     }
 
     this.onPluginFocus = (event) => {
       log('[onPluginFocus]');
-      this.setState({ inFocus: true });
+      this.setState({ inFocus: true, pendingBlur: false });
     }
 
-    // this.onToolbarBlur = (event) => {
-    //   log('[onToolbarBlur]');
-    // }
-
-    // this.onToolbarFocus = (event) => {
-    //   log('[onToolbarFocus]');
-    //   this.setState({ blur: false });
-    // }
+    this.onToolbarBlur = (event) => {
+      this.setState({ pendingBlur: true });
+      setTimeout(this.completeBlur, 200);
+      log('[onToolbarBlur]');
+    }
 
     this.plugins = buildPlugins({
       math: {
@@ -236,25 +221,23 @@ class RichText extends React.Component {
     log('[render] inFocus?', inFocus);
 
     const names = classNames(classes.root, inFocus && classes.inFocus);
-
+    const editorNames = classNames(classes.editorHolder, inFocus && classes.editorInFocus);
     return (
       <div
         ref={r => this.root = r}
         className={names}>
-        in focus ? {inFocus}
-        <div className={classes.editorHolder}>
-          <Editor
-            ref={r => this.editor = r}
-            spellCheck
-            tabIndex={0}
-            placeholder={'Enter some rich text...'}
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
-            plugins={this.plugins}
-            state={this.props.editorState}
-            onChange={this.props.onChange}
-            onKeyDown={this.onKeyDown} />
-        </div>
+        <Editor
+          className={editorNames}
+          ref={r => this.editor = r}
+          spellCheck
+          tabIndex={0}
+          placeholder={'Enter some rich text...'}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          plugins={this.plugins}
+          state={this.props.editorState}
+          onChange={this.props.onChange}
+          onKeyDown={this.onKeyDown} />
         {inFocus && <Toolbar
           editorState={editorState}
           onToggleMark={this.onToggleMark}
@@ -282,12 +265,9 @@ export const htmlToState = html => serializer.deserialize(html)
 export const stateToHtml = (state) => serializer.serialize(state);
 
 
+const primary = '#304ffe';
 
 const style = {
-  inFocus: {
-    color: 'orange',
-    border: 'solid 1px orange'
-  },
   root: {
     padding: '0px',
     border: 'none',
@@ -300,7 +280,37 @@ const style = {
     }
   },
   editorHolder: {
-    padding: '7px'
+    padding: '7px',
+    '&::after': {
+      left: '0',
+      right: '0',
+      bottom: '0',
+      height: '1px',
+      content: '""',
+      position: 'absolute',
+      transform: 'scaleX(0%)',
+      transition: 'transform 200ms cubic-bezier(0.0, 0.0, 0.2, 1) 0ms',
+      backgroundColor: 'rgba(0, 0, 0, 0.42)',
+    },
+    '&:focus': {
+      '&::after': {
+        backgroundColor: primary,
+        height: '2px'
+      }
+    },
+    '&:hover': {
+      '&::after': {
+        backgroundColor: 'black',
+        height: '2px'
+      }
+    },
+  },
+  editorInFocus: {
+    '&:hover': {
+      '&::after': {
+        backgroundColor: primary
+      }
+    }
   },
   editor: {
     padding: '8px',

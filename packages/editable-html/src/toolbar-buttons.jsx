@@ -1,4 +1,5 @@
 import React from 'react';
+import debug from 'debug';
 import injectSheet from 'react-jss';
 
 const styles = {
@@ -21,12 +22,23 @@ const buttonStyles = {
   })
 }
 
+const rbLog = debug('editable-html:raw-button');
+
 export class RawButton extends React.Component {
+
+  constructor(props) {
+    super(props)
+
+    this.onClick = (e) => {
+      rbLog('[onClick]');
+      const { onClick } = this.props;
+      onClick(e)
+    }
+  }
   render() {
-    const { classes, children, onClick } = this.props;
+    const { classes, children } = this.props;
     return <div
-      tabIndex={0}
-      onClick={onClick}
+      onClick={this.onClick}
       className={classes.root}>{children}</div>;
   }
 }

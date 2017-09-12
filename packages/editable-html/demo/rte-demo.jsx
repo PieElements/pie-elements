@@ -3,6 +3,7 @@ import TextEditor, { htmlToState, stateToHtml } from '../src/rte';
 import EditableHtml from '../src';
 import { Raw } from 'slate';
 import React from 'react';
+import TextField from 'material-ui/TextField';
 import _ from 'lodash';
 import debug from 'debug';
 
@@ -19,7 +20,8 @@ class RteDemo extends React.Component {
   //   </div>
   // <div>`;
 
-  markup = `hi <span data-mathjax="">\\(2\\div1 = x\\)</span>`;
+  markup = `hi there`;
+  // markup = `hi <span data-mathjax="">\\(2\\div1 = x\\)</span>`;
 
   state = {
     editorState: htmlToState(this.markup),
@@ -98,6 +100,7 @@ class RteDemo extends React.Component {
         imageSupport={imageSupport}
         onChange={this.onMarkupChange}
       />
+      <TextField />
       <p>other</p>
       <input type="text"></input>
       {/* <EditableHtml
