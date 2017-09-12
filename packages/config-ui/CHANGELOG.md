@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.1.0...@pie-libs/config-ui@1.2.0) (2017-09-12)
+
+
+### Features
+
+* **Checkbox:** add disabled and fix ripple ([26e5624](https://github.com/pieelements/pie-elements/commit/26e5624))
+* **FormSection:** Add FormSection component ([9f235ac](https://github.com/pieelements/pie-elements/commit/9f235ac))
+* **langs:** Add LanguageControls component ([608b490](https://github.com/pieelements/pie-elements/commit/608b490))
+* **TwoChoice:** add two choice component ([056769b](https://github.com/pieelements/pie-elements/commit/056769b))
+* **ui:** add more components ([190b399](https://github.com/pieelements/pie-elements/commit/190b399))
+
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.0.0...@pie-libs/config-ui@1.1.0) (2017-09-01)
 

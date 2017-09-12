@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/editable-html@1.0.0...@pie-libs/editable-html@1.1.0) (2017-09-12)
+
+
+### Features
+
+* **focus:** Add basic focus control (will need more polish though) ([85c90b9](https://github.com/pieelements/pie-elements/commit/85c90b9))
+
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/editable-html@0.1.3...@pie-libs/editable-html@1.0.0) (2017-08-30)
 
