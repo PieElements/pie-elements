@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.1.9...@pie-elements/multiple-choice@0.2.0) (2017-09-12)
+
+
+### Bug Fixes
+
+* **dependencies:** bump dependencies ([12896a8](https://github.com/PieElements/pie-elements/commit/12896a8))
+* **MultiLangInput:** update api usage of `MultiLangInput` ([e48270b](https://github.com/PieElements/pie-elements/commit/e48270b))
+* **prompt:** use new multi-lang-input change api ([11ad11f](https://github.com/PieElements/pie-elements/commit/11ad11f))
+
+
+### Features
+
+* **update:** update ui to work with new config-ui package ([8522563](https://github.com/PieElements/pie-elements/commit/8522563))
+
+
+
+
 <a name="0.1.11"></a>
 ## [0.1.11](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.1.9...@pie-elements/multiple-choice@0.1.11) (2017-09-12)
 

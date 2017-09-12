@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.8"></a>
+## [0.5.8](https://github.com/PieElements/pie-elements/compare/@pie-elements/number-line@0.5.7...@pie-elements/number-line@0.5.8) (2017-09-12)
+
+
+### Bug Fixes
+
+* **dependencies:** bump dependencies ([12896a8](https://github.com/PieElements/pie-elements/commit/12896a8))
+
+
+
+
 <a name="0.5.7"></a>
 ## [0.5.7](https://github.com/PieElements/pie-elements/compare/@pie-elements/number-line@0.5.6...@pie-elements/number-line@0.5.7) (2017-09-01)
 

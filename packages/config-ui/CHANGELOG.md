@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.1"></a>
+## [1.2.1](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.2.0...@pie-libs/config-ui@1.2.1) (2017-09-12)
+
+
+### Bug Fixes
+
+* **multi-lang-input:** allow className ([fa623df](https://github.com/pieelements/pie-elements/commit/fa623df))
+
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.1.0...@pie-libs/config-ui@1.2.0) (2017-09-12)
 
