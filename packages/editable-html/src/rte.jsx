@@ -1,5 +1,7 @@
-import { Block, Data, Editor, Html, Model, Raw } from 'slate';
+import { Block, Data, Model, Raw } from 'slate';
+import { Editor } from 'slate-react';
 import { buildPlugins, serializationRules } from './plugins';
+import Html from 'slate-html-serializer';
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -239,7 +241,7 @@ class RichText extends React.Component {
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           plugins={this.plugins}
-          state={this.props.editorState}
+          value={this.props.editorState}
           onChange={this.props.onChange}
           onKeyDown={this.onKeyDown} />
         {inFocus && <Toolbar

@@ -16,7 +16,7 @@ module.exports = {
         options: {
           babelrc: false,
           presets: [
-            'react', 'es2015', 'stage-0'
+            'react', 'env', 'stage-0'
 
           ]
         }
