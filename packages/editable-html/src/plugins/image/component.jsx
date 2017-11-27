@@ -192,7 +192,7 @@ export class RawImage extends React.Component {
         style={style} />
       <LinearProgress
         mode="determinate"
-        value={percent}
+        value={percent > 0 ? percent : 0}
         className={progressClasses} />
     </div>
   }

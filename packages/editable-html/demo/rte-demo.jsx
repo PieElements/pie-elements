@@ -28,28 +28,46 @@ class RteDemo extends React.Component {
     markup: this.markup
   }
 
-  handleFileSelect = (event) => {
+  handleInputFiles = (input) => {
+    log('[handleInputFiles] input: ', input);
+
     const { imageHandler } = this.state;
-    const file = event.target.files[0];
-    imageHandler.fileChosen(file);
-    this.fileInput.value = '';
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataURL = reader.result;
-      setTimeout(() => {
-        imageHandler.done(null, dataURL);
-        this.setState({ imageHandler: null });
-      }, 2000);
-    };
-    log('call readAsDataUrl...', file);
-    let progress = 0;
-    imageHandler.progress(progress);
-    _.range(1, 100).forEach(n => {
-      setTimeout(() => {
-        imageHandler.progress(n);
-      }, n * 20);
+    if(input.files.length < 1 || !input.files[0]){
+      imageHandler.cancel();
+      this.setState({imageHandler: null});
+    } else {
+      const file = input.files[0];
+      imageHandler.fileChosen(file);
+      this.fileInput.value = '';
+      const reader = new FileReader();
+      reader.onload = () => {
+        log('[reader.onload]');
+        const dataURL = reader.result;
+        setTimeout(() => {
+          imageHandler.done(null, dataURL);
+          this.setState({ imageHandler: null });
+        }, 2000);
+      };
+      log('call readAsDataUrl...', file);
+      let progress = 0;
+      imageHandler.progress(progress);
+      _.range(1, 100).forEach(n => {
+        setTimeout(() => {
+          imageHandler.progress(n);
+        }, n * 20);
+      });
+      reader.readAsDataURL(file);
+    }
+  }
+
+  handleFileSelect = (event) => {
+    
+    log('[handleFileSelect] event: ', event);
+
+    //disable the check cancelled call
+    this.setState({checkCancelled: false}, () => {
+      this.handleInputFiles(event.target);
     });
-    reader.readAsDataURL(file);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -72,6 +90,24 @@ class RteDemo extends React.Component {
     log('[addImage]', imageHandler);
     this.setState({ imageHandler });
     this.fileInput.click();
+
+    /**
+     * There's no way to know if 'cancel' was clicked,
+     * instead we have to listen for a focus on body,
+     * then call handleInputFiles if checkCancelled is true.
+     * It's set to false if a 'change' event is fired.
+     */
+    document.body.onfocus = (e) => {
+      log('focus document...', this.fileInput.files);
+      document.body.onfocus = null;
+      this.setState({checkCancelled: true}, () => {
+        setTimeout(() => {
+          if(this.state.checkCancelled){
+            this.handleInputFiles(this.fileInput);
+          }
+        }, 200);
+      });
+    }
   }
 
   onDeleteImage = (url, done) => {

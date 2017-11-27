@@ -132,6 +132,10 @@ class RichText extends React.Component {
       const handler = {
         cancel: () => {
           log('insert cancelled');
+          const c = this.editor.getState()
+          .change()
+          .removeNodeByKey(block.key);
+          onChange(c);
         },
         done: (err, src) => {
           log('done: err:', err);
