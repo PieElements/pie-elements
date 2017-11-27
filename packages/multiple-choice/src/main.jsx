@@ -2,10 +2,9 @@ import { green, orange, pink } from 'material-ui/colors';
 import { withStyles, withTheme } from 'material-ui/styles';
 
 import CorespringChoice from './corespring-choice.jsx';
-import { MuiThemeProvider } from 'material-ui/styles';
+import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
 import React from 'react';
 import classNames from 'classnames';
-import createMuiTheme from 'material-ui/styles/theme';
 
 const styleSheet = theme => {
   const root = {

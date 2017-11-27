@@ -7,13 +7,11 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import Button from 'material-ui/Button';
 import ChoiceConfig from './choice-config';
 import { Langs } from '@pie-libs/config-ui';
-import { MuiThemeProvider } from 'material-ui/styles';
 import PartialScoringConfig from '@pie-libs/scoring-config/src/index.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import createMuiTheme from 'material-ui/styles/theme';
-import { withStyles } from 'material-ui/styles';
+import { createMuiTheme, withStyles, MuiThemeProvider } from 'material-ui/styles';
 
 const theme = createMuiTheme({});
 
@@ -113,8 +111,6 @@ export class Main extends React.Component {
         onChange={onPartialScoringChanged} />}
     </div>;
   }
-
-
 }
 
 const main = {

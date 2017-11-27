@@ -1,6 +1,5 @@
 import { FormControl, FormControlLabel, FormLabel } from 'material-ui/Form';
 import Radio, { RadioGroup } from 'material-ui/Radio';
-import Tabs, { Tab } from 'material-ui/Tabs';
 
 import PropTypes from 'prop-types';
 import React from 'react';

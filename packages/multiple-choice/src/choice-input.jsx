@@ -89,8 +89,12 @@ export const StyledCheckbox = withStyles(inputStyles, { name: 'Checkbox' })((pro
   const miniProps = { checked, onChange, disabled };
   return <Checkbox {...miniProps}
     className={resolved.root}
-    checkedClassName={resolved.checked}
-    disabledClassName={resolved.disabled} />;
+    classes={{
+      default: resolved.root,
+      checked: resolved.checked,
+      disabled: resolved.disabled
+    }}
+    />;
 });
 
 export const StyledRadio = withStyles(inputStyles)((props) => {
