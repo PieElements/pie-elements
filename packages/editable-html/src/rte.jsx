@@ -275,7 +275,7 @@ const style = {
     borderRadius: '0px',
     cursor: 'text',
     '& [data-slate-editor="true"]': {
-      overflow: 'scroll',
+      overflow: 'auto',
       maxHeight: '500px',
     }
   },
