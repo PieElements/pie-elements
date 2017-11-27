@@ -10,8 +10,8 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-tap-event-plugin": "^2.0.1",
-    "material-ui": "1.0.0-beta.6",
-    "material-ui-icons": "^1.0.0-alpha.19",
+    "material-ui": "^1.0.0-beta.21",
+    "material-ui-icons": "^1.0.0-beta.17",
     "nested-property": "^0.0.7"
   }
 }
