@@ -1,33 +1,27 @@
+// import TextEditor, { htmlToState, stateToHtml } from '../src/rte';
+
 import EditableHtml from '../src';
+import { Raw } from 'slate';
 import React from 'react';
-import { Value } from 'slate'
+import TextField from 'material-ui/TextField';
 import _ from 'lodash';
 import debug from 'debug';
 
 const log = debug('editable-html:rte-demo');
-const puppySrc = 'http://cdn2-www.dogtime.com/assets/uploads/gallery/30-impossibly-cute-puppies/impossibly-cute-puppy-8.jpg'
 
-/**
- * Note: See core schema rules - it normalizes so you can only have blocks or inline and text in a block.
- */
-const html = `<div><div>hi</div><img src="${puppySrc}"></img></div>`;
-// const html = `<div></div>`; //<span data-mathjax="">\\frac{1}{2}</span>`;
+class RteDemo extends React.Component {
 
+  puppy = 'https://s-media-cache-ak0.pinimg.com/736x/ed/0e/68/ed0e68d1f8a0a1f4b5582ed180cce761--puppy-training-tips-images-photos.jpg';
 
-// const j = { "kind": "value", "document": { "kind": "document", "data": {}, "nodes": [{ "kind": "block", "type": "div", "nodes": [{ "kind": "text", "leaves": [{ "kind": "leaf", "text": "a" }] }, { "kind": "block", "type": "image", "isVoid": true, "nodes": [], "data": { "src": "http://cdn2-www.dogtime.com/assets/uploads/gallery/30-impossibly-cute-puppies/impossibly-cute-puppy-8.jpg", "width": null, "height": null } }] }] } }
+  markup = `<div>
+    <div> 
+       <img src="${this.puppy}"></img>
+       </div>
+  </div>`;
 
-export default class RteDemo extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      markup: html
-    }
-  }
-
-  onChange = (markup) => {
-    log('onChange: ');
-    this.setState({ markup });
+  state = {
+    editorState: htmlToState(this.markup),
+    markup: this.markup
   }
 
   handleInputFiles = (input) => {
@@ -63,7 +57,9 @@ export default class RteDemo extends React.Component {
   }
 
   handleFileSelect = (event) => {
+
     log('[handleFileSelect] event: ', event);
+
     //disable the check cancelled call
     this.setState({ checkCancelled: false }, () => {
       this.handleInputFiles(event.target);
@@ -115,29 +111,40 @@ export default class RteDemo extends React.Component {
     done();
   }
 
-  render() {
+  onMarkupChange = (markup) => {
+    log('new markup: ', markup);
+    this.setState({ markup });
+  }
 
-    const { markup } = this.state;
+  render() {
 
     const imageSupport = {
       add: this.addImage,
       delete: this.onDeleteImage
     }
 
-    return (<div>
-      <h1>Editable Html Demo</h1>
+    const { editorState } = this.state;
+    return <div>
+      <h1>@pie-libs/editable-html</h1>
+      <input type="text"></input>
       <EditableHtml
-        markup={markup}
-        onChange={this.onChange}
+        markup={this.state.markup}
         imageSupport={imageSupport}
-        onBlur={this.onBlur}
+        onChange={this.onMarkupChange}
       />
+      {/* <TextField />
+      <p>other</p>
+      <input type="text"></input> */}
+      {/* <EditableHtml
+        markup={this.state.markup}
+        imageSupport={imageSupport}
+        onChange={this.onMarkupChange}
+      /> */}
       <input type="file" hidden ref={r => this.fileInput = r}></input>
-      <br />
-      <br />
-      <h4>markup</h4>
-      <pre>{markup}</pre>
-    </div>);
+      <pre style={{ maxWidth: '100%' }}>{this.state.markup}</pre>
+    </div>;
   }
 }
+
+export default RteDemo
 

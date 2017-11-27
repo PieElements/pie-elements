@@ -1,6 +1,8 @@
-import { Block, Data, Editor, Html, Model, Raw } from 'slate';
+import { Block, Data, Model, Raw } from 'slate';
 import { buildPlugins, serializationRules } from './plugins';
 
+import { Editor } from 'slate-react';
+import Html from 'slate-html-serializer';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Toolbar from './toolbar';
@@ -28,9 +30,10 @@ class RichText extends React.Component {
       inFocus: false
     }
 
-    this.onFocus = (event, data, change, editor) => {
+    this.onFocus = (event, change, editor) => {
       log('[onFocus]', change);
       this.setState({ inFocus: true, pendingBlur: false });
+      log('[editor.focus?]', editor.focus);
       editor.focus();
       return change;
     }
@@ -133,8 +136,8 @@ class RichText extends React.Component {
         cancel: () => {
           log('insert cancelled');
           const c = this.editor.getState()
-          .change()
-          .removeNodeByKey(block.key);
+            .change()
+            .removeNodeByKey(block.key);
           onChange(c);
         },
         done: (err, src) => {
@@ -218,7 +221,12 @@ class RichText extends React.Component {
   }
 
   render() {
-    const { classes, editorState, focus, onDone, imageSupport } = this.props;
+    const {
+      classes,
+      editorState,
+      focus,
+      onDone,
+      imageSupport } = this.props;
 
     const { inFocus } = this.state;
 
@@ -239,7 +247,7 @@ class RichText extends React.Component {
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           plugins={this.plugins}
-          state={this.props.editorState}
+          value={this.props.editorState}
           onChange={this.props.onChange}
           onKeyDown={this.onKeyDown} />
         {inFocus && <Toolbar
@@ -264,7 +272,12 @@ RichText.propTypes = {
   imageSupport: ImageSupportType
 }
 
-export const htmlToState = html => serializer.deserialize(html)
+export const htmlToState = html => {
+  log('[htmlToState] html: ', html);
+  const out = serializer.deserialize(html);
+  log('[htmlToState] out: ', out);
+  return out;
+}
 
 export const stateToHtml = (state) => serializer.serialize(state);
 

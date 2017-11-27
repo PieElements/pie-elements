@@ -14,17 +14,17 @@ export const buildPlugins = (opts) => {
 
   return compact([
     DivPlugin(),
-    ParagraphPlugin(),
+    // ParagraphPlugin(),
     opts.image && opts.image.onDelete && ImagePlugin(opts.image),
-    MathPlugin(opts.math),
-    MarksPlugin()
+    // MathPlugin(opts.math),
+    // MarksPlugin()
   ]);
 }
 
 export const serializationRules = [
   divSerialization,
-  pSerialization,
+  // pSerialization,
   imageSerialization,
-  mathSerialization,
-  marksSerialization
+  // mathSerialization,
+  // marksSerialization
 ];

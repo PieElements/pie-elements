@@ -1,10 +1,13 @@
 import { Data, findDOMNode } from 'slate';
+import { EditableMathInput, MathQuillInput, addBrackets, removeBrackets } from '@pie-libs/math-input';
 
 import { Delete } from '../../components/buttons';
-import MathInput from '@pie-libs/math-input';
+import MathWrapper from './input-wrapper';
 import React from 'react';
+import classNames from 'classnames';
 import debug from 'debug';
 import injectSheet from 'react-jss';
+import { primary } from '../../theme';
 
 const log = debug('editable-html:plugins:math:component');
 
@@ -17,12 +20,14 @@ export class MathComponent extends React.Component {
     }
 
     this.onFocus = (event) => {
+      log('[onFocus]')
       if (this.props.onFocus) {
         this.props.onFocus(event);
       }
     }
 
     this.onBlur = (event) => {
+      log('[onBlur]')
       if (this.props.onBlur) {
         this.props.onBlur(event);
       }
@@ -32,16 +37,18 @@ export class MathComponent extends React.Component {
       log('[onChange]', latex);
       const { node, editor } = this.props;
       const { key } = node;
-      const data = Data.create({ latex });
-      const change = this.props.editor.getState().change()
-        .setNodeByKey(key, { data });
+      const data = Data.create({ latex, editing: true });
+      const change = editor.value.change().setNodeByKey(key, { data });
       editor.onChange(change);
     }
 
     this.onClick = (event) => {
-      log('--------> onClick, preventDefault and stopPropagation');
-      event.preventDefault();
-      event.stopPropagation();
+      log('[onClick] preventDefault and stopPropagation');
+      if (this.props.onClick) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.props.onClick();
+      }
     }
 
     this.onDeleteClick = (event) => {
@@ -51,38 +58,98 @@ export class MathComponent extends React.Component {
 
       const { node, editor } = this.props;
 
-      const change = editor.getState()
-        .change()
-        .removeNodeByKey(node.key);
+      const change = editor.value.change().moveNodeByKey(node.key);
       editor.onChange(change);
     }
   }
 
-  render() {
-    const { node, state, editor, classes, attributes } = this.props;
-    const latex = node.data.get('latex');
-    const readOnly = editor.props.readOnly === true;
-    log('[render] readOnly: ', readOnly);
-    return <div className={classes.root}>
-      <MathInput
-        innerRef={r => this.mathInput = r}
-        latex={latex}
-        onLatexChange={this.onChange}
-        onBlur={this.onBlur}
-        onFocus={this.onFocus}
-        onInputClick={this.onClick}
-        readOnly={readOnly}
-        zIndex={11} />
-      {!readOnly && <Delete onClick={this.onDeleteClick} />}
-    </div>;
+  componentDidUpdate() {
+    const { node, editor } = this.props;
+    const mathChange = node.data.get('change');
 
+    if (mathChange) {
+      const latex = this.wrapper.change(mathChange);
+
+      const data = node.data.toObject();
+      delete data.change;
+      data.latex = latex;
+
+      log('[componentDidUpdate] new latex: ', data.latex);
+
+      const change = editor.value.change().setNodeByKey(node.key, { data })
+      editor.change(c => {
+        c.setNodeByKey(node.key, { data })
+      });
+
+    }
+  }
+
+  shouldComponentUpdate(nextProps) {
+
+    const { node: nextNode } = nextProps;
+    const { node } = this.props;
+    if (nextNode.data.equals(node.data)) {
+      return false;
+    }
+
+    if (nextNode.data.get('change') === undefined && node.data.get('change') !== undefined) {
+      return false;
+    }
+    return true;
+  }
+
+  onMathChange = (latex) => {
+    log('[onMathChange]', latex);
+    const { node, editor } = this.props;
+    const data = Data.create({ latex });
+    editor.change(c => c.setNodeByKey(node.key, { data }));
+  }
+
+  blur() {
+    log('[blur]')
+    this.wrapper && this.wrapper.blur();
+  }
+
+  render() {
+    const { node, classes, editor } = this.props;
+    log('[render] >> node', node, 'editor: ', editor, 'value: ', editor.value, editor.value.isFocused);
+
+    const latex = node.data.get('latex');
+    const names = classNames(classes.root);
+    const cleanLatex = removeBrackets(latex);
+
+    return (
+      <div className={names}>
+        <MathWrapper
+          ref={r => this.wrapper = r}
+          latex={cleanLatex}
+          editing={true}
+          onClick={this.onClick}
+          onChange={this.onMathChange}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur} />
+      </div>
+    );
   }
 }
 
 const styles = {
   root: {
     display: 'inline-flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    '& > .mq-editable-field': {
+
+      border: 'solid 1px lightgrey',
+    },
+    '& > .mq-focused': {
+      outline: 'none',
+      boxShadow: 'none',
+      border: `solid 1px ${primary}`,
+      borderRadius: '0px'
+    }
+  },
+  selected: {
+    border: 'solid 1px red'
   }
 };
 

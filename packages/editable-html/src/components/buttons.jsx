@@ -7,9 +7,7 @@ import injectSheet from 'react-jss';
 const styles = {
   delete: {
     cursor: 'pointer',
-    // position: 'absolute',
     transition: 'opacity 200ms linear',
-    // right: 0,
     '&:hover': {
       opacity: 0.5
     }

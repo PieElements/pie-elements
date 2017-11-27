@@ -1,24 +1,62 @@
+import { Keypad, MathQuillInput, addBrackets, removeBrackets } from '@pie-libs/math-input';
+
+import { Data } from 'slate';
+import Functions from 'material-ui-icons/Functions';
 import { Inline } from 'slate';
 import MathInput from './component';
+import MathToolbar from './math-toolbar';
 import React from 'react';
 import debug from 'debug';
 
-const log = debug('plugins:math');
-
+const log = debug('editable-html:plugins:math');
 
 const TEXT_NODE = 3;
 
 export default function MathPlugin(options) {
   return {
+    toolbar: {
+      icon: <Functions />,
+      onClick: (value, onChange) => {
+        log('[insertMath]');
+        const math = inlineMath();
+        const change = value.change().insertInline(math);
+        onChange(change);
+      },
+      supports: node => (node && node.kind === 'inline' && node.type === 'math'),
+      customToolbar: node => (node && node.kind === 'inline' && node.type === 'math') && MathToolbar
+    },
     schema: {
-      nodes: {
-        math: (props) => <MathInput
-          {...props}
+      document: { types: ['math'] }
+    },
+    onBlur: () => {
+      log('[onBlur]');
+    },
+    onFocus: () => {
+      log('[onFocus]');
+    },
+    onSelect: () => {
+      log('[onSelect]');
+    },
+    /**
+     * A onDone wrapper function, places a blur change on the node, then calls 
+     * the original donefn.
+     * Feels a bit messy - there may be a cleaner way to do this.
+     */
+    onDone: (e, node, value, onChange, fn) => {
+      const update = { ...node.data.toObject(), change: { type: 'blur' } }
+      const change = value.change().setNodeByKey(node.key, { data: update });
+      onChange(change);
+      fn(e);
+    },
+    renderNode: props => {
+      if (props.node.type === 'math') {
+        log('[renderNode]: ', props);
+        return <MathInput {...props}
+          onClick={() => options.onClick(props.node)}
           onFocus={options.onFocus}
           onBlur={options.onBlur} />
       }
-    },
-
+    }
   }
 }
 
@@ -39,13 +77,16 @@ export const serialization = {
     }
 
     const tagName = el.tagName.toLowerCase();
+    log('[deserialize] name: ', tagName)
     const hasMathJaxAttribute = el.getAttribute('mathjax') !== undefined || el.getAttribute('data-mathjax') !== undefined;
 
+    log('[deserialize] hasMathJaxAttribute: ', hasMathJaxAttribute);
     if (tagName === 'span' && hasMathJaxAttribute) {
       return {
         kind: 'inline',
         type: 'math',
         isVoid: true,
+        nodes: [],
         data: {
           latex: el.innerHTML
         }

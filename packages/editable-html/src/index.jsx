@@ -1,98 +1,200 @@
-import TextEditor, { ImageSupportType, htmlToState, stateToHtml } from './rte';
+import { Editor, findNode } from 'slate-react';
+import { htmlToValue, valueToHtml } from './serialization';
 
+import Image from './plugins/image';
 import PropTypes from 'prop-types';
-import { Raw } from 'slate';
 import React from 'react';
-import classNames from 'classnames';
+import { Value } from 'slate';
+import { buildPlugins } from './plugins';
 import debug from 'debug';
-import injectSheet from 'react-jss';
+import { getHashes } from 'crypto';
+
+export { htmlToValue, valueToHtml }
+
 
 const log = debug('editable-html');
 
-const Preview = ({ onClick, hasText, markup, placeholder }) => {
-  const html = hasText ? markup() : placeholder;
-  return <div
-    onClick={onClick}
-    dangerouslySetInnerHTML={{ __html: html }}></div>;
-};
-
-class EditableHTML extends React.Component {
+export default class EditableHtml extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      editorState: htmlToState(props.markup),
-      focus: false
+      value: htmlToValue(props.markup)
     }
 
-    this.onClick = () => {
-      log('onClick');
-      this.setState({ focus: true });
-    }
 
-    this.onEditingDone = () => {
-      const markup = stateToHtml(this.state.editorState);
-      this.props.onChange(markup);
-    }
+    this.plugins = buildPlugins({
+      selection: {},
+      math: {
+        onClick: this.onMathClick,
+        onFocus: this.onPluginFocus,
+        onBlur: this.onPluginBlur
+      },
+      image: {
+        onDelete: this.props.imageSupport && this.props.imageSupport.delete && ((src, done) => {
+          this.props.imageSupport.delete(src, e => {
+            done(e, this.state.value);
+          })
+        }),
+        insertImageRequested: this.props.imageSupport && ((getHandler) => {
+          const handler = getHandler(() => this.state.value);
+          this.props.imageSupport.add(handler);
+        }),
+        onFocus: this.onPluginFocus,
+        onBlur: this.onPluginBlur
+      },
+      toolbar: {
+        /**
+         * To minimize converting html -> state -> html
+         * We only emit markup once 'done' is clicked.
+         */
+        onDone: () => {
+          log('[onDone]');
+          this.setState({ toolbarInFocus: false, focusedNode: null });
+          this.editor.blur();
+          this.onEditingDone();
+        }
+      }
+    });
+  }
 
-    this.onBlur = () => {
-      // this.setState({ focus: false });
-      this.onEditingDone();
-    }
+  onPluginBlur = (e) => {
+    log('[onPluginBlur]', e.relatedTarget);
+    const target = e.relatedTarget;
 
-    this.onFocus = () => {
-      // this.setState({ focus: true });
-    }
+    const node = target ? findNode(target, this.state.value) : null;
+    log('[onPluginBlur] node: ', node);
+    this.setState({ focusedNode: node }, () => {
+      this.resetValue();
+    });
+  }
 
-    this.onChange = (change) => {
-      log('[onChange]', change);
-      this.setState({ editorState: change.state });
+  onPluginFocus = (e) => {
+    log('[onPluginFocus]', e.target);
+    const target = e.target;
+    if (target) {
+      const node = findNode(target, this.state.value);
+      log('[onPluginFocus] node: ', node);
+
+      const stashedValue = this.state.stashedValue || this.state.value;
+      this.setState({ focusedNode: node, stashedValue });
+    } else {
+      this.setState({ focusedNode: null });
     }
+    this.stashValue();
+  }
+
+  onMathClick = (node) => {
+    this.editor.change(c =>
+      c.collapseToStartOf(node)//.focus()
+    );
+    this.setState({ selectedNode: node });
+  }
+
+  onEditingDone = () => {
+    log('[onEditingDone]');
+    this.setState({ stashedValue: null, focusedNode: null });
+    const html = valueToHtml(this.state.value);
+    this.props.onChange(html);
+    // this.plugins.forEach
+  }
+
+  onBlur = (event) => {
+    log('[onBlur]');
+    const target = event.relatedTarget;
+
+    const node = target ? findNode(target, this.state.value) : null;
+
+    log('[onBlur] node: ', node);
+
+    this.setState({ focusedNode: node }, () => {
+      this.resetValue();
+    });
+  }
+
+  onFocus = () => {
+    log('[onFocus]', document.activeElement);
+    this.stashValue();
+  }
+
+  stashValue = () => {
+    log('[stashValue]');
+    if (!this.state.stashedValue) {
+      this.setState({ stashedValue: this.state.value });
+    }
+  }
+
+  resetValue = () => {
+    const { value, focusedNode } = this.state;
+
+
+    const stopReset = this.plugins.reduce((s, p) => {
+      return s || (p.stopReset && p.stopReset(this.state.value));
+    }, false);
+
+    log('[resetValue]', value.isFocused, focusedNode, 'stopReset: ', stopReset);
+    if (this.state.stashedValue &&
+      !value.isFocused &&
+      !focusedNode && !stopReset) {
+      log('[resetValue] resetting...');
+      log('stashed', this.state.stashedValue.document.toObject())
+      log('current', this.state.value.document.toObject())
+
+      const newValue = Value.fromJSON(this.state.stashedValue.toJSON());
+
+      log('newValue: ', newValue.document);
+
+      setTimeout(() => {
+        this.setState({ value: newValue, stashedValue: null }, () => {
+          log('value now: ', this.state.value.document.toJSON());
+        });
+      }, 50);
+    }
+  }
+
+  onChange = (change) => {
+    log('[onChange]') /// value: ', change.value);
+    this.setState({ value: change.value });
   }
 
   componentWillReceiveProps(props) {
     if (props.markup !== this.props.markup) {
       this.setState({
         focus: false,
-        editorState: htmlToState(props.markup)
+        value: htmlToValue(props.markup)
       });
     }
   }
 
+  onRootFocus = () => {
+    log('[onRootFocus]');
+    // this.setState({ showToolbar: true });
+  }
+
+  onRootBlur = () => {
+    log('[onRootBlur]');
+    // this.setState({ showToolbar: false });
+  }
+
   render() {
-    const { classes, placeholder, className, imageSupport, html } = this.props;
-    const { editorState, focus } = this.state;
-
-    log('[render] focus: ', focus);
-
-    const rootNames = classNames(classes.editableHtml, className);
-    return (
-      <div className={rootNames} onClick={this.onClick}>
-        <TextEditor
-          ref={r => this.editor = r}
-          editorState={editorState}
-          onChange={this.onChange}
-          onDone={this.onEditingDone}
-          imageSupport={imageSupport}
-          onBlur={this.onBlur}
-          onFocus={this.onFocus} />
-      </div>
-    );
+    const { value, showToolbar, focusedNode } = this.state;
+    log('[render]', value.document);//, value);
+    // log('[render] selectedNode:', selectedNode);
+    return <div>
+      <Editor
+        ref={r => this.editor = r}
+        value={value}
+        onChange={this.onChange}
+        plugins={this.plugins}
+        onBlur={this.onBlur}
+        onFocus={this.onFocus}
+        focusedNode={focusedNode} />
+    </div>
   }
 }
 
-EditableHTML.propTypes = {
-  imageSupport: ImageSupportType
+EditableHtml.propTypes = {
+  markup: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
 }
-
-const style = {
-  editableHtml: {
-    cursor: 'text',
-    position: 'relative',
-
-  }
-}
-
-
-export default injectSheet(style)(EditableHTML);
