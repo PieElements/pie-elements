@@ -34,7 +34,7 @@ pie info
 Sometimes you want to link in libraries to the config ui: 
 
 ```
-cd docs/demo/.pie/.configure/node_modules/@pie-elements/multiple-choice-configure
+cd docs/demo/.pie/.configure
 npm link @pie-libs/editable-html # will link up the local editable-html package
 ```
 
