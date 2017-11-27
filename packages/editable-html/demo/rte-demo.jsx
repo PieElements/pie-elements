@@ -136,9 +136,9 @@ class RteDemo extends React.Component {
         imageSupport={imageSupport}
         onChange={this.onMarkupChange}
       />
-      <TextField />
+      {/* <TextField />
       <p>other</p>
-      <input type="text"></input>
+      <input type="text"></input> */}
       {/* <EditableHtml
         markup={this.state.markup}
         imageSupport={imageSupport}

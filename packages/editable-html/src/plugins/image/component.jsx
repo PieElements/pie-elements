@@ -152,7 +152,6 @@ export class RawImage extends React.Component {
     const percent = node.data.get('percent');
     const deleteStatus = node.data.get('deleteStatus');
     //TODO: There's probably a better way to get this info.
-    const readOnly = editor.props.readOnly;
 
     const style = {
       width: width ? `${width}px` : 'auto',
@@ -170,8 +169,9 @@ export class RawImage extends React.Component {
       loaded && classes.hideProgress);
 
     const resize = (amount) => this.resizeBy.bind(this, amount);
+    log('showDelete: loaded: ', loaded, 'deleteStatus: ', deleteStatus);
 
-    const showDelete = !readOnly && loaded && deleteStatus !== 'pending';
+    const showDelete = editor.getState().isFocused && loaded && deleteStatus !== 'pending';
 
     return <div className={className}>
       <Portal isOpened onOpen={this.onOpen}>
