@@ -47,7 +47,7 @@ class EditableHTML extends React.Component {
 
     this.onChange = (change) => {
       log('[onChange]', change);
-      this.setState({ editorState: change.state });
+      this.setState({ editorState: change.value });
     }
   }
 

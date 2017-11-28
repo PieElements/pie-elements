@@ -13,18 +13,18 @@ export const buildPlugins = (opts) => {
   log('[buildPlugins] opts: ', opts);
 
   return compact([
-    DivPlugin(),
-    ParagraphPlugin(),
-    opts.image && opts.image.onDelete && ImagePlugin(opts.image),
-    MathPlugin(opts.math),
-    MarksPlugin()
+    //DivPlugin(),
+    // ParagraphPlugin(),
+    // opts.image && opts.image.onDelete && ImagePlugin(opts.image),
+    // MathPlugin(opts.math),
+    // MarksPlugin()
   ]);
 }
 
 export const serializationRules = [
   divSerialization,
-  pSerialization,
-  imageSerialization,
-  mathSerialization,
-  marksSerialization
+  // pSerialization,
+  // imageSerialization,
+  // mathSerialization,
+  // marksSerialization
 ];

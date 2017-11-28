@@ -1,8 +1,8 @@
 import { Block, Data, Model, Raw } from 'slate';
-import { Editor } from 'slate-react';
 import { buildPlugins, serializationRules } from './plugins';
-import Html from 'slate-html-serializer';
 
+import { Editor } from 'slate-react';
+import Html from 'slate-html-serializer';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Toolbar from './toolbar';
@@ -30,9 +30,10 @@ class RichText extends React.Component {
       inFocus: false
     }
 
-    this.onFocus = (event, data, change, editor) => {
+    this.onFocus = (event, change, editor) => {
       log('[onFocus]', change);
       this.setState({ inFocus: true, pendingBlur: false });
+      log('[editor.focus?]', editor.focus);
       editor.focus();
       return change;
     }
@@ -135,8 +136,8 @@ class RichText extends React.Component {
         cancel: () => {
           log('insert cancelled');
           const c = this.editor.getState()
-          .change()
-          .removeNodeByKey(block.key);
+            .change()
+            .removeNodeByKey(block.key);
           onChange(c);
         },
         done: (err, src) => {
