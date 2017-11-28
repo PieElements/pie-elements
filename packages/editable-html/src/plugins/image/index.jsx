@@ -9,12 +9,26 @@ export default function ImagePlugin(options) {
   log('[ImagePlugin] options: ', options);
 
   return {
-    schema: {
-      nodes: {
-        image: props => <Image
-          {...Object.assign({ onDelete: options.onDelete }, props) } />
-      }
+    // schema: {
+    //   inlines: {
+    //     image: {
+    //       isVoid: true,
+    //       normalize: (change, reason) => {
+    //         log('>>> normalize img', reason);
+    //       }
+    //     }
+    //   }
+    // },
+    renderNode: (props) => {
+      log('[ImagePlugin] props.node: ', props.node);
+      return props.node.type === 'image' ? <Image {...Object.assign({ onDelete: options.onDelete }, props) } /> : null
     }
+    // schema: {
+    //   nodes: {
+    //     image: props => <Image
+    //       {...Object.assign({ onDelete: options.onDelete }, props) } />
+    //   }
+    // }
   }
 }
 
@@ -24,12 +38,13 @@ export default function ImagePlugin(options) {
 export const serialization = {
   deserialize(el, next) {
     const name = el.tagName.toLowerCase();
+    log('deserialize: ', name);
     const style = el.style || { width: '', height: '' };
     const width = parseInt(style.width.replace('px', ''), 10) || null;
     const height = parseInt(style.height.replace('px', ''), 10) || null;
 
     if (name === 'img') {
-      return {
+      const out = {
         kind: 'inline',
         type: 'image',
         isVoid: true,
@@ -38,6 +53,8 @@ export const serialization = {
           width, height
         }
       }
+      log('return object: ', out);
+      return out;
     }
   },
   serialize(object, children) {

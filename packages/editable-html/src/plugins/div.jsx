@@ -1,8 +1,11 @@
 import { Block } from 'slate';
 import React from 'react';
+import debug from 'debug';
+
+const log = debug('editable-html:div');
 
 const defaultBlock = {
-  type: 'div',
+  type: 'p',
   isVoid: false,
   data: {}
 }
@@ -10,6 +13,7 @@ const defaultBlock = {
 export const serialization = {
   deserialize(el, next) {
     const name = el.tagName.toLowerCase();
+    log('deserialize: ', name);
     if (name === 'div') {
       return {
         kind: 'block',
@@ -28,7 +32,15 @@ export const serialization = {
 export default Plugin = (options) => {
 
   return {
-    renderNode: (props) => <div className="ha">{props.children}</div>
+    renderNode: (props) => {
+      log('props.node: ', props.node);
+      if (props.node.type === 'div') {
+        return <div {...props.attributes}>{props.children}</div>
+      } else {
+        return undefined;
+      }
+    }
+
 
 
     //   div: props => <div {...props.attributes}>{props.children}</div>,

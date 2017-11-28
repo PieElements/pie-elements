@@ -60,7 +60,7 @@ export class RawImage extends React.Component {
 
       const { data } = this.props.node;
       const update = data.merge(Data.create({ width, height }));
-      const change = editor.getState()
+      const change = editor.value
         .change()
         .setNodeByKey(key, { data: update });
 
@@ -108,11 +108,11 @@ export class RawImage extends React.Component {
 
     this.updateMenu = () => {
       const { menu } = this.state;
-      const { state, node } = this.props;
+      const { editor, node } = this.props;
 
       if (!menu) return
 
-      const active = state.isFocused && state.selection.hasEdgeIn(node);
+      const active = editor.value.isFocused && editor.value.selection.hasEdgeIn(node);
 
       if (!active) {
         menu.style.opacity = 0;
@@ -142,8 +142,8 @@ export class RawImage extends React.Component {
 
   render() {
 
-    const { node, state, editor, classes, attributes } = this.props;
-    const active = state.isFocused && state.selection.hasEdgeIn(node);
+    const { node, editor, classes, attributes } = this.props;
+    const active = editor.value.isFocused && editor.value.selection.hasEdgeIn(node);
     log('[render] data: ', node.data.toJSON());
     const src = node.data.get('src');
     const loaded = node.data.get('loaded') !== false;
@@ -171,7 +171,7 @@ export class RawImage extends React.Component {
     const resize = (amount) => this.resizeBy.bind(this, amount);
     log('showDelete: loaded: ', loaded, 'deleteStatus: ', deleteStatus);
 
-    const showDelete = editor.getState().isFocused && loaded && deleteStatus !== 'pending';
+    const showDelete = editor.state.isFocused && loaded && deleteStatus !== 'pending';
 
     return <div className={className}>
       <Portal isOpened onOpen={this.onOpen}>

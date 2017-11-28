@@ -65,7 +65,7 @@ class EditableHTML extends React.Component {
     const { editorState, focus } = this.state;
 
     log('[render] focus: ', focus);
-
+    log('editorState: ', editorState);
     const rootNames = classNames(classes.editableHtml, className);
     return (
       <div className={rootNames} onClick={this.onClick}>

@@ -13,9 +13,9 @@ export const buildPlugins = (opts) => {
   log('[buildPlugins] opts: ', opts);
 
   return compact([
-    //DivPlugin(),
+    DivPlugin(),
     // ParagraphPlugin(),
-    // opts.image && opts.image.onDelete && ImagePlugin(opts.image),
+    opts.image && opts.image.onDelete && ImagePlugin(opts.image),
     // MathPlugin(opts.math),
     // MarksPlugin()
   ]);
@@ -24,7 +24,7 @@ export const buildPlugins = (opts) => {
 export const serializationRules = [
   divSerialization,
   // pSerialization,
-  // imageSerialization,
+  imageSerialization,
   // mathSerialization,
   // marksSerialization
 ];

@@ -267,7 +267,12 @@ RichText.propTypes = {
   imageSupport: ImageSupportType
 }
 
-export const htmlToState = html => serializer.deserialize(html)
+export const htmlToState = html => {
+  log('[htmlToState] html: ', html);
+  const out = serializer.deserialize(html);
+  log('[htmlToState] out: ', out);
+  return out;
+}
 
 export const stateToHtml = (state) => serializer.serialize(state);
 

@@ -20,7 +20,11 @@ class RteDemo extends React.Component {
   //   </div>
   // <div>`;
 
-  markup = `hi there`;
+  markup = `<div>
+    <div> 
+       <img src="${this.puppy}"></img>
+       </div>
+  </div>`;
   // markup = `hi <span data-mathjax="">\\(2\\div1 = x\\)</span>`;
 
   state = {
@@ -32,9 +36,9 @@ class RteDemo extends React.Component {
     log('[handleInputFiles] input: ', input);
 
     const { imageHandler } = this.state;
-    if(input.files.length < 1 || !input.files[0]){
+    if (input.files.length < 1 || !input.files[0]) {
       imageHandler.cancel();
-      this.setState({imageHandler: null});
+      this.setState({ imageHandler: null });
     } else {
       const file = input.files[0];
       imageHandler.fileChosen(file);
@@ -61,11 +65,11 @@ class RteDemo extends React.Component {
   }
 
   handleFileSelect = (event) => {
-    
+
     log('[handleFileSelect] event: ', event);
 
     //disable the check cancelled call
-    this.setState({checkCancelled: false}, () => {
+    this.setState({ checkCancelled: false }, () => {
       this.handleInputFiles(event.target);
     });
   }
@@ -100,9 +104,9 @@ class RteDemo extends React.Component {
     document.body.onfocus = (e) => {
       log('focus document...', this.fileInput.files);
       document.body.onfocus = null;
-      this.setState({checkCancelled: true}, () => {
+      this.setState({ checkCancelled: true }, () => {
         setTimeout(() => {
-          if(this.state.checkCancelled){
+          if (this.state.checkCancelled) {
             this.handleInputFiles(this.fileInput);
           }
         }, 200);
