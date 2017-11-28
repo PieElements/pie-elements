@@ -3,21 +3,29 @@ import MathInput from './component';
 import React from 'react';
 import debug from 'debug';
 
-const log = debug('plugins:math');
-
+const log = debug('editable-html:plugins:math');
 
 const TEXT_NODE = 3;
 
 export default function MathPlugin(options) {
   return {
-    schema: {
-      nodes: {
-        math: (props) => <MathInput
+
+    renderNode: props => {
+      if (props.node.type === 'math') {
+        <MathInput
           {...props}
           onFocus={options.onFocus}
           onBlur={options.onBlur} />
       }
-    },
+    }
+    // schema: {
+    //   nodes: {
+    //     math: (props) => <MathInput
+    //       {...props}
+    //       onFocus={options.onFocus}
+    //       onBlur={options.onBlur} />
+    //   }
+    // },
 
   }
 }

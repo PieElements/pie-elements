@@ -1,98 +1,44 @@
-import TextEditor, { ImageSupportType, htmlToState, stateToHtml } from './rte';
+import { htmlToValue, valueToHtml } from './serialization';
 
+import { Editor } from 'slate-react';
+import Image from './plugins/image';
 import PropTypes from 'prop-types';
-import { Raw } from 'slate';
 import React from 'react';
-import classNames from 'classnames';
-import debug from 'debug';
-import injectSheet from 'react-jss';
+import { buildPlugins } from './plugins';
 
-const log = debug('editable-html');
+export { htmlToValue, valueToHtml }
 
-const Preview = ({ onClick, hasText, markup, placeholder }) => {
-  const html = hasText ? markup() : placeholder;
-  return <div
-    onClick={onClick}
-    dangerouslySetInnerHTML={{ __html: html }}></div>;
-};
 
-class EditableHTML extends React.Component {
+export default class EditableHtml extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      editorState: htmlToState(props.markup),
-      focus: false
-    }
-
-    this.onClick = () => {
-      log('onClick');
-      this.setState({ focus: true });
-    }
-
-    this.onEditingDone = () => {
-      const markup = stateToHtml(this.state.editorState);
-      this.props.onChange(markup);
-    }
-
-    this.onBlur = () => {
-      // this.setState({ focus: false });
-      this.onEditingDone();
-    }
-
-    this.onFocus = () => {
-      // this.setState({ focus: true });
-    }
-
-    this.onChange = (change) => {
-      log('[onChange]', change);
-      this.setState({ editorState: change.value });
-    }
-  }
-
-  componentWillReceiveProps(props) {
-    if (props.markup !== this.props.markup) {
-      this.setState({
-        focus: false,
-        editorState: htmlToState(props.markup)
-      });
-    }
+    this.plugins = buildPlugins({
+      math: {
+        onFocus: this.onPluginFocus,
+        onBlur: this.onPluginBlur
+      },
+      image: {
+        onDelete: this.props.imageSupport && this.props.imageSupport.delete,
+        onFocus: this.onPluginFocus,
+        onBlur: this.onPluginBlur
+      }
+    });
   }
 
   render() {
-    const { classes, placeholder, className, imageSupport, html } = this.props;
-    const { editorState, focus } = this.state;
+    const { value, onChange } = this.props;
 
-    log('[render] focus: ', focus);
-    log('editorState: ', editorState);
-    const rootNames = classNames(classes.editableHtml, className);
-    return (
-      <div className={rootNames} onClick={this.onClick}>
-        <TextEditor
-          ref={r => this.editor = r}
-          editorState={editorState}
-          onChange={this.onChange}
-          onDone={this.onEditingDone}
-          imageSupport={imageSupport}
-          onBlur={this.onBlur}
-          onFocus={this.onFocus} />
-      </div>
-    );
+    return <div>
+      <Editor
+        value={value}
+        onChange={onChange}
+        plugins={this.plugins} />
+    </div>
   }
 }
 
-EditableHTML.propTypes = {
-  imageSupport: ImageSupportType
+EditableHtml.propTypes = {
+  value: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired
 }
-
-const style = {
-  editableHtml: {
-    cursor: 'text',
-    position: 'relative',
-
-  }
-}
-
-
-export default injectSheet(style)(EditableHTML);

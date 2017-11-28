@@ -76,41 +76,30 @@ export class RawImage extends React.Component {
 
       const update = node.data.merge(Data.create({ deleteStatus: 'pending' }));
 
-      let change = editor.value
+      let change = editor.getState()
         .change()
         .setNodeByKey(node.key, { data: update });
 
       editor.onChange(change);
 
-      if (!this.props.onDelete) {
-        log('no onDelete handler?');
-        change = editor.value
-          .change()
-          .removeNodeByKey(node.key);
+      this.props.onDelete(node.data.get('src'), err => {
+        if (!err) {
+          change = editor.getState()
+            .change()
+            .removeNodeByKey(node.key);
 
-        editor.onChange(change);
-        return;
-      } else {
-        this.props.onDelete(node.data.get('src'), err => {
-          if (!err) {
-            change = editor.value
-              .change()
-              .removeNodeByKey(node.key);
-
-            editor.onChange(change);
-          } else {
-            logError(err);
-            const deleteFailedUpdate = node.data.merge(
-              Data.create({ deleteStatus: 'failed' })
-            );
-            change = editor.value
-              .change()
-              .setNodeByKey(node.key, { data: deleteFailedUpdate });
-            editor.onChange(change);
-          }
-
-        });
-      }
+          editor.onChange(change);
+        } else {
+          logError(err);
+          const deleteFailedUpdate = node.data.merge(
+            Data.create({ deleteStatus: 'failed' })
+          );
+          change = editor.getState()
+            .change()
+            .setNodeByKey(node.key, { data: deleteFailedUpdate });
+          editor.onChange(change);
+        }
+      });
     }
 
     this.onOpen = (portal) => {
@@ -182,7 +171,7 @@ export class RawImage extends React.Component {
     const resize = (amount) => this.resizeBy.bind(this, amount);
     log('showDelete: loaded: ', loaded, 'deleteStatus: ', deleteStatus);
 
-    const showDelete = editor.value.isFocused && loaded && deleteStatus !== 'pending';
+    const showDelete = editor.state.isFocused && loaded && deleteStatus !== 'pending';
 
     return <div className={className}>
       <Portal isOpened onOpen={this.onOpen}>

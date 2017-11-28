@@ -41,13 +41,13 @@ class RawToolbar extends React.Component {
   constructor(props) {
     super(props);
     this.hasMark = (type) => {
-      const { editorState } = this.props;
-      return editorState.marks.some(mark => mark.type == type)
+      const { value } = this.props;
+      return value.marks.some(mark => mark.type == type)
     }
 
     this.hasBlock = (type) => {
-      const { editorState } = this.props;
-      return editorState.blocks.some(node => node.type == type)
+      const { value } = this.props;
+      return value.blocks.some(node => node.type == type)
     }
   }
 
@@ -92,7 +92,7 @@ class RawToolbar extends React.Component {
 
 RawToolbar.propTypes = {
   zIndex: PropTypes.number,
-  editorState: PropTypes.object.isRequired,
+  value: PropTypes.object.isRequired,
   onToggleMark: PropTypes.func.isRequired,
   onImageClick: PropTypes.func,
   onInsertMath: PropTypes.func.isRequired,
