@@ -10,7 +10,8 @@ const puppySrc = 'http://cdn2-www.dogtime.com/assets/uploads/gallery/30-impossib
 /**
  * Note: See core schema rules - it normalizes so you can only have blocks or inline and text in a block.
  */
-const html = `<div><div>hi</div><img src="${puppySrc}"></img></div>`;
+//const html = `<div><div>hi</div><img src="${puppySrc}"></img></div>`;
+const html = `<span data-mathjax="">\\frac{1}{2}</span>`;
 
 
 // const j = { "kind": "value", "document": { "kind": "document", "data": {}, "nodes": [{ "kind": "block", "type": "div", "nodes": [{ "kind": "text", "leaves": [{ "kind": "leaf", "text": "a" }] }, { "kind": "block", "type": "image", "isVoid": true, "nodes": [], "data": { "src": "http://cdn2-www.dogtime.com/assets/uploads/gallery/30-impossibly-cute-puppies/impossibly-cute-puppy-8.jpg", "width": null, "height": null } }] }] } }

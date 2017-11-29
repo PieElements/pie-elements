@@ -42,13 +42,7 @@ export default class EditableHtml extends React.Component {
           this.setState({ toolbarInFocus: false });
           this.editor.blur();
           this.onEditingDone();
-        },
-        // onFocus: () => {
-        //   this.setState({ toolbarInFocus: true });
-        // },
-        // onBlur: () => {
-        //   this.setState({ toolbarInFocus: false });
-        // }
+        }
       }
     });
 
@@ -100,7 +94,7 @@ export default class EditableHtml extends React.Component {
 
   render() {
     const { value, showToolbar } = this.state;
-
+    log('[render]', value);
     return <div>
       <Editor
         ref={r => this.editor = r}

@@ -33,8 +33,7 @@ export class MathComponent extends React.Component {
       const { node, editor } = this.props;
       const { key } = node;
       const data = Data.create({ latex });
-      const change = this.props.editor.getState().change()
-        .setNodeByKey(key, { data });
+      const change = editor.value.change().setNodeByKey(key, { data });
       editor.onChange(change);
     }
 
@@ -51,17 +50,15 @@ export class MathComponent extends React.Component {
 
       const { node, editor } = this.props;
 
-      const change = editor.getState()
-        .change()
-        .removeNodeByKey(node.key);
+      const change = editor.value.change().removeNodeByKey(node.key);
       editor.onChange(change);
     }
   }
 
   render() {
-    const { node, state, editor, classes, attributes } = this.props;
+    const { node, state, classes, attributes } = this.props;
     const latex = node.data.get('latex');
-    const readOnly = editor.props.readOnly === true;
+    const readOnly = false; //?? editor.props.readOnly === true;
     log('[render] readOnly: ', readOnly);
     return <div className={classes.root}>
       <MathInput

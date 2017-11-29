@@ -1,3 +1,4 @@
+import Functions from 'material-ui-icons/Functions';
 import { Inline } from 'slate';
 import MathInput from './component';
 import React from 'react';
@@ -9,24 +10,27 @@ const TEXT_NODE = 3;
 
 export default function MathPlugin(options) {
   return {
-
+    toolbar: {
+      icon: <Functions />,
+      onClick: (value, onChange) => {
+        log('[insertMath]');
+        const math = inlineMath();
+        const change = value.change().insertInline(math);
+        onChange(change);
+      }
+    },
+    schema: {
+      document: { types: ['math'] }
+    },
     renderNode: props => {
+      log('[renderNode]: ', props);
       if (props.node.type === 'math') {
-        <MathInput
+        return <MathInput
           {...props}
           onFocus={options.onFocus}
           onBlur={options.onBlur} />
       }
     }
-    // schema: {
-    //   nodes: {
-    //     math: (props) => <MathInput
-    //       {...props}
-    //       onFocus={options.onFocus}
-    //       onBlur={options.onBlur} />
-    //   }
-    // },
-
   }
 }
 
@@ -47,8 +51,10 @@ export const serialization = {
     }
 
     const tagName = el.tagName.toLowerCase();
+    log('[deserialize] name: ', tagName)
     const hasMathJaxAttribute = el.getAttribute('mathjax') !== undefined || el.getAttribute('data-mathjax') !== undefined;
 
+    log('[deserialize] hasMathJaxAttribute: ', hasMathJaxAttribute);
     if (tagName === 'span' && hasMathJaxAttribute) {
       return {
         kind: 'inline',
