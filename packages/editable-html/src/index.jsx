@@ -21,7 +21,8 @@ export default class EditableHtml extends React.Component {
       image: {
         onDelete: this.props.imageSupport && this.props.imageSupport.delete,
         onFocus: this.onPluginFocus,
-        onBlur: this.onPluginBlur
+        onBlur: this.onPluginBlur,
+        onInsertImage: this.insertImage
       }
     });
   }

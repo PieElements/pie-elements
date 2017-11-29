@@ -10,7 +10,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Strikethrough from 'material-ui-icons/FormatStrikethrough';
 import Underlined from 'material-ui-icons/FormatUnderlined';
+import debug from 'debug';
 import injectSheet from 'react-jss';
+
+const log = debug('editable-html:plugins:toolbar');
 
 const toolbarStyle = {
   toolbar: {
@@ -28,13 +31,29 @@ const toolbarStyle = {
   }
 }
 
-var INLINE_STYLES = [
-  { mark: 'bold', label: 'Bold', icon: <Bold /> },
-  { mark: 'italic', label: 'Italic', icon: <Italic /> },
-  { mark: 'underline', label: 'Underline', icon: <Underlined /> },
-  { mark: 'code', label: 'code', icon: <Code /> },
-  { mark: 'strikethrough', label: 'Strikethrough', icon: <Strikethrough /> }
-];
+const ToolbarButton = (props) => {
+
+  const hasMark = (type) => {
+    const { value } = props;
+    return value.marks.some(mark => mark.type == type)
+  }
+
+  if (props.isMark) {
+    const isActive = hasMark(props.type);
+    return <MarkButton
+      active={isActive}
+      label={props.type}
+      onToggle={() => {
+        const c = props.onToggle(props.value.change())
+        props.onChange(c);
+      }}
+      mark={props.type}
+    >{props.icon}</MarkButton>
+  } else {
+    return <Button
+      onClick={props.onClick}>{props.icon}</Button>
+  }
+}
 
 class RawToolbar extends React.Component {
 
@@ -51,6 +70,15 @@ class RawToolbar extends React.Component {
     }
   }
 
+  onToggle = (plugin) => {
+    const { value, onChange } = this.props;
+
+    if (!plugin.onToggle) return;
+
+    const change = plugin.onToggle(value.change())
+    onChange(change);
+  }
+
   render() {
     const {
       classes,
@@ -60,7 +88,12 @@ class RawToolbar extends React.Component {
       onDone,
       zIndex,
       onFocus,
-      onBlur } = this.props;
+      onBlur,
+      plugins,
+      value,
+      onChange } = this.props;
+
+    const toolbarPlugins = plugins.filter(p => p.toolbar).map(p => p.toolbar);
 
     const style = zIndex ? { zIndex } : {};
 
@@ -70,19 +103,24 @@ class RawToolbar extends React.Component {
         onFocus={onFocus}
         onBlur={onBlur}>
         <div className={classes.inline}>
-          {INLINE_STYLES.map(type => {
-            const isActive = this.hasMark(type.mark);
-            return <MarkButton
-              key={type.label}
-              active={isActive}
-              label={type.label}
-              onToggle={onToggleMark}
-              mark={type.mark}
-            >{type.icon}</MarkButton>
+          {toolbarPlugins.map((p, index) => {
+            return <ToolbarButton
+              {...p}
+              key={index}
+              value={value}
+              onChange={onChange} />
+            // const isActive = this.hasMark(p.type);
+            // return <MarkButton
+            //   key={p.type}
+            //   active={isActive}
+            //   label={p.type}
+            //   onToggle={() => this.onToggle(p)}
+            //   mark={p.type}
+            // >{p.icon}</MarkButton>
           }
           )}
-          {onImageClick && <Button onClick={onImageClick}> <Image /></Button>}
-          <Button onClick={onInsertMath}> <Functions /></Button>
+          {/* {onImageClick && <Button onClick={onImageClick}> <Image /></Button>}
+          <Button onClick={onInsertMath}> <Functions /></Button> */}
         </div>
         <Button onClick={onDone}><Check /></Button>
       </div>
@@ -93,6 +131,7 @@ class RawToolbar extends React.Component {
 RawToolbar.propTypes = {
   zIndex: PropTypes.number,
   value: PropTypes.object.isRequired,
+  plugins: PropTypes.array,
   onToggleMark: PropTypes.func.isRequired,
   onImageClick: PropTypes.func,
   onInsertMath: PropTypes.func.isRequired,

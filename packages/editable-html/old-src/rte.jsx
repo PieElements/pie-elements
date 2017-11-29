@@ -221,7 +221,12 @@ class RichText extends React.Component {
   }
 
   render() {
-    const { classes, editorState, focus, onDone, imageSupport } = this.props;
+    const {
+      classes,
+      editorState,
+      focus,
+      onDone,
+      imageSupport } = this.props;
 
     const { inFocus } = this.state;
 

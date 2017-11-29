@@ -1,28 +1,103 @@
 import React from 'react';
 import Toolbar from './toolbar';
+import classNames from 'classnames';
 import debug from 'debug';
+import injectSheet from 'react-jss';
+
 const log = debug('editable-html:toolbar');
 
-// export class Toolbar extends React.Component {
+const Holder = ({ classes, children, value, plugins, onChange }) => {
 
-//   render() {
-//     const { value, plugins } = this.props;
-//     log('editor:', value);
+  const inFocus = value.isFocused;
+  const holderNames = classNames(classes.editorHolder, inFocus && classes.editorInFocus)
+  return (
+    <div className={classes.root}>
+      <div className={holderNames}>{children}</div>
+      {(true || value.isFocused) && <Toolbar
+        plugins={plugins}
+        value={value}
+        onChange={onChange} />}
+    </div>
+  );
+}
 
-//     return <div>
-//       <div>TOOLBAR {value.isFocused ? 'focus' : ''}</div>
-//     </div>
-//   }
-// }
+const primary = '#304ffe';
 
+const style = {
+  root: {
+    position: 'relative',
+    padding: '0px',
+    border: 'none',
+    borderBottom: '0px solid #cccccc',
+    borderRadius: '0px',
+    cursor: 'text',
+    '& [data-slate-editor="true"]': {
+      overflow: 'auto',
+      maxHeight: '500px',
+    }
+  },
+  editorHolder: {
+    position: 'relative',
+    padding: '7px',
+    '&::before': {
+      left: '0',
+      right: '0',
+      bottom: '0',
+      height: '1px',
+      content: '""',
+      position: 'absolute',
+      transition: 'background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+      pointerEvents: 'none',
+      backgroundColor: 'rgba(0, 0, 0, 0.42)'
+    },
+    '&::after': {
+      left: '0',
+      right: '0',
+      bottom: '0',
+      height: '1px',
+      content: '""',
+      position: 'absolute',
+      transform: 'scaleX(0)',
+      transition: `transform 200ms cubic-bezier(0.0, 0.0, 0.2, 1) 0ms, background-color 200ms linear`,
+      backgroundColor: 'rgba(0, 0, 0, 0.42)',
+    },
+    '&:focus': {
+      '&::after': {
+        transform: 'scaleX(1)',
+        backgroundColor: primary,
+        height: '2px'
+      }
+    },
+    '&:hover': {
+      '&::after': {
+        transform: 'scaleX(1)',
+        backgroundColor: 'black',
+        height: '2px'
+      }
+    },
+  },
+  editorInFocus: {
+    '&::after': {
+      transform: 'scaleX(1)',
+      backgroundColor: primary,
+      height: '2px'
+    },
+    '&:hover': {
+      '&::after': {
+        backgroundColor: primary
+      }
+    }
+  },
+  editor: {
+    padding: '8px',
+    background: '#ffffff'
+  }
+}
+const StyledHolder = injectSheet(style)(Holder);
 
 export default function ToolbarPlugin(opts) {
   return {
-    renderEditor: (props) => (
-      <div>
-        <div>{props.children}</div>
-        {props.value.isFocused && <Toolbar value={props.value} />}
-      </div>
-    )
+    renderEditor: props => <StyledHolder {...props} />
   }
 }
+

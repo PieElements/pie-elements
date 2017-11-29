@@ -1,3 +1,4 @@
+import Image from 'material-ui-icons/Image';
 import ImageComponent from './Component';
 import React from 'react';
 import debug from 'debug';
@@ -13,6 +14,10 @@ const log = debug('editable-html:image');
 export default function ImagePlugin(opts) {
 
   return {
+    toolbar: {
+      icon: <Image />,
+      onClick: opts.onInsertImage
+    },
     renderNode(props) {
       if (props.node.type === 'image') {
         const all = Object.assign({ onDelete: opts.onDelete }, props);
