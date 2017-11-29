@@ -6,17 +6,27 @@ import injectSheet from 'react-jss';
 
 const log = debug('editable-html:toolbar');
 
-const Holder = ({ classes, children, value, plugins, onChange }) => {
+const Holder = ({
+  classes,
+  children,
+  value,
+  plugins,
+  onChange,
+  onDone
+   }) => {
 
   const inFocus = value.isFocused;
-  const holderNames = classNames(classes.editorHolder, inFocus && classes.editorInFocus)
+  const holderNames = classNames(classes.editorHolder, inFocus && classes.editorInFocus);
+
+  log('activeElement? ', document.activeElement);
   return (
     <div className={classes.root}>
       <div className={holderNames}>{children}</div>
-      {(true || value.isFocused) && <Toolbar
+      {value.isFocused && <Toolbar
         plugins={plugins}
         value={value}
-        onChange={onChange} />}
+        onChange={onChange}
+        onDone={onDone} />}
     </div>
   );
 }
@@ -97,7 +107,9 @@ const StyledHolder = injectSheet(style)(Holder);
 
 export default function ToolbarPlugin(opts) {
   return {
-    renderEditor: props => <StyledHolder {...props} />
+    renderEditor: props => <StyledHolder
+      {...props}
+      onDone={opts.onDone} />
   }
 }
 

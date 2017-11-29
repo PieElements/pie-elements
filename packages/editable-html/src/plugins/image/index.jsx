@@ -1,23 +1,35 @@
+import { Block } from 'slate';
 import Image from 'material-ui-icons/Image';
-import ImageComponent from './Component';
+import ImageComponent from './component';
+import InsertImageHandler from './insert-image-handler';
 import React from 'react';
 import debug from 'debug';
-
 const log = debug('editable-html:image');
-
-
-// const Image = props => (
-//   <img
-//     src={props.node.data.get('src')}></img>
-// );
 
 export default function ImagePlugin(opts) {
 
+  const toolbar = opts.insertImageRequested && {
+    icon: <Image />,
+    onClick: (value, onChange) => {
+      log('[toolbar] onClick');
+      const block = Block.create({
+        type: 'image',
+        isVoid: true,
+        data: {
+          loaded: false,
+          src: undefined
+        }
+      });
+
+      const change = value.change().insertBlock(block);
+      onChange(change);
+      opts.insertImageRequested((getValue) => new InsertImageHandler(block, getValue, onChange));
+
+    }
+  }
+
   return {
-    toolbar: {
-      icon: <Image />,
-      onClick: opts.onInsertImage
-    },
+    toolbar,
     renderNode(props) {
       if (props.node.type === 'image') {
         const all = Object.assign({ onDelete: opts.onDelete }, props);

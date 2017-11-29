@@ -1,7 +1,7 @@
-import EditableHtml, { htmlToValue, valueToHtml } from '../src';
-
+import EditableHtml from '../src';
 import React from 'react';
 import { Value } from 'slate'
+import _ from 'lodash';
 import debug from 'debug';
 
 const log = debug('editable-html:rte-demo');
@@ -20,16 +20,14 @@ export default class RteDemo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: htmlToValue(html),
       markup: html
     }
   }
 
-  onChange = (change) => {
-    log('onChange: ', change);
-    this.setState({ value: change.value, markup: valueToHtml(change.value) });
+  onChange = (markup) => {
+    log('onChange: ');
+    this.setState({ markup });
   }
-
 
   handleInputFiles = (input) => {
     log('[handleInputFiles] input: ', input);
@@ -118,10 +116,7 @@ export default class RteDemo extends React.Component {
 
   render() {
 
-    const { value, markup } = this.state;
-
-    log('value: ', value);
-
+    const { markup } = this.state;
 
     const imageSupport = {
       add: this.addImage,
@@ -131,7 +126,7 @@ export default class RteDemo extends React.Component {
     return (<div>
       <h1>Editable Html Demo</h1>
       <EditableHtml
-        value={value}
+        markup={markup}
         onChange={this.onChange}
         imageSupport={imageSupport}
       />

@@ -51,7 +51,7 @@ const ToolbarButton = (props) => {
     >{props.icon}</MarkButton>
   } else {
     return <Button
-      onClick={props.onClick}>{props.icon}</Button>
+      onClick={() => props.onClick(props.value, props.onChange)}>{props.icon}</Button>
   }
 }
 
@@ -82,9 +82,6 @@ class RawToolbar extends React.Component {
   render() {
     const {
       classes,
-      onToggleMark,
-      onImageClick,
-      onInsertMath,
       onDone,
       zIndex,
       onFocus,
@@ -109,16 +106,7 @@ class RawToolbar extends React.Component {
               key={index}
               value={value}
               onChange={onChange} />
-            // const isActive = this.hasMark(p.type);
-            // return <MarkButton
-            //   key={p.type}
-            //   active={isActive}
-            //   label={p.type}
-            //   onToggle={() => this.onToggle(p)}
-            //   mark={p.type}
-            // >{p.icon}</MarkButton>
-          }
-          )}
+          })}
           {/* {onImageClick && <Button onClick={onImageClick}> <Image /></Button>}
           <Button onClick={onInsertMath}> <Functions /></Button> */}
         </div>
@@ -132,9 +120,7 @@ RawToolbar.propTypes = {
   zIndex: PropTypes.number,
   value: PropTypes.object.isRequired,
   plugins: PropTypes.array,
-  onToggleMark: PropTypes.func.isRequired,
   onImageClick: PropTypes.func,
-  onInsertMath: PropTypes.func.isRequired,
   onDone: PropTypes.func.isRequired
 }
 

@@ -31,14 +31,16 @@ export class RawButton extends React.Component {
 
     this.onClick = (e) => {
       rbLog('[onClick]');
+      e.preventDefault();
       const { onClick } = this.props;
       onClick(e)
     }
   }
+
   render() {
     const { classes, children } = this.props;
     return <div
-      onClick={this.onClick}
+      onMouseDown={this.onClick}
       className={classes.root}>{children}</div>;
   }
 }

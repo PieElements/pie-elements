@@ -58,6 +58,6 @@ export const buildPlugins = (opts) => {
     MarkHotkey({ key: 'u', type: 'underline', icon: <Underline />, tag: 'u' }),
     opts.image && opts.image.onDelete && ImagePlugin(opts.image),
     MathPlugin(opts.math),
-    ToolbarPlugin()
+    ToolbarPlugin(opts.toolbar)
   ]);
 }
