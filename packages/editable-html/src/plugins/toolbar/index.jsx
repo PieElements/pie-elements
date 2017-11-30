@@ -4,31 +4,52 @@ import classNames from 'classnames';
 import debug from 'debug';
 import injectSheet from 'react-jss';
 
-const log = debug('editable-html:toolbar');
+const log = debug('editable-html:plugins:toolbar');
 
-const Holder = ({
-  classes,
-  children,
-  value,
-  plugins,
-  onChange,
-  onDone
-   }) => {
+class Holder extends React.Component {
 
-  const inFocus = value.isFocused;
-  const holderNames = classNames(classes.editorHolder, inFocus && classes.editorInFocus);
+  constructor(props) {
+    super(props);
+    this.state = {
 
-  log('activeElement? ', document.activeElement);
-  return (
-    <div className={classes.root}>
-      <div className={holderNames}>{children}</div>
-      {value.isFocused && <Toolbar
-        plugins={plugins}
-        value={value}
-        onChange={onChange}
-        onDone={onDone} />}
-    </div>
-  );
+    }
+  }
+
+  render() {
+
+    const {
+     classes,
+      children,
+      value,
+      plugins,
+      onChange,
+      onDone
+   } = this.props;
+
+
+    const inFocus = value.isFocused;
+    const holderNames = classNames(classes.editorHolder, inFocus && classes.editorInFocus);
+
+
+    log('[Holder:render] state? ', this.state);
+    return (
+      <div className={classes.root}>
+        <div className={holderNames}>{children}</div>
+        {(this.state.mouseDown || this.state.toolbarFocused || value.isFocused) && <Toolbar
+          plugins={plugins}
+          value={value}
+          onChange={onChange}
+          onClick={() => this.setState({ toolbarFocused: true })}
+          onBlur={() => this.setState({ toolbarFocused: false })}
+          onFocus={() => this.setState({ toolbarFocused: true })}
+          onMouseDown={() => !this.state.toolbarFocused && this.setState({ mouseDown: true })}
+          onMouseUp={() => !this.state.toolbarFocused && this.setState({ mouseDown: false })}
+          onMouseEnter={() => this.setState({ mouseEnter: true })}
+          onMouseOut={() => this.setState({ mouseEnter: false })}
+          onDone={onDone} />}
+      </div>
+    );
+  }
 }
 
 const primary = '#304ffe';

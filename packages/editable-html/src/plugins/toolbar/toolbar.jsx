@@ -55,6 +55,42 @@ const ToolbarButton = (props) => {
   }
 }
 
+const RawDefaultToolbar = ({ plugins, value, onChange, classes }) => {
+  const toolbarPlugins = plugins.filter(p => p.toolbar).map(p => p.toolbar);
+  return (
+    <div className={classes.inline}>
+      {toolbarPlugins.map((p, index) => {
+        return <ToolbarButton
+          {...p}
+          key={index}
+          value={value}
+          onChange={onChange} />
+      })}
+    </div>);
+}
+
+const DefaultToolbar = injectSheet(toolbarStyle)(RawDefaultToolbar);
+
+const findSingleNode = (value) => {
+
+  if (!value || !value.isCollapsed || !value.startKey) {
+    return;
+  }
+
+  const inline = value.document.getClosestInline(value.startKey);
+
+  if (inline) {
+    return inline;
+  }
+
+  const block = value.document.getClosestBlock(value.startKey);
+
+  if (block) {
+    return block;
+  }
+
+}
+
 class RawToolbar extends React.Component {
 
   constructor(props) {
@@ -88,9 +124,21 @@ class RawToolbar extends React.Component {
       onBlur,
       plugins,
       value,
-      onChange } = this.props;
+      onChange,
+      onMouseEnter,
+      onMouseDown,
+      onMouseOut,
+      onMouseUp,
+      onClick } = this.props;
 
-    const toolbarPlugins = plugins.filter(p => p.toolbar).map(p => p.toolbar);
+    const node = findSingleNode(value);
+
+    const CustomToolbar = plugins.reduce((tb, p) => {
+      if (tb) {
+        return tb;
+      }
+      return node && p.toolbar && p.toolbar.customToolbar && p.toolbar.customToolbar(node);
+    }, null);
 
     const style = zIndex ? { zIndex } : {};
 
@@ -98,19 +146,19 @@ class RawToolbar extends React.Component {
       <div className={classes.toolbar}
         style={style}
         onFocus={onFocus}
-        onBlur={onBlur}>
-        <div className={classes.inline}>
-          {toolbarPlugins.map((p, index) => {
-            return <ToolbarButton
-              {...p}
-              key={index}
-              value={value}
-              onChange={onChange} />
-          })}
-          {/* {onImageClick && <Button onClick={onImageClick}> <Image /></Button>}
-          <Button onClick={onInsertMath}> <Functions /></Button> */}
-        </div>
-        <Button onClick={onDone}><Check /></Button>
+        onBlur={onBlur}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
+        onClick={onClick}>
+        {CustomToolbar ?
+          <CustomToolbar
+            value={value}
+            onChange={onChange}
+            node={node} /> :
+          <DefaultToolbar
+            plugins={plugins}
+            value={value}
+            onChange={onChange} />}
       </div>
     );
   }

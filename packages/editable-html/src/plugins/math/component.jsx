@@ -1,12 +1,13 @@
 import { Data, findDOMNode } from 'slate';
+import { MathQuillInput, addBrackets, removeBrackets } from '@pie-libs/math-input';
 
 import { Delete } from '../../components/buttons';
-import MathInput from '@pie-libs/math-input';
 import React from 'react';
+import classNames from 'classnames';
 import debug from 'debug';
 import injectSheet from 'react-jss';
 
-const log = debug('editable-html:plugins:math:component');
+const log = debug('editable-html:plugins:math');
 
 export class MathComponent extends React.Component {
 
@@ -56,21 +57,29 @@ export class MathComponent extends React.Component {
   }
 
   render() {
-    const { node, state, classes, attributes } = this.props;
+    log('[render] >> node')
+    const { isSelected, node, state, classes, attributes } = this.props;
     const latex = node.data.get('latex');
-    const readOnly = false; //?? editor.props.readOnly === true;
-    log('[render] readOnly: ', readOnly);
-    return <div className={classes.root}>
-      <MathInput
-        innerRef={r => this.mathInput = r}
-        latex={latex}
-        onLatexChange={this.onChange}
-        onBlur={this.onBlur}
-        onFocus={this.onFocus}
-        onInputClick={this.onClick}
-        readOnly={readOnly}
-        zIndex={11} />
-      {!readOnly && <Delete onClick={this.onDeleteClick} />}
+
+    const names = classNames(classes.root, isSelected && classes.selected);
+
+    const cleanLatex = removeBrackets(latex);
+
+    // <MathInput
+    //   innerRef={r => this.mathInput = r}
+    //   latex={latex}
+    //   onLatexChange={this.onChange}
+    //   onBlur={this.onBlur}
+    //   onFocus={this.onFocus}
+    //   onInputClick={this.onClick}
+    //   readOnly={readOnly}
+    //   zIndex={11} />
+    // {!readOnly && <Delete onClick={this.onDeleteClick} />}
+    return <div className={names}>
+      <MathQuillInput
+        latex={cleanLatex}
+        readOnly={true}
+      />
     </div>;
 
   }
@@ -79,7 +88,11 @@ export class MathComponent extends React.Component {
 const styles = {
   root: {
     display: 'inline-flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    border: 'solid 1px lightgrey'
+  },
+  selected: {
+    border: 'solid 1px red'
   }
 };
 
