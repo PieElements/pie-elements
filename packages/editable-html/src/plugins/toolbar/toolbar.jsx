@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Strikethrough from 'material-ui-icons/FormatStrikethrough';
 import Underlined from 'material-ui-icons/FormatUnderlined';
+import _ from 'lodash';
 import debug from 'debug';
 import { findSingleNode } from './utils';
 import injectSheet from 'react-jss';
@@ -152,9 +153,12 @@ class RawToolbar extends React.Component {
             value={value}
             onChange={onChange} />}
 
-        <div className={classes.done} onClick={onDone}>
+        <div className={classes.shared} >
           <IconButton
             aria-label="Done"
+            style={{ width: '28px', height: '28px' }}
+            className={classes.iconRoot}
+            onClick={onDone}
             classes={{
               label: classes.label,
               root: classes.iconRoot
@@ -175,4 +179,4 @@ RawToolbar.propTypes = {
   onDone: PropTypes.func.isRequired
 }
 
-export default injectSheet(toolbarStyle)(RawToolbar);
+export default injectSheet(_.clone(toolbarStyle), { index: 1000 })(RawToolbar);

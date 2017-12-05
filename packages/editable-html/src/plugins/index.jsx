@@ -60,6 +60,6 @@ export const buildPlugins = (opts) => {
     opts.image && opts.image.onDelete && ImagePlugin(opts.image),
     MathPlugin(opts.math),
     ToolbarPlugin(opts.toolbar),
-    SelectionPlugin(opts.selection)
+    // SelectionPlugin(opts.selection)
   ]);
 }

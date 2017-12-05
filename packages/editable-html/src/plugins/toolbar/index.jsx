@@ -118,13 +118,14 @@ const style = {
     background: '#ffffff'
   }
 }
+
 const StyledHolder = injectSheet(style)(Holder);
 
 export default function ToolbarPlugin(opts) {
   return {
-    renderEditor: props => <StyledHolder
-      {...props}
-      onDone={opts.onDone} />
+    renderEditor: props => (
+      <StyledHolder {...props} onDone={opts.onDone} />
+    )
   }
 }
 

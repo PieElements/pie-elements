@@ -102,7 +102,7 @@ export class MathComponent extends React.Component {
 
     const latex = node.data.get('latex');
 
-    const editing = isSelected || node.data.get('editing');
+    const editing = isSelected; //|| node.data.get('editing');
     const names = classNames(classes.root, editing && classes.selected);
 
     log('[render] editing: ', editing);
