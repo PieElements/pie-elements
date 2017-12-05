@@ -1,13 +1,14 @@
 import { Data, findDOMNode } from 'slate';
-import { MathQuillInput, addBrackets, removeBrackets } from '@pie-libs/math-input';
+import { EditableMathInput, MathQuillInput, addBrackets, removeBrackets } from '@pie-libs/math-input';
 
 import { Delete } from '../../components/buttons';
+import MathWrapper from './input-wrapper';
 import React from 'react';
 import classNames from 'classnames';
 import debug from 'debug';
 import injectSheet from 'react-jss';
 
-const log = debug('editable-html:plugins:math');
+const log = debug('editable-html:plugins:math:component');
 
 export class MathComponent extends React.Component {
 
@@ -33,7 +34,7 @@ export class MathComponent extends React.Component {
       log('[onChange]', latex);
       const { node, editor } = this.props;
       const { key } = node;
-      const data = Data.create({ latex });
+      const data = Data.create({ latex, editing: true });
       const change = editor.value.change().setNodeByKey(key, { data });
       editor.onChange(change);
     }
@@ -42,6 +43,7 @@ export class MathComponent extends React.Component {
       log('--------> onClick, preventDefault and stopPropagation');
       event.preventDefault();
       event.stopPropagation();
+      this.props.onSelected();
     }
 
     this.onDeleteClick = (event) => {
@@ -51,37 +53,72 @@ export class MathComponent extends React.Component {
 
       const { node, editor } = this.props;
 
-      const change = editor.value.change().removeNodeByKey(node.key);
+      const change = editor.value.change().moveNodeByKey(node.key);
       editor.onChange(change);
     }
   }
 
+  componentDidUpdate() {
+    const { node, editor } = this.props;
+    const mathChange = node.data.get('change');
+    this.wrapper.change(mathChange);
+
+    const data = node.data.toObject();
+    delete data.change;
+
+
+    const change = editor.value.change().setNodeByKey(node.key, { data })
+    editor.onChange(change);
+
+  }
+
+  shouldComponentUpdate(nextProps) {
+
+    const { node: nextNode } = nextProps;
+    const { node } = this.props;
+    if (nextNode.data.equals(node.data)) {
+      return false;
+    }
+
+    if (nextNode.data.get('change') === undefined && node.data.get('change') !== undefined) {
+      return false;
+    }
+    return true;
+  }
+
+  onMathChange = (latex) => {
+    log('[onMathChange]', latex);
+    const { node, editor } = this.props;
+    const data = Data.create({ latex });
+    const change = editor.value.change().setNodeByKey(node.key, { data });
+    editor.onChange(change);
+  }
+
   render() {
-    log('[render] >> node')
     const { isSelected, node, state, classes, attributes } = this.props;
+    log('[render] >> node', node.key);
+
+    log('[render] >> node.data: ', node.data);
+
     const latex = node.data.get('latex');
 
-    const names = classNames(classes.root, isSelected && classes.selected);
+    const editing = isSelected || node.data.get('editing');
+    const names = classNames(classes.root, editing && classes.selected);
+
+    log('[render] editing: ', editing);
 
     const cleanLatex = removeBrackets(latex);
 
-    // <MathInput
-    //   innerRef={r => this.mathInput = r}
-    //   latex={latex}
-    //   onLatexChange={this.onChange}
-    //   onBlur={this.onBlur}
-    //   onFocus={this.onFocus}
-    //   onInputClick={this.onClick}
-    //   readOnly={readOnly}
-    //   zIndex={11} />
-    // {!readOnly && <Delete onClick={this.onDeleteClick} />}
-    return <div className={names}>
-      <MathQuillInput
-        latex={cleanLatex}
-        readOnly={true}
-      />
-    </div>;
-
+    return (
+      <div className={names}>
+        <MathWrapper
+          ref={r => this.wrapper = r}
+          latex={cleanLatex}
+          editing={editing}
+          onClick={this.onClick}
+          onChange={this.onMathChange} />
+      </div>
+    );
   }
 }
 

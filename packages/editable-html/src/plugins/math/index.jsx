@@ -4,76 +4,13 @@ import { Data } from 'slate';
 import Functions from 'material-ui-icons/Functions';
 import { Inline } from 'slate';
 import MathInput from './component';
+import MathToolbar from './math-toolbar';
 import React from 'react';
 import debug from 'debug';
 
 const log = debug('editable-html:plugins:math');
 
 const TEXT_NODE = 3;
-
-export class MathToolbar extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      latex: props.node.data.get('latex')
-    }
-  }
-
-  componentWillReceiveProps(props) {
-    if (props.node.data.get('latex') !== this.state.latex) {
-      this.setState({ latex: props.node.data.get('latex') });
-
-    }
-  }
-
-  onLatexChange = (rawLatex) => {
-    log('[onLatexChange] !!', value);
-    const { onChange, node, value } = this.props;
-    const latex = addBrackets(rawLatex);
-    this.setState({ latex });
-  }
-  //   const data = Data.create({ latex });
-  //   const change = value.change().setNodeByKey(key, { data });
-  //   onChange(change);
-  // }
-
-  onClick = (data) => {
-    const { type, value } = data;
-    if (value === 'clear') {
-      this.onLatexChange('');
-    } else if (type === 'command') {
-      this.mq.command(data.value);
-    } else if (type === 'cursor') {
-      this.mq.keystroke(data.value);
-    } else {
-      this.mq.write(data.value);
-    }
-  }
-
-  // onChange() {}
-
-  render() {
-
-    const { latex } = this.state;
-    const processedLatex = removeBrackets(latex);
-    return (
-      <div>
-        <MathQuillInput
-          latex={processedLatex}
-          readOnly={false}
-          innerRef={r => this.mq = r}
-          onChange={this.onLatexChange}
-        />
-        <hr />
-        <Keypad
-          latex={processedLatex}
-          onChange={this.onLatexChange}
-          onClick={this.onClick} />
-      </div>
-    );
-  }
-}
 
 export default function MathPlugin(options) {
   return {
@@ -93,6 +30,9 @@ export default function MathPlugin(options) {
     onFocus: (event, change, editor) => {
       log('[onFocus]', event, change, editor);
     },
+    onSelect: () => {
+      log('[... onSelect]')
+    },
     renderNode: props => {
       if (props.node.type === 'math') {
         log('[renderNode]: ', props);
@@ -100,7 +40,8 @@ export default function MathPlugin(options) {
         return <MathInput
           {...props}
           onFocus={options.onFocus}
-          onBlur={options.onBlur} />
+          onBlur={options.onBlur}
+          onSelected={() => options.onSelected(props.node)} />
       }
     }
   }

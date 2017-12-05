@@ -24,9 +24,11 @@ export default class EditableHtml extends React.Component {
 
 
     this.plugins = buildPlugins({
+      selection: {},
       math: {
         onFocus: this.onPluginFocus,
-        onBlur: this.onPluginBlur
+        onBlur: this.onPluginBlur,
+        onSelected: this.onMathSelected
       },
       image: {
         onDelete: this.props.imageSupport && this.props.imageSupport.delete,
@@ -48,7 +50,13 @@ export default class EditableHtml extends React.Component {
 
   }
 
+  onMathSelected = (node) => {
+    this.editor.change(c => c.collapseToStartOf(node));
+    this.setState({ selectedNode: node });
+  }
+
   onEditingDone = () => {
+
     this.props.onChange(valueToHtml(this.state.value));
   }
 
@@ -70,6 +78,7 @@ export default class EditableHtml extends React.Component {
   }
 
   onChange = (change) => {
+    log('[onChange] value: ', change.value);
     this.setState({ value: change.value });
   }
 
@@ -93,14 +102,16 @@ export default class EditableHtml extends React.Component {
   }
 
   render() {
-    const { value, showToolbar } = this.state;
+    const { value, showToolbar, selectedNode } = this.state;
     log('[render]', value);
+    log('[render] selectedNode:', selectedNode);
     return <div>
       <Editor
         ref={r => this.editor = r}
         value={value}
         onChange={this.onChange}
-        plugins={this.plugins} />
+        plugins={this.plugins}
+        selectedNode={selectedNode} />
     </div>
   }
 }

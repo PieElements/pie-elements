@@ -4,6 +4,7 @@ import Bold from 'material-ui-icons/FormatBold';
 import Check from 'material-ui-icons/Check';
 import Code from 'material-ui-icons/Code';
 import Functions from 'material-ui-icons/Functions';
+import IconButton from 'material-ui/IconButton';
 import Image from 'material-ui-icons/Image';
 import Italic from 'material-ui-icons/FormatItalic';
 import PropTypes from 'prop-types';
@@ -11,6 +12,7 @@ import React from 'react';
 import Strikethrough from 'material-ui-icons/FormatStrikethrough';
 import Underlined from 'material-ui-icons/FormatUnderlined';
 import debug from 'debug';
+import { findSingleNode } from './utils';
 import injectSheet from 'react-jss';
 
 const log = debug('editable-html:plugins:toolbar');
@@ -28,6 +30,13 @@ const toolbarStyle = {
     width: '100%',
     boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
     boxSizing: 'border-box'
+  },
+  iconRoot: {
+    width: '28px',
+    height: '28px'
+  },
+  label: {
+    color: 'var(--editable-html-toolbar-check, #00bb00)'
   }
 }
 
@@ -71,25 +80,7 @@ const RawDefaultToolbar = ({ plugins, value, onChange, classes }) => {
 
 const DefaultToolbar = injectSheet(toolbarStyle)(RawDefaultToolbar);
 
-const findSingleNode = (value) => {
 
-  if (!value || !value.isCollapsed || !value.startKey) {
-    return;
-  }
-
-  const inline = value.document.getClosestInline(value.startKey);
-
-  if (inline) {
-    return inline;
-  }
-
-  const block = value.document.getClosestBlock(value.startKey);
-
-  if (block) {
-    return block;
-  }
-
-}
 
 class RawToolbar extends React.Component {
 
@@ -137,6 +128,7 @@ class RawToolbar extends React.Component {
       if (tb) {
         return tb;
       }
+
       return node && p.toolbar && p.toolbar.customToolbar && p.toolbar.customToolbar(node);
     }, null);
 
@@ -159,6 +151,17 @@ class RawToolbar extends React.Component {
             plugins={plugins}
             value={value}
             onChange={onChange} />}
+
+        <div className={classes.done} onClick={onDone}>
+          <IconButton
+            aria-label="Done"
+            classes={{
+              label: classes.label,
+              root: classes.iconRoot
+            }}>
+            <Check />
+          </IconButton>
+        </div>
       </div>
     );
   }

@@ -5,6 +5,7 @@ import Italic from 'material-ui-icons/FormatItalic';
 import MathPlugin from './math';
 import PropTypes from 'prop-types';
 import React from 'react';
+import SelectionPlugin from './selection';
 import Strikethrough from 'material-ui-icons/FormatStrikethrough';
 import ToolbarPlugin from './toolbar';
 import Underline from 'material-ui-icons/FormatUnderlined';
@@ -58,6 +59,7 @@ export const buildPlugins = (opts) => {
     MarkHotkey({ key: 'u', type: 'underline', icon: <Underline />, tag: 'u' }),
     opts.image && opts.image.onDelete && ImagePlugin(opts.image),
     MathPlugin(opts.math),
-    ToolbarPlugin(opts.toolbar)
+    ToolbarPlugin(opts.toolbar),
+    SelectionPlugin(opts.selection)
   ]);
 }

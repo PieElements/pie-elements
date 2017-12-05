@@ -132,6 +132,9 @@ export default class RteDemo extends React.Component {
         imageSupport={imageSupport}
       />
       <input type="file" hidden ref={r => this.fileInput = r}></input>
+      <br />
+      <br />
+      <h4>markup</h4>
       <pre>{markup}</pre>
     </div>);
   }
