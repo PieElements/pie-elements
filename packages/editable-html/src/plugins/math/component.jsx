@@ -19,12 +19,14 @@ export class MathComponent extends React.Component {
     }
 
     this.onFocus = (event) => {
+      log('[onFocus]')
       if (this.props.onFocus) {
         this.props.onFocus(event);
       }
     }
 
     this.onBlur = (event) => {
+      log('[onBlur]')
       if (this.props.onBlur) {
         this.props.onBlur(event);
       }
@@ -40,10 +42,12 @@ export class MathComponent extends React.Component {
     }
 
     this.onClick = (event) => {
-      log('--------> onClick, preventDefault and stopPropagation');
-      event.preventDefault();
-      event.stopPropagation();
-      this.props.onSelected();
+      log('[onClick] preventDefault and stopPropagation');
+      if (this.props.onClick) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.props.onClick();
+      }
     }
 
     this.onDeleteClick = (event) => {
@@ -91,21 +95,16 @@ export class MathComponent extends React.Component {
     const { node, editor } = this.props;
     const data = Data.create({ latex });
     const change = editor.value.change().setNodeByKey(node.key, { data });
-    editor.onChange(change);
+    editor.change(c => c.setNodeByKey(node.key, { data }));
   }
 
   render() {
     const { isSelected, node, state, classes, attributes } = this.props;
-    log('[render] >> node', node.key);
-
-    log('[render] >> node.data: ', node.data);
+    log('[render] >> node', node.key, node.data);
 
     const latex = node.data.get('latex');
-
     const editing = isSelected; //|| node.data.get('editing');
     const names = classNames(classes.root, editing && classes.selected);
-
-    log('[render] editing: ', editing);
 
     const cleanLatex = removeBrackets(latex);
 
@@ -116,7 +115,9 @@ export class MathComponent extends React.Component {
           latex={cleanLatex}
           editing={editing}
           onClick={this.onClick}
-          onChange={this.onMathChange} />
+          onChange={this.onMathChange}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur} />
       </div>
     );
   }

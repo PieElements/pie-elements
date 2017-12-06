@@ -1,9 +1,10 @@
+import { Editor, findNode } from 'slate-react';
 import { htmlToValue, valueToHtml } from './serialization';
 
-import { Editor } from 'slate-react';
 import Image from './plugins/image';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Value } from 'slate';
 import { buildPlugins } from './plugins';
 import debug from 'debug';
 import { getHashes } from 'crypto';
@@ -26,9 +27,9 @@ export default class EditableHtml extends React.Component {
     this.plugins = buildPlugins({
       selection: {},
       math: {
+        onClick: this.onMathClick,
         onFocus: this.onPluginFocus,
-        onBlur: this.onPluginBlur,
-        onSelected: this.onMathSelected
+        onBlur: this.onPluginBlur
       },
       image: {
         onDelete: this.props.imageSupport && this.props.imageSupport.delete,
@@ -40,7 +41,12 @@ export default class EditableHtml extends React.Component {
         // onBlur: this.onPluginBlur,
       },
       toolbar: {
+        /**
+         * To minimize converting html -> state -> html
+         * We only emit markup once 'done' is clicked.
+         */
         onDone: () => {
+          log('[onDone]');
           this.setState({ toolbarInFocus: false });
           this.editor.blur();
           this.onEditingDone();
@@ -50,35 +56,98 @@ export default class EditableHtml extends React.Component {
 
   }
 
-  onMathSelected = (node) => {
-    this.editor.change(c => c.collapseToStartOf(node));
+  onPluginBlur = (e) => {
+    log('[onPluginBlur]', e.relatedTarget);
+    const target = e.relatedTarget;
+    if (target) {
+      const node = findNode(target, this.state.value);
+      log('[onPluginBlur] node: ', node);
+      this.setState({ focusedNode: node });
+    } else {
+      this.setState({ focusedNode: null });
+    }
+
+    this.resetValue();
+
+    // if (this.props.onBlur) {
+    //   this.props.onBlur(e);
+    // }
+  }
+
+  onPluginFocus = (e) => {
+    log('[onPluginFocus]', e.target);
+    const target = e.target;
+    if (target) {
+      const node = findNode(target, this.state.value);
+      log('[onPluginFocus] node: ', node);
+
+      // const stashedValue = this.state.stashedValue || this.state.value;
+      this.setState({ focusedNode: node, stashedValue });
+    } else {
+      this.setState({ focusedNode: null });
+    }
+    this.stashValue();
+  }
+
+  onMathClick = (node) => {
+    this.editor.change(c =>
+      c.collapseToStartOf(node)//.focus()
+    );
     this.setState({ selectedNode: node });
   }
 
   onEditingDone = () => {
-
-    this.props.onChange(valueToHtml(this.state.value));
+    log('[onEditingDone]');
+    const html = valueToHtml(this.state.value);
+    this.props.onChange(html);
   }
 
-  onBlur = () => {
+  onBlur = (event) => {
     log('[onBlur]');
-    this.setState({ pendingBlur: true });
+    const target = event.relatedTarget;
+    if (target) {
+      const node = findNode(target, this.state.value);
+      log('[onBlur] node: ', node);
+      this.setState({ focusedNode: node });
+    } else {
+      this.setState({ focusedNode: null });
+    }
 
-    setTimeout(() => {
-      if (this.state.pendingBlur) {
-        this.onEditingDone();
-        this.editor.blur();
-      }
-    }, 100);
+    this.resetValue();
   }
 
   onFocus = () => {
-    log('[onFocus]')
-    this.setState({ pendingBlur: false });
+    log('[onFocus]', document.activeElement);
+    this.stashValue();
+    // this.setState({ pendingBlur: false });
+  }
+
+  stashValue = () => {
+    log('[stashValue]');
+    if (!this.state.stashedValue) {
+      this.setState({ stashedValue: this.state.value });
+    }
+  }
+
+  resetValue = () => {
+    log('[resetValue]');
+    if (this.state.stashedValue && (!this.state.value.isFocused || !this.state.focusedNode)) {
+      log('[resetValue] resetting...');
+      log('stashed', this.state.stashedValue.document.toObject())
+      log('current', this.state.value.document.toObject())
+
+      const newValue = Value.fromJSON(this.state.stashedValue.toJSON());
+
+      log('newValue: ', newValue.document);
+
+      this.setState({ value: newValue, stashedValue: null }, () => {
+        log('value now: ', this.state.value.document.toJSON());
+      });
+    }
   }
 
   onChange = (change) => {
-    log('[onChange] value: ', change.value);
+    log('[onChange]') /// value: ', change.value);
     this.setState({ value: change.value });
   }
 
@@ -102,16 +171,18 @@ export default class EditableHtml extends React.Component {
   }
 
   render() {
-    const { value, showToolbar, selectedNode } = this.state;
-    log('[render]', value);
-    log('[render] selectedNode:', selectedNode);
+    const { value, showToolbar, focusedNode } = this.state;
+    log('[render]', value.document.toJSON());//, value);
+    // log('[render] selectedNode:', selectedNode);
     return <div>
       <Editor
         ref={r => this.editor = r}
         value={value}
         onChange={this.onChange}
         plugins={this.plugins}
-        selectedNode={selectedNode} />
+        onBlur={this.onBlur}
+        onFocus={this.onFocus}
+        focusedNode={focusedNode} />
     </div>
   }
 }

@@ -12,6 +12,7 @@ import React from 'react';
 import Strikethrough from 'material-ui-icons/FormatStrikethrough';
 import Underlined from 'material-ui-icons/FormatUnderlined';
 import _ from 'lodash';
+import classNames from 'classnames';
 import debug from 'debug';
 import { findSingleNode } from './utils';
 import injectSheet from 'react-jss';
@@ -22,7 +23,6 @@ const toolbarStyle = {
   toolbar: {
     position: 'absolute',
     zIndex: 10,
-    display: 'flex',
     cursor: 'pointer',
     justifyContent: 'space-between',
     background: 'var(--editable-html-toolbar-bg, #efefef)',
@@ -30,7 +30,11 @@ const toolbarStyle = {
     padding: '2px',
     width: '100%',
     boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    display: 'none'
+  },
+  focused: {
+    display: 'flex',
   },
   iconRoot: {
     width: '28px',
@@ -82,7 +86,6 @@ const RawDefaultToolbar = ({ plugins, value, onChange, classes }) => {
 const DefaultToolbar = injectSheet(toolbarStyle)(RawDefaultToolbar);
 
 
-
 class RawToolbar extends React.Component {
 
   constructor(props) {
@@ -107,6 +110,22 @@ class RawToolbar extends React.Component {
     onChange(change);
   }
 
+  onClick = (e) => {
+    log('[onClick]')
+    e.preventDefault();
+  }
+  onMouseDown = (e) => {
+    log('[onMouseDown]')
+    e.preventDefault();
+  }
+
+  onButtonClick = (fn) => {
+    return e => {
+      e.preventDefault()
+      fn();
+    }
+  }
+
   render() {
     const {
       classes,
@@ -121,6 +140,7 @@ class RawToolbar extends React.Component {
       onMouseDown,
       onMouseOut,
       onMouseUp,
+      isFocused,
       onClick } = this.props;
 
     const node = findSingleNode(value);
@@ -135,7 +155,28 @@ class RawToolbar extends React.Component {
 
     const style = zIndex ? { zIndex } : {};
 
+    const names = classNames(classes.toolbar, isFocused && classes.focused)
+
     return (
+      <div className={names}
+        onClick={this.onClick}
+        onMouseDown={this.onMouseDown}>
+        <div className={classes.shared} >
+          <IconButton
+            aria-label="Done"
+            style={{ width: '28px', height: '28px' }}
+            className={classes.iconRoot}
+            onClick={this.onButtonClick(onDone)}
+            classes={{
+              label: classes.label,
+              root: classes.iconRoot
+            }}>
+            <Check />
+          </IconButton>
+        </div>
+      </div>
+    );
+    /*return (
       <div className={classes.toolbar}
         style={style}
         onFocus={onFocus}
@@ -167,7 +208,7 @@ class RawToolbar extends React.Component {
           </IconButton>
         </div>
       </div>
-    );
+    );*/
   }
 }
 

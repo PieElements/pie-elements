@@ -52,12 +52,12 @@ export const buildPlugins = (opts) => {
   log('[buildPlugins] opts: ', opts);
 
   return compact([
-    MarkHotkey({ key: 'b', type: 'bold', icon: <Bold />, tag: 'strong' }),
-    MarkHotkey({ key: '`', type: 'code', icon: <Code /> }),
-    MarkHotkey({ key: 'i', type: 'italic', icon: <Italic />, tag: 'em' }),
-    MarkHotkey({ key: '~', type: 'strikethrough', icon: <Strikethrough />, tag: 'del' }),
-    MarkHotkey({ key: 'u', type: 'underline', icon: <Underline />, tag: 'u' }),
-    opts.image && opts.image.onDelete && ImagePlugin(opts.image),
+    // MarkHotkey({ key: 'b', type: 'bold', icon: <Bold />, tag: 'strong' }),
+    // MarkHotkey({ key: '`', type: 'code', icon: <Code /> }),
+    // MarkHotkey({ key: 'i', type: 'italic', icon: <Italic />, tag: 'em' }),
+    // MarkHotkey({ key: '~', type: 'strikethrough', icon: <Strikethrough />, tag: 'del' }),
+    // MarkHotkey({ key: 'u', type: 'underline', icon: <Underline />, tag: 'u' }),
+    // opts.image && opts.image.onDelete && ImagePlugin(opts.image),
     MathPlugin(opts.math),
     ToolbarPlugin(opts.toolbar),
     // SelectionPlugin(opts.selection)

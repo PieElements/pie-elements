@@ -28,7 +28,7 @@ export default class MathWrapper extends React.Component {
 
   render() {
 
-    const { latex, editing, onClick, onChange } = this.props;
+    const { latex, editing, onClick, onChange, onFocus, onBlur } = this.props;
 
     return (
       <EditableMathInput
@@ -36,7 +36,9 @@ export default class MathWrapper extends React.Component {
         latex={latex}
         editing={!!editing}
         onClick={onClick}
-        onChange={onChange} />
+        onChange={onChange}
+        onFocus={onFocus}
+        onBlur={onBlur} />
     );
   }
 }

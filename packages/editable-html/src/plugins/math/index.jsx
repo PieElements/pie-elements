@@ -27,21 +27,23 @@ export default function MathPlugin(options) {
     schema: {
       document: { types: ['math'] }
     },
-    onFocus: (event, change, editor) => {
-      log('[onFocus]', event, change, editor);
+    onBlur: () => {
+      log('[onBlur]');
+    },
+    onFocus: () => {
+      log('[onFocus]');
     },
     onSelect: () => {
-      log('[... onSelect]')
+      log('[onSelect]');
     },
     renderNode: props => {
       if (props.node.type === 'math') {
-        log('[renderNode]: ', props);
-        log('[renderNode]: isFocused?', props.editor.value.isFocused);
-        return <MathInput
-          {...props}
+        log('[renderNode]: ');//, props);
+        return <MathInput {...props}
+          onClick={() => options.onClick(props.node)}
           onFocus={options.onFocus}
           onBlur={options.onBlur}
-          onSelected={() => options.onSelected(props.node)} />
+        />
       }
     }
   }
