@@ -47,7 +47,7 @@ export default class EditableHtml extends React.Component {
          */
         onDone: () => {
           log('[onDone]');
-          this.setState({ toolbarInFocus: false });
+          this.setState({ toolbarInFocus: false, focusedNode: null });
           this.editor.blur();
           this.onEditingDone();
         }
@@ -81,7 +81,7 @@ export default class EditableHtml extends React.Component {
       const node = findNode(target, this.state.value);
       log('[onPluginFocus] node: ', node);
 
-      // const stashedValue = this.state.stashedValue || this.state.value;
+      const stashedValue = this.state.stashedValue || this.state.value;
       this.setState({ focusedNode: node, stashedValue });
     } else {
       this.setState({ focusedNode: null });
@@ -98,6 +98,7 @@ export default class EditableHtml extends React.Component {
 
   onEditingDone = () => {
     log('[onEditingDone]');
+    this.setState({ stashedValue: null });
     const html = valueToHtml(this.state.value);
     this.props.onChange(html);
   }
@@ -140,9 +141,12 @@ export default class EditableHtml extends React.Component {
 
       log('newValue: ', newValue.document);
 
-      this.setState({ value: newValue, stashedValue: null }, () => {
-        log('value now: ', this.state.value.document.toJSON());
-      });
+      setTimeout(() => {
+        this.setState({ value: newValue, stashedValue: null }, () => {
+          log('value now: ', this.state.value.document.toJSON());
+        });
+
+      }, 100);
     }
   }
 
@@ -172,7 +176,7 @@ export default class EditableHtml extends React.Component {
 
   render() {
     const { value, showToolbar, focusedNode } = this.state;
-    log('[render]', value.document.toJSON());//, value);
+    log('[render]', value.document);//, value);
     // log('[render] selectedNode:', selectedNode);
     return <div>
       <Editor

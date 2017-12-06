@@ -25,10 +25,10 @@ class RawEditorAndToolbar extends React.Component {
    } = this.props;
 
 
-    const inFocus = value.isFocused || focusedNode !== null;
+    const inFocus = value.isFocused || (focusedNode !== null && focusedNode !== undefined);
     const holderNames = classNames(classes.editorHolder, inFocus && classes.editorInFocus);
 
-    log('[render] inFocus: ', inFocus);
+    log('[render] inFocus: ', inFocus, 'value.isFocused:', value.isFocused, 'focused node: ', focusedNode);
 
     return (
       <div className={classes.root}>
