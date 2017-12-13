@@ -78,7 +78,8 @@ export default class MathToolbar extends React.Component {
 
   render() {
 
-    const { latex } = this.state;
+    const { data } = this.props.node;
+    const latex = data ? (data.get('latex') || '') : '';
     const processedLatex = removeBrackets(latex);
     return (
       <Keypad

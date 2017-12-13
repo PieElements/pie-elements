@@ -161,6 +161,16 @@ class RawToolbar extends React.Component {
       <div className={names}
         onClick={this.onClick}
         onMouseDown={this.onMouseDown}>
+        {CustomToolbar ?
+          <CustomToolbar
+            value={value}
+            onChange={onChange}
+            node={node} /> :
+          <DefaultToolbar
+            plugins={plugins}
+            value={value}
+            onChange={onChange} />}
+
         <div className={classes.shared} >
           <IconButton
             aria-label="Done"

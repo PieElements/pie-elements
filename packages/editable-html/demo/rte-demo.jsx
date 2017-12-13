@@ -136,7 +136,7 @@ export default class RteDemo extends React.Component {
       <br />
       <br />
       <h4>markup</h4>
-      <pre dangerouslySetInnerHTML={{ __html: markup }}></pre>
+      <pre>{markup}</pre>
     </div>);
   }
 }

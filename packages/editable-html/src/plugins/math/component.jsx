@@ -65,15 +65,22 @@ export class MathComponent extends React.Component {
   componentDidUpdate() {
     const { node, editor } = this.props;
     const mathChange = node.data.get('change');
-    this.wrapper.change(mathChange);
 
-    const data = node.data.toObject();
-    delete data.change;
+    if (mathChange) {
+      const latex = this.wrapper.change(mathChange);
 
+      const data = node.data.toObject();
+      delete data.change;
+      data.latex = latex;
 
-    const change = editor.value.change().setNodeByKey(node.key, { data })
-    editor.onChange(change);
+      log('[componentDidUpdate] new latex: ', data.latex);
 
+      const change = editor.value.change().setNodeByKey(node.key, { data })
+      editor.change(c => {
+        c.setNodeByKey(node.key, { data })
+      });
+
+    }
   }
 
   shouldComponentUpdate(nextProps) {
@@ -94,7 +101,6 @@ export class MathComponent extends React.Component {
     log('[onMathChange]', latex);
     const { node, editor } = this.props;
     const data = Data.create({ latex });
-    const change = editor.value.change().setNodeByKey(node.key, { data });
     editor.change(c => c.setNodeByKey(node.key, { data }));
   }
 
@@ -103,9 +109,7 @@ export class MathComponent extends React.Component {
     log('[render] >> node', node.key, node.data);
 
     const latex = node.data.get('latex');
-    const editing = isSelected; //|| node.data.get('editing');
-    const names = classNames(classes.root, editing && classes.selected);
-
+    const names = classNames(classes.root, classes.selected);
     const cleanLatex = removeBrackets(latex);
 
     return (
@@ -113,7 +117,7 @@ export class MathComponent extends React.Component {
         <MathWrapper
           ref={r => this.wrapper = r}
           latex={cleanLatex}
-          editing={editing}
+          editing={true}
           onClick={this.onClick}
           onChange={this.onMathChange}
           onFocus={this.onFocus}

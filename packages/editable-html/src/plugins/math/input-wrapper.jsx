@@ -15,13 +15,13 @@ export default class MathWrapper extends React.Component {
 
     if (c) {
       if (c.type === 'clear') {
-        this.input.clear();
+        return this.input.clear();
       } else if (c.type === 'command') {
-        this.input.command(c.value);
+        return this.input.command(c.value);
       } else if (c.type === 'cursor') {
-        this.input.keystroke(c.value);
+        return this.input.keystroke(c.value);
       } else {
-        this.input.write(c.value);
+        return this.input.write(c.value);
       }
     }
   }

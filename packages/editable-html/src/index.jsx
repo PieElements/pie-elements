@@ -59,19 +59,12 @@ export default class EditableHtml extends React.Component {
   onPluginBlur = (e) => {
     log('[onPluginBlur]', e.relatedTarget);
     const target = e.relatedTarget;
-    if (target) {
-      const node = findNode(target, this.state.value);
-      log('[onPluginBlur] node: ', node);
-      this.setState({ focusedNode: node });
-    } else {
-      this.setState({ focusedNode: null });
-    }
 
-    this.resetValue();
-
-    // if (this.props.onBlur) {
-    //   this.props.onBlur(e);
-    // }
+    const node = target ? findNode(target, this.state.value) : null;
+    log('[onPluginBlur] node: ', node);
+    this.setState({ focusedNode: node }, () => {
+      this.resetValue();
+    });
   }
 
   onPluginFocus = (e) => {
@@ -106,15 +99,12 @@ export default class EditableHtml extends React.Component {
   onBlur = (event) => {
     log('[onBlur]');
     const target = event.relatedTarget;
-    if (target) {
-      const node = findNode(target, this.state.value);
-      log('[onBlur] node: ', node);
-      this.setState({ focusedNode: node });
-    } else {
-      this.setState({ focusedNode: null });
-    }
 
-    this.resetValue();
+    const node = target ? findNode(target, this.state.value) : null;
+    log('[onPluginBlur] node: ', node);
+    this.setState({ focusedNode: node }, () => {
+      this.resetValue();
+    });
   }
 
   onFocus = () => {
@@ -131,8 +121,11 @@ export default class EditableHtml extends React.Component {
   }
 
   resetValue = () => {
-    log('[resetValue]');
-    if (this.state.stashedValue && (!this.state.value.isFocused || !this.state.focusedNode)) {
+    const { value, focusedNode } = this.state;
+    log('[resetValue]', value.isFocused, focusedNode);
+    if (this.state.stashedValue &&
+      !value.isFocused &&
+      !focusedNode) {
       log('[resetValue] resetting...');
       log('stashed', this.state.stashedValue.document.toObject())
       log('current', this.state.value.document.toObject())
