@@ -36,9 +36,9 @@ export default class EditableHtml extends React.Component {
         insertImageRequested: this.props.imageSupport && ((getHandler) => {
           const handler = getHandler(() => this.state.value);
           this.props.imageSupport.add(handler);
-        })
-        // onFocus: this.onPluginFocus,
-        // onBlur: this.onPluginBlur,
+        }),
+        onFocus: this.onPluginFocus,
+        onBlur: this.onPluginBlur
       },
       toolbar: {
         /**
@@ -53,7 +53,6 @@ export default class EditableHtml extends React.Component {
         }
       }
     });
-
   }
 
   onPluginBlur = (e) => {
@@ -91,9 +90,10 @@ export default class EditableHtml extends React.Component {
 
   onEditingDone = () => {
     log('[onEditingDone]');
-    this.setState({ stashedValue: null });
+    this.setState({ stashedValue: null, focusedNode: null });
     const html = valueToHtml(this.state.value);
     this.props.onChange(html);
+    // this.plugins.forEach
   }
 
   onBlur = (event) => {
@@ -101,9 +101,16 @@ export default class EditableHtml extends React.Component {
     const target = event.relatedTarget;
 
     const node = target ? findNode(target, this.state.value) : null;
-    log('[onPluginBlur] node: ', node);
+
+    const stopReset = this.plugins.reduce((s, p) => {
+      return s || (p.stopReset && p.stopReset(this.state.value));
+    }, false);
+
+    log('[onBlur] node: ', node, 'stopReset: ', stopReset);
     this.setState({ focusedNode: node }, () => {
-      this.resetValue();
+      if (!stopReset) {
+        this.resetValue();
+      }
     });
   }
 
@@ -138,8 +145,7 @@ export default class EditableHtml extends React.Component {
         this.setState({ value: newValue, stashedValue: null }, () => {
           log('value now: ', this.state.value.document.toJSON());
         });
-
-      }, 100);
+      }, 50);
     }
   }
 

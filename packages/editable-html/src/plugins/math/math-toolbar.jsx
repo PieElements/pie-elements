@@ -25,27 +25,6 @@ const toNodeData = (data) => {
 
 export default class MathToolbar extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      latex: props.node.data.get('latex')
-    }
-  }
-
-  componentWillReceiveProps(props) {
-    if (props.node.data.get('latex') !== this.state.latex) {
-      this.setState({ latex: props.node.data.get('latex') });
-
-    }
-  }
-
-  onLatexChange = (rawLatex) => {
-    log('[onLatexChange] !!', value);
-    const { onChange, node, value } = this.props;
-    const latex = addBrackets(rawLatex);
-    this.setState({ latex });
-  }
-
   onClick = (data) => {
     const { node, value, onChange } = this.props;
 
@@ -67,26 +46,16 @@ export default class MathToolbar extends React.Component {
   }
 
   onDone = () => {
-    const { node, onChange, value } = this.props;
+    const { node, value, onChange } = this.props;
 
-    const data = Data.create({ ...node.data.toObject(), latex: addBrackets(this.state.latex) });
-
-    const change = value.change().setNodeByKey(node.key, { data });
+    const update = { ...node.data.toObject(), change: { type: 'blur' } }
+    const change = value.change().setNodeByKey(node.key, { data: update });
     onChange(change);
-
   }
 
   render() {
-
     const { data } = this.props.node;
-    const latex = data ? (data.get('latex') || '') : '';
-    const processedLatex = removeBrackets(latex);
-    return (
-      <Keypad
-        latex={processedLatex}
-        onChange={this.onLatexChange}
-        onClick={this.onClick} />
-    );
+    return <Keypad onClick={this.onClick} />;
   }
 }
 

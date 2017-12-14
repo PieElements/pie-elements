@@ -5,10 +5,9 @@ import Toolbar from './toolbar';
 import classNames from 'classnames';
 import debug from 'debug';
 import injectSheet from 'react-jss';
+import { primary } from '../../theme';
 
 const log = debug('editable-html:plugins:toolbar:editor-and-toolbar');
-
-const primary = '#304ffe';
 
 class RawEditorAndToolbar extends React.Component {
 

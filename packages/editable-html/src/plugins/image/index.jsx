@@ -1,6 +1,7 @@
 import { Block } from 'slate';
 import Image from 'material-ui-icons/Image';
 import ImageComponent from './component';
+import ImageToolbar from './image-toolbar';
 import InsertImageHandler from './insert-image-handler';
 import React from 'react';
 import debug from 'debug';
@@ -25,14 +26,27 @@ export default function ImagePlugin(opts) {
       onChange(change);
       opts.insertImageRequested((getValue) => new InsertImageHandler(block, getValue, onChange));
 
-    }
+    },
+    supports: node => (node.kind === 'block' && node.type === 'image'),
+    customToolbar: node => ImageToolbar
   }
 
   return {
     toolbar,
+    stopReset: (value) => {
+      const imgPendingInsertion = value.document.findDescendant(n => {
+        return n.type === 'image' && n.data.get('loaded') === false;
+      });
+      /** don't reset if there is an image pending insertion */
+      return imgPendingInsertion !== undefined;
+    },
     renderNode(props) {
       if (props.node.type === 'image') {
-        const all = Object.assign({ onDelete: opts.onDelete }, props);
+        const all = Object.assign({
+          onDelete: opts.onDelete,
+          onFocus: opts.onFocus,
+          onBlur: opts.onBlur
+        }, props);
         return <ImageComponent {...all} />
       }
     }

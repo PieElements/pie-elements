@@ -14,7 +14,10 @@ export default class MathWrapper extends React.Component {
     }
 
     if (c) {
-      if (c.type === 'clear') {
+      if (c.type === 'blur') {
+        this.input.blur();
+        return this.props.latex;
+      } else if (c.type === 'clear') {
         return this.input.clear();
       } else if (c.type === 'command') {
         return this.input.command(c.value);

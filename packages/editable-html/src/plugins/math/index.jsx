@@ -22,6 +22,7 @@ export default function MathPlugin(options) {
         const change = value.change().insertInline(math);
         onChange(change);
       },
+      supports: node => (node && node.kind === 'inline' && node.type === 'math'),
       customToolbar: node => (node && node.kind === 'inline' && node.type === 'math') && MathToolbar
     },
     schema: {
@@ -36,14 +37,24 @@ export default function MathPlugin(options) {
     onSelect: () => {
       log('[onSelect]');
     },
+    /**
+     * A onDone wrapper function, places a blur change on the node, then calls 
+     * the original donefn.
+     * Feels a bit messy - there may be a cleaner way to do this.
+     */
+    onDone: (e, node, value, onChange, fn) => {
+      const update = { ...node.data.toObject(), change: { type: 'blur' } }
+      const change = value.change().setNodeByKey(node.key, { data: update });
+      onChange(change);
+      fn(e);
+    },
     renderNode: props => {
       if (props.node.type === 'math') {
-        log('[renderNode]: ');//, props);
+        log('[renderNode]: ', props);
         return <MathInput {...props}
           onClick={() => options.onClick(props.node)}
           onFocus={options.onFocus}
-          onBlur={options.onBlur}
-        />
+          onBlur={options.onBlur} />
       }
     }
   }

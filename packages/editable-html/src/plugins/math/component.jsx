@@ -7,6 +7,7 @@ import React from 'react';
 import classNames from 'classnames';
 import debug from 'debug';
 import injectSheet from 'react-jss';
+import { primary } from '../../theme';
 
 const log = debug('editable-html:plugins:math:component');
 
@@ -104,12 +105,17 @@ export class MathComponent extends React.Component {
     editor.change(c => c.setNodeByKey(node.key, { data }));
   }
 
+  blur() {
+    log('[blur]')
+    this.wrapper && this.wrapper.blur();
+  }
+
   render() {
-    const { isSelected, node, state, classes, attributes } = this.props;
-    log('[render] >> node', node.key, node.data);
+    const { node, classes, editor } = this.props;
+    log('[render] >> node', node, 'editor: ', editor, 'value: ', editor.value, editor.value.isFocused);
 
     const latex = node.data.get('latex');
-    const names = classNames(classes.root, classes.selected);
+    const names = classNames(classes.root);
     const cleanLatex = removeBrackets(latex);
 
     return (
@@ -131,7 +137,16 @@ const styles = {
   root: {
     display: 'inline-flex',
     alignItems: 'center',
-    border: 'solid 1px lightgrey'
+    '& > .mq-editable-field': {
+
+      border: 'solid 1px lightgrey',
+    },
+    '& > .mq-focused': {
+      outline: 'none',
+      boxShadow: 'none',
+      border: `solid 1px ${primary}`,
+      borderRadius: '0px'
+    }
   },
   selected: {
     border: 'solid 1px red'

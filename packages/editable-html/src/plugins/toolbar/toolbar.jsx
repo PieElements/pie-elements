@@ -121,7 +121,7 @@ class RawToolbar extends React.Component {
 
   onButtonClick = (fn) => {
     return e => {
-      e.preventDefault()
+      e.preventDefault();
       fn();
     }
   }
@@ -145,18 +145,25 @@ class RawToolbar extends React.Component {
 
     const node = findSingleNode(value);
 
-    const CustomToolbar = plugins.reduce((tb, p) => {
-      if (tb) {
-        return tb;
+    const plugin = plugins.find(p => {
+      if (!node) {
+        return;
       }
 
-      return node && p.toolbar && p.toolbar.customToolbar && p.toolbar.customToolbar(node);
-    }, null);
+      if (p.toolbar) {
+        return p.toolbar.supports && p.toolbar.supports(node);
+      }
+    });
+
+    log('plugin: ', plugin);
+
+    const CustomToolbar = plugin && plugin.toolbar && plugin.toolbar.customToolbar ? plugin.toolbar.customToolbar(node) : null;
 
     const style = zIndex ? { zIndex } : {};
 
     const names = classNames(classes.toolbar, isFocused && classes.focused)
 
+    const doneFn = this.onButtonClick(onDone);
     return (
       <div className={names}
         onClick={this.onClick}
@@ -176,7 +183,7 @@ class RawToolbar extends React.Component {
             aria-label="Done"
             style={{ width: '28px', height: '28px' }}
             className={classes.iconRoot}
-            onClick={this.onButtonClick(onDone)}
+            onClick={plugin ? (e) => plugin.onDone(e, node, value, onChange, doneFn) : doneFn}
             classes={{
               label: classes.label,
               root: classes.iconRoot
@@ -186,39 +193,6 @@ class RawToolbar extends React.Component {
         </div>
       </div>
     );
-    /*return (
-      <div className={classes.toolbar}
-        style={style}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        onClick={onClick}>
-        {CustomToolbar ?
-          <CustomToolbar
-            value={value}
-            onChange={onChange}
-            node={node} /> :
-          <DefaultToolbar
-            plugins={plugins}
-            value={value}
-            onChange={onChange} />}
-
-        <div className={classes.shared} >
-          <IconButton
-            aria-label="Done"
-            style={{ width: '28px', height: '28px' }}
-            className={classes.iconRoot}
-            onClick={onDone}
-            classes={{
-              label: classes.label,
-              root: classes.iconRoot
-            }}>
-            <Check />
-          </IconButton>
-        </div>
-      </div>
-    );*/
   }
 }
 

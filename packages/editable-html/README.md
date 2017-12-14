@@ -36,7 +36,12 @@ Declare:
 
 ### TODOS: 
 
-* [ ] math trash icon not removing
-* [ ] math when calculator opens main toolbar is removed
-* [ ] math when done (cos main toolbar is gone) cant click 'done'
-* [ ] image when editor focused - show trash icon (also an outline?)
+<!-- * [ ] math trash icon not removing -->
+<!-- * [ ] math when calculator opens main toolbar is removed -->
+<!-- * [ ] math when done (cos main toolbar is gone) cant click 'done' -->
+<!-- * [ ] image when editor focused - show trash icon (also an outline?) -->
+
+* [ ] adjust the keypad layout for math
+* [ ] add image toolbar
+* [ ] add basics back in
+* [ ] math - delete node

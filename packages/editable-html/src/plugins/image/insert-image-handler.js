@@ -17,6 +17,24 @@ class InsertImageHandler {
     this.onChange = onChange;
   }
 
+  getPlaceholderInDocument(value) {
+
+    const { document } = value;
+    const directChild = document.getChild(this.placeholderBlock.key);
+
+    if (directChild) {
+      return directChild;
+    }
+
+    const child = document.getDescendant(this.placeholderBlock.key);
+
+    if (child) {
+      return child;
+    } else {
+      throw new Error(`insert-image: Can't find placeholder!`);
+    }
+  }
+
   cancel() {
     log('insert cancelled');
     const c = this.getValue().change().removeNodeByKey(this.placeholderBlock.key);
@@ -29,8 +47,8 @@ class InsertImageHandler {
     if (err) {
       logError(err);
     } else {
-      const value = this.getValue();
-      const child = value.document.getDescendant(this.placeholderBlock.key);
+      const value = this.getValue()
+      const child = this.getPlaceholderInDocument(value);
       const data = child.data.merge(
         Data.create({ loaded: true, src, percent: 100 })
       );
@@ -54,12 +72,9 @@ class InsertImageHandler {
     const reader = new FileReader();
     reader.onload = () => {
       const value = this.getValue();
-
-      log('[fileChosen] current value', value);
       const dataURL = reader.result;
-      const child = value.document.getDescendant(this.placeholderBlock.key);
+      const child = this.getPlaceholderInDocument(value);
       const data = child.data.set('src', dataURL);
-
       const change = value.change().setNodeByKey(this.placeholderBlock.key, { data });
       this.onChange(change);
     };
@@ -69,7 +84,7 @@ class InsertImageHandler {
   progress(percent, bytes, total) {
     log('progress: ', percent, bytes, total);
     const value = this.getValue();
-    const child = value.document.getDescendant(this.placeholderBlock.key);
+    const child = this.getPlaceholderInDocument(value);
     const data = child.data.set('percent', percent);
     const change = value.change().setNodeByKey(this.placeholderBlock.key, { data });
     this.onChange(change);
