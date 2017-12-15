@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@pie-libs/math-input": "^0.3.0",
+    "@pie-libs/math-input": "^1.0.0",
     "debug": "^3.0.0",
     "immutable": "^3.8.2",
     "keycode": "^2.1.9",
