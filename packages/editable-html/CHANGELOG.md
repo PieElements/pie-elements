@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/pieelements/pie-elements/compare/@pie-libs/editable-html@1.1.0...@pie-libs/editable-html@2.0.1) (2017-12-15)
+
+
+### Bug Fixes
+
+* **image:** hide delete icon when not editable ([dda1c78](https://github.com/pieelements/pie-elements/commit/dda1c78))
+* **ui:** handle cancel in file dialog ([159107a](https://github.com/pieelements/pie-elements/commit/159107a))
+
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/editable-html@1.0.0...@pie-libs/editable-html@1.1.0) (2017-09-12)
 
