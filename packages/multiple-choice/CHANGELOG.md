@@ -1,7 +1,15 @@
 # Change Log
 
 All notable changes to this project will be documented in this file.
-See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+<a name="0.2.2"></a>
+## [0.2.2](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.2.1...@pie-elements/multiple-choice@0.2.2) (2017-12-15)
+
+
+
+
+**Note:** Version bump only for package @pie-elements/multiple-choice
 
 <a name="0.2.1"></a>
 ## [0.2.1](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.2.0...@pie-elements/multiple-choice@0.2.1) (2017-12-15)
