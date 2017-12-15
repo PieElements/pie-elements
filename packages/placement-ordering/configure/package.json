@@ -6,7 +6,7 @@
   "dependencies": {
     "@pie-elements/placement-ordering": "..",
     "@pie-libs/scoring-config": "^0.3.4",
-    "@pie-libs/config-ui": "^1.2.1",
+    "@pie-libs/config-ui": "^1.2.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-tap-event-plugin": "^2.0.1",
