@@ -25,7 +25,6 @@ export default class EditableHtml extends React.Component {
 
 
     this.plugins = buildPlugins({
-      selection: {},
       math: {
         onClick: this.onMathClick,
         onFocus: this.onPluginFocus,
@@ -38,6 +37,10 @@ export default class EditableHtml extends React.Component {
           })
         }),
         insertImageRequested: this.props.imageSupport && ((getHandler) => {
+          /** 
+           * The handler is the object through which the outer context
+           * communicates file upload events like: fileChosen, cancel, progress
+           */
           const handler = getHandler(() => this.state.value);
           this.props.imageSupport.add(handler);
         }),
@@ -87,7 +90,7 @@ export default class EditableHtml extends React.Component {
 
   onMathClick = (node) => {
     this.editor.change(c =>
-      c.collapseToStartOf(node)//.focus()
+      c.collapseToStartOf(node)
     );
     this.setState({ selectedNode: node });
   }
@@ -97,7 +100,6 @@ export default class EditableHtml extends React.Component {
     this.setState({ stashedValue: null, focusedNode: null });
     const html = valueToHtml(this.state.value);
     this.props.onChange(html);
-    // this.plugins.forEach
   }
 
   onBlur = (event) => {
@@ -125,9 +127,11 @@ export default class EditableHtml extends React.Component {
     }
   }
 
+  /**
+   * Reset the value if the user didn't click done.
+   */
   resetValue = () => {
     const { value, focusedNode } = this.state;
-
 
     const stopReset = this.plugins.reduce((s, p) => {
       return s || (p.stopReset && p.stopReset(this.state.value));
@@ -154,7 +158,7 @@ export default class EditableHtml extends React.Component {
   }
 
   onChange = (change) => {
-    log('[onChange]') /// value: ', change.value);
+    log('[onChange]');
     this.setState({ value: change.value });
   }
 
@@ -167,30 +171,21 @@ export default class EditableHtml extends React.Component {
     }
   }
 
-  onRootFocus = () => {
-    log('[onRootFocus]');
-    // this.setState({ showToolbar: true });
-  }
-
-  onRootBlur = () => {
-    log('[onRootBlur]');
-    // this.setState({ showToolbar: false });
-  }
-
   render() {
     const { value, showToolbar, focusedNode } = this.state;
-    log('[render]', value.document);//, value);
-    // log('[render] selectedNode:', selectedNode);
-    return <div>
-      <Editor
-        ref={r => this.editor = r}
-        value={value}
-        onChange={this.onChange}
-        plugins={this.plugins}
-        onBlur={this.onBlur}
-        onFocus={this.onFocus}
-        focusedNode={focusedNode} />
-    </div>
+    log('[render]', value.document);
+    return (
+      <div>
+        <Editor
+          ref={r => this.editor = r}
+          value={value}
+          onChange={this.onChange}
+          plugins={this.plugins}
+          onBlur={this.onBlur}
+          onFocus={this.onFocus}
+          focusedNode={focusedNode} />
+      </div>
+    );
   }
 }
 

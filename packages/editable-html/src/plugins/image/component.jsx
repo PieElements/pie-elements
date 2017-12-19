@@ -1,13 +1,11 @@
 import { Data, Raw } from 'slate';
 
-import { Delete } from '../../components/buttons';
 import { LinearProgress } from 'material-ui/Progress';
 import Portal from 'react-portal';
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import debug from 'debug';
-// import injectSheet from 'react-jss';
 import { primary } from '../../theme';
 import { withStyles } from 'material-ui/styles';
 

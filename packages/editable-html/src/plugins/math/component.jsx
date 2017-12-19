@@ -1,7 +1,6 @@
 import { Data, findDOMNode } from 'slate';
 import { EditableMathInput, MathQuillInput, addBrackets, removeBrackets } from '@pie-libs/math-input';
 
-import { Delete } from '../../components/buttons';
 import MathWrapper from './input-wrapper';
 import React from 'react';
 import classNames from 'classnames';
