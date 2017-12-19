@@ -49,8 +49,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "jest": {
-    "globalSetup": "./src/__test__/global-setup.js"
   }
 }

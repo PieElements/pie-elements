@@ -26,7 +26,7 @@ function MockChange() {
 }
 
 test('onChange is called on button click', () => {
-  // Render a checkbox with label in the document
+
   const onChange = stub();
   const node = {
     key: 1,
@@ -52,4 +52,5 @@ test('onChange is called on button click', () => {
   const c = change.getCalls()[0];
   expect(c.key).toEqual(1);
   expect(c.name).toEqual('setNodeByKey');
+  assert.calledWith(onChange, change);
 });
