@@ -15,7 +15,7 @@ const logError = debug('editable-html:plugins:image:component');
 
 logError.log = console.error.bind(console);
 
-export class RawImage extends React.Component {
+export class RawComponent extends React.Component {
 
   getWidth = (percent) => {
     const multiplier = percent / 100;
@@ -111,7 +111,7 @@ export class RawImage extends React.Component {
   }
 }
 
-RawImage.propTypes = {
+RawComponent.propTypes = {
   onDelete: PropTypes.func.isRequired
 }
 
@@ -160,4 +160,4 @@ const styles = {
   }
 }
 
-export default withStyles(styles)(RawImage);
+export default withStyles(styles)(RawComponent);

@@ -5,7 +5,7 @@
   "license": "ISC",
   "main": "src/index.jsx",
   "scripts": {
-    "test": "mocha test/**/*-spec.js"
+    "test": "jest"
   },
   "author": "",
   "dependencies": {
