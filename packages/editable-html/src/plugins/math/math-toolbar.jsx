@@ -1,4 +1,4 @@
-import { Keypad, MathQuillInput, addBrackets, removeBrackets } from '@pie-libs/math-input';
+import { HorizontalKeypad, MathQuillInput, addBrackets, removeBrackets } from '@pie-libs/math-input';
 
 import { Data } from 'slate';
 import React from 'react';
@@ -55,7 +55,7 @@ export default class MathToolbar extends React.Component {
 
   render() {
     const { data } = this.props.node;
-    return <Keypad onClick={this.onClick} />;
+    return <HorizontalKeypad onClick={this.onClick} />;
   }
 }
 
