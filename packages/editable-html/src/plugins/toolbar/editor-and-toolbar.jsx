@@ -107,10 +107,6 @@ const style = {
         backgroundColor: primary
       }
     }
-  },
-  editor: {
-    padding: '8px',
-    background: '#ffffff'
   }
 }
 

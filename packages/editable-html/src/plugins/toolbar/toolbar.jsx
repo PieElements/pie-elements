@@ -87,7 +87,7 @@ const RawDefaultToolbar = ({ plugins, value, onChange, classes }) => {
 const DefaultToolbar = injectSheet(toolbarStyle)(RawDefaultToolbar);
 
 
-class RawToolbar extends React.Component {
+export class RawToolbar extends React.Component {
 
   constructor(props) {
     super(props);
@@ -115,6 +115,7 @@ class RawToolbar extends React.Component {
     log('[onClick]')
     e.preventDefault();
   }
+
   onMouseDown = (e) => {
     log('[onMouseDown]')
     e.preventDefault();
@@ -137,10 +138,6 @@ class RawToolbar extends React.Component {
       plugins,
       value,
       onChange,
-      onMouseEnter,
-      onMouseDown,
-      onMouseOut,
-      onMouseUp,
       isFocused,
       onClick } = this.props;
 
@@ -156,8 +153,6 @@ class RawToolbar extends React.Component {
       }
     });
 
-    log('plugin: ', plugin);
-
     const CustomToolbar = plugin && plugin.toolbar && plugin.toolbar.customToolbar ? plugin.toolbar.customToolbar(node) : null;
 
     const style = zIndex ? { zIndex } : {};
@@ -165,12 +160,12 @@ class RawToolbar extends React.Component {
     const names = classNames(classes.toolbar, isFocused && classes.focused)
 
     const doneFn = this.onButtonClick(onDone);
-    // const deleteFn = this.onButtonClick(onDelete);
+
     const deletable = node && plugin && plugin.deleteNode;
+
     return (
       <div className={names}
-        onClick={this.onClick}
-        onMouseDown={this.onMouseDown}>
+        onClick={this.onClick}>
         {CustomToolbar ?
           <CustomToolbar
             value={value}
@@ -204,7 +199,7 @@ class RawToolbar extends React.Component {
             <Check />
           </IconButton>
         </div>
-      </div>
+      </div >
     );
   }
 }

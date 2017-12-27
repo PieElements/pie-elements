@@ -79,7 +79,6 @@ export class MathComponent extends React.Component {
       editor.change(c => {
         c.setNodeByKey(node.key, { data })
       });
-
     }
   }
 

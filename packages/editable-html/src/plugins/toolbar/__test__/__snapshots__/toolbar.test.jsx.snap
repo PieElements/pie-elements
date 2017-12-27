@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`toolbar renders correctly 1`] = `
+<div
+  className="toolbar"
+  onClick={[Function]}
+>
+  <div
+    className={undefined}
+  >
+    <div
+      className="root-0-4"
+      onMouseDown={[Function]}
+    />
+  </div>
+  <div
+    className="shared"
+  >
+    <div
+      ariaLabel="Done"
+      className={undefined}
+      style={
+        Object {
+          "height": "28px",
+          "width": "28px",
+        }
+      }
+    />
+  </div>
+</div>
+`;

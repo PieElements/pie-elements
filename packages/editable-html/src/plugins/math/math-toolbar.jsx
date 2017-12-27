@@ -28,11 +28,6 @@ export default class MathToolbar extends React.Component {
   onClick = (data) => {
     const { node, value, onChange } = this.props;
 
-    /**
-     * somehow get access to an api where one can call the 
-     * edit commands directly and step out of the change/render cycle.
-     * 
-     */
     const mathChange = toNodeData(data);
 
     if (mathChange) {
@@ -47,7 +42,6 @@ export default class MathToolbar extends React.Component {
 
   onDone = () => {
     const { node, value, onChange } = this.props;
-
     const update = { ...node.data.toObject(), change: { type: 'blur' } }
     const change = value.change().setNodeByKey(node.key, { data: update });
     onChange(change);
