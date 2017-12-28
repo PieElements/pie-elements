@@ -1,5 +1,5 @@
 import { Data, findDOMNode } from 'slate';
-import { EditableMathInput, MathQuillInput, addBrackets, removeBrackets } from '@pie-libs/math-input';
+import { addBrackets, removeBrackets } from '@pie-libs/math-input';
 
 import MathWrapper from './input-wrapper';
 import React from 'react';
@@ -63,6 +63,7 @@ export class MathComponent extends React.Component {
   }
 
   componentDidUpdate() {
+    log('this.wrapper: ', this.wrapper)
     const { node, editor } = this.props;
     const mathChange = node.data.get('change');
 
@@ -82,8 +83,11 @@ export class MathComponent extends React.Component {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
+  componentDidMount() {
+    log('this.wrapper: ', this.wrapper)
+  }
 
+  shouldComponentUpdate(nextProps) {
     const { node: nextNode } = nextProps;
     const { node } = this.props;
     if (nextNode.data.equals(node.data)) {

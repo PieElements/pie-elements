@@ -16,6 +16,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import debug from 'debug';
 import { findSingleNode } from './utils';
+//TODO: use mui createStyleSheet (ensures the class overrides work).
 import injectSheet from 'react-jss';
 
 const log = debug('editable-html:plugins:toolbar');
@@ -86,7 +87,6 @@ const RawDefaultToolbar = ({ plugins, value, onChange, classes }) => {
 
 const DefaultToolbar = injectSheet(toolbarStyle)(RawDefaultToolbar);
 
-
 export class RawToolbar extends React.Component {
 
   constructor(props) {
@@ -116,11 +116,6 @@ export class RawToolbar extends React.Component {
     e.preventDefault();
   }
 
-  onMouseDown = (e) => {
-    log('[onMouseDown]')
-    e.preventDefault();
-  }
-
   onButtonClick = (fn) => {
     return e => {
       e.preventDefault();
@@ -143,6 +138,8 @@ export class RawToolbar extends React.Component {
 
     const node = findSingleNode(value);
 
+    log('[render] node: ', node);
+
     const plugin = plugins.find(p => {
       if (!node) {
         return;
@@ -152,8 +149,11 @@ export class RawToolbar extends React.Component {
         return p.toolbar.supports && p.toolbar.supports(node);
       }
     });
+    log('[render] plugin: ', plugin);
 
     const CustomToolbar = plugin && plugin.toolbar && plugin.toolbar.customToolbar ? plugin.toolbar.customToolbar(node) : null;
+
+    log('[render] CustomToolbar: ', CustomToolbar);
 
     const style = zIndex ? { zIndex } : {};
 

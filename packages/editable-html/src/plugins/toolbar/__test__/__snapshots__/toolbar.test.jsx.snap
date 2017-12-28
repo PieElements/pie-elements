@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`toolbar renders correctly 1`] = `
+exports[`toolbar default renders default toolbar 1`] = `
 <div
   className="toolbar"
   onClick={[Function]}
@@ -18,7 +18,42 @@ exports[`toolbar renders correctly 1`] = `
   >
     <div
       ariaLabel="Done"
-      className={undefined}
+      className="iconRoot"
+      style={
+        Object {
+          "height": "28px",
+          "width": "28px",
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`toolbar renders custom toolbar 1`] = `
+<div
+  className="toolbar"
+  onClick={[Function]}
+>
+  <div>
+     --------- custom toolbar ----------- 
+  </div>
+  <div
+    className="shared"
+  >
+    <div
+      ariaLabel="Delete"
+      className="iconRoot"
+      style={
+        Object {
+          "height": "28px",
+          "width": "28px",
+        }
+      }
+    />
+    <div
+      ariaLabel="Done"
+      className="iconRoot"
       style={
         Object {
           "height": "28px",

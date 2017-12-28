@@ -9,7 +9,7 @@ import { primary } from '../../theme';
 
 const log = debug('editable-html:plugins:toolbar:editor-and-toolbar');
 
-class RawEditorAndToolbar extends React.Component {
+export class RawEditorAndToolbar extends React.Component {
 
   render() {
 

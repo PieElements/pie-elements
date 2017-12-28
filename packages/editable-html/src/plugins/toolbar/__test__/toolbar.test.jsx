@@ -1,25 +1,31 @@
+import { classObject, mockIconButton, mockMathInput } from '../../../__test__/utils';
+
 import { Data } from 'slate';
 import { RawToolbar } from '../toolbar';
 import React from 'react';
+import debug from 'debug';
 import renderer from 'react-test-renderer';
 import { stub } from 'sinon';
 
+mockMathInput();
+
 jest.mock('material-ui/IconButton', () => {
   return (props) => <div className={props.className} style={props.style} ariaLabel={props['aria-label']}></div>
-})
+});
 
-const simpleObject = function () {
-  const out = {}
-  for (var a in arguments) {
-    const value = arguments[a];
-    out[value] = value;
-  }
-  return out;
-}
+const log = debug('editable-html:test:toolbar');
+
 
 describe('toolbar', () => {
 
-  it('renders custom toolbar', () => {
+  let onDelete, classes;
+
+  beforeEach(() => {
+    onDelete = stub();
+    classes = classObject('iconRoot', 'inline', 'toolbar', 'focused', 'shared', 'inline')
+  });
+
+  test('renders custom toolbar', () => {
 
     const node = {}
 
@@ -33,19 +39,11 @@ describe('toolbar', () => {
 
     const plugins = [
       {
-
-      }
-    ];
-  });
-
-  it('renders default toolbar', () => {
-    const onDelete = stub();
-
-    const classes = simpleObject('inline', 'toolbar', 'focused', 'shared', 'inline')
-
-    const plugins = [
-      {
-        toolbar: {}
+        deleteNode: () => true,
+        toolbar: {
+          supports: () => true,
+          customToolbar: () => () => <div> --------- custom toolbar ----------- </div>
+        }
       }
     ];
 
@@ -53,18 +51,35 @@ describe('toolbar', () => {
       .create(<RawToolbar
         plugins={plugins}
         classes={classes}
-        value={{}}
-        onDone={() => ({})} />, {
-        createNodeMock: el => {
-          if (el.type === 'img') {
-            return {
-              naturalWidth: 100,
-              naturalHeight: 100
-            }
-          }
-        }
-      })
-      .toJSON();
+        value={value}
+        onDone={() => ({})} />).toJSON();
+
+    log('tree: ', JSON.stringify(tree, null, '  '));
     expect(tree).toMatchSnapshot();
+  });
+
+  describe('default', () => {
+    let plugins;
+
+    beforeEach(() => {
+      plugins = [
+        {
+          toolbar: {}
+        }
+      ];
+    });
+
+    test('renders default toolbar', () => {
+
+      const tree = renderer
+        .create(<RawToolbar
+          plugins={plugins}
+          classes={classes}
+          value={{}}
+          onDone={() => ({})} />)
+        .toJSON();
+      expect(tree).toMatchSnapshot();
+    });
+
   });
 });

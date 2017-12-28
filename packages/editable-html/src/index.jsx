@@ -110,8 +110,10 @@ export default class EditableHtml extends React.Component {
 
     log('[onBlur] node: ', node);
 
-    this.setState({ focusedNode: node }, () => {
-      this.resetValue();
+    return new Promise(resolve => {
+      this.setState({ focusedNode: node }, () => {
+        this.resetValue().then(() => resolve());
+      });
     });
   }
 
@@ -148,12 +150,15 @@ export default class EditableHtml extends React.Component {
       const newValue = Value.fromJSON(this.state.stashedValue.toJSON());
 
       log('newValue: ', newValue.document);
+      return new Promise(resolve => {
+        setTimeout(() => {
+          this.setState({ value: newValue, stashedValue: null }, () => {
+            log('value now: ', this.state.value.document.toJSON());
+            resolve();
+          });
+        }, 50);
 
-      setTimeout(() => {
-        this.setState({ value: newValue, stashedValue: null }, () => {
-          log('value now: ', this.state.value.document.toJSON());
-        });
-      }, 50);
+      });
     }
   }
 
@@ -177,7 +182,6 @@ export default class EditableHtml extends React.Component {
     return (
       <div>
         <Editor
-          ref={r => this.editor = r}
           value={value}
           onChange={this.onChange}
           plugins={this.plugins}

@@ -28,15 +28,6 @@ export default function MathPlugin(options) {
     schema: {
       document: { types: ['math'] }
     },
-    onBlur: () => {
-      log('[onBlur]');
-    },
-    onFocus: () => {
-      log('[onFocus]');
-    },
-    onSelect: () => {
-      log('[onSelect]');
-    },
     /**
      * A onDone wrapper function, places a blur change on the node, then calls 
      * the original donefn.
@@ -51,6 +42,7 @@ export default function MathPlugin(options) {
     renderNode: props => {
       if (props.node.type === 'math') {
         log('[renderNode]: ', props);
+        log('MathInput', MathInput);
         return <MathInput {...props}
           onClick={() => options.onClick(props.node)}
           onFocus={options.onFocus}

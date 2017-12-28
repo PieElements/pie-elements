@@ -40,13 +40,6 @@ export default class MathToolbar extends React.Component {
     }
   }
 
-  onDone = () => {
-    const { node, value, onChange } = this.props;
-    const update = { ...node.data.toObject(), change: { type: 'blur' } }
-    const change = value.change().setNodeByKey(node.key, { data: update });
-    onChange(change);
-  }
-
   render() {
     const { data } = this.props.node;
     return <HorizontalKeypad onClick={this.onClick} />;

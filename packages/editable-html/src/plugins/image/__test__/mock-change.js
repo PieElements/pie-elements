@@ -6,6 +6,7 @@ export default function MockChange() {
   this.setNodeByKey = stub().returns(this);
 
   this.removeNodeByKey = stub().returns(this);
+  this.insertInline = stub().returns(this);
 }
 
 export function MockDocument() {
