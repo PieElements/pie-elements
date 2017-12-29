@@ -1,7 +1,18 @@
 # Change Log
 
 All notable changes to this project will be documented in this file.
-See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/editable-html@2.0.2...@pie-libs/editable-html@2.1.0) (2017-12-29)
+
+
+### Features
+
+* **math:** use new HorizontalKeypad ([fbfe241](https://github.com/pieelements/pie-elements/commit/fbfe241))
+
+
+
 
 <a name="2.0.2"></a>
 ## [2.0.2](https://github.com/pieelements/pie-elements/compare/@pie-libs/editable-html@2.0.1...@pie-libs/editable-html@2.0.2) (2017-12-15)
