@@ -5,7 +5,7 @@ import { getStyles } from './icon-root';
 import injectSheet from 'react-jss';
 
 const Ex = ({ className }) => (
-  <g transform={`translate(0, 0)`}>
+  <g transform={`translate(0.5, 0.5)`}>
     <rect x="11" y="17.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -7.852 19.2507)" className={className} width="16.6" height="3.7" />
     <rect x="17.4" y="10.7" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -7.8175 19.209)" className={className} width="3.7" height="16.6" />
   </g>
