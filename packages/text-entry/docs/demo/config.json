@@ -1,0 +1,52 @@
+{
+  "langs": [
+    "en-US",
+    "es-ES",
+    "zh-CN"
+  ],
+  "elements": {
+    "text-entry": "../.."
+  },
+  "models": [
+    {
+      "id": "1",
+      "element": "text-entry",
+      "defaultLang": "en-US",
+      "model": {
+        "answerBlankSize": 15,
+        "answerAlignment": "left"
+      },
+      "feedback": {
+        "correctFeedbackType": "default",
+        "incorrectFeedbackType": "default"
+      },
+      "correctResponses": {
+        "award": 100,
+        "values": [
+          "4.37"
+        ],
+        "ignoreWhitespace": true,
+        "ignoreCase": true,
+        "feedback": {
+          "type": "default"
+        }
+      },
+      "incorrectResponses": {
+        "award": 0,
+        "feedback": {
+          "type": "default"
+        }
+      },
+      "partialResponses": {
+        "award": 25,
+        "values": [
+          "4.3",
+          "4"
+        ],
+        "feedback": {
+          "type": "default"
+        }
+      }
+    }
+  ]
+}
