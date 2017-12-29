@@ -35,10 +35,10 @@ export function model(question, session, env) {
     }
   }
 
-
   return Promise.resolve({
     disabled: env.mode !== 'gather',
-    correctness: env.mode === 'evaluate' ? getCorrectness() : null
+    correctness: env.mode === 'evaluate' ? getCorrectness() : null,
+    model: question.model || {}
   });
 }
 
