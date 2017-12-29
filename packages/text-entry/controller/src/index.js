@@ -28,8 +28,10 @@ export function model(question, session, env) {
       return 'correct';
     } else if (hasValue(partialResponses, session.value)) {
       return 'partially-correct';
+    } else if (!session.value || isEmpty(session.value)) {
+      return 'empty';
     } else {
-      return 'incorrect'
+      return 'incorrect';
     }
   }
 

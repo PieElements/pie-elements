@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Input from 'material-ui/Input';
 import debug from 'debug';
-import { Correct, Incorrect, PartiallyCorrect } from '@pie-libs/icons';
+import { Correct, Incorrect, PartiallyCorrect, NothingSubmitted } from '@pie-libs/icons';
 import { withStyles } from 'material-ui/styles';
 
 const log = debug('pie-elements:text-entry');
@@ -10,7 +10,8 @@ const log = debug('pie-elements:text-entry');
 const tags = {
   'correct': Correct,
   'incorrect': Incorrect,
-  'partially-correct': PartiallyCorrect
+  'partially-correct': PartiallyCorrect,
+  'empty': NothingSubmitted
 }
 
 const styles = theme => ({
@@ -18,8 +19,8 @@ const styles = theme => ({
     display: 'flex'
   },
   icon: {
-    width: '40px',
-    height: '40px'
+    width: '30px',
+    height: '30px'
   }
 });
 
