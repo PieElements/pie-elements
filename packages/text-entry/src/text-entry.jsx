@@ -41,7 +41,7 @@ class RawInput extends React.Component {
       <FormControl
         className={classes.formControl}
         error={!!error}>
-        <MuiInput id="name-helper"
+        <MuiInput
           inputRef={inputRef}
           value={value}
           classes={{
