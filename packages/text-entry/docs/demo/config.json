@@ -49,10 +49,10 @@
       },
       "model": {
         "answerBlankSize": "8",
-        "answerAlignment": "center",
-        "allowDecimal": true,
+        "answerAlignment": "right",
+        "allowDecimal": false,
         "allowSeparator": true,
-        "allowNegative": true,
+        "allowNegative": false,
         "allowIntegersOnly": true
       }
     }

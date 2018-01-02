@@ -35,11 +35,13 @@ export function model(question, session, env) {
     }
   }
 
-  return Promise.resolve({
-    disabled: env.mode !== 'gather',
-    correctness: env.mode === 'evaluate' ? getCorrectness() : null,
-    model: question.model || {}
-  });
+  return Promise.resolve(
+
+    Object.assign((question.model || {}),
+      {
+        disabled: env.mode !== 'gather',
+        correctness: env.mode === 'evaluate' ? getCorrectness() : null,
+      }));
 }
 
 export function outcome(question, session = { value: [] }) {
