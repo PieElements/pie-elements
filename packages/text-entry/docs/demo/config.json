@@ -48,7 +48,7 @@
         "ignoreWhitespace": true
       },
       "model": {
-        "answerBlankSize": "8",
+        "answerBlankSize": "2",
         "answerAlignment": "right",
         "allowDecimal": false,
         "allowSeparator": true,

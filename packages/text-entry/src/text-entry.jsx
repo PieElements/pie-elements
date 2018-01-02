@@ -5,6 +5,7 @@ import debug from 'debug';
 import MuiInput, { InputLabel } from 'material-ui/Input';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import classNames from 'classnames';
+import range from 'lodash/range';
 
 import { Correct, Incorrect, PartiallyCorrect, NothingSubmitted } from '@pie-libs/icons';
 import { withStyles } from 'material-ui/styles';
@@ -32,14 +33,15 @@ const styles = theme => ({
 
 class RawInput extends React.Component {
   render() {
-    const { classes, value, onChange, inputComponent, inputRef, inputProps, error, alignment } = this.props;
+    const { classes, value, onChange, inputComponent, inputRef, inputProps, error, alignment, size } = this.props;
 
+    const formClasses = classNames(classes.formControl, classes[`size${size}`]);
     const inputClass = classNames(classes.input, classes[alignment]);
     const Comp = inputComponent;
     log('error: ', error);
     return (
       <FormControl
-        className={classes.formControl}
+        className={formClasses}
         error={!!error}>
         <MuiInput
           inputRef={inputRef}
@@ -56,24 +58,37 @@ class RawInput extends React.Component {
   }
 }
 
-const inputStyles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-  },
-  input: {
+const inputStyles = theme => {
 
-  },
-  right: {
-    textAlign: 'right'
-  },
-  center: {
-    textAlign: 'center'
+  const base = {
+    container: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+    formControl: {
+      margin: theme.spacing.unit,
+    },
+    input: {
+
+    },
+    right: {
+      textAlign: 'right'
+    },
+    center: {
+      textAlign: 'center'
+    },
+    size8: {
+      maxWidth: '100px'
+    }
   }
-});
+  const sizes = range(1, 8).reduce((acc, s) => {
+    acc[`size${s}`] = {
+      maxWidth: `${theme.spacing.unit * s}px`
+    }
+    return acc;
+  }, {});
+  return Object.assign(base, sizes);
+}
 
 const Input = withStyles(inputStyles)(RawInput);
 
@@ -122,6 +137,7 @@ export class TextEntry extends React.Component {
         <Input
           value={value}
           alignment={model.answerAlignment}
+          size={model.answerBlankSize}
           onChange={this.onChange}
           inputComponent={FormatTag}
           error={this.state.warning}
