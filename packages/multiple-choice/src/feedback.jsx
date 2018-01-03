@@ -51,7 +51,7 @@ const styleSheet = {
 export class Feedback extends React.Component {
 
   render() {
-    const { correctness, feedback, classes, className } = this.props;
+    const { correctness, feedback, classes } = this.props;
 
     function chooseFeedback(correctness) {
       if (correctness && feedback) {
