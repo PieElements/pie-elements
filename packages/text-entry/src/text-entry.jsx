@@ -81,12 +81,14 @@ const inputStyles = theme => {
       maxWidth: '100px'
     }
   }
+
   const sizes = range(1, 8).reduce((acc, s) => {
     acc[`size${s}`] = {
-      maxWidth: `${theme.spacing.unit * s}px`
+      maxWidth: `${theme.spacing.unit * 1.4 * s}px`
     }
     return acc;
   }, {});
+
   return Object.assign(base, sizes);
 }
 
