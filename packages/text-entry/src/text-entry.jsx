@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Input from 'material-ui/Input';
 import debug from 'debug';
 import MuiInput, { InputLabel } from 'material-ui/Input';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import classNames from 'classnames';
 import range from 'lodash/range';
 
-import { Correct, Incorrect, PartiallyCorrect, NothingSubmitted } from '@pie-libs/icons';
+import { Correct, Incorrect, PartiallyCorrect, NothingSubmitted } from './response-indicators';
 import { withStyles } from 'material-ui/styles';
 import NumberFormat from 'react-number-format';
-import { getFormatTag } from './input'
+import { getFormatTag } from './formatting-component';
 const log = debug('pie-elements:text-entry');
 
 const tags = {
@@ -20,38 +19,46 @@ const tags = {
   'empty': NothingSubmitted
 }
 
-const styles = theme => ({
-  textEntry: {
-    display: 'flex'
-  },
-  icon: {
-    width: '30px',
-    height: '30px'
-  }
-});
-
-
 class RawInput extends React.Component {
   render() {
-    const { classes, value, onChange, inputComponent, inputRef, inputProps, error, alignment, size } = this.props;
+    const {
+      alignment,
+      classes,
+      correctness,
+      disabled,
+      error,
+      inputComponent,
+      inputProps,
+      onChange,
+      size,
+      value,
+      feedback
+     } = this.props;
 
-    const formClasses = classNames(classes.formControl, classes[`size${size}`]);
-    const inputClass = classNames(classes.input, classes[alignment]);
+    const formClasses = classNames(classes.formControl);
+    const inputClass = classNames(classes.input, classes[alignment], classes[`size${size}`]);
+
     const Comp = inputComponent;
-    log('error: ', error);
+    log('[render] correctness: ', correctness);
+
+    const CorrectnessTag = tags[correctness];
+
     return (
       <FormControl
+        disabled={disabled}
         className={formClasses}
         error={!!error}>
-        <MuiInput
-          inputRef={inputRef}
-          value={value}
-          classes={{
-            input: inputClass
-          }}
-          onChange={onChange}
-          inputComponent={inputComponent}
-          inputProps={inputProps} />
+        <div className={classes.inputAndIcon}>
+          <MuiInput
+            value={value}
+            classes={{
+              input: inputClass
+            }}
+            onChange={onChange}
+            inputComponent={inputComponent}
+            inputProps={inputProps} />
+          {CorrectnessTag && <div className={classes.icon}><CorrectnessTag feedback={feedback || 'feedback'} /></div>}
+        </div>
         <FormHelperText>{error ? error : ''}</FormHelperText>
       </FormControl>
     )
@@ -68,17 +75,21 @@ const inputStyles = theme => {
     formControl: {
       margin: theme.spacing.unit,
     },
-    input: {
-
+    inputAndIcon: {
+      display: 'flex',
+      alignItems: 'end'
+    },
+    icon: {
+      padding: '3px',
+      paddingLeft: `${theme.spacing.unit}px`,
+      width: '30px',
+      height: '30px'
     },
     right: {
       textAlign: 'right'
     },
     center: {
       textAlign: 'center'
-    },
-    size8: {
-      maxWidth: '100px'
     }
   }
 
@@ -125,34 +136,28 @@ export class TextEntry extends React.Component {
   }
 
   render() {
-    const { session, model, classes } = this.props;
+    const { session, model } = this.props;
     log('[render] model: ', model);
-
     const { allowIntegersOnly } = model;
     const { value } = this.state;
-    const CorrectnessTag = tags[model.correctness];
-
     const FormatTag = getFormatTag(model);
-
+    const inputProps = model.allowIntegersOnly ? { onBadInput: this.onBadInput } : {}
     return (
-      <div className={classes.textEntry}>
-        <Input
-          value={value}
-          alignment={model.answerAlignment}
-          size={model.answerBlankSize}
-          onChange={this.onChange}
-          inputComponent={FormatTag}
-          error={this.state.warning}
-          inputProps={{ onBadInput: this.onBadInput }}
-          disabled={model.disabled} />
-        {CorrectnessTag && <div className={classes.icon}>
-          <CorrectnessTag />
-        </div>}
-      </div>
+      <Input
+        feedback={model.feedback}
+        value={value}
+        correctness={model.correctness}
+        alignment={model.answerAlignment}
+        size={model.answerBlankSize}
+        onChange={this.onChange}
+        inputComponent={FormatTag}
+        error={this.state.warning}
+        inputProps={inputProps}
+        disabled={model.disabled} />
     );
   }
 }
 
 TextEntry.propTypes = {}
 
-export default withStyles(styles)(TextEntry);
+export default TextEntry;

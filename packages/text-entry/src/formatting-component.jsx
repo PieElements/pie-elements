@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debug from 'debug';
 import NumberFormat from 'react-number-format';
+import _every from 'lodash/every';
 
 const log = debug('pie-elements:text-entry:input');
 
@@ -76,8 +77,8 @@ const DecimalNegativeNoSeparator = BuildFormat({
   allowNegative: true
 });
 
-function mtch() {
-  return _.every(arguments, Boolean);
+function every() {
+  return _every(arguments, Boolean);
 }
 
 /**
@@ -97,21 +98,21 @@ export const getFormatTag = ({ allowDecimal, allowSeparator, allowNegative, allo
      *  allowNegative
      * })
      */
-    if (mtch(allowDecimal, allowSeparator, allowNegative)) {
+    if (every(allowDecimal, allowSeparator, allowNegative)) {
       return DecimalNegativeSeparator;
-    } else if (mtch(!allowDecimal, allowSeparator, allowNegative)) {
+    } else if (every(!allowDecimal, allowSeparator, allowNegative)) {
       return NotDecimalNegativeSeparator;
-    } else if (mtch(!allowDecimal, !allowSeparator, allowNegative)) {
+    } else if (every(!allowDecimal, !allowSeparator, allowNegative)) {
       return NotDecimalNegativeNoSeparator;
-    } else if (mtch(!allowDecimal, allowSeparator, !allowNegative)) {
+    } else if (every(!allowDecimal, allowSeparator, !allowNegative)) {
       return NotDecimalNoNegativeSeparator;
-    } else if (mtch(!allowDecimal, !allowSeparator, !allowNegative)) {
+    } else if (every(!allowDecimal, !allowSeparator, !allowNegative)) {
       return NotDecimalNoNegativeNoSeparator;
-    } else if (mtch(allowDecimal, !allowSeparator, !allowNegative)) {
+    } else if (every(allowDecimal, !allowSeparator, !allowNegative)) {
       return DecimalNoNegativeNoSeparator;
-    } else if (mtch(allowDecimal, allowSeparator, !allowNegative)) {
+    } else if (every(allowDecimal, allowSeparator, !allowNegative)) {
       return DecimalNoNegativeSeparator;
-    } else if (mtch(allowDecimal, !allowSeparator, allowNegative)) {
+    } else if (every(allowDecimal, !allowSeparator, allowNegative)) {
       return DecimalNegativeNoSeparator;
     }
   } else {

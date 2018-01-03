@@ -42,7 +42,9 @@
           "value": "<div>b</div>",
           "custom": "<div>b</div>"
         },
-        "values": [],
+        "values": [
+          "aa"
+        ],
         "caseSensitive": true,
         "ignoreCase": false,
         "ignoreWhitespace": true
@@ -53,7 +55,7 @@
         "allowDecimal": false,
         "allowSeparator": true,
         "allowNegative": false,
-        "allowIntegersOnly": true
+        "allowIntegersOnly": false
       }
     }
   ]
