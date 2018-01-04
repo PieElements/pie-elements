@@ -1,6 +1,8 @@
 import { expect } from 'chai';
+import debug from 'debug';
 
-const env = (lang) => ({ lang, mode: 'evaluate' });
+const env = (mode) => ({ mode: mode || 'evaluate' });
+const log = debug('pie-elements:text-entry:test');
 
 describe('model', () => {
 
@@ -23,19 +25,20 @@ describe('model', () => {
     describe('lang lookup', () => {
 
       it('returns correct for apple:en-US', () =>
-        mod.model(question, { value: 'apple' }, env('en-US'))
+        mod.model(question, { value: 'apple', lang: 'en-US' }, env())
           .then(m => {
+            log('m: ', m);
             expect(m.correctness).to.eql('correct');
           }));
 
       it('returns incorrect for manzana:en-US', () =>
-        mod.model(question, { value: 'manzana' }, env('en-US'))
+        mod.model(question, { value: 'manzana', lang: 'en-US' }, env())
           .then(m => {
             expect(m.correctness).to.eql('incorrect');
           }));
 
       it('returns correct for manzana:es-ES', () =>
-        mod.model(question, { value: 'manzana' }, env('es-ES'))
+        mod.model(question, { value: 'manzana', lang: 'es-ES' }, env())
           .then(m => {
             expect(m.correctness).to.eql('correct');
           }));
@@ -52,14 +55,14 @@ describe('model', () => {
        * if zh-CN isn't found it'll check the response using the defaultLang.
        */
       it('returns correct for apple:zh-CN', () =>
-        mod.model(question, { value: 'apple' }, env('zh-CN'))
+        mod.model(question, { value: 'apple', lang: 'zh-CN' }, env())
           .then(m => {
             expect(m.correctness).to.eql('correct');
           }));
 
 
       it('returns incorrect for manzana:zh-CN', () =>
-        mod.model(question, { value: 'manzana' }, env('zh-CN'))
+        mod.model(question, { value: 'manzana', lang: 'zh-CN' }, env())
           .then(m => {
             expect(m.correctness).to.eql('incorrect');
           }));

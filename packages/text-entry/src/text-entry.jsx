@@ -120,7 +120,7 @@ export class TextEntry extends React.Component {
     log('[onChange] value: ', event.target.value);
     if (this.state.value !== event.target.value) {
       this.setState({ value: event.target.value }, () => {
-        this.props.onSessionChanged(this.state.value);
+        this.props.onValueChanged(this.state.value, this.props.lang);
       });
     }
   }

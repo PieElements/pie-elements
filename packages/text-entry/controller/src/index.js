@@ -49,11 +49,14 @@ const hasValue = (responses, value, locales) => {
 
 export function model(question, session, env) {
 
+  env = env || {};
+
   const { model, correctResponses, partialResponses } = question;
 
   log('question:', question);
 
-  const langOpts = { lang: env.lang, fallback: question.defaultLang || 'en-US' };
+  const langOpts = { lang: session.lang, fallback: question.defaultLang || 'en-US' };
+  log('langOpts: ', langOpts);
 
   const getCorrectness = () => {
     if (hasValue(correctResponses, session.value, langOpts)) {

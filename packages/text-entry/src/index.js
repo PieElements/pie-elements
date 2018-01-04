@@ -27,8 +27,11 @@ export default class TextEntry extends HTMLElement {
     this.render();
   }
 
-  onSessionChanged(value) {
+  onValueChanged(value, lang) {
     this._session.value = value;
+    //We must set the lang that the value is targeting.
+    this._session.lang = lang;
+
     log('[onSessionChanged] session: ', this._session);
 
     this.dispatchEvent(new SessionChangedEvent(
@@ -47,7 +50,7 @@ export default class TextEntry extends HTMLElement {
       const e = React.createElement(ReactTextEntry, {
         model: this._model,
         session: this._session,
-        onSessionChanged: this.onSessionChanged.bind(this)
+        onValueChanged: this.onValueChanged.bind(this)
       });
 
       ReactDOM.render(e, this, () => {
