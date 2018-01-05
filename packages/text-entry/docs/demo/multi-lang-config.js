@@ -12,39 +12,30 @@ module.exports = {
       element: 'text-entry',
       defaultLang: 'en-US',
       correctResponses: {
-        award: 100,
+        //values: 'a' => values: [ {lang: defaultLang}, value: 'a', feedback: 'default'}]
+        //values: ['a'] => values: [ {lang: defaultLang}, value: 'a', feedback: 'default'}]
         values: [
-          { lang: 'en-US', data: ['mutt', 'hound'] },
-          { lang: 'es-ES', data: ['chucho', 'sabueso'] }
+          //set feedback to a string => custom
+          { lang: 'en-US', value: 'mutt', feedback: 'M' },
+          //set it to null - means no feedback 'none'
+          { lang: 'en-US', value: 'hound', feedback: null },
+          //not specifying 'feedback' == feedback: 'default'
+          { lang: 'es-ES', value: 'chucho' },
+          { lang: 'es-ES', value: 'sabueso' }
+        ]
+      },
+      partialResponses: {
+        values: [
+          { lang: 'en-US', value: 'mutty' },
+          { lang: 'es-ES', value: 'sabuesos' }
         ],
         ignoreWhitespace: true,
         ignoreCase: true,
-        feedback: {
-          type: 'custom',
-          value: [
-            { lang: 'en-US', data: 'correct!' },
-            { lang: 'es-ES', data: 'correcto!' }
-          ]
-        },
-        caseSensitive: true
       },
-      incorrectResponses: {
-        award: 0,
-        feedback: {
-          type: 'custom',
-          value: '<div>no</div>'
-        }
+      incorrectFeedback: {
+        type: 'custom',
+        values: ['<div>no</div>']
       },
-      // partialResponses: {
-      //   feedback: {
-      //     type: 'custom',
-      //     value: '<div>p</div>'
-      //   },
-      //   values: ['aa'],
-      //   caseSensitive: true,
-      //   ignoreCase: false,
-      //   ignoreWhitespace: true
-      // },
       model: {
         answerBlankSize: '5',
         answerAlignment: 'right',

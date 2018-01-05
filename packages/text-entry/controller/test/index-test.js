@@ -13,8 +13,15 @@ describe('model', () => {
     question = {
       correctResponses: {
         values: [
-          { lang: 'en-US', data: ['apple'] },
-          { lang: 'es-ES', data: ['manzana'] }
+          { lang: 'en-US', value: 'apple' },
+          { lang: 'en-US', value: 'pear' },
+          { lang: 'es-ES', value: 'manzana' }
+        ]
+      },
+      partialResponses: {
+        values: [
+          { lang: 'en-US', value: 'apples' },
+          { lang: 'es-ES', value: 'manzanan' }
         ]
       }
     }
@@ -31,7 +38,14 @@ describe('model', () => {
             expect(m.correctness).to.eql('correct');
           }));
 
-      it('returns incorrect for manzana:en-US', () =>
+      it('returns correct for pear:en-US', () =>
+        mod.model(question, { value: 'pear', lang: 'en-US' }, env())
+          .then(m => {
+            log('m: ', m);
+            expect(m.correctness).to.eql('correct');
+          }));
+
+      it.only('returns incorrect for manzana:en-US', () =>
         mod.model(question, { value: 'manzana', lang: 'en-US' }, env())
           .then(m => {
             expect(m.correctness).to.eql('incorrect');
@@ -44,10 +58,21 @@ describe('model', () => {
           }));
     });
 
+    describe('when values is an array of string', () => {
+
+      beforeEach(() => {
+        question.correctResponses.values = ['apple']
+      });
+
+      it('returns correct for apple', () =>
+        mod.model(question, { value: 'apple' }, env())
+          .then(m => expect(m.correctness).to.eql('correct')));
+    });
+
     describe('when data is a string', () => {
 
       it('returns correct for appley:en-US', () => {
-        question.correctResponses.values[0].data = 'appley';
+        question.correctResponses.values[0].value = 'appley';
         return mod.model(question, { value: 'appley', lang: 'en-US' }, env())
           .then(m => {
             log('m: ', m);

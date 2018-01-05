@@ -1,0 +1,169 @@
+{
+  "definitions": {
+    "ignoreWhitespace": {
+      "description": "If true, ignore whitespace in matching the response.",
+      "type": "boolean"
+    },
+    "ignoreCase": {
+      "description": "If true, ignore the case of the response",
+      "type": "boolean"
+    },
+    "award": {
+      "type": "integer",
+      "title": "award",
+      "description": "How much to award",
+      "default": 0,
+      "examples": [
+        100
+      ]
+    },
+    "langObject": {
+      "type": "object",
+      "properties": {
+        "lang": {
+          "type": "string",
+          "title": "lang",
+          "description": "A lang value",
+          "default": "",
+          "examples": [
+            "en-US"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "description": "The value"
+        },
+        "feedback": {
+          "type": "string",
+          "description": "any feedback you wish to set for this answer"
+        }
+      },
+      "required": [
+        "lang",
+        "data"
+      ]
+    },
+    "valuesArray": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "$ref": "#/definitions/langObject"
+          }
+        ]
+      }
+    },
+    "responsesObject": {
+      "type": "object",
+      "description": "A responses object",
+      "properties": {
+        "values": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/valuesArray"
+            }
+          ]
+        },
+        "ignoreWhitespace": {
+          "$ref": "#/definitions/ignoreWhitespace"
+        },
+        "ignoreCase": {
+          "$ref": "#/definitions/ignoreCase"
+        },
+        "award": {
+          "$ref": "#/definitions/award"
+        }
+      }
+    }
+  },
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "type": "object",
+  "properties": {
+    "defaultLang": {
+      "type": "string",
+      "title": "The default lang",
+      "description": "The defualt lang to use",
+      "default": "",
+      "examples": [
+        "en-US"
+      ]
+    },
+    "correctResponses": {
+      "$ref": "#/definitions/responsesObject",
+      "description": "Correct Responses"
+    },
+    "partialResponses": {
+      "$ref": "#/definitions/responsesObject",
+      "description": "Partially Correct Responses"
+    },
+    "incorrectFeedback": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "values": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/valuesArray"
+            }
+          ]
+        }
+      },
+      "required": [
+        "type"
+      ]
+    }
+  },
+  "model": {
+    "$id": "/properties/model",
+    "type": "object",
+    "properties": {
+      "answerBlankSize": {
+        "type": "string",
+        "title": "answerBlankSize",
+        "description": "Size of the input",
+        "default": "",
+        "examples": [
+          "5"
+        ]
+      },
+      "answerAlignment": {
+        "type": "string",
+        "description": "Sets the alignment of the text answer being entered within the answer area.",
+        "enum": [
+          "center",
+          "left",
+          "right"
+        ]
+      },
+      "allowDecimal": {
+        "type": "boolean",
+        "title": "allowDecimal",
+        "description": "Allow decimal places",
+        "default": false
+      },
+      "allowIntegersOnly": {
+        "type": "boolean",
+        "title": "allowIntegersOnly",
+        "description": "Restrict input to numbers (deprecated - use numbersOnly instead)",
+        "default": false
+      },
+      "numbersOnly": {
+        "type": "boolean",
+        "title": "numbersOnly",
+        "description": "Restrict input to numbers",
+        "default": false
+      }
+    }
+  }
+}
