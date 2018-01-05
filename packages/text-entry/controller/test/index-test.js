@@ -44,6 +44,18 @@ describe('model', () => {
           }));
     });
 
+    describe('when data is a string', () => {
+
+      it('returns correct for appley:en-US', () => {
+        question.correctResponses.values[0].data = 'appley';
+        return mod.model(question, { value: 'appley', lang: 'en-US' }, env())
+          .then(m => {
+            log('m: ', m);
+            expect(m.correctness).to.eql('correct');
+          });
+      });
+    });
+
     describe('defaultLang', () => {
 
       beforeEach(() => {
