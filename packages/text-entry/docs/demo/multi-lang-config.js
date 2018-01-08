@@ -33,9 +33,22 @@ module.exports = {
         ignoreCase: true,
       },
       incorrectFeedback: {
-        type: 'custom',
-        values: ['<div>no</div>']
+        matches: [
+          { lang: 'en-US', value: 'x', feedback: 'no x' }
+        ]
+        fallback: {
+          type: 'custom',
+          values: [
+            { lang: 'en-US', value: 'fallback feedback for en-US' },
+            { lang: 'es-ES', value: 'no bueno' }
+          ]
+        }
       },
+      // {
+      //   type: 'custom',
+
+      //   values: ['<div>no</div>']
+      // },
       model: {
         answerBlankSize: '5',
         answerAlignment: 'right',
