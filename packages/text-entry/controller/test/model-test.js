@@ -9,13 +9,13 @@ describe('model', () => {
   let mod, question;
 
   beforeEach(() => {
-    mod = require('../src/index');
+    mod = require('../src/model');
     question = {
       correctResponses: {
         values: [
-          { lang: 'en-US', value: 'apple' },
+          { lang: 'en-US', value: 'apple', feedback: 'Custom One' },
           { lang: 'en-US', value: 'pear' },
-          { lang: 'es-ES', value: 'manzana' }
+          { lang: 'es-ES', value: 'manzana', feedback: 'Custom Two' }
         ]
       },
       partialResponses: {
@@ -23,6 +23,9 @@ describe('model', () => {
           { lang: 'en-US', value: 'apples' },
           { lang: 'es-ES', value: 'manzanan' }
         ]
+      },
+      incorrectFeedback: {
+        type: 'default'
       }
     }
   });
@@ -45,7 +48,7 @@ describe('model', () => {
             expect(m.correctness).to.eql('correct');
           }));
 
-      it.only('returns incorrect for manzana:en-US', () =>
+      it('returns incorrect for manzana:en-US', () =>
         mod.model(question, { value: 'manzana', lang: 'en-US' }, env())
           .then(m => {
             expect(m.correctness).to.eql('incorrect');
@@ -56,17 +59,6 @@ describe('model', () => {
           .then(m => {
             expect(m.correctness).to.eql('correct');
           }));
-    });
-
-    describe('when values is an array of string', () => {
-
-      beforeEach(() => {
-        question.correctResponses.values = ['apple']
-      });
-
-      it('returns correct for apple', () =>
-        mod.model(question, { value: 'apple' }, env())
-          .then(m => expect(m.correctness).to.eql('correct')));
     });
 
     describe('when data is a string', () => {
@@ -103,6 +95,17 @@ describe('model', () => {
           .then(m => {
             expect(m.correctness).to.eql('incorrect');
           }));
+    });
+
+    describe('feedback', () => {
+      it('return custom feedback for apple:en-US', () => mod.model(question, { value: 'apple', lang: 'en-US' }, env())
+        .then(c => expect(c.feedback).to.eql('Custom One')))
+
+      it('return custom feedback for manzana:es-ES', () => mod.model(question, { value: 'manzana', lang: 'es-ES' }, env())
+        .then(c => expect(c.feedback).to.eql('Custom Two')))
+
+      it('return custom feedback for pear:en-US', () => mod.model(question, { value: 'pear', lang: 'en-US' }, env())
+        .then(c => expect(c.feedback).to.eql(mod.DEFAULT_FEEDBACK.correct)))
     });
 
   });
