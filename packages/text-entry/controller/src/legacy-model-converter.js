@@ -80,11 +80,27 @@ const normalizeIncorrectFeedback = (incorrectFeedback, incorrectResponses, opts)
   if (incorrectFeedback) {
     return incorrectFeedback;
   } else {
+
+
     const out = {
-      type: incorrectResponses.type || 'default'
+      disabled: false,
+      matches: [],
+      fallback: {
+        type: 'default',
+        values: []
+      }
     }
-    if (out.type === 'custom') {
-      out.values = [{ lang, value: incorrectResponses.value || '' }];
+
+    const fb = incorrectResponses.feedback || {};
+
+    if (fb.type === 'custom') {
+      out.matches.push({
+        lang: opts.lang,
+        value: fb.value,
+        feedback: fb.custom
+      });
+    } else if (fb.type === 'none') {
+      out.disabled = true;
     }
     return out;
   }

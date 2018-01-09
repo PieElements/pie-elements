@@ -4,7 +4,14 @@ import some from 'lodash/some';
 import isEmpty from 'lodash/isEmpty';
 
 const log = debug('pie-elements:text-entry:controller');
+const DEFAULT = 'DEFAULT';
 
+export const Correctness = {
+  partial: 'partially-correct',
+  correct: 'correct',
+  incorect: 'incorrect',
+  empty: 'empty'
+}
 /** 
  * For the documentation of pie controllers see
  * https://pielabs.github.io/pie-docs/developing/controller.html
@@ -68,10 +75,10 @@ export const DEFAULT_FEEDBACK = {
 }
 
 const getFeedback = (response, feedbackMap) => {
-  if (!response, response.feedback === undefined) {
+  if (!response, response.feedback === DEFAULT) {
     //default
     return feedbackMap[response.correctness];
-  } else if (response.feedback === null) {
+  } else if (!response.feedback) {
     //none
     return '';
   } else {
@@ -80,20 +87,47 @@ const getFeedback = (response, feedbackMap) => {
   }
 }
 
-const getIncorrectResponse = (config) => {
+const getIncorrectResponse = (incorrectFeedback, value, langOpts) => {
 
-  let feedback;
+  //let feedback;
+  const out = { correctness: Correctness.incorrect, feedback: DEFAULT };
 
-  if (config.type === 'custom') {
-    feedback = config.custom;
-  } else if (config.type === 'none') {
-    feedback = null
+  incorrectFeedback = incorrectFeedback || {};
+  if (incorrectFeedback.disabled) {
+    delete out.feedback;
+    return out;
   }
 
-  return {
-    correctness: 'incorrect',
-    feedback
+  if (Array.isArray(incorrectFeedback.matches)) {
+    const match = incorrectFeedback.matches.find(m => {
+      return (m.value === value || m.value === `<div>${value}</div>`) && m.lang === langOpts.lang;
+    });
+
+    if (match) {
+      out.feedback = match.feedback;
+      return out;
+    }
   }
+
+  if (incorrectFeedback.fallback && Array.isArray(incorrectFeedback.fallback.values)) {
+    const m = incorrectFeedback.fallback.values.find(fb => {
+      return fb.lang === langOpts.lang;
+    });
+
+    if (m) {
+      out.feedback = m.feedback;
+      return out;
+    } else {
+      const fallback = incorrectFeedback.fallback.values.find(fb => {
+        return fb.lang === langOpts.fallback;
+      });
+      if (fallback) {
+        out.feedback = fallback.feedback;
+        return out;
+      }
+    }
+  }
+  return out;
 }
 
 export function model(question, session, env) {
@@ -106,6 +140,7 @@ export function model(question, session, env) {
   const { model, correctResponses, partialResponses } = question;
 
   log('question:', question);
+  session.lang = session.lang || (question.defaultLang || 'en-US');
 
   const langOpts = { lang: session.lang, fallback: question.defaultLang || 'en-US' };
   log('langOpts: ', langOpts);
@@ -113,9 +148,9 @@ export function model(question, session, env) {
   const feedbackMap = Object.assign(DEFAULT_FEEDBACK, question.defaultFeedback);
 
   const matchingResponse =
-    getMatchingResponse('correct', correctResponses, session.value, langOpts) ||
-    getMatchingResponse('parially-correct', partialResponses, session.value, langOpts) ||
-    getIncorrectResponse(question.incorrectFeedback)
+    getMatchingResponse(Correctness.correct, correctResponses, session.value, langOpts) ||
+    getMatchingResponse(Correctness.partial, partialResponses, session.value, langOpts) ||
+    getIncorrectResponse(question.incorrectFeedback, session.value, langOpts)
 
 
   return Promise.resolve(
@@ -123,6 +158,7 @@ export function model(question, session, env) {
     Object.assign((question.model || {}),
       {
         disabled: env.mode !== 'gather',
+        lang: env.locale || 'en-US',
         correctness: env.mode === 'evaluate' ? getCorrectness(session.value, matchingResponse) : null,
         feedback: env.mode === 'evaluate' ? getFeedback(matchingResponse, feedbackMap, question.incorrectFeedback) : null
       }));

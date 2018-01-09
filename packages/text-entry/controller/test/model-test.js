@@ -14,7 +14,7 @@ describe('model', () => {
       correctResponses: {
         values: [
           { lang: 'en-US', value: 'apple', feedback: 'Custom One' },
-          { lang: 'en-US', value: 'pear' },
+          { lang: 'en-US', value: 'pear', feedback: 'DEFAULT' },
           { lang: 'es-ES', value: 'manzana', feedback: 'Custom Two' }
         ]
       },
@@ -25,7 +25,14 @@ describe('model', () => {
         ]
       },
       incorrectFeedback: {
-        type: 'default'
+        disabled: false,
+        matches: [
+          { lang: 'en-US', value: 'appler', feedback: 'Typo?' },
+          { lang: 'es-ES', value: 'apples', feedback: 'Uso Espanol' },
+          { lang: 'es-ES', value: 'mmanzana', feedback: 'Typo??' }
+        ],
+        fallback: {
+        }
       }
     }
   });
@@ -104,9 +111,72 @@ describe('model', () => {
       it('return custom feedback for manzana:es-ES', () => mod.model(question, { value: 'manzana', lang: 'es-ES' }, env())
         .then(c => expect(c.feedback).to.eql('Custom Two')))
 
-      it('return custom feedback for pear:en-US', () => mod.model(question, { value: 'pear', lang: 'en-US' }, env())
-        .then(c => expect(c.feedback).to.eql(mod.DEFAULT_FEEDBACK.correct)))
+      it('return default correct feedback for pear:en-US', () => mod.model(
+        question,
+        { value: 'pear', lang: 'en-US' },
+        env()).then(c => expect(c.feedback).to.eql(mod.DEFAULT_FEEDBACK.correct)));
     });
 
+    describe('incorrect feedback', () => {
+
+      it('return default incorrect feedback for melon:en-US', () => mod.model(
+        question,
+        { value: 'melon', lang: 'en-US' },
+        env()).then(c => expect(c.feedback).to.eql(mod.DEFAULT_FEEDBACK.incorrect)));
+
+      it('returns matched incorrect feedback', () => {
+        return mod.model(question, { value: 'appler', lang: 'en-US' }, env())
+          .then(c => expect(c.feedback).to.eql('Typo?'));
+      });
+
+      it('returns matched incorrect feedback', () => {
+        return mod.model(question, { value: 'apples', lang: 'es-ES' }, env())
+          .then(c => expect(c.feedback).to.eql('Uso Espanol'));
+      });
+
+      it('returns matched incorrect feedback', () => {
+        return mod.model(question, { value: 'mmanzana', lang: 'es-ES' }, env())
+          .then(c => expect(c.feedback).to.eql('Typo??'));
+      });
+
+      describe('disabled', () => {
+        beforeEach(() => {
+          question.incorrectFeedback.disabled = true;
+        });
+
+        it('has no feedback', () => {
+          return mod.model(question, { value: 'apples', lang: 'en-US' }, env())
+            .then(c => expect(c.feedback).to.eql(''));
+        })
+      })
+
+
+      describe('fallback', () => {
+
+        let feedback;
+        beforeEach(() => {
+          feedback = 'this is generic feedback for en-US'
+          question.incorrectFeedback.fallback.values = [
+            {
+              lang: 'en-US',
+              feedback
+            }];
+        });
+
+        it('falls back to lang targeted feedback', () => {
+          return mod.model(question, { value: 'aaaapplllee', lang: 'en-US' }, env())
+            .then(c => {
+              expect(c.feedback).to.eql(feedback);
+            });
+        });
+
+        it('falls back to defaultLang targeted feedback', () => {
+          return mod.model(question, { value: 'aaaapplllee', lang: 'zh-CN' }, env())
+            .then(c => {
+              expect(c.feedback).to.eql(feedback);
+            });
+        });
+      })
+    })
   });
 });
