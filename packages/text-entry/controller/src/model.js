@@ -9,7 +9,7 @@ const DEFAULT = 'DEFAULT';
 export const Correctness = {
   partial: 'partially-correct',
   correct: 'correct',
-  incorect: 'incorrect',
+  incorrect: 'incorrect',
   empty: 'empty'
 }
 /** 
