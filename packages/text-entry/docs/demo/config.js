@@ -6,19 +6,18 @@ module.exports = {
   models: [
     {
       id: '1',
-      //prompt: 
-      //what's another name for a dog
-      //¿Cuál es un nombre diferente para un perro?
       element: 'text-entry',
+      //This is the lang that we'll fall back to if we can't find the desired language.
       defaultLang: 'en-US',
       correctResponses: {
-        //values: 'a' => values: [ {lang: defaultLang}, value: 'a', feedback: 'default'}]
-        //values: ['a'] => values: [ {lang: defaultLang}, value: 'a', feedback: 'default'}]
+        /**
+         * values is an array of lang objects w/ optional feedback 
+         */
         values: [
           //set feedback to a string => custom
           { lang: 'en-US', value: 'mutt', feedback: 'M' },
-          //set it to null - means no feedback 'none'
-          { lang: 'en-US', value: 'hound', feedback: null },
+          //DEFAULT - sets feedback to the default
+          { lang: 'en-US', value: 'hound', feedback: 'DEFAULT' },
           //not specifying 'feedback' == feedback: 'default'
           { lang: 'es-ES', value: 'chucho' },
           { lang: 'es-ES', value: 'sabueso' }
@@ -38,7 +37,7 @@ module.exports = {
         //An array of possible incorrect responses to match against.
         matches: [
           { lang: 'en-US', value: 'x', feedback: 'no x' }, //aka if they enter x when using en-US feedback is 'no x'
-          { lang: 'es-ES', value: 'apple', feedback: 'Uso Espanol' } //aka if they enter x when using en-US feedback is 'no x'
+          { lang: 'es-ES', value: 'apple', feedback: 'Uso Espanol' }
         ],
         //Failing that match by lang only
         fallback: {
@@ -47,12 +46,12 @@ module.exports = {
             { lang: 'es-ES', feedback: 'no bueno' }
           ]
         }
-        //Failing that we use the internal default feedback.
+        //if matches and fallback are missing the internal default feedback is used.
       },
       model: {
-        answerBlankSize: '5',
-        answerAlignment: 'right',
-        allowDecimal: false,
+        answerBlankSize: '10',
+        answerAlignment: 'left',
+        allowDecimal: true,
         allowIntegersOnly: false
       }
     }
