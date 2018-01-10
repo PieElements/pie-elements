@@ -140,9 +140,8 @@ export function model(question, session, env) {
   const { model, correctResponses, partialResponses } = question;
 
   log('question:', question);
-  session.lang = session.lang || (question.defaultLang || 'en-US');
 
-  const langOpts = { lang: session.lang, fallback: question.defaultLang || 'en-US' };
+  const langOpts = { lang: env.locale || 'en-US', fallback: question.defaultLang || 'en-US' };
   log('langOpts: ', langOpts);
 
   const feedbackMap = Object.assign(DEFAULT_FEEDBACK, question.defaultFeedback);
@@ -153,15 +152,25 @@ export function model(question, session, env) {
     getIncorrectResponse(question.incorrectFeedback, session.value, langOpts)
 
 
-  return Promise.resolve(
+  return new Promise(resolve => {
+    const correctness = env.mode === 'evaluate' ? getCorrectness(session.value, matchingResponse) : null;
+    log('correctness: ', correctness);
 
-    Object.assign((question.model || {}),
-      {
-        disabled: env.mode !== 'gather',
-        lang: env.locale || 'en-US',
-        correctness: env.mode === 'evaluate' ? getCorrectness(session.value, matchingResponse) : null,
-        feedback: env.mode === 'evaluate' ? getFeedback(matchingResponse, feedbackMap, question.incorrectFeedback) : null
-      }));
+    const feedback = env.mode === 'evaluate' ? getFeedback(matchingResponse, feedbackMap, question.incorrectFeedback) : null;
+
+    log('feedback: ', feedback);
+
+    const extras = {
+      disabled: env.mode !== 'gather',
+      lang: env.locale || 'en-US',
+      correctness,
+      feedback,
+      colorContrast: env.accessibility && env.accessibility.colorContrast || 'black_on_white'
+    };
+    const out = Object.assign((question.model || {}), extras);
+    resolve(out);
+
+  });
 }
 
 export function outcome(question, session = { value: [] }) {

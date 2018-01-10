@@ -52,7 +52,8 @@ class RawInput extends React.Component {
           <MuiInput
             value={value}
             classes={{
-              input: inputClass
+              input: inputClass,
+              underline: classes.underline
             }}
             onChange={onChange}
             inputComponent={inputComponent}
@@ -66,7 +67,7 @@ class RawInput extends React.Component {
 }
 
 const inputStyles = theme => {
-
+  console.log(theme);
   const base = {
     container: {
       display: 'flex',
@@ -90,6 +91,26 @@ const inputStyles = theme => {
     },
     center: {
       textAlign: 'center'
+    },
+    underline: {
+      '&:hover:not($disabled)::before': {
+        // '&:hover:not(.MuiInput-disabled-26)::before': {
+        backgroundColor: 'orange'
+      },
+      '&::before': {
+        backgroundColor: 'var(--input-underline-default-color, rgba(0,0,0,0.2))',
+        '&:hover': {
+          height: '100px'
+        }
+      },
+      '&::after': {
+
+        backgroundColor: 'var(--input-underline-highlight-color, red)'
+      }
+    },
+    input: {
+      color: 'red',
+      // backgroundColor: 'green'
     }
   }
 
@@ -105,6 +126,15 @@ const inputStyles = theme => {
 
 const Input = withStyles(inputStyles)(RawInput);
 
+const TextEntryStyles = {
+
+  'white_on_black': {
+    backgroundColor: 'black',
+    '--input-line-color': 'white',
+    '--input-underline-default-color': 'white',
+    '--input-underline-highlight-color': 'lightblue'
+  }
+}
 export class TextEntry extends React.Component {
 
   constructor(props) {
@@ -120,7 +150,7 @@ export class TextEntry extends React.Component {
     log('[onChange] value: ', event.target.value);
     if (this.state.value !== event.target.value) {
       this.setState({ value: event.target.value }, () => {
-        this.props.onValueChanged(this.state.value, this.props.model.lang);
+        this.props.onValueChanged(this.state.value);
       });
     }
   }
@@ -136,28 +166,31 @@ export class TextEntry extends React.Component {
   }
 
   render() {
-    const { session, model } = this.props;
+    const { session, model, classes } = this.props;
     log('[render] model: ', model);
     const { allowIntegersOnly } = model;
     const { value } = this.state;
     const FormatTag = getFormatTag(model);
     const inputProps = model.allowIntegersOnly ? { onBadInput: this.onBadInput } : {}
+    const names = classNames(classes.textEntry, classes[model.colorContrast]);
     return (
-      <Input
-        feedback={model.feedback}
-        value={value}
-        correctness={model.correctness}
-        alignment={model.answerAlignment}
-        size={model.answerBlankSize}
-        onChange={this.onChange}
-        inputComponent={FormatTag}
-        error={this.state.warning}
-        inputProps={inputProps}
-        disabled={model.disabled} />
+      <div className={names}>
+        <Input
+          feedback={model.feedback}
+          value={value}
+          correctness={model.correctness}
+          alignment={model.answerAlignment}
+          size={model.answerBlankSize}
+          onChange={this.onChange}
+          inputComponent={FormatTag}
+          error={this.state.warning}
+          inputProps={inputProps}
+          disabled={model.disabled} />
+      </div>
     );
   }
 }
 
 TextEntry.propTypes = {}
 
-export default TextEntry;
+export default withStyles(TextEntryStyles)(TextEntry);

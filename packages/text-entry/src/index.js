@@ -14,12 +14,13 @@ export default class TextEntry extends HTMLElement {
 
   set model(m) {
     this._model = m;
-    this.render();
     this.dispatchEvent(new ModelSetEvent(
       this.tagName.toLowerCase(),
       false,
       !!this._model
     ));
+
+    this.render();
   }
 
   set session(s) {
@@ -27,10 +28,8 @@ export default class TextEntry extends HTMLElement {
     this.render();
   }
 
-  onValueChanged(value, lang) {
+  onValueChanged(value) {
     this._session.value = value;
-    //We must set the lang that the value is targeting.
-    this._session.lang = lang;
 
     log('[onSessionChanged] session: ', this._session);
 
