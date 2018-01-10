@@ -7,7 +7,8 @@ import {
   MultiLangInput,
   NumberTextField,
   TwoChoice,
-  feedbackConfigDefaults
+  feedbackConfigDefaults,
+  TagsInput
 } from '../src/index';
 
 import Radio from 'material-ui/Radio';
@@ -44,6 +45,7 @@ class Container extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tags: ['apple', 'banana', 'carrot', 'donut', 'eggs', 'fries', 'hops', 'ice cream'],
       selector: {
         type: 'default',
         customFeedback: undefined,
@@ -76,7 +78,15 @@ class Container extends React.Component {
       <em>Normal</em>
       <pre>{JSON.stringify(this.state, null, '  ')}</pre>
 
-      <Section name="Input Container">
+      <Section name="tag input">
+        <div style={{ maxWidth: '100px' }}>
+          <TagsInput
+            tags={this.state.tags}
+            onChange={tags => this.setState({ tags })}
+          />
+        </div>
+      </Section>
+      {/* <Section name="Input Container">
         <div style={{ display: 'flex' }}>
           <InputContainer label="just a vanilla radio">
             <Radio />
@@ -130,7 +140,7 @@ class Container extends React.Component {
           selected={'en-US'}
           defaultLang={'en-US'}
         />
-      </Section>
+      </Section> */}
     </div>
   }
 }
