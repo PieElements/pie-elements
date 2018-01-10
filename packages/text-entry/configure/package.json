@@ -1,0 +1,12 @@
+{
+  "name": "@pie-elements/text-entry-configure",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "dependencies": {
+    "react": "^15.6.0",
+    "react-dom": "^15.6.0",
+    "prop-types": "^15.6.0",
+    "@pie-libs/config-ui": "^1.2.3",
+    "material-ui": "^1.0.0-beta.22"
+  }
+}
