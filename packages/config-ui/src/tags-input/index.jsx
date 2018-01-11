@@ -165,7 +165,6 @@ const styles = theme => ({
     '&:focus': {
       outline: 'none'
     }
-
   }
 })
 

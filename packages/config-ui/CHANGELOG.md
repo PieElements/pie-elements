@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.2.6...@pie-libs/config-ui@1.3.0) (2018-01-11)
+
+
+### Features
+
+* **tags-input:** release early version of tags input ([6b7a94e](https://github.com/pieelements/pie-elements/commit/6b7a94e))
+
+
+
+
 <a name="1.2.6"></a>
 ## [1.2.6](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.2.5...@pie-libs/config-ui@1.2.6) (2018-01-11)
 
