@@ -4,6 +4,7 @@ import {
   InputContainer,
   InputSwitch,
   Langs,
+  LanguageControls,
   MultiLangInput,
   NumberTextField,
   TwoChoice,
@@ -37,6 +38,7 @@ const Section = withStyles({
   }
 })(({ name, children, classes }) => <div className={classes.section}>
   <Typography>{name}</Typography>
+  <br />
   {children}
 </div>);
 
@@ -56,7 +58,10 @@ class Container extends React.Component {
       feedback: feedbackConfigDefaults({
         correctFeedbackType: 'custom',
         correctFeedback: 'custom message'
-      })
+      }),
+      lang: 'en-US',
+      activeLang: 'en-US',
+      defaultLang: 'en-US'
     }
     log('state: ', this.state);
     this.updateOne = this.updateOne.bind(this);
@@ -76,28 +81,39 @@ class Container extends React.Component {
       <em>Normal</em>
       <pre>{JSON.stringify(this.state, null, '  ')}</pre>
 
-      <Section name="Input Container">
-        <div style={{ display: 'flex' }}>
-          <InputContainer label="just a vanilla radio">
-            <Radio />
-          </InputContainer>
-          <InputSwitch
-            label="toggle something"
-            checked={true}
+<<<<<<< HEAD
+=======
+      <Section name="Tag Input">
+        <div style={{ maxWidth: '300px' }}>
+          <TagsInput
+            tags={this.state.tags}
+            onChange={tags => this.setState({ tags })}
           />
-          <TwoChoice header="two-choice" one={{ label: 'one', value: 'one' }} two={{ label: 'two', value: 'two' }} />
-        </div>
-        <div style={{ display: 'flex' }}>
-          <InputContainer label="just a vanilla radio">
-            <Radio />
-          </InputContainer>
-          <InputSwitch
-            label="toggle something"
-            checked={true}
-          />
-          <TwoChoice header="two-choice" one={{ label: 'one', value: 'one' }} two={{ label: 'two', value: 'two' }} />
         </div>
       </Section>
+>>>>>>> a797db5... feat(tag-input): add tag input and update langs
+    <Section name="Input Container">
+      <div style={{ display: 'flex' }}>
+        <InputContainer label="just a vanilla radio">
+          <Radio />
+        </InputContainer>
+        <InputSwitch
+          label="toggle something"
+          checked={true}
+        />
+        <TwoChoice header="two-choice" one={{ label: 'one', value: 'one' }} two={{ label: 'two', value: 'two' }} />
+      </div>
+      <div style={{ display: 'flex' }}>
+        <InputContainer label="just a vanilla radio">
+          <Radio />
+        </InputContainer>
+        <InputSwitch
+          label="toggle something"
+          checked={true}
+        />
+        <TwoChoice header="two-choice" one={{ label: 'one', value: 'one' }} two={{ label: 'two', value: 'two' }} />
+      </div>
+    </Section>
       <Section name="MultiLangInput">
         <MultiLangInput
           label={'label'}
@@ -123,15 +139,23 @@ class Container extends React.Component {
           feedback={this.state.feedback}
           onChange={(feedback) => this.setState({ feedback })} />
       </Section>
+
+      <Section name="Language Controls">
+        <LanguageControls
+          langs={['en-US', 'es-ES']}
+          activeLang={this.state.activeLang}
+          defaultLang={this.state.defaultLang}
+          onActiveLangChange={activeLang => this.setState({ activeLang })}
+          onDefaultLangChange={defaultLang => this.setState({ defaultLang })} />
+      </Section>
       <Section name="Langs">
         <Langs
-          label="Langs to choose"
+          label="label"
           langs={['en-US', 'es-ES']}
-          selected={'en-US'}
-          defaultLang={'en-US'}
-        />
+          selected={this.state.lang}
+          onChange={l => this.setState({ lang: l })} />
       </Section>
-    </div>
+    </div >
   }
 }
 

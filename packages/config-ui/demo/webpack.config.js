@@ -13,7 +13,7 @@ module.exports = {
         options: {
           babelrc: false,
           presets: [
-            require('babel-preset-react'), require('babel-preset-es2015')
+            require('babel-preset-react'), require('babel-preset-stage-0')
           ]
         }
       },
