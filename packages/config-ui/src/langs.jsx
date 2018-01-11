@@ -1,14 +1,17 @@
-import Menu, { MenuItem } from 'material-ui/Menu';
-
 import Button from 'material-ui/Button';
-import InputLabel from 'material-ui/Input/InputLabel';
-import KeyboardArrowDown from 'material-ui-icons/KeyboardArrowDown';
+import Input, { InputLabel } from 'material-ui/Input';
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
+import Select from 'material-ui/Select';
+import { MenuItem } from 'material-ui/Menu';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import debug from 'debug';
 
-const styles = {
+const log = debug('pie-elements:config-ui:langs');
+
+const styles = theme => ({
   root: {
     flexDirection: 'column',
     alignItems: 'start',
@@ -16,79 +19,45 @@ const styles = {
     position: 'relative',
     paddingTop: '0px',
     paddingRight: '0px'
-  }
-};
-
-const buttonStyles = {
-  root: {
-    display: 'inline-flex',
-    padding: '8px',
-    marginTop: '0px',
-    marginBottom: '10px',
-    minHeight: '24px',
-    minWidth: '50px'
   },
-  icon: {
-    fill: 'grey'
+  formControl: {
+    position: 'initial'
+  },
+  inputLabel: {
+    paddingBottom: theme.spacing.unit
   }
-};
-
-const RawSelectButton = (props) => {
-  const { classes } = props;
-  return <Button
-    {...props}
-    aria-owns="langs"
-    aria-haspopup="true"
-    classes={{ root: classes.root }}
-  >{props.children}<KeyboardArrowDown className={classes.icon} /></Button>
-};
-
-const SelectButton = withStyles(buttonStyles, { name: 'SelectButton' })(RawSelectButton);
-
+});
 
 class RawLangs extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onButtonClick = this.onButtonClick.bind(this);
-    this.onRequestClose = this.onRequestClose.bind(this);
-    this.choose = this.choose.bind(this);
-    this.state = {
-      anchorEl: null
+    this.uid = (Math.random() * 10000).toFixed();
+  }
+
+  choose = (event) => {
+    log('[choose] event: ', event);
+    if (this.props.onChange) {
+      this.props.onChange(event.currentTarget.getAttribute('value'));
     }
   }
 
-  choose(lang, index, event) {
-    this.props.onChange(event, index, lang);
-    this.setState({ open: false });
-  }
-
-  onButtonClick(event) {
-    this.setState({ open: true, anchorEl: event.currentTarget });
-  }
-
-  onRequestClose() {
-    this.setState({ open: false });
-  }
-
-  /**
-   * Use TextField select menus once available:
-   *  https://material-ui-1dab0.firebaseapp.com/component-demos/menus#textfield-select-menus
-   */
   render() {
     let { langs, selected, onChange, label, classes } = this.props;
+    log('[render] selected:', selected);
     return <div className={classes.root}>
-      <InputLabel shrink={true}>{label}</InputLabel>
-      <SelectButton
-        aria-owns="langs"
-        aria-haspopup="true"
-        onClick={this.onButtonClick}>{selected}</SelectButton>
-      <Menu id="langs"
-        anchorEl={this.state.anchorEl}
-        open={this.state.open}
-        onRequestClose={this.onRequestClose}>
-        {langs.map((l, index) => <MenuItem key={l} value={l} onClick={this.choose.bind(this, l, index)}>{l}</MenuItem>)}
-      </Menu>
+      <FormControl className={classes.formControl}
+      >
+        <InputLabel className={classes.inputLabel} htmlFor={this.uid}>{label}</InputLabel>
+        <Select
+          value={selected}
+          onChange={this.choose}
+          input={<Input id={this.uid} />}>
+          {langs.map((l, index) => <MenuItem
+            key={index}
+            value={l}>{l}</MenuItem>)}
+        </Select>
+      </FormControl>
     </div>;
   }
 }
@@ -119,12 +88,12 @@ export const LanguageControls = withStyles({
       label="Choose language to edit"
       langs={langs}
       selected={activeLang}
-      onChange={(e, index, l) => onActiveLangChange(l)} />
+      onChange={l => onActiveLangChange(l)} />
     <Langs
       label="Default language"
       langs={langs}
       selected={defaultLang}
-      onChange={(e, index, l) => onDefaultLangChange(l)} />
+      onChange={l => onDefaultLangChange(l)} />
   </div>
 });
 
