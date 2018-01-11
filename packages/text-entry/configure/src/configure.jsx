@@ -1,7 +1,7 @@
 import { withStyles } from 'material-ui/styles';
 import React from 'react';
 import { Typography, TextField } from 'material-ui';
-import { Checkbox, FeedbackConfig } from '@pie-libs/config-ui';
+import { Checkbox, FeedbackConfig, TagsInput } from '@pie-libs/config-ui';
 import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
 
 const Box = withStyles(theme => ({
@@ -20,28 +20,19 @@ const SubHeader = withStyles(theme => ({
 }))(({ classes, children }) => <Typography className={classes.subHeader}>{children}</Typography>);
 
 
-const Choice = withStyles(theme => ({
-  choice: {
-    padding: theme.spacing.unit,
-    border: 'solid 1px grey'
-  }
-}))(({ classes, label }) => (
-  <span className={classes.choice}>{label}-----------------</span>
-));
-
-const Answers = ({ choices }) => (
-  <Input startAdornment={<InputAdornment>{choices.map(c => <Choice label={c} />)}</InputAdornment>} />
+const Answers = ({ choices, onChange }) => (
+  <TagsInput tags={choices} onChange={onChange} />
 )
 
-const RawResponses = ({ label, subHeader, children, classes }) => (
+const RawResponses = ({ label, subHeader, children, classes, onResponsesChange }) => (
   <Box>
-    <Typography type="display">{label}</Typography>
+    <Typography type="body1">{label}</Typography>
     <SubHeader className={classes.subHeader}>{subHeader}</SubHeader>
-    <Answers choices={['a', 'b', 'c', 'd', 'e']} />
-    <Checkbox label="Case Sensitive" />
-    <Checkbox label="Ignore Whitespace" />
+    <Answers choices={['a', 'b', 'c', 'd', 'e']} onChange={onResponsesChange} />
+    <Checkbox label="Case Sensitive" checked={false} />
+    <Checkbox label="Ignore Whitespace" checked={false} />
     {children ? children : <div />}
-  </Box>
+  </Box >
 );
 
 const Responses = withStyles(theme => ({
