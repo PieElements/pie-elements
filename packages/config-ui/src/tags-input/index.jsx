@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import debug from 'debug';
 import uniq from 'lodash/uniq';
+import Chip from 'material-ui/Chip';
+import Done from 'material-ui-icons/Done';
 
 const log = debug('pie-elements:config-ui:tags-input');
 
@@ -10,10 +12,15 @@ const ENTER = 13;
 
 const Tag = withStyles(theme => ({
   tag: {
-    border: 'solid 1px green'
+    borderRadius: '1px',
+    padding: '40px'
   }
-}))(({ classes, label }) => (
-  <div className={classes.tag}>{label}</div>
+}))(({ classes, label, onClick }) => (
+  <Chip
+    label={label}
+    onClick={onClick}
+    deleteIcon={<Done />}
+  />
 ))
 export class TagsInput extends React.Component {
 
@@ -38,6 +45,16 @@ export class TagsInput extends React.Component {
     this.onChange = (event) => {
       this.setState({ value: event.target.value });
     }
+
+    this.deleteTag = (tag) => {
+      const { tags } = this.props;
+
+      const tagIndex = tags.indexOf(tag);
+      if (tagIndex !== -1) {
+        tags.splice(tagIndex, 1);
+        this.props.onChange(tags);
+      }
+    }
   }
 
   render() {
@@ -45,7 +62,10 @@ export class TagsInput extends React.Component {
 
     return (
       <div className={classes.tagsInput}>
-        {(tags || []).map((t, index) => <Tag key={index} label={t} />)}
+        {(tags || []).map((t, index) => <Tag
+          key={index}
+          label={t}
+          onClick={() => this.deleteTag(t)} />)}
         <input
           onKeyDown={this.onKeyDown}
           onChange={this.onChange}

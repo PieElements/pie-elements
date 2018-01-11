@@ -79,7 +79,7 @@ class Container extends React.Component {
       <pre>{JSON.stringify(this.state, null, '  ')}</pre>
 
       <Section name="tag input">
-        <div style={{ maxWidth: '100px' }}>
+        <div style={{ maxWidth: '200px' }}>
           <TagsInput
             tags={this.state.tags}
             onChange={tags => this.setState({ tags })}
