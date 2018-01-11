@@ -9,6 +9,7 @@ import InputContainer from './input-container';
 import MultiLangInput from './multi-lang-input';
 import NumberTextField from './number-text-field';
 import TwoChoice from './two-choice';
+import TagsInput from './tags-input';
 
 export {
   Checkbox,
@@ -24,5 +25,6 @@ export {
   LanguageControls,
   MultiLangInput,
   NumberTextField,
+  TagsInput,
   TwoChoice
 }

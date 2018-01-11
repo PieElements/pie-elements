@@ -7,6 +7,7 @@ import {
   LanguageControls,
   MultiLangInput,
   NumberTextField,
+  TagsInput,
   TwoChoice,
   feedbackConfigDefaults
 } from '../src/index';
@@ -46,6 +47,8 @@ class Container extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      twoChoice: 'one',
+      tags: ['apple', 'banana'],
       selector: {
         type: 'default',
         customFeedback: undefined,
@@ -81,8 +84,6 @@ class Container extends React.Component {
       <em>Normal</em>
       <pre>{JSON.stringify(this.state, null, '  ')}</pre>
 
-<<<<<<< HEAD
-=======
       <Section name="Tag Input">
         <div style={{ maxWidth: '300px' }}>
           <TagsInput
@@ -91,29 +92,23 @@ class Container extends React.Component {
           />
         </div>
       </Section>
->>>>>>> a797db5... feat(tag-input): add tag input and update langs
-    <Section name="Input Container">
-      <div style={{ display: 'flex' }}>
-        <InputContainer label="just a vanilla radio">
-          <Radio />
-        </InputContainer>
-        <InputSwitch
-          label="toggle something"
-          checked={true}
-        />
-        <TwoChoice header="two-choice" one={{ label: 'one', value: 'one' }} two={{ label: 'two', value: 'two' }} />
-      </div>
-      <div style={{ display: 'flex' }}>
-        <InputContainer label="just a vanilla radio">
-          <Radio />
-        </InputContainer>
-        <InputSwitch
-          label="toggle something"
-          checked={true}
-        />
-        <TwoChoice header="two-choice" one={{ label: 'one', value: 'one' }} two={{ label: 'two', value: 'two' }} />
-      </div>
-    </Section>
+      <Section name="Input Container">
+        <div style={{ display: 'flex' }}>
+          <InputContainer label="just a vanilla radio">
+            <Radio />
+          </InputContainer>
+          <InputSwitch
+            label="toggle something"
+            checked={true}
+          />
+          <TwoChoice
+            header="two-choice"
+            value={this.state.twoChoice}
+            onChange={twoChoice => this.setState({ twoChoice })}
+            one={{ label: 'one', value: 'one' }}
+            two={{ label: 'two', value: 'two' }} />
+        </div>
+      </Section>
       <Section name="MultiLangInput">
         <MultiLangInput
           label={'label'}
