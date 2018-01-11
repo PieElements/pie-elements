@@ -7,6 +7,7 @@ import {
   LanguageControls,
   MultiLangInput,
   NumberTextField,
+  TagsInput,
   TwoChoice,
   feedbackConfigDefaults,
   TagsInput
@@ -47,7 +48,12 @@ class Container extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+<<<<<<< HEAD
       tags: ['apple', 'banana', 'carrot', 'donut', 'eggs', 'fries', 'hops', 'ice cream'],
+=======
+      twoChoice: 'one',
+      tags: ['apple', 'banana'],
+>>>>>>> develop
       selector: {
         type: 'default',
         customFeedback: undefined,
@@ -100,8 +106,9 @@ class Container extends React.Component {
             label="toggle something"
             checked={true}
           />
-          <TwoChoice header="two-choice" one={{ label: 'one', value: 'one' }} two={{ label: 'two', value: 'two' }} />
         </div>
+      </Section>
+      <Section name="Input Container">
         <div style={{ display: 'flex' }}>
           <InputContainer label="just a vanilla radio">
             <Radio />
@@ -110,7 +117,12 @@ class Container extends React.Component {
             label="toggle something"
             checked={true}
           />
-          <TwoChoice header="two-choice" one={{ label: 'one', value: 'one' }} two={{ label: 'two', value: 'two' }} />
+          <TwoChoice
+            header="two-choice"
+            value={this.state.twoChoice}
+            onChange={twoChoice => this.setState({ twoChoice })}
+            one={{ label: 'one', value: 'one' }}
+            two={{ label: 'two', value: 'two' }} />
         </div>
       </Section>
       <Section name="MultiLangInput">
@@ -154,7 +166,7 @@ class Container extends React.Component {
           selected={this.state.lang}
           onChange={l => this.setState({ lang: l })} />
       </Section>
-    </div>
+    </div >
   }
 }
 

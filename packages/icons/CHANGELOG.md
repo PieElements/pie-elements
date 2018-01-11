@@ -1,7 +1,18 @@
 # Change Log
 
 All notable changes to this project will be documented in this file.
-See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+<a name="0.2.3"></a>
+## [0.2.3](https://github.com/pieelements/pie-elements/compare/@pie-libs/icons@0.2.2...@pie-libs/icons@0.2.3) (2018-01-11)
+
+
+### Bug Fixes
+
+* **incorrect:** tweak x position ([d13240e](https://github.com/pieelements/pie-elements/commit/d13240e))
+
+
+
 
 <a name="0.2.2"></a>
 ## [0.2.2](https://github.com/pieelements/pie-elements/compare/@pie-libs/icons@0.2.0...@pie-libs/icons@0.2.2) (2017-08-10)
