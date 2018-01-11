@@ -1,7 +1,15 @@
 # Change Log
 
 All notable changes to this project will be documented in this file.
-See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+<a name="0.1.4"></a>
+## [0.1.4](https://github.com/PieElements/pie-elements/compare/@pie-libs/correct-answer-toggle@0.1.3...@pie-libs/correct-answer-toggle@0.1.4) (2018-01-11)
+
+
+
+
+**Note:** Version bump only for package @pie-libs/correct-answer-toggle
 
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/PieElements/pie-elements/compare/@pie-libs/correct-answer-toggle@0.1.2...@pie-libs/correct-answer-toggle@0.1.3) (2017-08-10)
