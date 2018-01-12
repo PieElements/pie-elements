@@ -52,6 +52,7 @@ class RawInput extends React.Component {
           <MuiThemeProvider theme={theme}>
             <MuiInput
               classes={{
+                root: classes.inputRoot,
                 input: inputClass
               }}
               value={value}
@@ -78,9 +79,11 @@ const inputStyles = theme => {
     formControl: {
       margin: theme.spacing.unit,
     },
+    inputRoot: {
+    },
     inputAndIcon: {
       display: 'flex',
-      alignItems: 'end'
+      alignItems: 'end',
     },
     icon: {
       padding: '3px',
@@ -96,7 +99,7 @@ const inputStyles = theme => {
     }
   }
 
-  const sizes = range(1, 8).reduce((acc, s) => {
+  const sizes = range(1, 20).reduce((acc, s) => {
     acc[`size${s}`] = {
       maxWidth: `${theme.spacing.unit * 1.4 * s}px`
     }

@@ -2,6 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Configure from './configure';
 import { ModelUpdatedEvent } from '@pie-libs/pie-configure-events';
+import debug from 'debug';
+
+const log = debug('pie-elements:text-entry:configure');
+
 export default class TextEntryConfigure extends HTMLElement {
 
   constructor() {
@@ -15,6 +19,7 @@ export default class TextEntryConfigure extends HTMLElement {
 
   onModelChanged(model) {
     this._model = model;
+    log('[onModelChanged]: ', this._model);
     this.dispatchEvent(new ModelUpdatedEvent(this._model));
   }
 
