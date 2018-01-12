@@ -45,7 +45,7 @@ class InlineChoice extends React.Component {
     }) : null;
 
     return (
-      <form className={classes.container} autoComplete="off">
+      <div className={classes.container}>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="input-choice">{model.choiceLabel}</InputLabel>
           <Select
@@ -57,7 +57,8 @@ class InlineChoice extends React.Component {
           </Select>
           <FormHelperText>Some important helper text</FormHelperText>
         </FormControl>
-      </form>
+      </div>
+
     );
   }
 }
