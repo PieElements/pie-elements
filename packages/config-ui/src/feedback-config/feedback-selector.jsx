@@ -24,6 +24,9 @@ const style = theme => ({
   label: {
     cursor: 'pointer',
   },
+  inputContainerLabel: {
+    paddingBottom: '10px;'
+  },
   choice: {
     display: 'flex',
     alignItems: 'center'
@@ -89,7 +92,7 @@ class FeedbackSelector extends React.Component {
     let feedbackKeys = keys || Object.keys(feedbackLabels);
 
     return <div className={classes.feedbackSelector}>
-      <InputContainer label={label}>
+      <InputContainer label={label} extraClasses={{ label: classes.inputContainerLabel }}>
         <Group
           classes={classes}
           keys={feedbackKeys}

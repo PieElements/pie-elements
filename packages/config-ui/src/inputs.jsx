@@ -34,9 +34,7 @@ const RawInputCheckbox = ({ classes, className, label, checked, onChange, disabl
       className={className}
       label={label}>
       <Checkbox
-        classes={{
-          root: classes.checkboxRoot
-        }}
+        className={classes.checkboxRoot}
         disabled={disabled}
         checked={checked}
         onChange={onChange}
