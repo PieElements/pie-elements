@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
+import debug from 'debug';
+import classNames from 'classnames';
+
+const log = debug('pie-elements:config-ui:mui-box');
 
 const MuiBox = withStyles(theme => {
   log('theme: ', theme);
@@ -56,7 +60,7 @@ MuiBox.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]).isRequired,
-  focused: PropTypes.boolean.isRequired
+  focused: PropTypes.bool.isRequired
 }
 
 export default MuiBox;

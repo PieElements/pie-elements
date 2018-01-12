@@ -9,13 +9,24 @@ import React from 'react';
 import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 
-class TwoChoice extends React.Component {
+const styles = theme => ({
+  root: {
+    padding: 0,
+    margin: 0
+  },
+  formLabel: {
+    color: 'red'
+  },
+  group: {
+    display: 'flex',
+    paddingLeft: 0
+  }
+});
+
+class RawNChoice extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      selected: props.value
-    }
 
     this.handleChange = (event) => {
       this.props.onChange(event.currentTarget.value)
@@ -23,24 +34,40 @@ class TwoChoice extends React.Component {
   }
 
   render() {
-    const { value, header, onChange, one, two, classes, className } = this.props;
+
+    const { header, className, classes, opts, value } = this.props;
 
     return <InputContainer
       label={header}
       className={className}>
       <div className={classes.group}>
-        <RadioWithLabel
-          value={one.value}
-          checked={value === one.value}
+        {opts.map((o, index) => <RadioWithLabel
+          value={o.value}
+          key={index}
+          checked={o.value === value}
           onChange={this.handleChange}
-          label={one.label} />
-        <RadioWithLabel
-          value={two.value}
-          checked={value === two.value}
-          onChange={this.handleChange}
-          label={two.label} />
+          label={o.label}
+        />)}
       </div>
     </InputContainer>
+
+  }
+}
+
+export const NChoice = withStyles(styles)(RawNChoice);
+
+NChoice.propTypes = {
+  header: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  opts: PropTypes.array.isRequired
+}
+
+class TwoChoice extends React.Component {
+
+  render() {
+    const { one, two } = this.props;
+    const opts = [one, two];
+    return <NChoice {...this.props} opts={opts} />
   }
 }
 
@@ -60,18 +87,5 @@ TwoChoice.propTypes = {
   })
 };
 
-const styles = theme => ({
-  root: {
-    padding: 0,
-    margin: 0
-  },
-  formLabel: {
-    color: 'red'
-  },
-  group: {
-    display: 'flex',
-    paddingLeft: 0
-  }
-});
 
 export default withStyles(styles, { name: 'TwoChoice' })(TwoChoice);
