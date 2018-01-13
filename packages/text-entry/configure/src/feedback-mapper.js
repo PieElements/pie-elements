@@ -2,8 +2,15 @@ import every from 'lodash/every';
 import uniq from 'lodash/uniq';
 
 const applyFeedback = (responses, key) => {
-  const out = {}
-  const feedback = responses.values.map(v => v.feedback);
+  const out = {
+    [`${key}Type`]: 'default'
+  }
+
+  if (!responses) {
+    return out;
+  }
+
+  const feedback = (responses.values || []).map(v => v.feedback);
   if (every(feedback, fb => fb === 'DEFAULT')) {
     out[`${key}Type`] = 'default';
   } else if (every(feedback, fb => !fb)) {
@@ -25,6 +32,9 @@ const applyIncorrectFeedback = (incorrectFeedback) => {
 
   const out = {
     incorrectFeedbackType: 'default'
+  }
+  if (!incorrectFeedback) {
+    return out;
   }
 
   if (incorrectFeedback.disabled) {
