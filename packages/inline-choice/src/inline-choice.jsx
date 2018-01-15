@@ -31,6 +31,7 @@ class InlineChoice extends React.Component {
   }
 
   handleChange = event => {
+    this.props.onChoiceChange(event.target.value);
     this.setState({ selected: event.target.value });
   };
 
@@ -40,7 +41,7 @@ class InlineChoice extends React.Component {
 
     const items = (model.choices && model.choices.length > 0) ? model.choices.map(function(item, index){
       return (
-        <MenuItem key={index} value={index}>{item.value}</MenuItem>
+        <MenuItem key={index} value={item.value}>{item.value}</MenuItem>
       );
     }) : null;
 
