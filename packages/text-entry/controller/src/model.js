@@ -31,7 +31,14 @@ const findLangObjects = (arr, langOpts) => {
   }
 }
 
-const findResponse = (values, value, langOpts) => {
+const process = (v, ignoreCase, ignoreWhitespace) => {
+  let out = v.trim();
+  out = !ignoreCase ? out : out.toLowerCase();
+  out = !ignoreWhitespace ? out : out.replace(/ /g, '');
+  return out;
+}
+
+const findResponse = (values, value, langOpts, ignoreCase, ignoreWhitespace) => {
 
   if (!values) {
     return;
@@ -42,12 +49,16 @@ const findResponse = (values, value, langOpts) => {
   log('[findResponse] targetLangObjects: ', targetLangObjects);
 
   if (targetLangObjects) {
-    return targetLangObjects.find(t => t.value === value);
+    return targetLangObjects.find(t => {
+      const processedTargetValue = process(t.value, ignoreCase, ignoreWhitespace);
+      const processedValue = process(value, ignoreCase, ignoreWhitespace);
+      return processedTargetValue === processedValue;
+    });
   }
 }
 
 const getMatchingResponse = (correctness, responses, value, langOpts) => {
-  const response = findResponse(responses.values, value, langOpts);
+  const response = findResponse(responses.values, value, langOpts, responses.ignoreCase, responses.ignoreWhitespace);
 
   if (response) {
     return Object.assign({ correctness }, response);

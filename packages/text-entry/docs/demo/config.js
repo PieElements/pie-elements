@@ -21,7 +21,9 @@ module.exports = {
           //not specifying 'feedback' == feedback: 'default'
           { lang: 'es-ES', value: 'chucho' },
           { lang: 'es-ES', value: 'sabueso' }
-        ]
+        ],
+        ignoreWhitespace: false,
+        ignoreCase: false
       },
       partialResponses: {
         values: [
@@ -52,7 +54,8 @@ module.exports = {
         answerBlankSize: '10',
         answerAlignment: 'left',
         allowDecimal: true,
-        allowIntegersOnly: false
+        allowIntegersOnly: false,
+        allowThousandsSeparator: true
       }
     }
   ]

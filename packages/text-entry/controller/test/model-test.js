@@ -48,6 +48,32 @@ describe('model', () => {
             expect(m.correctness).to.eql('correct');
           }));
 
+      it('returns correct for APPLE:en-US', () => {
+        question.correctResponses.ignoreCase = true;
+        return mod.model(question, { value: 'APPLE' }, env())
+          .then(m => expect(m.correctness).to.eql('correct'))
+      });
+
+      it('returns incorrect for APPLE:en-US when ignoreCase:false', () => {
+        question.correctResponses.ignoreCase = false;
+        return mod.model(question, { value: 'APPLE' }, env())
+          .then(m => expect(m.correctness).to.eql('incorrect'))
+      });
+
+      it('returns correct for A P P L E:en-US', () => {
+        question.correctResponses.ignoreWhitespace = true;
+        question.correctResponses.ignoreCase = true;
+        return mod.model(question, { value: 'A P P L E' }, env())
+          .then(m => expect(m.correctness).to.eql('correct'));
+      });
+
+      it('returns incorrect for A P P L E:en-US when ignoreWhitespace: false', () => {
+        question.correctResponses.ignoreWhitespace = false;
+        return mod.model(question, { value: 'A P P L E' }, env())
+          .then(m => expect(m.correctness).to.eql('incorrect'));
+      });
+
+
       it('returns correct for pear:en-US', () =>
         mod.model(question, { value: 'pear' }, env())
           .then(m => {
