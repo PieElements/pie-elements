@@ -23,7 +23,7 @@ export class TextEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.session.value || ''
+      value: props.session && props.session.value || ''
     }
   }
 
