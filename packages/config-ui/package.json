@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@pie-libs/editable-html": "^2.1.0",
+    "@pie-libs/icons": "^0.2.3",
     "debug": "^3.0.1",
     "material-ui": "^1.0.0-beta.27",
     "material-ui-icons": "^1.0.0-beta.17",

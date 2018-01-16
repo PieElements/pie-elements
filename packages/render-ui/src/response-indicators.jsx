@@ -5,6 +5,9 @@ import Popover from 'material-ui/Popover';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Feedback from './feedback';
+import debug from 'debug';
+
+const log = debug('pie-libs:render-ui:response-indicators');
 
 const styles = theme => ({
   paper: {
@@ -12,7 +15,10 @@ const styles = theme => ({
     borderRadius: '4px'
   },
   iconHolder: {
-    cursor: 'pointer'
+    cursor: 'pointer',
+    width: '30px',
+    height: '30px',
+    display: 'inline-block'
   },
   popover: {
     cursor: 'pointer'
@@ -31,11 +37,8 @@ const BuildIndicator = (Icon, correctness) => {
       }
     }
 
-    componentDidMount() {
-      this.setState({ anchorEl: this.icon });
-    }
-
     handlePopoverOpen = event => {
+      log('[handlePopoverOpen]', event.target);
       this.setState({ anchorEl: event.target });
     };
 

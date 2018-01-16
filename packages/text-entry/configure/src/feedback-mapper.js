@@ -92,6 +92,10 @@ const configToIncorrectFeedback = (type, value) => {
   }
 }
 
+/**
+ * old feedback config model to textEntry model.
+ */
+
 export const feedbackConfigToTextEntry = (fbConfig, model) => {
   configToResponse(fbConfig.correctFeedbackType, fbConfig.correctFeedback, model.correctResponses);
   configToResponse(fbConfig.partialFeedbackType, fbConfig.partialFeedback, model.partialResponses);
