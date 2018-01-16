@@ -32,7 +32,7 @@ const findLangObjects = (arr, langOpts) => {
 }
 
 const process = (v, ignoreCase, ignoreWhitespace) => {
-  let out = v.trim();
+  let out = v ? v.trim() : '';
   out = !ignoreCase ? out : out.toLowerCase();
   out = !ignoreWhitespace ? out : out.replace(/ /g, '');
   return out;

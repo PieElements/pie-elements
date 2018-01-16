@@ -5,7 +5,7 @@ import range from 'lodash/range';
 import MuiInput, { InputLabel } from 'material-ui/Input';
 import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles';
 import { FormControl, FormHelperText } from 'material-ui/Form';
-import * as indicators from '@pie-libs/response-indicators';
+import { indicators } from '@pie-libs/render-ui';
 
 const { Correct, Incorrect, PartiallyCorrect, NothingSubmitted } = indicators;
 
