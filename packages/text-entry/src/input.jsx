@@ -4,8 +4,10 @@ import classNames from 'classnames';
 import range from 'lodash/range';
 import MuiInput, { InputLabel } from 'material-ui/Input';
 import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles';
-import { Correct, Incorrect, PartiallyCorrect, NothingSubmitted } from './response-indicators';
 import { FormControl, FormHelperText } from 'material-ui/Form';
+import * as indicators from '@pie-libs/response-indicators';
+
+const { Correct, Incorrect, PartiallyCorrect, NothingSubmitted } = indicators;
 
 const tags = {
   'correct': Correct,
