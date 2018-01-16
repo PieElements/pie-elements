@@ -113,24 +113,80 @@ describe('feedback-mapper', () => {
     const assertTextEntryConfig = _assertTextEntryConfig(false);
     assertTextEntryConfig.only = _assertTextEntryConfig(true);
 
+
+    const model = (fb) => ({
+      correctResponses: {
+        values: [
+          { lang: 'en-US', value: 'hi', feedback: fb },
+          { lang: 'en-US', value: 'there', feedback: fb }
+        ]
+      },
+      partialResponses: {
+        values: [
+          { lang: 'en-US', value: 'hi', feedback: fb },
+          { lang: 'en-US', value: 'there', feedback: fb }
+        ]
+      }
+    });
+
     const assertFb = (key) => {
       describe(key, () => {
 
-        assertTextEntryConfig('sets values feedback to default', {
-          correctResponses: {
-            values: [
-              { lang: 'en-US', value: 'hi' },
-              { lang: 'en-US', value: 'there' }
-            ]
-          }
-        }, {
-            correctFeedbackType: 'default'
-          }, out => {
-            expect(_.every(out.correctResponses.values, f => f.feedback === 'DEFAULT'));
-          })
+        const feedbackType = `${key}FeedbackType`;
+        const responses = `${key}Responses`;
+
+        assertTextEntryConfig('none - sets values feedback to undefined', model('foo'), {
+          [feedbackType]: 'none'
+        }, out => {
+          expect(_.every(out[responses].values, f => typeof (f.feedback) === 'undefined'));
+        });
+
+        assertTextEntryConfig('default - sets values feedback to default', model(), {
+          [feedbackType]: 'default'
+        }, out => {
+          expect(_.every(out[responses].values, f => f.feedback === 'DEFAULT'));
+        });
+
+        assertTextEntryConfig('custom - sets custom', model(), {
+          [feedbackType]: 'custom',
+          [`${key}Feedback`]: 'custom'
+        }, out => {
+          expect(_.every(out[responses].values, f => f.feedback === 'custom'));
+        })
       });
     }
 
-    assertFb('correct')
+    assertFb('correct');
+    assertFb('partial');
+
+    describe('incorrectFeedback', () => {
+
+      assertTextEntryConfig('type custom adds fallback', {
+        incorrectFeedback: {}
+      }, {
+          incorrectFeedbackType: 'custom',
+          incorrectFeedback: 'hi'
+        }, out => {
+          expect(out.incorrectFeedback.fallback.values).toEqual([
+            { lang: 'en-US', value: 'hi' }
+          ]);
+        });
+
+      assertTextEntryConfig('type default returns {}', {
+        incorrectFeedback: {}
+      }, {
+          incorrectFeedbackType: 'default'
+        }, out => {
+          expect(out.incorrectFeedback).toEqual({});
+        });
+
+      assertTextEntryConfig('type none disables incorrectFeedback', {
+        incorrectFeedback: {}
+      }, {
+          incorrectFeedbackType: 'none'
+        }, out => {
+          expect(out.incorrectFeedback.disabled).toEqual(true);
+        })
+    })
   });
 });

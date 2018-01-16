@@ -65,6 +65,7 @@ export const textEntryToFeedbackConfig = (model) => {
 
 
 const configToResponse = (type, custom, responses) => {
+  responses = responses || { values: [] };
   if (type === 'custom') {
     responses.values.forEach(v => v.feedback = custom || 'custom feedback');
   } else if (type === 'default') {

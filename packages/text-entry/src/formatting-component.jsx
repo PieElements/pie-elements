@@ -82,8 +82,7 @@ function every() {
 }
 
 /**
- * It seems like the Mui Input component does not like getting an anonymous class
- * built each time if wants the format component. 
+ * It seems like the Mui Input component does not like getting an anonymous class built each time if wants the format component. 
  * Instead we predefine them and return them.
  */
 export const getFormatTag = ({ allowDecimal, allowSeparator, allowNegative, allowIntegersOnly }) => {
