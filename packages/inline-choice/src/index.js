@@ -1,7 +1,7 @@
-import InlineChoice from "./inline-choice.jsx";
+import Main from "./main.jsx";
 import React from "react";
 import ReactDOM from "react-dom";
-import {dispatchModelSetEvent, dispatchSessionChangeEvent} from "./event-helper";
+import {ModelSetEvent, SessionChangedEvent} from "@pie-libs/pie-player-events";
 
 export default class RootInlineChoice extends HTMLElement {
 
@@ -11,10 +11,10 @@ export default class RootInlineChoice extends HTMLElement {
     this._session = null;
     this._rerender = () => {
       if(this._model && this._session) {
-        let elem = React.createElement(InlineChoice, {
+        let elem = React.createElement(Main, {
           model : this._model,
           session : this._session,
-          onChoiceChange : this._handleChoiceChange.bind(this)
+          onChoiceChanged : this._handleChoiceChange.bind(this)
         });
         ReactDOM.render(elem, this);
       }
@@ -23,14 +23,18 @@ export default class RootInlineChoice extends HTMLElement {
 
   set model(m) {
     this._model = m;
-    let checkModelDefined = this._model !== undefined;
-    dispatchModelSetEvent(this.dispatchEvent, {hasModel:checkModelDefined});
+    this.dispatchEvent(
+      new ModelSetEvent(this.tagName.toLowerCase(), this.session && !!this.session.selectedChoice, !!this._model)
+    );
+
     this._rerender();
   }
 
   set session(s) {
     this._session = s;
-    dispatchSessionChangeEvent(this.dispatchEvent, {});
+    this.dispatchEvent(
+      new SessionChangedEvent(this.tagName.toLowerCase(), this.session && !!this.session.selectedChoice)
+    );
     this._rerender();
   }
 
@@ -40,7 +44,9 @@ export default class RootInlineChoice extends HTMLElement {
 
   _handleChoiceChange(selectedChoice) {
     this.session.selectedChoice = selectedChoice;
-    dispatchSessionChangeEvent(this.dispatchEvent, {selectedChoice : selectedChoice});
+    this.dispatchEvent(
+      new SessionChangedEvent(this.tagName.toLowerCase(), this.session && !!this.session.selectedChoice)
+    );
     this._rerender();
   }
 

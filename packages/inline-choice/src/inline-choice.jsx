@@ -5,6 +5,7 @@ import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import Select from 'material-ui/Select';
+import classNames from "classnames";
 
 const styles = theme => ({
   container: {
@@ -18,6 +19,9 @@ const styles = theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
+  },
+  disableContainer: {
+    pointerEvents : 'none'
   }
 });
 
@@ -31,24 +35,33 @@ class InlineChoice extends React.Component {
   }
 
   handleChange = event => {
-    this.props.onChoiceChange(event.target.value);
+    this.props.onChoiceChanged(event.target.value);
     this.setState({ selected: event.target.value });
   };
 
 
   render() {
-    const { classes, model, session} = this.props;
 
-    const items = (model.choices && model.choices.length > 0) ? model.choices.map(function(item, index){
+    const { choices, classes, disabled} = this.props;
+
+    let disableContainer = disabled && classes.disableContainer;
+
+    const items = choices.map(function(item, index){
       return (
-        <MenuItem key={index} value={item.value}>{item.value}</MenuItem>
+        <MenuItem key={index} value={item.value}>{item.label[0].value}</MenuItem>
       );
-    }) : null;
+    });
+
+    let renderFeedback = function (result) {
+      let {correct, feedback} = result[0];
+      return (
+        <FormHelperText>{feedback && feedback[0].value}</FormHelperText>
+      )
+    }
 
     return (
-      <div className={classes.container}>
+      <div className={classNames(classes.container, disableContainer)}>
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="input-choice">{model.choiceLabel}</InputLabel>
           <Select
             value={this.state.selected}
             onChange={this.handleChange}
@@ -56,8 +69,11 @@ class InlineChoice extends React.Component {
           >
             {items}
           </Select>
-          <FormHelperText>Some important helper text</FormHelperText>
+          {(this.props.result) && renderFeedback(this.props.result)}
         </FormControl>
+        <div className={classes.formControl}>
+          Feedback Icon
+        </div>
       </div>
 
     );
@@ -66,6 +82,8 @@ class InlineChoice extends React.Component {
 
 InlineChoice.propTypes = {
   classes: PropTypes.object.isRequired,
+  choices: PropTypes.array.isRequired,
+  disabled: PropTypes.bool
 };
 
 export default withStyles(styles)(InlineChoice);  

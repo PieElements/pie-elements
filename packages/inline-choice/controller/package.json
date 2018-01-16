@@ -1,5 +1,5 @@
 {
-  "name": "inline-choice-controller",
+  "name": "@pie-elements/inline-choice-controller",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
