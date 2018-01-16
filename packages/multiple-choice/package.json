@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@pie-libs/correct-answer-toggle": "^0.1.4",
+    "@pie-libs/render-ui": "^0.1.2",
     "debug": "^3.0.1",
     "katex": "^0.8.3",
     "less": "^2.7.2",
