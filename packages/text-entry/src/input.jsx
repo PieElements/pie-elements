@@ -6,6 +6,7 @@ import MuiInput, { InputLabel } from 'material-ui/Input';
 import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import { indicators } from '@pie-libs/render-ui';
+import PropTypes from 'prop-types';
 
 const { Correct, Incorrect, PartiallyCorrect, NothingSubmitted } = indicators;
 
@@ -113,4 +114,17 @@ const inputStyles = theme => {
 
 const Input = withStyles(inputStyles)(RawInput);
 
+Input.propTypes = {
+  dark: PropTypes.bool,
+  alignment: PropTypes.string,
+  correctness: PropTypes.oneOf(['correct', 'incorrect', 'partially-correct', 'empty']),
+  disabled: PropTypes.bool,
+  error: PropTypes.string,
+  inputComponent: PropTypes.func,
+  inputProps: PropTypes.object,
+  onChange: PropTypes.func,
+  size: PropTypes.number,
+  value: PropTypes.string.isRequired,
+  feedback: PropTypes.string
+}
 export default Input;
