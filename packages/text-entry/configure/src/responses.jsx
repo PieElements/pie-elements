@@ -26,8 +26,8 @@ class RawResponses extends React.Component {
     this.props.onChange(this.props.responses);
   }
 
-  onCaseSensitiveChange = (event) => {
-    this.props.responses.caseSensitive = event.target.checked;
+  onIgnoreCaseChange = (event) => {
+    this.props.responses.ignoreCase = event.target.checked;
     this.props.onChange(this.props.responses);
   }
 
@@ -49,9 +49,9 @@ class RawResponses extends React.Component {
         <TagsInput onChange={this.onAnswersChange} tags={values} />
         <div className={classes.checkboxHolder}>
           <InputCheckbox
-            label="Case Sensitive"
-            checked={responses.caseSensitive}
-            onChange={this.onCaseSensitiveChange}
+            label="Ignore Case"
+            checked={responses.ignoreCase}
+            onChange={this.onIgnoreCaseChange}
           />
           <InputCheckbox
             label="Ignore Whitespace"
