@@ -1,13 +1,11 @@
 # text-entry 
 
-## todos..
+A simple text input element.
 
-* [ ] - animate icon
-* [ ] - how do langs work in this instance (if lang is es-ES is there a different set of correct responses?)
-* [ ] - answerBlankSize 
-* [ ] - integers/numbers only 
-* [ ] - allow separator/decimal places 
-* [ ] - allow negative 
-* [ ] - feedback 
-* [ ] - color contrast 
-* [ ] - outcome calculation 
+Supports multiple languages, see the commented model in docs/demo/config.js
+
+
+## TODO: 
+
+* [ ] finalise schema
+
