@@ -3,19 +3,20 @@
   "version": "1.0.0-prerelease",
   "main": "./src/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --require babel-register test/**/*-test.js"
+    "test": "./node_modules/.bin/jest"
   },
   "dependencies": {
     "lodash": "^4.17.4",
     "debug": "^3.1.0"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.1.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
-    "chai": "^3.5.0",
-    "chai-shallow-deep-equal": "^1.4.4",
+    "jest": "^22.1.2",
     "mocha": "^3.1.2",
     "sinon": "^1.17.6"
   }

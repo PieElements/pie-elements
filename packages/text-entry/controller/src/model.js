@@ -12,10 +12,6 @@ export const Correctness = {
   incorrect: 'incorrect',
   empty: 'empty'
 }
-/** 
- * For the documentation of pie controllers see
- * https://pielabs.github.io/pie-docs/developing/controller.html
- */
 
 const findLangObjects = (arr, langOpts) => {
   if (!arr || !langOpts) {
@@ -65,7 +61,7 @@ const getMatchingResponse = (correctness, responses, value, langOpts) => {
   }
 }
 
-const getCorrectness = (value, response) => {
+const getCorrectnessFromResponse = (value, response) => {
 
   if (!value || isEmpty(value)) {
     return 'empty';
@@ -141,6 +137,19 @@ const getIncorrectResponse = (incorrectFeedback, value, langOpts) => {
   return out;
 }
 
+function getMatchedResponse(question, session, env) {
+  const { model, correctResponses, partialResponses } = question;
+  const langOpts = { lang: env.locale || 'en-US', fallback: question.defaultLang || 'en-US' };
+  return getMatchingResponse(Correctness.correct, correctResponses, session.value, langOpts) ||
+    getMatchingResponse(Correctness.partial, partialResponses, session.value, langOpts) ||
+    getIncorrectResponse(question.incorrectFeedback, session.value, langOpts)
+}
+
+export function getCorrectness(question, session, env) {
+  const matchedResponse = getMatchedResponse(question, session, env);
+  return getCorrectnessFromResponse(session.value, matchedResponse) || null;
+}
+
 export function model(question, session, env) {
 
   /**
@@ -156,15 +165,10 @@ export function model(question, session, env) {
   log('langOpts: ', langOpts);
 
   const feedbackMap = Object.assign(DEFAULT_FEEDBACK, question.defaultFeedback);
-
-  const matchingResponse =
-    getMatchingResponse(Correctness.correct, correctResponses, session.value, langOpts) ||
-    getMatchingResponse(Correctness.partial, partialResponses, session.value, langOpts) ||
-    getIncorrectResponse(question.incorrectFeedback, session.value, langOpts)
-
+  const matchingResponse = getMatchedResponse(question, session, env);
 
   return new Promise(resolve => {
-    const correctness = env.mode === 'evaluate' ? getCorrectness(session.value, matchingResponse) : null;
+    const correctness = env.mode === 'evaluate' ? getCorrectnessFromResponse(session.value, matchingResponse) : null;
     log('correctness: ', correctness);
 
     const feedback = env.mode === 'evaluate' ? getFeedback(matchingResponse, feedbackMap, question.incorrectFeedback) : null;
@@ -182,9 +186,4 @@ export function model(question, session, env) {
     resolve(out);
 
   });
-}
-
-export function outcome(question, session = { value: [] }) {
-  log('outcome')
-  return Promise.reject('todo');
 }

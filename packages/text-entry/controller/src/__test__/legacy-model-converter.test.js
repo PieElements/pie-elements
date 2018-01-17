@@ -1,23 +1,18 @@
-import { expect } from 'chai';
 import debug from 'debug';
 import _ from 'lodash';
+import { convert } from '../legacy-model-converter';
 import { assert, match } from 'sinon';
 
 const log = debug('pie-elements:text-entry:controller:test');
 
 describe('legacy-model-converter', () => {
 
-  let mod;
-
-  beforeEach(() => {
-    mod = require('../src/legacy-model-converter');
-  });
 
   const _conversionMatch = (label, input, output, isOnly) => {
 
     const fn = isOnly ? it.only : it;
     fn(label, () => {
-      const converted = mod.convert(input);
+      const converted = convert(input);
       log('converted: ', converted);
       if (_.isFunction(output)) {
         output(converted);
