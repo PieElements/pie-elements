@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.4.0"></a>
+# [1.4.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.3.0...@pie-libs/config-ui@1.4.0) (2018-01-17)
+
+
+### Features
+
+* **mui-box:** add mui-box component ([1b6ca3b](https://github.com/pieelements/pie-elements/commit/1b6ca3b))
+* **tag-input:** add tag input and update langs ([a797db5](https://github.com/pieelements/pie-elements/commit/a797db5))
+
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.2.6...@pie-libs/config-ui@1.3.0) (2018-01-11)
 

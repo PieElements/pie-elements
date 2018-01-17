@@ -1,6 +1,6 @@
 {
   "name": "@pie-elements/number-line",
-  "version": "0.5.11",
+  "version": "0.5.12",
   "description": "A number line interaction for pie",
   "main": "src/index.js",
   "publishConfig": {

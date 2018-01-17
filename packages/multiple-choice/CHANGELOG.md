@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.4"></a>
+## [0.2.4](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.2.3...@pie-elements/multiple-choice@0.2.4) (2018-01-17)
+
+
+### Bug Fixes
+
+* **feedback:** use new [@pie-libs](https://github.com/pie-libs)/render-ui Feedback component ([25fdfd1](https://github.com/PieElements/pie-elements/commit/25fdfd1))
+
+
+
+
 <a name="0.2.3"></a>
 ## [0.2.3](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.2.2...@pie-elements/multiple-choice@0.2.3) (2018-01-11)
 
