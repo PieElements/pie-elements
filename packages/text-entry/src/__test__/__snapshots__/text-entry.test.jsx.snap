@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`text-entry renders 1`] = `
+exports[`text-entry:snapshot renders 1`] = `
 <div
-  className=""
+  className="textEntry"
 >
   <div
     className="MuiFormControl-root-27 RawInput-formControl-2"
@@ -38,6 +38,15 @@ exports[`text-entry renders 1`] = `
           type="text"
           value=""
         />
+      </div>
+      <div
+        className="RawInput-icon-5"
+      >
+        <div
+          data-name="mock=comp"
+        >
+          {"feedback":"feedback"}
+        </div>
       </div>
     </div>
     <p
