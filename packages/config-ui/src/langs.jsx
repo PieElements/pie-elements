@@ -46,9 +46,11 @@ class RawLangs extends React.Component {
     let { langs, selected, onChange, label, classes } = this.props;
     log('[render] selected:', selected);
     return <div className={classes.root}>
-      <FormControl className={classes.formControl}
-      >
-        <InputLabel className={classes.inputLabel} htmlFor={this.uid}>{label}</InputLabel>
+      <FormControl
+        className={classes.formControl}>
+        <InputLabel
+          className={classes.inputLabel}
+          htmlFor={this.uid}>{label}</InputLabel>
         <Select
           value={selected}
           onChange={this.choose}
@@ -61,7 +63,6 @@ class RawLangs extends React.Component {
     </div>;
   }
 }
-
 
 const Langs = withStyles(styles, { name: 'Langs' })(RawLangs);
 export default Langs;

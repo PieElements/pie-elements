@@ -6,10 +6,11 @@ import {
   Langs,
   LanguageControls,
   MultiLangInput,
+  NChoice,
   NumberTextField,
   TagsInput,
   TwoChoice,
-  feedbackConfigDefaults
+  feedbackConfigDefaults,
 } from '../src/index';
 
 import Radio from 'material-ui/Radio';
@@ -47,8 +48,9 @@ class Container extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tags: ['apple', 'banana', 'carrot', 'donut', 'eggs', 'fries', 'hops', 'ice cream'],
       twoChoice: 'one',
-      tags: ['apple', 'banana'],
+      nChoice: 'left',
       selector: {
         type: 'default',
         customFeedback: undefined,
@@ -101,12 +103,32 @@ class Container extends React.Component {
             label="toggle something"
             checked={true}
           />
+        </div>
+      </Section>
+      <Section name="Input Container">
+        <div style={{ display: 'flex' }}>
+          <InputContainer label="just a vanilla radio">
+            <Radio />
+          </InputContainer>
+          <InputSwitch
+            label="toggle something"
+            checked={true}
+          />
           <TwoChoice
             header="two-choice"
             value={this.state.twoChoice}
             onChange={twoChoice => this.setState({ twoChoice })}
             one={{ label: 'one', value: 'one' }}
             two={{ label: 'two', value: 'two' }} />
+          <NChoice
+            header="n-choice"
+            value={this.state.nChoice}
+            onChange={nChoice => this.setState({ nChoice })}
+            opts={[
+              { label: 'left', value: 'left' },
+              { label: 'center', value: 'center' },
+              { label: 'right', value: 'right' }
+            ]} />
         </div>
       </Section>
       <Section name="MultiLangInput">

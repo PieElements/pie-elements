@@ -1,48 +1,51 @@
-import assign from 'lodash/assign';
-import cloneDeep from 'lodash/cloneDeep';
-import includes from 'lodash/includes';
-import isArray from 'lodash/isArray';
-import isEmpty from 'lodash/isEmpty';
-import isEqual from 'lodash/isEqual';
-import map from 'lodash/map';
 import debug from 'debug';
+import { convert } from './legacy-model-converter';
+import { model as buildModel, getCorrectness } from './model';
 
 const log = debug('pie-elements:text-entry:controller');
 
-/** 
- * For the documentation of pie controllers see
- * https://pielabs.github.io/pie-docs/developing/controller.html
- */
-
-const hasValue = (responses, value) => {
-  return responses.values.indexOf(value) !== -1;
-}
 
 export function model(question, session, env) {
-
-  const { model, correctResponses, partialResponses } = question;
-
-  log('model', model);
-  const getCorrectness = () => {
-    if (hasValue(correctResponses, session.value)) {
-      return 'correct';
-    } else if (hasValue(partialResponses, session.value)) {
-      return 'partially-correct';
-    } else if (!session.value || isEmpty(session.value)) {
-      return 'empty';
-    } else {
-      return 'incorrect';
-    }
-  }
-
-  return Promise.resolve({
-    disabled: env.mode !== 'gather',
-    correctness: env.mode === 'evaluate' ? getCorrectness() : null,
-    model: question.model || {}
-  });
+  // TODO: remove this once we can wrap controller packages w/ pie.
+  const converted = convert(question);
+  return buildModel(converted, session, env);
 }
 
-export function outcome(question, session = { value: [] }) {
+export function outcome(question, session = { value: [] }, env) {
   log('outcome')
-  return Promise.reject('todo');
+
+
+  return new Promise((resolve, reject) => {
+
+    if (env.mode !== 'evaluate') {
+      reject({
+        error: `Invalid mode: ${env.mode}`
+      });
+      return;
+    }
+
+    const correctness = getCorrectness(question, session, env);
+
+    if (correctness === 'correct') {
+      resolve({
+        completed: true,
+        score: 1.0
+      });
+    } else if (correctness === 'partially-correct') {
+      resolve({
+        score: ((question.partialResponses.award || 50) / 100),
+        completed: true
+      });
+    } else if (correctness === 'incorrect') {
+      resolve({
+        score: 0,
+        completed: true
+      });
+    } else {
+      resolve({
+        score: 0,
+        completed: false
+      });
+    }
+  });
 }

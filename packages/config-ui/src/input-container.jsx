@@ -5,16 +5,27 @@ import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 
 const RawInputContainer = (props) => {
-  const { label, className, children, classes } = props;
+  const { label, className, children, classes, extraClasses } = props;
   const names = classNames(classes.inputContainer, className);
+  const labelNames = classNames(classes.label, extraClasses && extraClasses.label)
   return (
     <div className={names}>
-      <InputLabel className={classes.label} shrink={true}>{label}</InputLabel>
+      <InputLabel className={labelNames} shrink={true}>{label}</InputLabel>
       <div className={classes.children}>
         {children}
       </div>
     </div>
   );
+}
+
+RawInputContainer.propTypes = {
+  label: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired,
+  extraClasses: PropTypes.object
 }
 
 export default withStyles(theme => ({

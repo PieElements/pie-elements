@@ -1,85 +1,75 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from 'material-ui/Input';
 import debug from 'debug';
-import { Correct, Incorrect, PartiallyCorrect, NothingSubmitted } from '@pie-libs/icons';
+import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
-import NumberFormat from 'react-number-format';
+import Input from './input';
+import { getFormatTag } from './formatting-component';
 
 const log = debug('pie-elements:text-entry');
 
-const tags = {
-  'correct': Correct,
-  'incorrect': Incorrect,
-  'partially-correct': PartiallyCorrect,
-  'empty': NothingSubmitted
-}
+const TextEntryStyles = {
 
-const styles = theme => ({
-  textEntry: {
-    display: 'flex'
+  'white_on_black': {
+    backgroundColor: 'black'
   },
-  icon: {
-    width: '30px',
-    height: '30px'
-  }
-});
-
-class NumberFormatCustom extends React.Component {
-  render() {
-    return (
-      <NumberFormat
-        {...this.props}
-        onValueChange={values => {
-          this.props.onChange({
-            target: {
-              value: values.value,
-            },
-          });
-        }}
-        thousandSeparator
-        prefix="$"
-      />
-    );
+  'black_on_rose': {
+    backgroundColor: 'mistyrose'
   }
 }
-
-NumberFormatCustom.propTypes = {
-  onChange: PropTypes.func.isRequired,
-};
 
 export class TextEntry extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      value: props.session.value || ''
+      value: props.session && props.session.value || ''
     }
   }
 
   onChange = (event) => {
+    clearTimeout(this.state.timeoutId);
+    this.setState({ warning: null, timeoutId: null });
     log('[onChange] value: ', event.target.value);
-    this.setState({ value: event.target.value }, () => {
-      this.props.onSessionChanged(this.state.value);
-    });
+    if (this.state.value !== event.target.value) {
+      this.setState({ value: event.target.value }, () => {
+        this.props.onValueChanged(this.state.value);
+      });
+    }
+  }
+
+  onBadInput = (data) => {
+    const { model } = this.props;
+    const warning = model.numbersOnlyWarning || 'Please enter numbers only';
+    log('[onBadInput] warning: ', warning);
+    const timeoutId = setTimeout(() => {
+      this.setState({ warning: null });
+    }, 1000);
+    this.setState({ warning, timeoutId });
   }
 
   render() {
     const { session, model, classes } = this.props;
-
+    log('[render] model: ', model);
+    const { allowIntegersOnly } = model;
     const { value } = this.state;
-
-    const CorrectnessTag = tags[model.correctness];
+    const FormatTag = getFormatTag(model);
+    const inputProps = model.allowIntegersOnly ? { onBadInput: this.onBadInput } : {}
+    const names = classNames(classes.textEntry, classes[model.colorContrast]);
     return (
-      <div className={classes.textEntry}>
+      <div className={names}>
         <Input
+          dark={model.colorContrast === 'white_on_black'}
+          feedback={model.feedback}
           value={value}
+          correctness={model.correctness}
+          alignment={model.answerAlignment}
+          size={model.answerBlankSize}
           onChange={this.onChange}
-          inputComponent={NumberFormatCustom}
+          inputComponent={FormatTag}
+          error={this.state.warning}
+          inputProps={inputProps}
           disabled={model.disabled} />
-        {CorrectnessTag && <div className={classes.icon}>
-          <CorrectnessTag />
-        </div>}
       </div>
     );
   }
@@ -87,4 +77,4 @@ export class TextEntry extends React.Component {
 
 TextEntry.propTypes = {}
 
-export default withStyles(styles)(TextEntry);
+export default withStyles(TextEntryStyles)(TextEntry);

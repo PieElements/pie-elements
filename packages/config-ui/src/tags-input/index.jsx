@@ -6,6 +6,7 @@ import uniq from 'lodash/uniq';
 import { Chip, Input } from 'material-ui';
 import Done from 'material-ui-icons/Done';
 import classNames from 'classnames';
+import MuiBox from '../mui-box';
 
 const log = debug('pie-elements:config-ui:tags-input');
 
@@ -22,56 +23,12 @@ const Tag = withStyles(theme => ({
     label={label}
     onDelete={onDelete}
   />
-))
+));
 
-const MuiBox = withStyles(theme => {
-  log('theme: ', theme);
-  return {
-    muiBox: {
-      paddingTop: theme.spacing.unit,
-      paddingBottom: theme.spacing.unit,
-      position: 'relative',
-      '&:before': {
-        left: 0,
-        right: 0,
-        bottom: 0,
-        height: '1px',
-        content: '""',
-        position: 'absolute',
-        transition: 'background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-        pointerEvents: 'none',
-        backgroundColor: theme.palette.input.bottomLine
-      },
-      '&:hover:before': {
-        height: '2px'
-      },
-      '&:after': {
-        left: 0,
-        right: 0,
-        bottom: 0,
-        height: '2px',
-        content: '""',
-        position: 'absolute',
-        transform: 'scaleX(0)',
-        transition: 'transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms',
-        pointerEvents: 'none',
-        backgroundColor: theme.palette.primary['A700'] //'#304ffe'
-      }
-    },
-    focused: {
-      '&:after': {
-        transform: 'scaleX(1)'
-      }
-    },
-  }
-})(({ children, classes, focused }) => {
-  const names = classNames(classes.muiBox, focused && classes.focused);
-  return (
-    <div className={names}>
-      {children}
-    </div>
-  )
-});
+Tag.propTypes = {
+  label: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired
+}
 
 export class TagsInput extends React.Component {
 
@@ -142,7 +99,10 @@ export class TagsInput extends React.Component {
   }
 }
 
-TagsInput.propTypes = {}
+TagsInput.propTypes = {
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onChange: PropTypes.func.isRequired
+}
 
 const styles = theme => ({
 

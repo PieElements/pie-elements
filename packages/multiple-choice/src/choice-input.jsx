@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import { withStyles, withTheme } from 'material-ui/styles';
 
 import Checkbox from 'material-ui/Checkbox';
-import Feedback from './feedback.jsx';
+import { Feedback } from '@pie-libs/render-ui';
 import FeedbackTick from './feedback-tick.jsx';
 import Radio from 'material-ui/Radio';
 import classNames from 'classnames';
@@ -94,7 +94,7 @@ export const StyledCheckbox = withStyles(inputStyles, { name: 'Checkbox' })((pro
       checked: resolved.checked,
       disabled: resolved.disabled
     }}
-    />;
+  />;
 });
 
 export const StyledRadio = withStyles(inputStyles)((props) => {

@@ -13,7 +13,7 @@
     "debug": "^3.0.0",
     "immutable": "^3.8.2",
     "keycode": "^2.1.9",
-    "material-ui": "^1.0.0-beta.22",
+    "material-ui": "^1.0.0-beta.27",
     "material-ui-icons": "^1.0.0-beta.17",
     "react": "^15.6.1",
     "react-jss": "^7.0.2",
