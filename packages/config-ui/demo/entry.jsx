@@ -11,6 +11,7 @@ import {
   TagsInput,
   TwoChoice,
   feedbackConfigDefaults,
+  MuiBox
 } from '../src/index';
 
 import Radio from 'material-ui/Radio';
@@ -86,6 +87,10 @@ class Container extends React.Component {
       <em>Normal</em>
       <pre>{JSON.stringify(this.state, null, '  ')}</pre>
 
+      <Section name="MuiBox">
+        <MuiBox>contents</MuiBox>
+        <MuiBox focused={true}>contents</MuiBox>
+      </Section>
       <Section name="Tag Input">
         <div style={{ maxWidth: '300px' }}>
           <TagsInput

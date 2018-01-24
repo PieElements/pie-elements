@@ -7,7 +7,11 @@ import classNames from 'classnames';
 const log = debug('pie-elements:config-ui:mui-box');
 
 const MuiBox = withStyles(theme => {
-  log('theme: ', theme);
+  const light = theme.palette.type === 'light';
+  const bottomLineColor = light ? 'rgba(0, 0, 0, 0.42)' : 'rgba(255, 255, 255, 0.7)';
+
+  log(theme.palette.primary[theme.palette.type || 'light']);
+
   return {
     muiBox: {
       paddingTop: theme.spacing.unit,
@@ -22,7 +26,7 @@ const MuiBox = withStyles(theme => {
         position: 'absolute',
         transition: 'background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
         pointerEvents: 'none',
-        backgroundColor: theme.palette.input.bottomLine
+        backgroundColor: bottomLineColor
       },
       '&:hover:before': {
         height: '2px'
@@ -37,7 +41,7 @@ const MuiBox = withStyles(theme => {
         transform: 'scaleX(0)',
         transition: 'transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms',
         pointerEvents: 'none',
-        backgroundColor: theme.palette.primary['A700'] //'#304ffe'
+        backgroundColor: theme.palette.primary[theme.palette.type] //'#304ffe'
       }
     },
     focused: {

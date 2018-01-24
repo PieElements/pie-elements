@@ -10,6 +10,7 @@ import MultiLangInput from './multi-lang-input';
 import NumberTextField from './number-text-field';
 import TwoChoice, { NChoice } from './two-choice';
 import TagsInput from './tags-input';
+import MuiBox from './mui-box';
 
 export {
   Checkbox,
@@ -23,6 +24,7 @@ export {
   InputSwitch,
   Langs,
   LanguageControls,
+  MuiBox,
   MultiLangInput,
   NChoice,
   NumberTextField,
