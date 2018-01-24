@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.7"></a>
+## [1.0.7](https://github.com/PieELements/pie-elements/compare/@pie-elements/placement-ordering@1.0.6...@pie-elements/placement-ordering@1.0.7) (2018-01-24)
+
+
+### Bug Fixes
+
+* **dependencies:** bump deps ([c61391d](https://github.com/PieELements/pie-elements/commit/c61391d))
+
+
+
+
 <a name="1.0.6"></a>
 ## [1.0.6](https://github.com/PieELements/pie-elements/compare/@pie-elements/placement-ordering@1.0.5...@pie-elements/placement-ordering@1.0.6) (2018-01-24)
 

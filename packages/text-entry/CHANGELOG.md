@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.2"></a>
+## [0.2.2](https://github.com/PieElements/pie-elements/compare/@pie-elements/text-entry@0.2.1...@pie-elements/text-entry@0.2.2) (2018-01-24)
+
+
+### Bug Fixes
+
+* **dependencies:** bump deps ([c61391d](https://github.com/PieElements/pie-elements/commit/c61391d))
+
+
+
+
 <a name="0.2.1"></a>
 ## [0.2.1](https://github.com/PieElements/pie-elements/compare/@pie-elements/text-entry@0.2.0...@pie-elements/text-entry@0.2.1) (2018-01-24)
 
