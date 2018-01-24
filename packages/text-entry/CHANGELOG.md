@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.1"></a>
+## [0.2.1](https://github.com/PieElements/pie-elements/compare/@pie-elements/text-entry@0.2.0...@pie-elements/text-entry@0.2.1) (2018-01-24)
+
+
+
+
+**Note:** Version bump only for package @pie-elements/text-entry
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/PieElements/pie-elements/compare/@pie-elements/text-entry@0.1.0...@pie-elements/text-entry@0.2.0) (2018-01-17)
 

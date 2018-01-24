@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.4.1"></a>
+## [1.4.1](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.4.0...@pie-libs/config-ui@1.4.1) (2018-01-24)
+
+
+### Bug Fixes
+
+* **mui-box:** fix (possible) breaking change in material-ui ([bb9900a](https://github.com/pieelements/pie-elements/commit/bb9900a))
+
+
+
+
 <a name="1.4.0"></a>
 # [1.4.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.3.0...@pie-libs/config-ui@1.4.0) (2018-01-17)
 
