@@ -1,8 +1,7 @@
 import { green, orange, pink } from 'material-ui/colors';
-import { withStyles, withTheme } from 'material-ui/styles';
+import {withStyles} from 'material-ui/styles';
 
 import InlineChoice from './inline-choice';
-import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -68,9 +67,5 @@ Main.defaultProps = {
   session: {}
 }
 
-const Styled = withStyles(styleSheet, { name: 'Main' })(Main);
-
-const theme = createMuiTheme();
-
-export default (props) => <MuiThemeProvider theme={theme}><Styled {...props} /></MuiThemeProvider>;
+export default withStyles(styleSheet, { name: 'Main' })(Main);
 

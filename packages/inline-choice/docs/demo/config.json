@@ -1,9 +1,4 @@
 {
-  "langs": [
-    "en-US",
-    "es-ES",
-    "zh-CN"
-  ],
   "elements": {
     "pie-inline-choice": "../.."
   },
@@ -47,21 +42,7 @@
             }
           ],
           "feedback": {
-            "type": "custom",
-            "custom": [
-              {
-                "lang": "en-US",
-                "value": "Sweden joined in 1995"
-              },
-              {
-                "lang": "es-ES",
-                "value": "Suecia se unió a la UE en 1995"
-              },
-              {
-                "lang": "zh-CN",
-                "value": "瑞典于1995年加入欧盟"
-              }
-            ]
+
           }
         },
         {
@@ -81,8 +62,8 @@
             }
           ],
           "feedback": {
-            "type": "custom",
-            "custom": [
+            "type": "default",
+            "text": [
               {
                 "lang": "en-US",
                 "value": "Iceland is not an EU member state"
@@ -115,21 +96,7 @@
             }
           ],
           "feedback": {
-            "type": "custom",
-            "custom": [
-              {
-                "lang": "en-US",
-                "value": "Norway is not an EU member, but they are a member for the Single Market"
-              },
-              {
-                "lang": "es-ES",
-                "value": "Noruega no es miembro de la UE, sino que son un miembro de Mercado Único"
-              },
-              {
-                "lang": "zh-CN",
-                "value": "挪威不是欧盟成员国，但他们是单一市场的成员"
-              }
-            ]
+
           }
         },
         {
@@ -150,7 +117,7 @@
           ],
           "feedback": {
             "type": "custom",
-            "custom": [
+            "text": [
               {
                 "lang": "en-US",
                 "value": "Finland joined the EU in 1995"
@@ -166,6 +133,11 @@
             ]
           }
         }
+      ],
+      "langs": [
+        "en-US",
+        "es-ES",
+        "zh-CN"
       ]
     }
   ]

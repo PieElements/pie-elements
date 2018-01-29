@@ -1,4 +1,3 @@
-import classNames from "classnames";
 
 export function outcome(model, session) {
 
@@ -27,8 +26,8 @@ export function model(model, session, env) {
       choiceObj["value"] = choice.value;
       choiceObj["correct"] = choice.correct || false;
       choiceObj["label"] = filterItemsArrByLocale(locale, choice.label)
-      if(choice.feedback && choice.feedback.custom) {
-        choiceObj["feedback"] = filterItemsArrByLocale(locale, choice.feedback.custom);
+      if(choice.feedback && choice.feedback.text) {
+        choiceObj["feedback"] = filterItemsArrByLocale(locale, choice.feedback.text);
       }
 
       return choiceObj;

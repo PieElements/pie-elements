@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Input, { InputLabel } from 'material-ui/Input';
+import Input from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import Select from 'material-ui/Select';
-import classNames from "classnames";
 
 const styles = theme => ({
   container: {
@@ -19,9 +18,6 @@ const styles = theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
-  },
-  disableContainer: {
-    pointerEvents : 'none'
   }
 });
 
@@ -44,8 +40,6 @@ class InlineChoice extends React.Component {
 
     const { choices, classes, disabled} = this.props;
 
-    let disableContainer = disabled && classes.disableContainer;
-
     const items = choices.map(function(item, index){
       return (
         <MenuItem key={index} value={item.value}>{item.label[0].value}</MenuItem>
@@ -53,15 +47,15 @@ class InlineChoice extends React.Component {
     });
 
     let renderFeedback = function (result) {
-      let {correct, feedback} = result[0];
+      let {feedback} = result[0];
       return (
         <FormHelperText>{feedback && feedback[0].value}</FormHelperText>
       )
     }
 
     return (
-      <div className={classNames(classes.container, disableContainer)}>
-        <FormControl className={classes.formControl}>
+      <div className={classes.container}>
+        {choices.length > 0 && <FormControl className={classes.formControl} disabled={disabled}>
           <Select
             value={this.state.selected}
             onChange={this.handleChange}
@@ -70,10 +64,10 @@ class InlineChoice extends React.Component {
             {items}
           </Select>
           {(this.props.result) && renderFeedback(this.props.result)}
-        </FormControl>
-        <div className={classes.formControl}>
+        </FormControl>}
+        {(this.props.result) && <div className={classes.formControl}>
           Feedback Icon
-        </div>
+        </div>}
       </div>
 
     );
@@ -81,8 +75,8 @@ class InlineChoice extends React.Component {
 }
 
 InlineChoice.propTypes = {
-  classes: PropTypes.object.isRequired,
-  choices: PropTypes.array.isRequired,
+  classes: PropTypes.object,
+  choices: PropTypes.array,
   disabled: PropTypes.bool
 };
 
