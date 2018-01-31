@@ -3,6 +3,8 @@ import {
   FeedbackSelector,
   InputContainer,
   InputSwitch,
+  InputCheckbox,
+  InputRadio,
   Langs,
   LanguageControls,
   MultiLangInput,
@@ -101,24 +103,25 @@ class Container extends React.Component {
       </Section>
       <Section name="Input Container">
         <div style={{ display: 'flex' }}>
-          <InputContainer label="just a vanilla radio">
-            <Radio />
+          <InputContainer label="raw">
+            <div>raw</div>
           </InputContainer>
           <InputSwitch
-            label="toggle something"
+            label="InputSwitch"
+            checked={true}
+          />
+          <InputCheckbox
+            label="InputCheckbox"
+            checked={true}
+          />
+          <InputRadio
+            label="InputRadio"
             checked={true}
           />
         </div>
       </Section>
-      <Section name="Input Container">
+      <Section name="Two and N Choice">
         <div style={{ display: 'flex' }}>
-          <InputContainer label="just a vanilla radio">
-            <Radio />
-          </InputContainer>
-          <InputSwitch
-            label="toggle something"
-            checked={true}
-          />
           <TwoChoice
             header="two-choice"
             value={this.state.twoChoice}

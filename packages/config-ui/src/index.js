@@ -1,5 +1,5 @@
 import FeedbackConfig, { FeedbackSelector, buildDefaults as feedbackConfigDefaults } from './feedback-config';
-import { InputCheckbox, InputSwitch } from './inputs';
+import { InputCheckbox, InputSwitch, InputRadio } from './inputs';
 import Langs, { LanguageControls } from './langs';
 
 import Checkbox from './checkbox';
@@ -21,6 +21,7 @@ export {
   Help,
   InputContainer,
   InputCheckbox,
+  InputRadio,
   InputSwitch,
   Langs,
   LanguageControls,

@@ -42,32 +42,25 @@ export class MultiLangInput extends React.Component {
     const names = classNames(classes.container, className);
     return (
       <InputContainer label={label} className={names}>
-        <EditableHtml
-          markup={renderValue}
-          onChange={this.onChange}
-          imageSupport={imageSupport}
-          className={classes.editor} />
+        <div className={classes.editorHolder}>
+          <EditableHtml
+            markup={renderValue}
+            onChange={this.onChange}
+            imageSupport={imageSupport}
+            className={classes.editor} />
+        </div>
       </InputContainer>
     );
   }
 }
 
 const styles = {
-  container: {
-    marginTop: '0px',
-    marginBottom: '20px',
-    width: '100%'
+  editorHolder: {
+    marginTop: '16px'
   },
   editor: {
-    marginTop: '10px'
-  },
-  root: {
-    position: 'relative',
-    display: 'block',
-    width: '100%'
-  },
-  textField: {
-    width: '100%'
+    marginTop: '100px',
+    paddingTop: '100px'
   }
 };
 
