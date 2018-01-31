@@ -1,3 +1,6 @@
+/**
+ * Lifted from multiple-choice - TODO: create a shared package for it.
+ */
 import { withStyles, withTheme } from 'material-ui/styles';
 
 import React from 'react';
@@ -24,10 +27,10 @@ const styleSheet = {
     margin: '0px',
     padding: '10px',
     verticalAlign: 'middle',
-    color: 'var(--feedback-color, purple)'
+    color: 'var(--feedback-color, white)'
   },
   correct: {
-    backgroundColor: 'var(--feedback-correct-bg-color, blue)'
+    backgroundColor: 'var(--feedback-correct-bg-color, green)'
   },
   incorrect: {
     backgroundColor: 'var(--feedback-incorrect-bg-color, orange)'
@@ -51,7 +54,7 @@ const styleSheet = {
 export class Feedback extends React.Component {
 
   render() {
-    const { correctness, feedback, classes, className } = this.props;
+    const { correctness, feedback, classes } = this.props;
 
     function chooseFeedback(correctness) {
       if (correctness && feedback) {

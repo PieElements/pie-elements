@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.5.14"></a>
+## [0.5.14](https://github.com/PieElements/pie-elements/compare/@pie-elements/number-line@0.5.13...@pie-elements/number-line@0.5.14) (2018-01-24)
+
+
+### Bug Fixes
+
+* **dependencies:** bump deps ([c61391d](https://github.com/PieElements/pie-elements/commit/c61391d))
+
+
+
+
+<a name="0.5.13"></a>
+## [0.5.13](https://github.com/PieElements/pie-elements/compare/@pie-elements/number-line@0.5.12...@pie-elements/number-line@0.5.13) (2018-01-24)
+
+
+
+
+**Note:** Version bump only for package @pie-elements/number-line
+
+<a name="0.5.12"></a>
+## [0.5.12](https://github.com/PieElements/pie-elements/compare/@pie-elements/number-line@0.5.11...@pie-elements/number-line@0.5.12) (2018-01-17)
+
+
+
+
+**Note:** Version bump only for package @pie-elements/number-line
+
+<a name="0.5.11"></a>
+## [0.5.11](https://github.com/PieElements/pie-elements/compare/@pie-elements/number-line@0.5.10...@pie-elements/number-line@0.5.11) (2018-01-11)
+
+
+
+
+**Note:** Version bump only for package @pie-elements/number-line
+
 <a name="0.5.10"></a>
 ## [0.5.10](https://github.com/PieElements/pie-elements/compare/@pie-elements/number-line@0.5.9...@pie-elements/number-line@0.5.10) (2017-12-15)
 

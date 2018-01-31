@@ -5,12 +5,12 @@
   "main": "./src/index.js",
   "dependencies": {
     "@pie-elements/placement-ordering": "..",
-    "@pie-libs/scoring-config": "^0.3.4",
-    "@pie-libs/config-ui": "^1.2.3",
+    "@pie-libs/scoring-config": "^0.3.11",
+    "@pie-libs/config-ui": "^1.4.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-tap-event-plugin": "^2.0.1",
-    "material-ui": "^1.0.0-beta.22",
+    "material-ui": "^1.0.0-beta.27",
     "material-ui-icons": "^1.0.0-beta.17",
     "nested-property": "^0.0.7"
   }

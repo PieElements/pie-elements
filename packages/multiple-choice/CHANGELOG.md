@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.6"></a>
+## [0.2.6](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.2.5...@pie-elements/multiple-choice@0.2.6) (2018-01-24)
+
+
+### Bug Fixes
+
+* **dependencies:** bump deps ([c61391d](https://github.com/PieElements/pie-elements/commit/c61391d))
+
+
+
+
+<a name="0.2.5"></a>
+## [0.2.5](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.2.4...@pie-elements/multiple-choice@0.2.5) (2018-01-24)
+
+
+
+
+**Note:** Version bump only for package @pie-elements/multiple-choice
+
+<a name="0.2.4"></a>
+## [0.2.4](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.2.3...@pie-elements/multiple-choice@0.2.4) (2018-01-17)
+
+
+### Bug Fixes
+
+* **feedback:** use new [@pie-libs](https://github.com/pie-libs)/render-ui Feedback component ([25fdfd1](https://github.com/PieElements/pie-elements/commit/25fdfd1))
+
+
+
+
+<a name="0.2.3"></a>
+## [0.2.3](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.2.2...@pie-elements/multiple-choice@0.2.3) (2018-01-11)
+
+
+
+
+**Note:** Version bump only for package @pie-elements/multiple-choice
+
 <a name="0.2.2"></a>
 ## [0.2.2](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.2.1...@pie-elements/multiple-choice@0.2.2) (2017-12-15)
 

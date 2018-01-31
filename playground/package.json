@@ -13,7 +13,7 @@
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
     "babel-preset-react": "^6.24.1",
-    "material-ui": "^1.0.0-beta.22",
+    "material-ui": "^1.0.0-beta.27",
     "proptypes": "^1.1.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.4.1"></a>
+## [1.4.1](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.4.0...@pie-libs/config-ui@1.4.1) (2018-01-24)
+
+
+### Bug Fixes
+
+* **mui-box:** fix (possible) breaking change in material-ui ([bb9900a](https://github.com/pieelements/pie-elements/commit/bb9900a))
+
+
+
+
+<a name="1.4.0"></a>
+# [1.4.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.3.0...@pie-libs/config-ui@1.4.0) (2018-01-17)
+
+
+### Features
+
+* **mui-box:** add mui-box component ([1b6ca3b](https://github.com/pieelements/pie-elements/commit/1b6ca3b))
+* **tag-input:** add tag input and update langs ([a797db5](https://github.com/pieelements/pie-elements/commit/a797db5))
+
+
+
+
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.2.6...@pie-libs/config-ui@1.3.0) (2018-01-11)
+
+
+### Features
+
+* **tags-input:** release early version of tags input ([6b7a94e](https://github.com/pieelements/pie-elements/commit/6b7a94e))
+
+
+
+
+<a name="1.2.6"></a>
+## [1.2.6](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.2.5...@pie-libs/config-ui@1.2.6) (2018-01-11)
+
+
+
+
+**Note:** Version bump only for package @pie-libs/config-ui
+
 <a name="1.2.5"></a>
 ## [1.2.5](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.2.4...@pie-libs/config-ui@1.2.5) (2017-12-29)
 

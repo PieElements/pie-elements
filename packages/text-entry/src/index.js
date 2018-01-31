@@ -14,12 +14,13 @@ export default class TextEntry extends HTMLElement {
 
   set model(m) {
     this._model = m;
-    this.render();
     this.dispatchEvent(new ModelSetEvent(
       this.tagName.toLowerCase(),
       false,
       !!this._model
     ));
+
+    this.render();
   }
 
   set session(s) {
@@ -27,8 +28,9 @@ export default class TextEntry extends HTMLElement {
     this.render();
   }
 
-  onSessionChanged(value) {
+  onValueChanged(value) {
     this._session.value = value;
+
     log('[onSessionChanged] session: ', this._session);
 
     this.dispatchEvent(new SessionChangedEvent(
@@ -47,7 +49,7 @@ export default class TextEntry extends HTMLElement {
       const e = React.createElement(ReactTextEntry, {
         model: this._model,
         session: this._session,
-        onSessionChanged: this.onSessionChanged.bind(this)
+        onValueChanged: this.onValueChanged.bind(this)
       });
 
       ReactDOM.render(e, this, () => {

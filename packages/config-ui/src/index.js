@@ -8,7 +8,9 @@ import Help from './help';
 import InputContainer from './input-container';
 import MultiLangInput from './multi-lang-input';
 import NumberTextField from './number-text-field';
-import TwoChoice from './two-choice';
+import TwoChoice, { NChoice } from './two-choice';
+import TagsInput from './tags-input';
+import MuiBox from './mui-box';
 
 export {
   Checkbox,
@@ -22,7 +24,10 @@ export {
   InputSwitch,
   Langs,
   LanguageControls,
+  MuiBox,
   MultiLangInput,
+  NChoice,
   NumberTextField,
+  TagsInput,
   TwoChoice
 }

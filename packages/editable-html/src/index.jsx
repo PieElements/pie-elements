@@ -159,6 +159,8 @@ export default class EditableHtml extends React.Component {
         }, 50);
 
       });
+    } else {
+      return Promise.resolve({});
     }
   }
 
@@ -182,6 +184,7 @@ export default class EditableHtml extends React.Component {
     return (
       <div>
         <Editor
+          ref={r => this.editor = r}
           value={value}
           onChange={this.onChange}
           plugins={this.plugins}
