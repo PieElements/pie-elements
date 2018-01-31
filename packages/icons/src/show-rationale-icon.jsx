@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import injectSheet from 'react-jss';
+import { normalizeSize } from './icon-root';
 
 const Info = ({ fg, border }) => (
   <g>
@@ -22,9 +23,25 @@ const Circle = () => (
   </g>
 );
 
-const Root = ({ children }) => (
-  <svg preserveAspectRatio="xMinYMin meet" viewBox="-129 128 34 34"> {children}</svg>
-);
+const Root = ({ children, size }) => {
+  size = normalizeSize(size);
+  const style = {
+    height: size,
+    width: size,
+    display: 'inline-block',
+    position: 'relative'
+  }
+
+  return (
+    <div style={style}>
+      <svg
+        preserveAspectRatio="xMinYMin meet"
+        viewBox="-129 128 34 34">
+        {children}
+      </svg>
+    </div>
+  );
+}
 
 const styles = {
   fg: {
@@ -56,15 +73,15 @@ export class ShowRationale extends React.Component {
       emoji: <Root><Circle />{info}<Border className={classes.border} /></Root>,
       open: {
         check:
-        <Root>
-          <circle style={{ fill: '#FFFFFF' }} cx="-113" cy="144" r="14" />
-          <Info fg={classes.bg} border={classes.whiteBorder} />
-        </Root>,
+          <Root>
+            <circle style={{ fill: '#FFFFFF' }} cx="-113" cy="144" r="14" />
+            <Info fg={classes.bg} border={classes.whiteBorder} />
+          </Root>,
         emoji:
-        <Root>
-          <circle style={{ fill: '#FFFFFF' }} cx="-113" cy="144" r="14" />
-          <Info fg={classes.bg} border={classes.border} />
-        </Root>
+          <Root>
+            <circle style={{ fill: '#FFFFFF' }} cx="-113" cy="144" r="14" />
+            <Info fg={classes.bg} border={classes.border} />
+          </Root>
       }
     };
 

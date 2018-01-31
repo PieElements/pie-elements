@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
+import Sized from './sized';
 const Lines = () => {
 
   const style = { fill: 'none', stroke: '#BCE2FF', strokeWidth: 2, strokeMiterlimit: 10 };
@@ -18,8 +18,15 @@ const Lines = () => {
   </g>;
 };
 
-const Root = ({ children }) => (
-  <svg version="1.1" id="Layer_1" viewBox="-128 129 31 31" style={{ enableBackground: 'new -128 129 31 31' }}>{children}</svg>
+const Root = ({ children, size }) => (
+  <Sized size={size}>
+    <svg 
+      version="1.1" 
+      viewBox="-128 129 31 31" 
+      style={{ enableBackground: 'new -128 129 31 31' }}>
+      {children}
+    </svg>
+  </Sized>
 )
 
 const GreyInfo = () => {
