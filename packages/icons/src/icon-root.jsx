@@ -1,13 +1,28 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import Sized from './sized';
 
-export const IconRoot = ({ children }) => (<svg
-  preserveAspectRatio="xMinYMin meet"
-  version="1.1"
-  x="0px"
-  y="0px"
-  viewBox="0 0 44 40"
-  style={{ enableBackground: 'new 0 0 44 40' }}>{children}</svg>);
+export const normalizeSize = (size) => {
+  return typeof size === 'string' ? size : (typeof size === 'number' ? `${size}px` : '30px');
+}
 
+export const IconRoot = ({ size, children }) => (
+  <Sized size={size}>
+    <svg
+      preserveAspectRatio="xMinYMin meet"
+      version="1.1"
+      x="0px"
+      y="0px"
+      viewBox="0 0 44 40"
+      style={{ enableBackground: 'new 0 0 44 40' }
+      } > {children}</ svg>
+  </Sized>
+);
+
+
+IconRoot.propTypes = {
+  size: PropTypes.oneOf([PropTypes.string, PropTypes.number])
+}
 
 
 const colors = {

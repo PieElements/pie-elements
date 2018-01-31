@@ -9,83 +9,83 @@ export default (Action, Emoji) => {
 
     constructor(props) {
       super(props);
-      const { classes } = this.props;
+      const { classes, size } = this.props;
 
       this.icons = {
         feedback: {
           round: {
-            check: <IconRoot>
+            check: <IconRoot size={size}>
               <RoundFeedbackBox className={classes.bg} />
               <Action className={classes.fg} />
             </IconRoot>,
-            emoji: <IconRoot>
+            emoji: <IconRoot size={size}>
               <RoundFeedbackBox className={classes.bg} />
               <Emoji className={classes.fg} />
             </IconRoot>,
             open: {
-              check: <IconRoot>
+              check: <IconRoot size={size}>
                 <Action className={classes.bg} />
               </IconRoot>,
-              emoji: <IconRoot>
+              emoji: <IconRoot size={size}>
                 <Emoji className={classes.bg} />
               </IconRoot>
             }
           },
           square: {
-            check: <IconRoot>
+            check: <IconRoot size={size}>
               <SquareFeedbackBox className={classes.bg} />
               <Action className={classes.fg} />
             </IconRoot>,
-            emoji: <IconRoot>
+            emoji: <IconRoot size={size}>
               <SquareFeedbackBox className={classes.bg} />
               <Emoji className={classes.fg} />
             </IconRoot>,
             open: {
-              check: <IconRoot>
+              check: <IconRoot size={size}>
                 <Action className={classes.bg} />
               </IconRoot>,
-              emoji: <IconRoot>
+              emoji: <IconRoot size={size}>
                 <Emoji className={classes.bg} />
               </IconRoot>
             }
           }
         },
         round: {
-          check: <IconRoot>
+          check: <IconRoot size={size}>
             <Circle className={classes.bg} />
             <Action className={classes.fg} />
           </IconRoot>,
-          emoji: <IconRoot>
+          emoji: <IconRoot size={size}>
             <Circle className={classes.bg} />
             <Emoji className={classes.fg} />
           </IconRoot>,
           open: {
-            check: <IconRoot>
+            check: <IconRoot size={size}>
               <Action className={classes.bg} />
             </IconRoot>,
-            emoji: <IconRoot>
+            emoji: <IconRoot size={size}>
               <Emoji className={classes.bg} />
             </IconRoot>
           }
         },
         square: {
-          check: <IconRoot>
+          check: <IconRoot size={size}>
             <Square className={classes.bg} />
             <Action className={classes.fg} />
           </IconRoot>,
-          emoji: <IconRoot>
+          emoji: <IconRoot size={size}>
             <Square className={classes.bg} />
             <Emoji className={classes.fg} />
           </IconRoot>,
           open: {
             check:
-            <IconRoot>
-              <Action className={classes.bg} />
-            </IconRoot>,
+              <IconRoot size={size}>
+                <Action className={classes.bg} />
+              </IconRoot>,
             emoji:
-            <IconRoot>
-              <Emoji className={classes.bg} />
-            </IconRoot>
+              <IconRoot size={size}>
+                <Emoji className={classes.bg} />
+              </IconRoot>
           }
         }
       }

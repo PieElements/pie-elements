@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.4.2"></a>
+## [1.4.2](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.4.1...@pie-libs/config-ui@1.4.2) (2018-01-31)
+
+
+
+
+**Note:** Version bump only for package @pie-libs/config-ui
+
 <a name="1.4.1"></a>
 ## [1.4.1](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.4.0...@pie-libs/config-ui@1.4.1) (2018-01-24)
 
