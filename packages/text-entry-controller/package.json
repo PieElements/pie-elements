@@ -10,7 +10,7 @@
     "debug": "^3.1.0"
   },
   "publishConfig": {
-    "access": true
+    "access": "public"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
