@@ -10,16 +10,10 @@ import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 
 const styles = theme => ({
-  root: {
-    padding: 0,
-    margin: 0
-  },
-  formLabel: {
-    color: 'red'
-  },
   group: {
     display: 'flex',
-    paddingLeft: 0
+    paddingLeft: 0,
+    marginTop: theme.spacing.unit
   }
 });
 

@@ -3,18 +3,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
+import { FormControl, FormHelperText } from 'material-ui/Form';
 
 const RawInputContainer = (props) => {
   const { label, className, children, classes, extraClasses } = props;
-  const names = classNames(classes.inputContainer, className);
-  const labelNames = classNames(classes.label, extraClasses && extraClasses.label)
+  const names = classNames(classes.formControl, className);
   return (
-    <div className={names}>
-      <InputLabel className={labelNames} shrink={true}>{label}</InputLabel>
-      <div className={classes.children}>
-        {children}
-      </div>
-    </div>
+    <FormControl className={names}>
+      <InputLabel className={''} shrink={true}>{label}</InputLabel>
+      {children}
+    </FormControl>
   );
 }
 
@@ -29,20 +27,10 @@ RawInputContainer.propTypes = {
 }
 
 export default withStyles(theme => ({
-  children: {
-    paddingTop: 0,
+  formControl: {
+    marginLeft: 0,
+    marginRight: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
-    paddingLeft: 0,
-    top: '0px',
-    marginTop: '-9px',
-    position: 'relative'
-  },
-  label: {
-    position: 'relative',
-    whiteSpace: 'nowrap'
-  },
-  inputContainer: {
-    display: 'flex',
-    flexDirection: 'column'
+    flex: '1 0 auto'
   }
 }))(RawInputContainer);

@@ -19,7 +19,7 @@ const feedbackLabels = {
 
 const style = theme => ({
   feedbackSelector: {
-    marginBottom: '10px'
+    marginBottom: '20px'
   },
   label: {
     cursor: 'pointer',
@@ -33,12 +33,16 @@ const style = theme => ({
   },
   choiceHolder: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: theme.spacing.unit
   },
   feedbackHolder: {
     marginTop: '0px',
     background: '#e0dee0',
     padding: '13px'
+  },
+  feedbackInputContainer: {
+    paddingBottom: 0
   },
   defaultHolder: {
     fontFamily: theme.typography.fontFamily,
@@ -92,7 +96,9 @@ class FeedbackSelector extends React.Component {
     let feedbackKeys = keys || Object.keys(feedbackLabels);
 
     return <div className={classes.feedbackSelector}>
-      <InputContainer label={label} extraClasses={{ label: classes.inputContainerLabel }}>
+      <InputContainer label={label}
+        className={classes.feedbackInputContainer}
+        extraClasses={{ label: classes.inputContainerLabel }}>
         <Group
           classes={classes}
           keys={feedbackKeys}
