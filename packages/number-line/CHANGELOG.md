@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.5.15"></a>
+## [0.5.15](https://github.com/PieElements/pie-elements/compare/@pie-elements/number-line@0.5.14...@pie-elements/number-line@0.5.15) (2018-01-31)
+
+
+
+
+**Note:** Version bump only for package @pie-elements/number-line
+
 <a name="0.5.14"></a>
 ## [0.5.14](https://github.com/PieElements/pie-elements/compare/@pie-elements/number-line@0.5.13...@pie-elements/number-line@0.5.14) (2018-01-24)
 
