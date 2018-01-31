@@ -14,12 +14,6 @@ const styles = theme => ({
     padding: '0',
     borderRadius: '4px'
   },
-  iconHolder: {
-    cursor: 'pointer',
-    width: '30px',
-    height: '30px',
-    display: 'inline-block'
-  },
   popover: {
     cursor: 'pointer'
   },
@@ -53,8 +47,7 @@ const BuildIndicator = (Icon, correctness) => {
         <div>
           <span
             ref={r => this.icon = r}
-            onClick={this.handlePopoverOpen}
-            className={classes.iconHolder} ><Icon /></span>
+            onClick={this.handlePopoverOpen}><Icon /></span>
 
           <Popover
             className={classes.popover}
