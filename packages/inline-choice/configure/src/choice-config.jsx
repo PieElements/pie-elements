@@ -1,4 +1,4 @@
-import { MultiLangInput } from '@pie-libs/config-ui';
+import { MultiLangInput, InputRadio } from '@pie-libs/config-ui';
 import React from 'react';
 import { withStyles } from 'material-ui/styles';
 import Radio from 'material-ui/Radio';
@@ -21,14 +21,25 @@ export class ChoiceConfig extends React.Component {
   }
 
   render() {
-    let {classes, checked, label,value, feedback, index}  = this.props;
+    let { classes,
+      checked,
+      label,
+      value,
+      feedback,
+      index,
+      onChoiceChange } = this.props;
     return <div className={classes.root}>
       <div className={classes.main}>
-        <div className={classes.indexAndModeTag}>
+        <InputRadio label="Correct"
+          checked={checked}
+          value={value}
+          className={classes.radio}
+          onChange={() => onChoiceChange(value)} />
+        {/* <div className={classes.indexAndModeTag}>
           <Radio checked={checked}
-                 onChange={() => {this.props.onChoiceChange(value)}}
-                 value={value} />
-        </div>
+          onChange={() => { this.props.onChoiceChange(value) }}
+          value={value} />
+      </div> */}
         <TextField
           id="value"
           label="Value"
@@ -40,23 +51,27 @@ export class ChoiceConfig extends React.Component {
           className={classes.multiLangInput}
           value={label}
           lang={this.props.activeLang}
-          onChange={(label) => {this.props.onChoiceLabelUpdate(label)}}/>
+          onChange={(label) => { this.props.onChoiceLabelUpdate(label) }} />
         <FeedbackMenu
           value={feedback}
-          onChange={(type) => {this.props.handleFeedbackMenuChange(type)}} />
+          onChange={(type) => { this.props.handleFeedbackMenuChange(type) }} />
 
         <IconButton
           aria-label="delete"
-          onClick={() => {this.props.onRemoveChoice(index)}}><ActionDelete /></IconButton>
+          onClick={() => { this.props.onRemoveChoice(index) }}><ActionDelete /></IconButton>
       </div>
-    </div>;
+    </div >;
   }
 }
 
 
 const styles = {
   multiLangInput: {
-    marginBottom: 0
+    marginBottom: 0,
+    flex: 1
+  },
+  radio: {
+    flex: '0 1 auto'
   },
   root: {
     paddingBottom: '10px',
@@ -64,7 +79,7 @@ const styles = {
   },
   main: {
     display: 'flex',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     paddingBottom: '8px'
   },
   feedback: {
