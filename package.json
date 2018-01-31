@@ -1,4 +1,8 @@
 {
+  "name": "@pie-elements/pie-elements",
+  "description": "the pie-elements mono repo",
+  "private": true,
+  "license": "MIT",
   "devDependencies": {
     "lerna": "^2.5.1"
   }
