@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.4"></a>
+## [0.2.4](https://github.com/PieElements/pie-elements/compare/@pie-elements/text-entry@0.2.3...@pie-elements/text-entry@0.2.4) (2018-01-31)
+
+
+### Bug Fixes
+
+* **icon:** remove sizing - icons@0.3.0 has a default size of 30px now ([80840da](https://github.com/PieElements/pie-elements/commit/80840da))
+
+
+
+
 <a name="0.2.3"></a>
 ## [0.2.3](https://github.com/PieElements/pie-elements/compare/@pie-elements/text-entry@0.2.2...@pie-elements/text-entry@0.2.3) (2018-01-31)
 
