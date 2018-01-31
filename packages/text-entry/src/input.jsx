@@ -34,7 +34,7 @@ class RawInput extends React.Component {
       size,
       value,
       feedback
-     } = this.props;
+    } = this.props;
 
     const formClasses = classNames(classes.formControl);
     const inputClass = classNames(classes.input, classes[alignment], classes[`size${size}`]);
@@ -90,9 +90,7 @@ const inputStyles = theme => {
     },
     icon: {
       padding: '3px',
-      paddingLeft: `${theme.spacing.unit}px`,
-      width: '30px',
-      height: '30px'
+      paddingLeft: `${theme.spacing.unit}px`
     },
     right: {
       textAlign: 'right'
@@ -123,7 +121,7 @@ Input.propTypes = {
   inputComponent: PropTypes.func,
   inputProps: PropTypes.object,
   onChange: PropTypes.func,
-  size: PropTypes.number,
+  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   value: PropTypes.string.isRequired,
   feedback: PropTypes.string
 }
