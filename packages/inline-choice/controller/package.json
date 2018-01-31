@@ -4,8 +4,11 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Mukesh Sharma",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^22.1.4"
+  }
 }

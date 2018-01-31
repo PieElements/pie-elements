@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "client-test": "./node_modules/.bin/mocha --require babel-register test/**/*-test.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "client-test": "jest",
+    "test": "jest && cd controller && npm run test && cd ../configure && npm run test"
   },
   "publishConfig": {
     "access": "public"
@@ -42,10 +42,9 @@
     "css-loader": "^0.28.4",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-15": "^1.0.5",
-    "jest": "^22.1.1",
+    "jest": "^22.1.4",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
-    "mocha": "^4.1.0",
     "postcss-loader": "^2.0.6",
     "react-addons-test-utils": "^15.6.2",
     "react-test-renderer": "15.6.1",

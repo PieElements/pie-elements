@@ -16,17 +16,21 @@ export function model(model, session, env) {
   };
 
   function filterItemsArrByLocale(locale, items) {
+    if (!items) {
+      return [];
+    }
     return items.filter(item => locale === item.lang);
   }
 
   function filterQuestionChoicesByLocale(locale, choicesArr) {
+
     return choicesArr.map((choice) => {
       var choiceObj = {};
 
       choiceObj["value"] = choice.value;
       choiceObj["correct"] = choice.correct || false;
       choiceObj["label"] = filterItemsArrByLocale(locale, choice.label)
-      if(choice.feedback && choice.feedback.text) {
+      if (choice.feedback && choice.feedback.text) {
         choiceObj["feedback"] = filterItemsArrByLocale(locale, choice.feedback.text);
       }
 
@@ -45,7 +49,7 @@ export function model(model, session, env) {
 
     let response = {}
 
-    if(env.mode === "evaluate" && session.selectedChoice) {
+    if (env.mode === "evaluate" && session.selectedChoice) {
       response.result = evaluateAnswer(quesChoicesByLocale, session.selectedChoice);
     }
 
@@ -61,5 +65,5 @@ export function model(model, session, env) {
 }
 
 function evaluateAnswer(choices, selectedChoice) {
-  return choices.filter( choice  => selectedChoice === choice.value);
+  return choices.filter(choice => selectedChoice === choice.value);
 }
