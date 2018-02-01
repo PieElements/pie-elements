@@ -10,6 +10,12 @@ exports[`snapshot renders 1`] = `
     <div
       className={undefined}
     >
+      <label
+        className="MuiFormLabel-root-7 MuiInputLabel-root-1 MuiInputLabel-animated-5 MuiInputLabel-shrink-4"
+        data-shrink={true}
+      >
+        Correct
+      </label>
       <div>
         Radio
       </div>
