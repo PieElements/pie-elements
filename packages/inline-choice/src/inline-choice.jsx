@@ -5,6 +5,7 @@ import Input from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import Select from 'material-ui/Select';
+import {Correct, Incorrect, CorrectResponse} from '@pie-libs/icons';
 
 const styles = theme => ({
   container: {
@@ -30,7 +31,7 @@ class InlineChoice extends React.Component {
     }
   }
 
-  handleChange = event => {
+  handleChange (event) {
     this.props.onChoiceChanged(event.target.value);
     this.setState({ selected: event.target.value });
   };
@@ -38,7 +39,7 @@ class InlineChoice extends React.Component {
 
   render() {
 
-    const { choices, classes, disabled} = this.props;
+    const { choices, classes, disabled, result} = this.props;
 
     const items = choices.map(function(item, index){
       return (
@@ -63,10 +64,10 @@ class InlineChoice extends React.Component {
           >
             {items}
           </Select>
-          {(this.props.result) && renderFeedback(this.props.result)}
+          {(result) && renderFeedback(result)}
         </FormControl>}
-        {(this.props.result) && <div className={classes.formControl}>
-          Feedback Icon
+        {(result) && <div className={classes.formControl}>
+          {(result[0].correct) ? <Correct iconSet="emoji"/> : <Incorrect iconSet="emoji"/>}
         </div>}
       </div>
 

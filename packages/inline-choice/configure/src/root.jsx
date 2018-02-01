@@ -71,6 +71,11 @@ export default class Root extends React.Component {
     this.updateModel(updateModel);
   }
 
+  onPartialScoringChanged(partialScoring) {
+    const { model } = this.state;
+    model.partialScoring = partialScoring;
+    this.updateModel(model);
+  }
 
   render (){
     const props = {
@@ -81,7 +86,8 @@ export default class Root extends React.Component {
       onUpdateFeedback : (index, feedback) => {return this.onUpdateFeedback(index, feedback)},
       onChoiceChange : (newChoice) => {return this.onChoiceChange(newChoice)},
       onRemoveChoice : (index) => { return this.onRemoveChoice(index)},
-      onAddChoice : () => {return this.onAddChoice()}
+      onAddChoice : () => {return this.onAddChoice()},
+      onPartialScoringChanged: (partialScore) => {return this.onPartialScoringChanged(partialScore)},
     }
 
     return (

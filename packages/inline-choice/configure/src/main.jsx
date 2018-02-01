@@ -5,6 +5,7 @@ import ChoiceConfig from "./choice-config";
 import Tabs, { Tab } from 'material-ui/Tabs';
 import cloneDeep from 'lodash/cloneDeep';
 import Button from 'material-ui/Button';
+import PartialScoringConfig from '@pie-libs/scoring-config/src/index.jsx';
 
 export default class Main extends React.Component {
 
@@ -108,10 +109,6 @@ export default class Main extends React.Component {
     let renderDesignTab = () => {
       return (
         <div>
-          <div style={{marginBottom: "10px"}}>
-            {renderLangControl()}
-          </div>
-
           <Card>
             <CardContent>
               {renderEditPrompt()}
@@ -147,10 +144,13 @@ export default class Main extends React.Component {
           scrollButtons="auto"
         >
           <Tab label="Design" />
-          <Tab label="Partial Scoring" />
+          <Tab label="Scoring" />
         </Tabs>
         {this.state.activeTab === 0 && renderDesignTab()}
-        {this.state.activeTab === 1 && renderPartialScoringTab()}
+        {this.state.activeTab === 1 && <PartialScoringConfig
+          partialScoring={this.props.model.partialScoring}
+          numberOfCorrectResponses={this.props.model.choices.filter(choice => choice.correct).length}
+          onChange={this.props.onPartialScoringChanged} />}
       </div>
     );
   }

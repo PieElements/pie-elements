@@ -1,4 +1,4 @@
-import { MultiLangInput, InputRadio } from '@pie-libs/config-ui';
+import { MultiLangInput } from '@pie-libs/config-ui';
 import React from 'react';
 import { withStyles } from 'material-ui/styles';
 import Radio from 'material-ui/Radio';
@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField';
 import FeedbackMenu from './feedback-menu';
 import IconButton from 'material-ui/IconButton';
 import ActionDelete from 'material-ui-icons/Delete';
-
+import InputLabel from 'material-ui/Input/InputLabel';
 
 export class ChoiceConfig extends React.Component {
 
@@ -21,25 +21,15 @@ export class ChoiceConfig extends React.Component {
   }
 
   render() {
-    let { classes,
-      checked,
-      label,
-      value,
-      feedback,
-      index,
-      onChoiceChange } = this.props;
+    let {classes, checked, label,value, feedback, index}  = this.props;
     return <div className={classes.root}>
       <div className={classes.main}>
-        <InputRadio label="Correct"
-          checked={checked}
-          value={value}
-          className={classes.radio}
-          onChange={() => onChoiceChange(value)} />
-        {/* <div className={classes.indexAndModeTag}>
+        <div className={classes.inputContainer}>
+          <InputLabel className={classes.label} shrink={true}>Correct</InputLabel>
           <Radio checked={checked}
-          onChange={() => { this.props.onChoiceChange(value) }}
-          value={value} />
-      </div> */}
+                 onChange={() => {this.props.onChoiceChange(value)}}
+                 value={value} />
+        </div>
         <TextField
           id="value"
           label="Value"
@@ -51,16 +41,16 @@ export class ChoiceConfig extends React.Component {
           className={classes.multiLangInput}
           value={label}
           lang={this.props.activeLang}
-          onChange={(label) => { this.props.onChoiceLabelUpdate(label) }} />
+          onChange={(label) => {this.props.onChoiceLabelUpdate(label)}}/>
         <FeedbackMenu
           value={feedback}
-          onChange={(type) => { this.props.handleFeedbackMenuChange(type) }} />
+          onChange={(type) => {this.props.handleFeedbackMenuChange(type)}} />
 
         <IconButton
           aria-label="delete"
-          onClick={() => { this.props.onRemoveChoice(index) }}><ActionDelete /></IconButton>
+          onClick={() => {this.props.onRemoveChoice(index)}}><ActionDelete /></IconButton>
       </div>
-    </div >;
+    </div>;
   }
 }
 
@@ -85,10 +75,6 @@ const styles = {
   feedback: {
     display: 'flex'
   },
-  indexAndModeTag: {
-    display: 'flex',
-    alignItems: 'center'
-  },
   index: {
     display: 'inline-block',
     position: 'relative',
@@ -102,6 +88,13 @@ const styles = {
     marginRight: '10px',
     marginLeft: '10px',
     paddingBottom: '8px'
+  },
+  label: {
+    textAlign: 'center'
+  },
+  inputContainer: {
+    display: 'flex',
+    flexDirection: 'column'
   }
 };
 
