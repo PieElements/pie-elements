@@ -27,6 +27,7 @@
     "react-dom": "^15.6.1"
   },
   "devDependencies": {
+    "@pie-libs/render-ui": "^0.1.6",
     "babel": "^6.23.0",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
