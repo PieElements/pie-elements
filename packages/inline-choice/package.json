@@ -16,6 +16,7 @@
     "@pie-libs/correct-answer-toggle": "^0.1.4",
     "@pie-libs/icons": "^0.2.3",
     "@pie-libs/pie-player-events": "0.0.1",
+    "@pie-libs/render-ui": "^0.1.6",
     "classnames": "^2.2.5",
     "lodash": "^4.17.4",
     "material-ui": "^1.0.0-beta.22",

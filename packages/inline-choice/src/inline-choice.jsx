@@ -6,6 +6,9 @@ import { MenuItem } from 'material-ui/Menu';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import {Correct, Incorrect, CorrectResponse} from '@pie-libs/icons';
+import { indicators } from '@pie-libs/render-ui';
+
+const {Correct} = indicators;
 
 const styles = theme => ({
   container: {
@@ -27,11 +30,11 @@ class InlineChoice extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected : ""
+      selected: ""
     }
   }
 
-  handleChange (event) {
+  handleChange = event => {
     this.props.onChoiceChanged(event.target.value);
     this.setState({ selected: event.target.value });
   };
@@ -41,14 +44,14 @@ class InlineChoice extends React.Component {
 
     const { choices, classes, disabled, result} = this.props;
 
-    const items = choices.map(function(item, index){
+    const items = choices.map(function (item, index) {
       return (
         <MenuItem key={index} value={item.value}>{item.label[0].value}</MenuItem>
       );
     });
 
     let renderFeedback = function (result) {
-      let {feedback} = result[0];
+      let { feedback } = result[0];
       return (
         <FormHelperText>{feedback && feedback[0].value}</FormHelperText>
       )
