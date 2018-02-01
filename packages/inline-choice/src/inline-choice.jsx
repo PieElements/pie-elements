@@ -29,7 +29,7 @@ class InlineChoice extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected : ""
+      selected: ""
     }
   }
 
@@ -41,16 +41,16 @@ class InlineChoice extends React.Component {
 
   render() {
 
-    const { choices, classes, disabled} = this.props;
+    const { choices, classes, disabled } = this.props;
 
-    const items = choices.map(function(item, index){
+    const items = choices.map(function (item, index) {
       return (
         <MenuItem key={index} value={item.value}>{item.label[0].value}</MenuItem>
       );
     });
 
     let renderFeedback = function (result) {
-      let {feedback} = result[0];
+      let { feedback } = result[0];
       return (
         <FormHelperText>{feedback && feedback[0].value}</FormHelperText>
       )

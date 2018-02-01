@@ -1,6 +1,4 @@
 import Menu, { MenuItem } from 'material-ui/Menu';
-import { blue, green, grey } from 'material-ui/colors';
-
 import ActionFeedback from 'material-ui-icons/Feedback';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
@@ -30,6 +28,16 @@ export class IconMenu extends React.Component {
   }
 
   render() {
+
+    const { opts, onClick } = this.props;
+
+    const keys = Object.keys(opts);
+
+    const handleMenuClick = (key) => () => {
+      this.props.onClick(key);
+      this.handleRequestClose();
+    }
+
     return (
       <div>
         <div onClick={this.handleClick}>
@@ -39,45 +47,49 @@ export class IconMenu extends React.Component {
           id="simple-menu"
           anchorEl={this.state.anchorEl}
           open={this.state.open}
-          onRequestClose={this.handleRequestClose}
-        >{this.props.children.map((c, index) => <div key={index} onClick={this.handleRequestClose}>{c}</div>)}
+          onClose={this.handleRequestClose}
+        >{keys.map((k, index) => (<MenuItem
+          key={index}
+          onClick={handleMenuClick(k)}>{opts[k]}</MenuItem>))}
         </Menu>
       </div>
     );
   }
 }
+
 IconMenu.propTypes = {
   iconButtonElement: PropTypes.any
 }
 
-
+/**
+ * TODO: move FeedbackMenu to config-ui (there's one in multiple choice too). 
+ */
 export default function FeedbackMenu(props) {
 
   const { value, onChange } = props;
 
-  const iconColor = value === 'custom' ?
-    green[500] :
-    (value === 'default' ? blue[500] : grey[500]);
+  const t = value && value.type;
+  const iconColor = t === 'custom' ? 'secondary'
+    :
+    (t === 'default' ? 'primary' : 'disabled');
 
-  const tooltip = value === 'custom' ?
+  const tooltip = t === 'custom' ?
     'Custom Feedback' :
-    (value === 'default' ? 'Default Feedback' : 'Feedback disabled');
+    (t === 'default' ? 'Default Feedback' : 'Feedback disabled');
 
   const icon = <IconButton
     aria-label={tooltip}>
     <ActionFeedback color={iconColor} />
   </IconButton>;
 
-  const chooseFeedback = (t) => {
-    return () => {
-      onChange(t);
-    }
-  }
-
-  return <IconMenu
-    iconButtonElement={icon}>
-    <MenuItem onClick={chooseFeedback('none')}>No Feedback</MenuItem>
-    <MenuItem onClick={chooseFeedback('default')}>Default</MenuItem>
-    <MenuItem onClick={chooseFeedback('custom')}>Custom</MenuItem>
-  </IconMenu>
+  return (
+    <IconMenu
+      iconButtonElement={icon}
+      onClick={(key) => onChange(key)}
+      opts={{
+        none: 'No Feedback',
+        default: 'Default',
+        custom: 'Custom'
+      }} />
+  );
 }
