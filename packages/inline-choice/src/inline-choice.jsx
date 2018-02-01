@@ -5,6 +5,9 @@ import Input from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import Select from 'material-ui/Select';
+import { indicators } from '@pie-libs/render-ui';
+
+const {Correct} = indicators;
 
 const styles = theme => ({
   container: {
@@ -66,7 +69,7 @@ class InlineChoice extends React.Component {
           {(this.props.result) && renderFeedback(this.props.result)}
         </FormControl>}
         {(this.props.result) && <div className={classes.formControl}>
-          Feedback Icon
+          <Correct feedback={'hooray'} />
         </div>}
       </div>
 
