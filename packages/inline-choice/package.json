@@ -4,8 +4,9 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "client-test": "jest",
-    "test": "jest && cd controller && npm run test && cd ../configure && npm run test"
+    "client-test": "jest --verbose",
+    "controller-test": "cd controller && jest --verbose",
+    "test": "jest --verbose && cd controller && npm run test && cd ../configure && npm run test"
   },
   "publishConfig": {
     "access": "public"
@@ -14,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@pie-libs/correct-answer-toggle": "^0.1.4",
-    "@pie-libs/icons": "^0.2.3",
+    "@pie-libs/icons": "^0.3.0",
     "@pie-libs/pie-player-events": "0.0.1",
     "@pie-libs/render-ui": "^0.1.6",
     "classnames": "^2.2.5",
@@ -27,10 +28,9 @@
     "react-dom": "^15.6.1"
   },
   "devDependencies": {
-    "@pie-libs/render-ui": "^0.1.6",
     "babel": "^6.23.0",
     "babel-cli": "^6.24.1",
-    "babel-core": "^6.25.0",
+    "babel-core": "^6.26.0",
     "babel-jest": "^22.1.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-class-properties": "^6.24.1",

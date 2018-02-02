@@ -5,10 +5,10 @@ import Input from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import Select from 'material-ui/Select';
-// import {Correct, Incorrect, CorrectResponse} from '@pie-libs/icons';
+import {Correct, Incorrect, CorrectResponse} from '@pie-libs/icons';
 import { indicators } from '@pie-libs/render-ui';
 
-const {Correct} = indicators;
+// const {Correct} = indicators;
 
 const styles = theme => ({
   container: {
@@ -70,7 +70,7 @@ class InlineChoice extends React.Component {
           {(result) && renderFeedback(result)}
         </FormControl>}
         {(result) && <div className={classes.formControl}>
-          <Correct feedback={'hooray'} />
+          {(result[0].correct) ? <Correct iconSet="emoji"/> : <Incorrect iconSet="emoji"/>}
         </div>}
       </div>
 

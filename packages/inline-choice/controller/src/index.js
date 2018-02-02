@@ -26,12 +26,14 @@ export function model(model, session, env) {
 
     return choicesArr.map((choice) => {
       var choiceObj = {};
-
-      choiceObj["value"] = choice.value;
-      choiceObj["correct"] = choice.correct || false;
-      choiceObj["label"] = filterItemsArrByLocale(locale, choice.label)
-      if (choice.feedback && choice.feedback.text) {
-        choiceObj["feedback"] = filterItemsArrByLocale(locale, choice.feedback.text);
+      let filterLabelByLocale = filterItemsArrByLocale(locale, choice.label);
+      if(filterLabelByLocale.length > 0) {
+        choiceObj["value"] = choice.value;
+        choiceObj["correct"] = choice.correct || false;
+        choiceObj["label"] = filterLabelByLocale
+        if (choice.feedback && choice.feedback.text) {
+          choiceObj["feedback"] = filterItemsArrByLocale(locale, choice.feedback.text);
+        }
       }
 
       return choiceObj;
