@@ -106,6 +106,8 @@ class RawContainer extends React.Component {
       <div className={classes.left}>
         <Section name="Choice Configuration">
           <Typography>This is a single choice configuration that can be used where the user can build up a list of choices</Typography>
+          <br />
+          <br />
           <ChoiceConfiguration
             index={1}
             mode={'checkbox'}
