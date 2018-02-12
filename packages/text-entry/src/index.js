@@ -51,7 +51,8 @@ export default class TextEntry extends HTMLElement {
         session: this._session,
         onValueChanged: this.onValueChanged.bind(this)
       });
-
+console.log("this._model", this._model);
+      console.log("this._session", this._session);
       ReactDOM.render(e, this, () => {
         log('render completed');
       });
