@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.6.0"></a>
+# [1.6.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.5.0...@pie-libs/config-ui@1.6.0) (2018-02-12)
+
+
+### Features
+
+* **choice-configuration:** add new ChoiceConfiguration component ([cab43e7](https://github.com/pieelements/pie-elements/commit/cab43e7))
+
+
+
+
 <a name="1.5.0"></a>
 # [1.5.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.4.2...@pie-libs/config-ui@1.5.0) (2018-01-31)
 
