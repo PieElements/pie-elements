@@ -68,8 +68,6 @@ export default function FeedbackMenu(props) {
 
   const { value, onChange, classes } = props;
 
-  console.log('value: ', value);
-
   const t = value && value.type;
   const iconColor = t === 'custom' ? 'secondary'
     :
