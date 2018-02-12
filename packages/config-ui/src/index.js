@@ -11,8 +11,10 @@ import NumberTextField from './number-text-field';
 import TwoChoice, { NChoice } from './two-choice';
 import TagsInput from './tags-input';
 import MuiBox from './mui-box';
+import ChoiceConfiguration from './choice-configuration';
 
 export {
+  ChoiceConfiguration,
   Checkbox,
   FeedbackConfig,
   FeedbackSelector,
