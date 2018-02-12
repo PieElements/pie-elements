@@ -92,7 +92,6 @@ class RawChoiceConfiguration extends React.Component {
   }
 
   onFeedbackTypeChange = (t) => {
-    console.log('type change: ', t);
     const { data, onChange } = this.props;
     const fb = { ...data.feedback, type: t };
     if (fb.type !== 'custom') {
