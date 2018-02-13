@@ -43,12 +43,17 @@ export class ChoiceConfig extends React.Component {
           lang={this.props.activeLang}
           onChange={(label) => {this.props.onChoiceLabelUpdate(label)}}/>
         <FeedbackMenu
+          label="Feedback"
           value={feedback}
           onChange={(type) => {this.props.handleFeedbackMenuChange(type)}} />
 
+        <div style={{display: "inline-grid", textAlign: "right", paddingLeft: "10px"}}>
+          <InputLabel className={classes.label} shrink={true}>Delete</InputLabel>
         <IconButton
+          label="Delete"
           aria-label="delete"
           onClick={() => {this.props.onRemoveChoice(index)}}><ActionDelete /></IconButton>
+        </div>
       </div>
     </div>;
   }

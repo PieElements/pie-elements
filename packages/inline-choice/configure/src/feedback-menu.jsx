@@ -4,6 +4,7 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import PropTypes from 'prop-types';
 import React from 'react';
+import InputLabel from 'material-ui/Input/InputLabel';
 
 export class IconMenu extends React.Component {
 
@@ -40,6 +41,7 @@ export class IconMenu extends React.Component {
 
     return (
       <div>
+        <InputLabel style={{fontSize: "13px"}}  shrink={true}>Feedback</InputLabel>
         <div onClick={this.handleClick}>
           {this.props.iconButtonElement}
         </div>

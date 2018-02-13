@@ -47,12 +47,14 @@ class Main extends React.Component {
   render() {
     const { model, onChoiceChanged, session, classes } = this.props;
 
-    return <div className={classNames(classes.root, classes[model.className])}>
-      <div dangerouslySetInnerHTML={{ __html: model.prompt[0].value }}></div>
-      <InlineChoice {...model}
-                    session={session}
-                    onChoiceChanged={onChoiceChanged}/>
-    </div>;
+    return (
+      <div className={classNames(classes.root, classes[model.className])}>
+        {(model.prompt && model.prompt.length > 0) && <div>
+          <div dangerouslySetInnerHTML={{ __html: model.prompt[0].value }}></div>
+          <InlineChoice {...model} session={session} onChoiceChanged={onChoiceChanged}/>
+        </div>}
+      </div>
+    );
   }
 }
 
