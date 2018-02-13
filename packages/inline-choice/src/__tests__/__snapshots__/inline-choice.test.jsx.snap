@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InlineChoice Component should render component 1`] = `
+<div
+  className="InlineChoice-container-1"
+>
+  <div
+    className="MuiFormControl-root-4 InlineChoice-formControl-2"
+    onBlur={[Function]}
+    onFocus={[Function]}
+  >
+    <div
+      className="MuiInput-root-13 MuiInput-formControl-14 MuiInput-inkbar-15 MuiInput-underline-19"
+      onBlur={[Function]}
+      onFocus={[Function]}
+    >
+      <div
+        className="MuiSelect-root-8"
+      >
+        <div
+          aria-haspopup="true"
+          aria-owns={null}
+          aria-pressed="false"
+          className="MuiSelect-select-9 MuiSelect-selectMenu-10 MuiInput-input-22"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={undefined}
+          onKeyDown={[Function]}
+          role="button"
+          tabIndex={0}
+        />
+        <input
+          aria-invalid={false}
+          aria-required={false}
+          autoComplete={undefined}
+          autoFocus={undefined}
+          defaultValue={undefined}
+          id="input-choice"
+          name="input-choice"
+          onKeyDown={undefined}
+          onKeyUp={undefined}
+          placeholder={undefined}
+          readOnly={undefined}
+          required={undefined}
+          rows={undefined}
+          type="hidden"
+          value=""
+        />
+        <svg
+          aria-hidden="true"
+          className="MuiSvgIcon-root-28 MuiSelect-icon-12"
+          color={undefined}
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M7 10l5 5 5-5z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;

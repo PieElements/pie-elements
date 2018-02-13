@@ -64,6 +64,8 @@ export class Main extends React.Component {
         onActiveLangChange={activeLang => this.setState({ activeLang })}
         onDefaultLangChange={onDefaultLangChanged} />
 
+      <br />
+      <br />
       <MultiLangInput
         label="Prompt"
         value={model.prompt}
