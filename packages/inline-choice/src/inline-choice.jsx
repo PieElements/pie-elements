@@ -5,6 +5,7 @@ import { FormControl, FormHelperText } from 'material-ui/Form';
 import {Correct, Incorrect, CorrectResponse} from '@pie-libs/icons';
 import { indicators } from '@pie-libs/render-ui';
 import Choices from "./choices";
+
 // const {Correct} = indicators;
 
 const styles = theme => ({
