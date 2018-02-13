@@ -32,6 +32,7 @@ export function model(model, session, env) {
         choiceObj["correct"] = choice.correct || false;
         choiceObj["label"] = filterLabelByLocale
         if (choice.feedback && choice.feedback.text) {
+          let ft = filterItemsArrByLocale(locale, choice.feedback.text);
           choiceObj["feedback"] = filterItemsArrByLocale(locale, choice.feedback.text);
         }
       }

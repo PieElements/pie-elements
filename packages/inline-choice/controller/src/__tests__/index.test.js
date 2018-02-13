@@ -62,10 +62,6 @@ describe('Controller', () => {
 
 
     describe('choices', () => {
-      it('should return en-US choices', () => {
-        return controller.model(baseModel, {}, mergeObj(baseEnv, {locale: "en-US"}))
-          .then(result => console.log("Res", result.feedback))
-      });
 
       it('should not return en-ES choices', () => {
         return controller.model(baseModel, {}, mergeObj(baseEnv, {locale: "en-ES"}))
@@ -78,10 +74,6 @@ describe('Controller', () => {
         return controller.model(baseModel, {}, mergeObj(baseEnv, {mode: "view"}))
           .then(result => expect(result.mode).toMatch('view'))
       });
-    });
-
-    describe('prompt', () => {
-
     });
 
   });

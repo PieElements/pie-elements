@@ -4,9 +4,9 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "client-test": "jest --verbose",
+    "client-test": "cd src && jest src",
     "controller-test": "cd controller && jest --verbose",
-    "test": "jest --verbose && cd controller && npm run test && cd ../configure && npm run test"
+    "test": "npm run client-test &&  npm run controller-test"
   },
   "publishConfig": {
     "access": "public"
