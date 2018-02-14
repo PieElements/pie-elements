@@ -33,20 +33,6 @@ export default class Main extends React.Component {
   }
 
   render (){
-    let renderLangControl = () => {
-      return (
-        <Card>
-          <CardContent>
-            <LanguageControls
-              langs={this.props.model.langs}
-              activeLang={this.state.activeLang}
-              defaultLang={this.props.model.defaultLang}
-              onActiveLangChange={activeLang => this.setState({ activeLang })}
-              onDefaultLangChange={() => {}} />
-          </CardContent>
-        </Card>
-      );
-    }
 
     let renderEditPrompt = () => {
       return (
@@ -100,16 +86,15 @@ export default class Main extends React.Component {
 
     return (
       <div>
-        {this.props.model.prompt && <Card>
-          <CardContent>
-            {renderEditPrompt()}
-            {renderChoices()}
-          </CardContent>
-          <br />
-          <Button
-            color="primary"
-            onClick={() => this.props.onAddChoice()} >Add a choice</Button>
-        </Card>}
+        {this.props.model.prompt &&
+        <div>
+          {renderEditPrompt()}
+          {renderChoices()}
+          </div>}
+        <br />
+        <Button
+          color="primary"
+          onClick={() => this.props.onAddChoice()} >Add a choice</Button>
       </div>
     );
   }

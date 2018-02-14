@@ -1,12 +1,11 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import { FormControl, FormHelperText } from 'material-ui/Form';
-import {Correct, Incorrect, CorrectResponse} from '@pie-libs/icons';
+import { FormControl } from 'material-ui/Form';
 import { indicators } from '@pie-libs/render-ui';
 import Choices from "./choices";
 
-// const {Correct} = indicators;
+const {Correct, Incorrect} = indicators;
 
 const styles = theme => ({
   container: {
@@ -45,21 +44,17 @@ class InlineChoice extends React.Component {
     let renderFeedback = function (result) {
       let { feedback } = result[0];
       return (
-        <FormHelperText>{feedback && feedback[0].value}</FormHelperText>
-      )
+        (result[0].correct) ? <Correct feedback={feedback && feedback[0].value}/> : <Incorrect feedback={feedback && feedback[0].value}/>
+      );
     }
 
     return (
       <div className={classes.container}>
         {choices.length > 0 && <FormControl className={classes.formControl} disabled={disabled}>
           <Choices items={choices} value={this.state.selected} onChange={this.handleChange} />
-          {(result) && renderFeedback(result)}
         </FormControl>}
-        {(result) && <div className={classes.formControl}>
-          {(result[0].correct) ? <Correct iconSet="emoji"/> : <Incorrect iconSet="emoji"/>}
-        </div>}
+        {result && renderFeedback(result)}
       </div>
-
     );
   }
 }
