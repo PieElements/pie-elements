@@ -22,7 +22,7 @@ export default class Root extends React.Component {
 
   onAddChoice () {
     let updateModel = cloneDeep(this.state.model);
-    updateModel.choices.push({correct: false, value: "", feedback: {},label: [{lang: "en-US", value: ""}]});
+    updateModel.choices.push({correct: false, value: "", feedback: {},label: ""});
     this.updateModel(updateModel);
   }
 
@@ -36,13 +36,16 @@ export default class Root extends React.Component {
     this.updateModel(updateModel);
   }
 
-  onChoiceChange(newChoice) {
+  onChoiceChange(index, newChoice) {
     let updateModel = cloneDeep(this.state.model);
-    let updatedChoices = updateModel.choices.map((choice) => {
-      if(choice.value === newChoice) {
-        choice.correct = true;
-      }else {
-        choice.correct = false;
+console.log("newChoice", newChoice);
+    let updatedChoices = updateModel.choices.map((choice, choiceIndex) => {
+      if(newChoice.checked) {
+        if (index === choiceIndex) {
+          choice.checked = true;
+        } else {
+          choice.checked = false;
+        }
       }
       return choice;
     });
@@ -64,30 +67,14 @@ export default class Root extends React.Component {
     this.updateModel(updateModel);
   }
 
-  onUpdateFeedback(index, feedback) {
-    let updateModel = cloneDeep(this.state.model);
-console.log("feedback", feedback);
-    updateModel.choices[index].feedback = feedback;
-    this.updateModel(updateModel);
-  }
-
-  onPartialScoringChanged(partialScoring) {
-    const { model } = this.state;
-    model.partialScoring = partialScoring;
-    this.updateModel(model);
-  }
-
   render (){
     const props = {
       ...this.props,
       ...this.state,
       onPromptUpdate : (prompt) => {return this.onUpdatePrompt(prompt)},
-      onUpdateChoiceFields : (index, choice, type) => {return this.onUpdateChoiceFields(index, choice, type)},
-      onUpdateFeedback : (index, feedback) => {return this.onUpdateFeedback(index, feedback)},
-      onChoiceChange : (newChoice) => {return this.onChoiceChange(newChoice)},
+      onChoiceChange : (index, newChoice) => {return this.onChoiceChange(index, newChoice)},
       onRemoveChoice : (index) => { return this.onRemoveChoice(index)},
       onAddChoice : () => {return this.onAddChoice()},
-      onPartialScoringChanged: (partialScore) => {return this.onPartialScoringChanged(partialScore)},
     }
 
     return (

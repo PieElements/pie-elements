@@ -1,4 +1,6 @@
-import React from 'react';
+import mockComponent from "./../../../mockComponent";
+
 module.exports = {
-  MultiLangInput: () => <div>mui</div>
+  MultiLangInput: () => <div>mui</div>,
+  ChoiceConfiguration: () => mockComponent('ChoiceConfiguration')
 };

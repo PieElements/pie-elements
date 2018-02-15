@@ -26,111 +26,36 @@
       "choices": [
         {
           "correct": true,
+          "checked": true,
           "value": "sweden",
-          "label": [
-            {
-              "lang": "en-US",
-              "value": "Sweden"
-            },
-            {
-              "lang": "es-ES",
-              "value": "Suecia"
-            },
-            {
-              "lang": "zh-CN",
-              "value": "瑞典"
-            }
-          ],
+          "label": "Sweden",
           "feedback": {
-
+            "type": "none"
           }
         },
         {
+          "correct": false,
+          "checked": false,
           "value": "iceland",
-          "label": [
-            {
-              "lang": "en-US",
-              "value": "Iceland"
-            },
-            {
-              "lang": "es-ES",
-              "value": "Islandia"
-            },
-            {
-              "lang": "zh-CN",
-              "value": "冰岛"
-            }
-          ],
+          "label": "Iceland",
           "feedback": {
-            "type": "default",
-            "text": [
-              {
-                "lang": "en-US",
-                "value": "Iceland is not an EU member state"
-              },
-              {
-                "lang": "es-ES",
-                "value": "Islandia no es un estado miembro de la UE"
-              },
-              {
-                "lang": "zh-CN",
-                "value": "冰岛不是欧盟成员国"
-              }
-            ]
+            "type": "none"
           }
         },
         {
+          "checked": false,
           "value": "norway",
-          "label": [
-            {
-              "lang": "en-US",
-              "value": "Norway"
-            },
-            {
-              "lang": "es-ES",
-              "value": "Noruega"
-            },
-            {
-              "lang": "zh-CN",
-              "value": "挪威"
-            }
-          ],
+          "label": "Norway",
           "feedback": {
-
+            "type": "none"
           }
         },
         {
+          "checked": false,
           "value": "finland",
-          "label": [
-            {
-              "lang": "en-US",
-              "value": "Finland"
-            },
-            {
-              "lang": "es-ES",
-              "value": "Finlandia"
-            },
-            {
-              "lang": "zh-CN",
-              "value": "芬兰"
-            }
-          ],
+          "label": "Finland",
           "feedback": {
-            "type": "custom",
-            "text": [
-              {
-                "lang": "en-US",
-                "value": "Finland joined the EU in 1995"
-              },
-              {
-                "lang": "es-ES",
-                "value": "Finlandia se unió a la UE en 1995"
-              },
-              {
-                "lang": "zh-CN",
-                "value": "芬兰于1995年加入欧盟"
-              }
-            ]
+            "type": "none"
           }
         }
       ],
