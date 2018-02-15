@@ -8,13 +8,14 @@ import { Value } from 'slate';
 import { buildPlugins } from './plugins';
 import debug from 'debug';
 import { getHashes } from 'crypto';
+import { withStyles } from 'material-ui/styles';
 
 export { htmlToValue, valueToHtml }
 
 
 const log = debug('editable-html');
 
-export default class EditableHtml extends React.Component {
+export class RawEditableHtml extends React.Component {
 
   constructor(props) {
     super(props);
@@ -157,7 +158,6 @@ export default class EditableHtml extends React.Component {
             resolve();
           });
         }, 50);
-
       });
     } else {
       return Promise.resolve({});
@@ -179,10 +179,12 @@ export default class EditableHtml extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     const { value, showToolbar, focusedNode } = this.state;
     log('[render]', value.document);
+
     return (
-      <div>
+      <div className={classes.editableHtml}>
         <Editor
           ref={r => this.editor = r}
           value={value}
@@ -196,7 +198,15 @@ export default class EditableHtml extends React.Component {
   }
 }
 
+const EditableHtml = withStyles(theme => ({
+  editableHtml: {
+    fontFamily: 'Roboto, sans-serif'
+  }
+}))(RawEditableHtml);
+
 EditableHtml.propTypes = {
   markup: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired
 }
+
+export default EditableHtml;
