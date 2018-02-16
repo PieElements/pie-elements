@@ -1,5 +1,5 @@
 {
-  "name": "@pie-elements/text-entry",
+  "name": "@pie-elements/text-entry-tester",
   "description": "A pie text-entry component",
   "keywords": [
     "pie",
@@ -15,34 +15,15 @@
     "access": "public"
   },
   "license": "ISC",
-  "scripts": {
-    "client-test": "jest",
-    "controller-test": "cd controller && npm test",
-    "configure-test": "cd configure && npm test",
-    "test": "npm run client-test && npm run controller-test && npm run configure-test"
-  },
   "dependencies": {
-    "@pie-libs/pie-player-events": "^0.0.1",
-    "@pie-libs/render-ui": "^0.1.6",
-    "debug": "^3.0.1",
-    "lodash": "^4.17.4",
-    "material-ui": "^1.0.0-beta.27",
-    "material-ui-icons": "^1.0.0-beta.17",
-    "react": "^15.6.1",
-    "react-addons-css-transition-group": "^15.6.0",
-    "react-dom": "^15.6.1",
-    "react-number-format": "PieElements/react-number-format#feature/bad-input"
+    "@pie-elements/text-entry-element": "../text-entry-element",
+    "@pie-elements/text-entry-configure": "../text-entry-configure",
+    "@pie-elements/stub": "../text-entry-stub",
+    "@pie-elements/text-entry-controller": "../text-entry-controller"
   },
-  "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.26.0",
-    "babel-jest": "^22.1.0",
-    "babel-loader": "^7.1.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-register": "^6.24.1",
-    "jest": "^22.1.1",
-    "react-addons-test-utils": "^15.6.0",
-    "react-test-renderer": "^15.6.1"
+  "pie": {
+    "element": "@pie-elements/text-entry-element",
+    "configure": "@pie-elements/stub",
+    "controller": "@pie-elements/text-entry-controller"
   }
 }

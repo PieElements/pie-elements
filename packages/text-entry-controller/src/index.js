@@ -12,8 +12,7 @@ export function model(question, session, env) {
 }
 
 export function outcome(question, session = { value: [] }, env) {
-  log('outcome')
-
+  log('outcome');
 
   return new Promise((resolve, reject) => {
 

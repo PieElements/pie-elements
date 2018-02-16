@@ -51,6 +51,7 @@ class RawInput extends React.Component {
         disabled={disabled}
         className={formClasses}
         error={!!error}>
+
         <div className={classes.inputAndIcon}>
           <MuiThemeProvider theme={theme}>
             <MuiInput
