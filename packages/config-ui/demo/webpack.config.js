@@ -1,5 +1,4 @@
 module.exports = {
-  devtool: 'eval-source-map',
   context: __dirname,
   entry: './entry.jsx',
   output: {
@@ -14,7 +13,7 @@ module.exports = {
         options: {
           babelrc: false,
           presets: [
-            require('babel-preset-react'), require('babel-preset-stage-0')
+            "react",'env', 'stage-0'
           ]
         }
       },

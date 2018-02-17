@@ -11,7 +11,6 @@ import ActionDelete from 'material-ui-icons/Delete';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 
-
 const EditableHtmlContainer = withStyles(theme => ({
   labelContainer: {
 
@@ -105,20 +104,21 @@ class RawChoiceConfiguration extends React.Component {
 
   render() {
 
-    const { data, classes, mode, onDelete, defaultFeedback, index } = this.props;
+    const { data, classes, mode, onDelete, defaultFeedback, index, className } = this.props;
 
     const InputToggle = mode === 'checkbox' ? InputCheckbox : InputRadio;
+    const names = classNames(classes.choiceConfiguration, className);
     return (
-      <div className={classes.choiceConfiguration}>
+      <div className={names}>
         <div className={classes.topRow}>
-          {index && <Typography
+          {index > 0 && <Typography
             className={classes.index}
             type="title">{index}</Typography>}
           <InputToggle
             className={classes.toggle}
             onChange={this.onCheckedChange}
             label={'Correct'}
-            checked={data.checked} />
+            checked={!!data.checked} />
           <TextField
             label={'Value'}
             value={data.value}

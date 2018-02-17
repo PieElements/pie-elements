@@ -1,4 +1,4 @@
-import { InputContainer, MultiLangInput } from '@pie-libs/config-ui';
+import { InputContainer, MultiLangInput, InputCheckbox, InputRadio } from '@pie-libs/config-ui';
 import React, { PropTypes } from 'react';
 
 import ActionDelete from 'material-ui-icons/Delete';
@@ -89,7 +89,7 @@ export class ChoiceConfig extends React.Component {
       onInsertImage,
       onDeleteImage } = this.props;
 
-    const ChoiceModeTag = choiceMode === 'checkbox' ? Checkbox : Radio;
+    const ChoiceModeTag = choiceMode === 'checkbox' ? InputCheckbox : InputRadio;
 
     const imageSupport = {
       add: onInsertImage,
@@ -101,6 +101,7 @@ export class ChoiceConfig extends React.Component {
         <div className={classes.indexAndModeTag}>
           <span className={classes.index}>{this._indexToSymbol(index)}</span>
           <ChoiceModeTag
+            label="Correct"
             checked={choice.correct === true}
             style={{ width: 'auto', paddingLeft: '5px' }}
             onClick={() => this.onToggleCorrect()} />
@@ -129,6 +130,7 @@ export class ChoiceConfig extends React.Component {
         <div className={classes.feedback}>
           <MultiLangInput
             label="Feedback"
+            className={classes.multiLangInput}
             value={choice.feedback.custom}
             lang={activeLang}
             onChange={this.onFeedbackChanged}
@@ -153,7 +155,8 @@ ChoiceConfig.props = {
 
 const styles = {
   multiLangInput: {
-    marginBottom: 0
+    marginBottom: 0,
+    flex: 1
   },
   root: {
     paddingBottom: '10px',
@@ -177,6 +180,7 @@ const styles = {
     top: '0px',
     fontWeight: 'bold',
     fontSize: '18px',
+    transform: 'translateY(20%)'
   },
   valueField: {
     width: '100px',

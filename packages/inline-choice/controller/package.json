@@ -1,0 +1,14 @@
+{
+  "name": "@pie-elements/inline-choice-controller",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Mukesh Sharma",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^22.1.4"
+  }
+}
