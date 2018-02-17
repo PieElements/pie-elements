@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.6"></a>
+## [0.1.6](https://github.com/PieElements/pie-elements/compare/@pie-libs/correct-answer-toggle@0.1.5...@pie-libs/correct-answer-toggle@0.1.6) (2018-02-17)
+
+
+
+
+**Note:** Version bump only for package @pie-libs/correct-answer-toggle
+
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/PieElements/pie-elements/compare/@pie-libs/correct-answer-toggle@0.1.4...@pie-libs/correct-answer-toggle@0.1.5) (2018-01-31)
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.2.8...@pie-elements/multiple-choice@0.3.0) (2018-02-17)
+
+
+### Features
+
+* **ui:** polish ui ([182f340](https://github.com/PieElements/pie-elements/commit/182f340))
+
+
+
+
 <a name="0.2.8"></a>
 ## [0.2.8](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.2.7...@pie-elements/multiple-choice@0.2.8) (2018-01-31)
 

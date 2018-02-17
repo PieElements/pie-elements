@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.7.0"></a>
+# [1.7.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.6.0...@pie-libs/config-ui@1.7.0) (2018-02-17)
+
+
+### Bug Fixes
+
+* **choice-configuration:** add className prop and fix checked ([107f9cb](https://github.com/pieelements/pie-elements/commit/107f9cb))
+* **choices:** move choices out of config-ui back to inline-choice ([dcfc867](https://github.com/pieelements/pie-elements/commit/dcfc867))
+
+
+### Features
+
+* **ui:** polish component sizing ([3bbf3a6](https://github.com/pieelements/pie-elements/commit/3bbf3a6))
+
+
+
+
 <a name="1.6.0"></a>
 # [1.6.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.5.0...@pie-libs/config-ui@1.6.0) (2018-02-12)
 
