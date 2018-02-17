@@ -26,43 +26,64 @@
       "choices": [
         {
           "correct": true,
-          "checked": true,
           "value": "sweden",
-          "label": "Sweden",
-          "feedback": {
-            "type": "none"
-          }
+          "label": [
+            {
+              "lang": "en-US",
+              "value": "Sweden"
+            }
+          ],
+          "feedback": {}
         },
         {
-          "correct": false,
-          "checked": false,
           "value": "iceland",
-          "label": "Iceland",
+          "label": [
+            {
+              "lang": "en-US",
+              "value": "Iceland"
+            }
+          ],
           "feedback": {
-            "type": "none"
+            "type": "default",
+            "text": [
+              {
+                "lang": "en-US",
+                "value": "Iceland is not an EU member state"
+              }
+            ]
           }
         },
         {
-          "checked": false,
           "value": "norway",
-          "label": "Norway",
-          "feedback": {
-            "type": "none"
-          }
+          "label": [
+            {
+              "lang": "en-US",
+              "value": "Norway"
+            }
+          ],
+          "feedback": {}
         },
         {
-          "checked": false,
           "value": "finland",
-          "label": "Finland",
+          "label": [
+            {
+              "lang": "en-US",
+              "value": "Finland"
+            }
+          ],
           "feedback": {
-            "type": "none"
+            "type": "custom",
+            "text": [
+              {
+                "lang": "en-US",
+                "value": "Finland joined the EU in 1995"
+              }
+            ]
           }
         }
       ],
       "langs": [
-        "en-US",
-        "es-ES",
-        "zh-CN"
+        "en-US"
       ]
     }
   ]
