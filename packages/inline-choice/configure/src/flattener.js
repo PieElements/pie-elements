@@ -9,7 +9,7 @@ export const flatten = (c) => {
     checked: c.correct,
     feedback: {
       type: fb.type,
-      text: ((fb.text || []).find(f => f.lang === 'en-US') || {}).value
+      value: ((fb.text || []).find(f => f.lang === 'en-US') || {}).value
     }
   }
 }
@@ -25,7 +25,7 @@ export const expand = (flat) => {
     feedback: {
       type: flat.feedback.type,
       text: flat.feedback.type === 'custom' ?
-        [{ lang: 'en-US', value: flat.feedback ? flat.feedback.text : '' }] :
+        [{ lang: 'en-US', value: flat.feedback ? flat.feedback.value : '' }] :
         undefined
     }
   }

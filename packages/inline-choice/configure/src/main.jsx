@@ -1,5 +1,7 @@
-import React from "react";
-import { ChoiceConfiguration, EditableHtml } from '@pie-libs/config-ui';
+import React from 'react';
+import { ChoiceConfiguration } from '@pie-libs/config-ui';
+import EditableHtml from '@pie-libs/editable-html';
+
 import Button from 'material-ui/Button';
 import * as flattener from './flattener';
 import { withStyles } from 'material-ui/styles';
@@ -23,7 +25,7 @@ const Choice = withStyles(theme => ({
     onDelete={onDelete} />
 ));
 
-export default class Main extends React.Component {
+export class RawMain extends React.Component {
 
   constructor(props) {
     super(props);
@@ -43,29 +45,35 @@ export default class Main extends React.Component {
   }
 
   render() {
-
-    const usEnglishChoices = this.props.model.choices.map(flattener.flatten);
-    const prompt = this.props.model.prompt.find(p => p.lang === 'en-US').value;
+    const { model, classes, onRemoveChoice, onAddChoice } = this.props;
+    const usEnglishChoices = model.choices.map(flattener.flatten);
+    const prompt = model.prompt.find(p => p.lang === 'en-US').value;
     return (
       <div>
-        {this.props.model.prompt && (
+        {prompt && (
           <EditableHtml
             label="Prompt"
-            value={prompt}
+            markup={prompt}
             lang={'en-US'}
-            onChange={this.onPromptChange} />
+            onChange={this.onPromptChange}
+            className={classes.prompt} />
         )}
         {usEnglishChoices.map((choice, index) => (
           <Choice
             choice={choice}
             onChange={(choice) => this.onChoiceChange(index, choice)}
-            onDelete={() => this.props.onRemoveChoice(index)}
+            onDelete={() => onRemoveChoice(index)}
             key={index} />
         ))}
         <Button
           color="primary"
-          onClick={() => this.props.onAddChoice()}>Add a choice</Button>
+          onClick={onAddChoice}>Add a choice</Button>
       </div>
     );
   }
 }
+export default withStyles(theme => ({
+  prompt: {
+    paddingBottom: '100px'//theme.spacing.unit
+  }
+}))(RawMain);
