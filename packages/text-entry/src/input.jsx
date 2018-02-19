@@ -21,6 +21,7 @@ const tags = {
 const log = debug('pie-elements:text-entry:input');
 
 class RawInput extends React.Component {
+
   render() {
     const {
       dark,
@@ -46,7 +47,8 @@ class RawInput extends React.Component {
         type: dark ? 'dark' : 'light'
       },
     });
-console.log("VALYUEEEE", typeof value);
+
+
     return (
       <FormControl
         disabled={disabled}

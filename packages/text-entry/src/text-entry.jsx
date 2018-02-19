@@ -28,21 +28,15 @@ export class TextEntry extends React.Component {
 
   }
 
-  handleThousandSeparator = (input) => input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
   onChange = (event) => {
-    console.log("Event", event.target.value);
-    console.log("Props", this.props);
+
     clearTimeout(this.state.timeoutId);
     this.setState({ warning: null, timeoutId: null });
     log('[onChange] value: ', event.target.value);
     if (this.state.value !== event.target.value) {
       let sliceInput = (this.props.model.answerBlankSize && this.props.model.answerBlankSize > 0) ? event.target.value.slice(0, this.props.model.answerBlankSize) : event.target.value;
-      if(this.props.model.allowIntegersOnly && this.props.model.allowThousandsSeparator) {
-        sliceInput = this.handleThousandSeparator(sliceInput);
 
-      }
-      console.log("sliceInput", sliceInput);
       this.setState({ value: sliceInput }, () => {
         this.props.onValueChanged(this.state.value);
       });
@@ -66,9 +60,10 @@ export class TextEntry extends React.Component {
     const { allowIntegersOnly } = model;
     const { value } = this.state;
     const FormatTag = getFormatTag(model);
+
     const inputProps = model.allowIntegersOnly ? { onBadInput: this.onBadInput } : {}
     const names = classNames(classes.textEntry, classes[model.colorContrast]);
-    console.log("VALUE", value);
+
     return (
       <div className={names}>
         <Input
