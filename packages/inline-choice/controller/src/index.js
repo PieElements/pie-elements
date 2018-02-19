@@ -25,15 +25,13 @@ export function model(model, session, env) {
   function filterQuestionChoicesByLocale(locale, choicesArr) {
 
     return choicesArr.map((choice) => {
-      var choiceObj = {};
+        let choiceObj = {};
         choiceObj["value"] = choice.value;
         choiceObj["correct"] = choice.correct || false;
-        choiceObj["label"] = choice.label
+        choiceObj["label"] = filterItemsArrByLocale(locale,choice.label)
         if (choice.feedback && choice.feedback.text) {
-          let ft = filterItemsArrByLocale(locale, choice.feedback.text);
           choiceObj["feedback"] = filterItemsArrByLocale(locale, choice.feedback.text);
         }
-
       return choiceObj;
     });
   }

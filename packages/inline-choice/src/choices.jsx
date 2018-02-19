@@ -7,7 +7,7 @@ import Input from 'material-ui/Input';
 const ChoiceItem = (items) => items.map(function (item, index) {
   return (
     <MenuItem key={index} value={item.value}>
-      <span dangerouslySetInnerHTML={{ __html: item.label }}></span>
+      <span dangerouslySetInnerHTML={{ __html: item.label[0].value }}></span>
     </MenuItem>
   );
 });

@@ -55,7 +55,7 @@ export default class Main extends React.Component {
           <Choice
             choice={choice}
             onChange={(choice) => this.onChoiceChange(index, choice)}
-            onDelete={() => this.onDelete(index)}
+            onDelete={() => this.props.onRemoveChoice(index)}
             key={index} />
         ))}
         <Button

@@ -22,7 +22,7 @@ export default class Root extends React.Component {
 
   onAddChoice() {
     let updateModel = cloneDeep(this.state.model);
-    updateModel.choices.push({ correct: false, value: "", feedback: {}, label: "" });
+    updateModel.choices.push({ correct: false, value: "", feedback: {}, label: [{lang: "en-US", value: ""}] });
     this.updateModel(updateModel);
   }
 
