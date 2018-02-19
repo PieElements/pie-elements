@@ -1,5 +1,5 @@
 import React from "react";
-import { ChoiceConfiguration, MultiLangInput } from '@pie-libs/config-ui';
+import { ChoiceConfiguration, EditableHtml } from '@pie-libs/config-ui';
 import Button from 'material-ui/Button';
 import * as flattener from './flattener';
 import { withStyles } from 'material-ui/styles';
@@ -38,18 +38,22 @@ export default class Main extends React.Component {
     this.props.onChoiceChange(index, update);
   }
 
+  onPromptChange = (value) => {
+    this.props.onPromptChange([{ lang: 'en-US', value }]);
+  }
+
   render() {
 
     const usEnglishChoices = this.props.model.choices.map(flattener.flatten);
-
+    const prompt = this.props.model.prompt.find(p => p.lang === 'en-US').value;
     return (
       <div>
         {this.props.model.prompt && (
-          <MultiLangInput
+          <EditableHtml
             label="Prompt"
-            value={this.props.model.prompt}
-            lang={this.state.activeLang}
-            onChange={this.props.onPromptUpdate} />
+            value={prompt}
+            lang={'en-US'}
+            onChange={this.onPromptChange} />
         )}
         {usEnglishChoices.map((choice, index) => (
           <Choice
