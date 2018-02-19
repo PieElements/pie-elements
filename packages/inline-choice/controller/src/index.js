@@ -25,13 +25,13 @@ export function model(model, session, env) {
   function filterQuestionChoicesByLocale(locale, choicesArr) {
 
     return choicesArr.map((choice) => {
-        let choiceObj = {};
-        choiceObj["value"] = choice.value;
-        choiceObj["correct"] = choice.correct || false;
-        choiceObj["label"] = filterItemsArrByLocale(locale,choice.label)
-        if (choice.feedback && choice.feedback.text) {
-          choiceObj["feedback"] = filterItemsArrByLocale(locale, choice.feedback.text);
-        }
+      let choiceObj = {};
+      choiceObj["value"] = choice.value;
+      choiceObj["correct"] = choice.correct || false;
+      choiceObj["label"] = filterItemsArrByLocale(locale, choice.label)
+      if (choice.feedback && choice.feedback.text) {
+        choiceObj["feedback"] = filterItemsArrByLocale(locale, choice.feedback.text);
+      }
       return choiceObj;
     });
   }
@@ -62,6 +62,4 @@ export function model(model, session, env) {
 
 }
 
-function evaluateAnswer(choices, selectedChoice) {
-  return choices.filter(choice => selectedChoice === choice.value);
-}
+const evaluateAnswer = (choices, selectedChoice) => choices.find(c => c.value === selectedChoice);

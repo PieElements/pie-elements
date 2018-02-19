@@ -5,6 +5,7 @@ import EditableHtml from '@pie-libs/editable-html';
 import Button from 'material-ui/Button';
 import * as flattener from './flattener';
 import { withStyles } from 'material-ui/styles';
+import Typography from 'material-ui/Typography';
 
 const Choice = withStyles(theme => ({
   choice: {
@@ -58,6 +59,8 @@ export class RawMain extends React.Component {
             onChange={this.onPromptChange}
             className={classes.prompt} />
         )}
+        {/* <Typography variant="caption">Choices</Typography>
+        <hr /> */}
         {usEnglishChoices.map((choice, index) => (
           <Choice
             choice={choice}
@@ -74,6 +77,6 @@ export class RawMain extends React.Component {
 }
 export default withStyles(theme => ({
   prompt: {
-    paddingBottom: '100px'//theme.spacing.unit
+    paddingBottom: theme.spacing.unit * 4
   }
 }))(RawMain);

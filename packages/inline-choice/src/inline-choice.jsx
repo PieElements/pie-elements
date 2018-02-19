@@ -1,16 +1,17 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import { FormControl } from 'material-ui/Form';
 import { indicators } from '@pie-libs/render-ui';
-import Choices from "./choices";
+import Choices from './choices';
 
-const {Correct, Incorrect} = indicators;
+const { Correct, Incorrect } = indicators;
 
 const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+    alignItems: 'center'
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -39,21 +40,25 @@ class InlineChoice extends React.Component {
 
   render() {
 
-    const { choices, classes, disabled, result} = this.props;
-
-    let renderFeedback = function (result) {
-      let { feedback } = result[0];
-      return (
-        (result[0].correct) ? <Correct feedback={feedback && feedback[0].value}/> : <Incorrect feedback={feedback && feedback[0].value}/>
-      );
-    }
+    const { choices, classes, disabled, result } = this.props;
+    const Feedback = result && result.correct ? Correct : Incorrect;
 
     return (
       <div className={classes.container}>
-        {choices.length > 0 && <FormControl className={classes.formControl} disabled={disabled}>
-          <Choices items={choices} value={this.state.selected} onChange={this.handleChange} />
-        </FormControl>}
-        {result && renderFeedback(result)}
+        {choices.length > 0 && (
+          <FormControl
+            className={classes.formControl}
+            disabled={disabled}>
+            <Choices
+              items={choices}
+              value={this.state.selected}
+              onChange={this.handleChange} />
+          </FormControl>
+        )}
+        {result && (
+          <Feedback
+            feedback={result.feedback ? result.feedback.value : undefined} />
+        )}
       </div>
     );
   }
