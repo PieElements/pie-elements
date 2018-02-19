@@ -9,6 +9,7 @@ import { buildPlugins } from './plugins';
 import debug from 'debug';
 import { getHashes } from 'crypto';
 import { withStyles } from 'material-ui/styles';
+import classNames from 'classnames';
 
 export { htmlToValue, valueToHtml }
 
@@ -179,12 +180,14 @@ export class RawEditableHtml extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, className } = this.props;
     const { value, showToolbar, focusedNode } = this.state;
     log('[render]', value.document);
 
+    const names = classNames(classes.editableHtml, className);
+
     return (
-      <div className={classes.editableHtml}>
+      <div className={names}>
         <Editor
           ref={r => this.editor = r}
           value={value}
@@ -193,7 +196,7 @@ export class RawEditableHtml extends React.Component {
           onBlur={this.onBlur}
           onFocus={this.onFocus}
           focusedNode={focusedNode} />
-      </div>
+      </div >
     );
   }
 }
@@ -206,7 +209,8 @@ const EditableHtml = withStyles(theme => ({
 
 EditableHtml.propTypes = {
   markup: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  className: PropTypes.string
 }
 
 export default EditableHtml;
