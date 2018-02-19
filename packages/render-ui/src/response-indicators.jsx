@@ -10,6 +10,9 @@ import debug from 'debug';
 const log = debug('pie-libs:render-ui:response-indicators');
 
 const styles = theme => ({
+  responseIndicator: {
+    cursor: 'pointer'
+  },
   paper: {
     padding: '0',
     borderRadius: '4px'
@@ -44,29 +47,32 @@ const BuildIndicator = (Icon, correctness) => {
       const { feedback, classes } = this.props;
       const { anchorEl } = this.state;
       return (
-        <div>
+        <div className={feedback && classes.responseIndicator}>
           <span
             ref={r => this.icon = r}
             onClick={this.handlePopoverOpen}><Icon /></span>
 
-          <Popover
-            className={classes.popover}
-            classes={{
-              paper: classes.paper,
-            }}
-            open={!!anchorEl}
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-            onClose={this.handlePopoverClose}>
-            <Feedback feedback={feedback} correctness={correctness} />
-          </Popover>
+          {feedback && (
+            <Popover
+              className={classes.popover}
+              classes={{
+                paper: classes.paper,
+              }}
+              open={!!anchorEl}
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              onClose={this.handlePopoverClose}>
+              <Feedback feedback={feedback} correctness={correctness} />
+            </Popover>
+
+          )}
         </div>
       );
     }
