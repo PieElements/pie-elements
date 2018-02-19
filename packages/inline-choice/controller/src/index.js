@@ -15,6 +15,8 @@ export function model(model, session, env) {
     black_on_white: 'default'
   };
 
+  const activeLocale = env.locale ? env.locale : model.defaultLang;
+
   function filterItemsArrByLocale(locale, items) {
     if (!items) {
       return [];
@@ -22,44 +24,61 @@ export function model(model, session, env) {
     return items.filter(item => locale === item.lang);
   }
 
-  function filterQuestionChoicesByLocale(locale, choicesArr) {
+  const findLabel = (locale, langs) => (langs || []).find(l => l.lang === locale);
 
-    return choicesArr.map((choice) => {
-      let choiceObj = {};
-      choiceObj["value"] = choice.value;
-      choiceObj["correct"] = choice.correct || false;
-      choiceObj["label"] = filterItemsArrByLocale(locale, choice.label)
-      if (choice.feedback && choice.feedback.text) {
-        choiceObj["feedback"] = filterItemsArrByLocale(locale, choice.feedback.text);
+  function prepChoices(locale, choicesArr, addCorrect) {
+
+    return choicesArr.map(choice => {
+      const out = {
+        value: choice.value,
+        label: (findLabel(locale, choice.label) || {}).value,
+      };
+
+      if (addCorrect) {
+        out.correct = choice.correct || false;
+        out.feedback = filterItemsArrByLocale(locale, choice.feedback.text);
       }
-      return choiceObj;
+      return out;
     });
   }
 
-  let activeLocale = env.locale ? env.locale : model.defaultLang;
-  let activeColor = ((env.accessibility) && (env.accessibility.colorContrast) && colorMap[env.accessibility.colorContrast]) ? colorMap[env.accessibility.colorContrast] : "default";
-  let activeMode = env.mode;
+  const prepPrompt = (locale, prompt) => (prompt.find(p => p.lang === locale) || {}).value;
 
-  let quesLabelByLocale = filterItemsArrByLocale(activeLocale, model.prompt);
-  let quesChoicesByLocale = filterQuestionChoicesByLocale(activeLocale, model.choices);
+
+  let activeColor = ((env.accessibility) && (env.accessibility.colorContrast) && colorMap[env.accessibility.colorContrast]) ? colorMap[env.accessibility.colorContrast] : "default";
+  // let activeMode = env.mode;
+
+  // let quesLabelByLocale = filterItemsArrByLocale(activeLocale, model.prompt);
 
   return new Promise((resolve, reject) => {
 
-    let response = {}
-
-    if (env.mode === "evaluate" && session.selectedChoice) {
-      response.result = evaluateAnswer(quesChoicesByLocale, session.selectedChoice);
+    const response = {
+      disabled: env.mode !== 'gather',
+      prompt: prepPrompt(activeLocale, model.prompt),
+      classNames: activeColor,
+      choices: prepChoices(activeLocale, model.choices),
+      activeMode: env.mode
     }
 
-    response.choices = quesChoicesByLocale;
-    response.disabled = activeMode !== 'gather';
-    response.mode = activeMode;
-    response.classNames = activeColor;
-    response.prompt = quesLabelByLocale;
+    if (env.mode === "evaluate" && session.selectedChoice) {
+      response.result = evaluateAnswer(model.choices, session.selectedChoice, activeLocale);
+    }
+
+    response.disabled = env.mode !== 'gather';
+    // response.mode = activeMode;
+    // response.classNames = activeColor;
+    // response.prompt = quesLabelByLocale;
 
     resolve(response);
   });
 
 }
 
-const evaluateAnswer = (choices, selectedChoice) => choices.find(c => c.value === selectedChoice);
+const evaluateAnswer = (choices, selectedChoice, locale) => {
+  const c = choices.find(c => c.value === selectedChoice);
+  console.log('c: ', c);
+  return {
+    correct: c ? c.correct : false,
+    feedback: c && c.feedback && (c.feedback.text.find(f => f.lang === locale) || {})
+  }
+}

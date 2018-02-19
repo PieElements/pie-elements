@@ -42,7 +42,6 @@ class InlineChoice extends React.Component {
 
     const { choices, classes, disabled, result } = this.props;
     const Feedback = result && result.correct ? Correct : Incorrect;
-
     return (
       <div className={classes.container}>
         {choices.length > 0 && (

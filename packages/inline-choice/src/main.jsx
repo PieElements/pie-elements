@@ -1,5 +1,5 @@
 import { green, orange, pink } from 'material-ui/colors';
-import {withStyles} from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 
 import InlineChoice from './inline-choice';
 import React from 'react';
@@ -49,10 +49,8 @@ class Main extends React.Component {
 
     return (
       <div className={classNames(classes.root, classes[model.className])}>
-        {(model.prompt && model.prompt.length > 0) && <div>
-          <div dangerouslySetInnerHTML={{ __html: model.prompt[0].value }}></div>
-          <InlineChoice {...model} session={session} onChoiceChanged={onChoiceChanged}/>
-        </div>}
+        {model.prompt && <div dangerouslySetInnerHTML={{ __html: model.prompt }} />}
+        <InlineChoice {...model} session={session} onChoiceChanged={onChoiceChanged} />
       </div>
     );
   }
