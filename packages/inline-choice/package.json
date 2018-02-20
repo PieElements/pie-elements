@@ -14,7 +14,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@pie-libs/config-ui": "^1.8.0",
     "@pie-libs/correct-answer-toggle": "^0.1.6",
     "@pie-libs/icons": "^0.3.1",
     "@pie-libs/pie-player-events": "0.0.1",
