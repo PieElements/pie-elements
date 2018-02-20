@@ -1,7 +1,7 @@
 {
   "name": "@pie-elements/inline-choice-controller",
   "version": "1.1.6",
-  "description": "",
+  "description": "A controller for @pie-elements/inline-choice-element",
   "publishConfig": {
     "access": "public"
   },
@@ -11,7 +11,7 @@
   },
   "author": "Mukesh Sharma",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "jest": "^22.1.4"
   }
 }
