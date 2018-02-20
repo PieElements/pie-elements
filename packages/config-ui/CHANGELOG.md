@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.8.1...@pie-libs/config-ui@2.0.0) (2018-02-20)
+
+
+### Bug Fixes
+
+* **choice-configuration:** rename checked -> correct as this is a more accurate name ([02e8758](https://github.com/pieelements/pie-elements/commit/02e8758))
+
+
+### BREAKING CHANGES
+
+* **choice-configuration:** `data` must contain `correct` instead of `checked` now.
+
+
+
+
 <a name="1.8.1"></a>
 ## [1.8.1](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.8.0...@pie-libs/config-ui@1.8.1) (2018-02-20)
 
