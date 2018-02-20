@@ -55,7 +55,7 @@ const Feedback = withStyles(theme => ({
   }
 });
 
-class RawChoiceConfiguration extends React.Component {
+export class RawChoiceConfiguration extends React.Component {
 
 
   _changeFn = (key) => (update) => {

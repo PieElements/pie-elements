@@ -1,6 +1,5 @@
 import Menu, { MenuItem } from 'material-ui/Menu';
 import ActionFeedback from 'material-ui-icons/Feedback';
-import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import PropTypes from 'prop-types';
 import React from 'react';
