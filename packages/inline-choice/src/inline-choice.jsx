@@ -25,22 +25,14 @@ const styles = theme => ({
 
 
 class InlineChoice extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: ""
-    }
-  }
 
   handleChange = event => {
     this.props.onChoiceChanged(event.target.value);
-    this.setState({ selected: event.target.value });
   };
-
 
   render() {
 
-    let { choices, classes, disabled, result } = this.props;
+    let { choices, classes, disabled, result, session } = this.props;
     result = result || {};
     const { correct, nothingSubmitted } = result;
 
@@ -62,7 +54,7 @@ class InlineChoice extends React.Component {
             disabled={disabled}>
             <Choices
               items={choices}
-              value={this.state.selected}
+              value={session.selectedChoice || ''}
               onChange={this.handleChange} />
           </FormControl>
         )}
@@ -74,7 +66,10 @@ class InlineChoice extends React.Component {
 
 InlineChoice.propTypes = {
   classes: PropTypes.object,
-  choices: PropTypes.array,
+  choices: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired
+  })),
   disabled: PropTypes.bool
 };
 
