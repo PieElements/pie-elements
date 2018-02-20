@@ -31,6 +31,7 @@ export default withStyles(theme => ({
     marginLeft: 0,
     marginRight: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
-    flex: '1 0 auto'
+    flex: '1 0 auto',
+    minWidth: theme.spacing.unit * 4
   }
 }))(RawInputContainer);

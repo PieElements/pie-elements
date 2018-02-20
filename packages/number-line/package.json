@@ -1,6 +1,6 @@
 {
   "name": "@pie-elements/number-line",
-  "version": "0.5.15",
+  "version": "0.5.16",
   "description": "A number line interaction for pie",
   "main": "src/index.js",
   "publishConfig": {
@@ -13,8 +13,8 @@
   "author": "corespring",
   "license": "ISC",
   "dependencies": {
-    "@pie-libs/correct-answer-toggle": "^0.1.5",
-    "@pie-libs/icons": "^0.3.0",
+    "@pie-libs/correct-answer-toggle": "^0.1.6",
+    "@pie-libs/icons": "^0.3.1",
     "classnames": "^2.2.5",
     "d3-scale": "^1.0.6",
     "d3-selection": "^1.1.0",

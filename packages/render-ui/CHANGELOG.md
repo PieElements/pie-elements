@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.8"></a>
+## [0.1.8](https://github.com/pieelements/pie-elements/compare/@pie-libs/render-ui@0.1.7...@pie-libs/render-ui@0.1.8) (2018-02-19)
+
+
+### Bug Fixes
+
+* **indicators:** dont show empty popup if there is no feedback ([df4eae0](https://github.com/pieelements/pie-elements/commit/df4eae0))
+
+
+
+
+<a name="0.1.7"></a>
+## [0.1.7](https://github.com/pieelements/pie-elements/compare/@pie-libs/render-ui@0.1.6...@pie-libs/render-ui@0.1.7) (2018-02-17)
+
+
+
+
+**Note:** Version bump only for package @pie-libs/render-ui
+
 <a name="0.1.6"></a>
 ## [0.1.6](https://github.com/pieelements/pie-elements/compare/@pie-libs/render-ui@0.1.5...@pie-libs/render-ui@0.1.6) (2018-01-31)
 

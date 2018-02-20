@@ -2,10 +2,8 @@ import React from "react";
 import { LanguageControls, MultiLangInput } from '@pie-libs/config-ui';
 import Card, { CardContent } from 'material-ui/Card';
 import ChoiceConfig from "./choice-config";
-import Tabs, { Tab } from 'material-ui/Tabs';
 import cloneDeep from 'lodash/cloneDeep';
 import Button from 'material-ui/Button';
-import PartialScoringConfig from '@pie-libs/scoring-config/src/index.jsx';
 
 export default class Main extends React.Component {
 
@@ -13,16 +11,10 @@ export default class Main extends React.Component {
     super (props);
 
     this.state = {
-      activeLang: props.model.defaultLang,
-      activeTab : 0
+      activeLang: props.model.defaultLang
     }
 
-    this.handleTabChange = this.handleTabChange.bind(this);
     this.handleFeedbackMenuChange = this.handleFeedbackMenuChange.bind(this);
-  }
-
-  handleTabChange (event, activeTab) {
-    this.setState({activeTab});
   }
 
   handleFeedbackMenuChange(type, choice, index) {
@@ -41,20 +33,6 @@ export default class Main extends React.Component {
   }
 
   render (){
-    let renderLangControl = () => {
-      return (
-        <Card>
-          <CardContent>
-            <LanguageControls
-              langs={this.props.model.langs}
-              activeLang={this.state.activeLang}
-              defaultLang={this.props.model.defaultLang}
-              onActiveLangChange={activeLang => this.setState({ activeLang })}
-              onDefaultLangChange={() => {}} />
-          </CardContent>
-        </Card>
-      );
-    }
 
     let renderEditPrompt = () => {
       return (
@@ -106,51 +84,17 @@ export default class Main extends React.Component {
       return <label style={{padding : "2px", background : "lightgray"}}>{feedback.text[0].value}</label>
     }
 
-    let renderDesignTab = () => {
-      return (
-        <div>
-          <Card>
-            <CardContent>
-              {renderEditPrompt()}
-              {renderChoices()}
-            </CardContent>
-          </Card>
-          <br />
-          <Button
-            raised
-            color="primary"
-            onClick={() => this.props.onAddChoice()} >Add a choice</Button>
-        </div>
-      );
-    }
-
-    let renderPartialScoringTab = () => {
-      return (
-        <div>
-          Partial Scoring
-        </div>
-      );
-    }
-
-
     return (
       <div>
-        <Tabs
-          value={this.state.activeTab}
-          onChange={this.handleTabChange}
-          indicatorColor="primary"
-          textColor="primary"
-          scrollable
-          scrollButtons="auto"
-        >
-          <Tab label="Design" />
-          <Tab label="Scoring" />
-        </Tabs>
-        {this.state.activeTab === 0 && renderDesignTab()}
-        {this.state.activeTab === 1 && <PartialScoringConfig
-          partialScoring={this.props.model.partialScoring}
-          numberOfCorrectResponses={this.props.model.choices.filter(choice => choice.correct).length}
-          onChange={this.props.onPartialScoringChanged} />}
+        {this.props.model.prompt &&
+        <div>
+          {renderEditPrompt()}
+          {renderChoices()}
+          </div>}
+        <br />
+        <Button
+          color="primary"
+          onClick={() => this.props.onAddChoice()} >Add a choice</Button>
       </div>
     );
   }

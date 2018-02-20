@@ -1,10 +1,8 @@
 import Menu, { MenuItem } from 'material-ui/Menu';
 import ActionFeedback from 'material-ui-icons/Feedback';
-import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import PropTypes from 'prop-types';
 import React from 'react';
-import InputLabel from 'material-ui/Input/InputLabel';
 
 export class IconMenu extends React.Component {
 
@@ -41,7 +39,6 @@ export class IconMenu extends React.Component {
 
     return (
       <div>
-        <InputLabel style={{fontSize: "13px"}}  shrink={true}>Feedback</InputLabel>
         <div onClick={this.handleClick}>
           {this.props.iconButtonElement}
         </div>
@@ -68,7 +65,7 @@ IconMenu.propTypes = {
  */
 export default function FeedbackMenu(props) {
 
-  const { value, onChange } = props;
+  const { value, onChange, classes } = props;
 
   const t = value && value.type;
   const iconColor = t === 'custom' ? 'secondary'
@@ -80,6 +77,7 @@ export default function FeedbackMenu(props) {
     (t === 'default' ? 'Default Feedback' : 'Feedback disabled');
 
   const icon = <IconButton
+    className={classes.icon}
     aria-label={tooltip}>
     <ActionFeedback color={iconColor} />
   </IconButton>;
@@ -94,4 +92,8 @@ export default function FeedbackMenu(props) {
         custom: 'Custom'
       }} />
   );
+}
+
+FeedbackMenu.defaultProps = {
+  classes: {}
 }

@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.8.0"></a>
+# [1.8.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.7.2...@pie-libs/config-ui@1.8.0) (2018-02-20)
+
+
+### Features
+
+* **tests:** add tests for choice-configuration ([30e3572](https://github.com/pieelements/pie-elements/commit/30e3572))
+
+
+
+
+<a name="1.7.2"></a>
+## [1.7.2](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.7.1...@pie-libs/config-ui@1.7.2) (2018-02-20)
+
+
+### Bug Fixes
+
+* **choice-configuration:** fix value change logic ([f2e6db8](https://github.com/pieelements/pie-elements/commit/f2e6db8))
+
+
+
+
+<a name="1.7.1"></a>
+## [1.7.1](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.7.0...@pie-libs/config-ui@1.7.1) (2018-02-19)
+
+
+
+
+**Note:** Version bump only for package @pie-libs/config-ui
+
+<a name="1.7.0"></a>
+# [1.7.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.6.0...@pie-libs/config-ui@1.7.0) (2018-02-17)
+
+
+### Bug Fixes
+
+* **choice-configuration:** add className prop and fix checked ([107f9cb](https://github.com/pieelements/pie-elements/commit/107f9cb))
+* **choices:** move choices out of config-ui back to inline-choice ([dcfc867](https://github.com/pieelements/pie-elements/commit/dcfc867))
+
+
+### Features
+
+* **ui:** polish component sizing ([3bbf3a6](https://github.com/pieelements/pie-elements/commit/3bbf3a6))
+
+
+
+
+<a name="1.6.0"></a>
+# [1.6.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.5.0...@pie-libs/config-ui@1.6.0) (2018-02-12)
+
+
+### Features
+
+* **choice-configuration:** add new ChoiceConfiguration component ([cab43e7](https://github.com/pieelements/pie-elements/commit/cab43e7))
+
+
+
+
 <a name="1.5.0"></a>
 # [1.5.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.4.2...@pie-libs/config-ui@1.5.0) (2018-01-31)
 

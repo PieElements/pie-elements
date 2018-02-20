@@ -8,13 +8,15 @@ import { Value } from 'slate';
 import { buildPlugins } from './plugins';
 import debug from 'debug';
 import { getHashes } from 'crypto';
+import { withStyles } from 'material-ui/styles';
+import classNames from 'classnames';
 
 export { htmlToValue, valueToHtml }
 
 
 const log = debug('editable-html');
 
-export default class EditableHtml extends React.Component {
+export class RawEditableHtml extends React.Component {
 
   constructor(props) {
     super(props);
@@ -157,7 +159,6 @@ export default class EditableHtml extends React.Component {
             resolve();
           });
         }, 50);
-
       });
     } else {
       return Promise.resolve({});
@@ -179,10 +180,14 @@ export default class EditableHtml extends React.Component {
   }
 
   render() {
+    const { classes, className } = this.props;
     const { value, showToolbar, focusedNode } = this.state;
     log('[render]', value.document);
+
+    const names = classNames(classes.editableHtml, className);
+
     return (
-      <div>
+      <div className={names}>
         <Editor
           ref={r => this.editor = r}
           value={value}
@@ -191,12 +196,21 @@ export default class EditableHtml extends React.Component {
           onBlur={this.onBlur}
           onFocus={this.onFocus}
           focusedNode={focusedNode} />
-      </div>
+      </div >
     );
   }
 }
 
+const EditableHtml = withStyles(theme => ({
+  editableHtml: {
+    fontFamily: 'Roboto, sans-serif'
+  }
+}))(RawEditableHtml);
+
 EditableHtml.propTypes = {
   markup: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  className: PropTypes.string
 }
+
+export default EditableHtml;

@@ -28,6 +28,8 @@ class App extends React.Component {
           <div className={classes.flow}>
             <div>correct</div>
             <Correct feedback="you are correct" />
+            <div>correct (no feedback)</div>
+            <Correct />
             <div>incorrect</div>
             <Incorrect feedback="you are notcorrect" />
             <div>partially correct</div>

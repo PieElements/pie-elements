@@ -66,7 +66,7 @@ export default class Root extends React.Component {
 
   onUpdateFeedback(index, feedback) {
     let updateModel = cloneDeep(this.state.model);
-
+console.log("feedback", feedback);
     updateModel.choices[index].feedback = feedback;
     this.updateModel(updateModel);
   }
