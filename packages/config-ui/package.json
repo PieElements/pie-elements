@@ -1,6 +1,6 @@
 {
   "name": "@pie-libs/config-ui",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -9,7 +9,7 @@
     "test": "./node_modules/.bin/jest"
   },
   "dependencies": {
-    "@pie-libs/editable-html": "^2.2.0",
+    "@pie-libs/editable-html": "^2.2.1",
     "@pie-libs/icons": "^0.3.1",
     "debug": "^3.0.1",
     "material-ui": "^1.0.0-beta.27",
