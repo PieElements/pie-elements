@@ -1,0 +1,11 @@
+{
+  "description": "internal npm package",
+  "license": "MIT",
+  "name": "_pie",
+  "private": true,
+  "readme": "",
+  "version": "0.0.1",
+  "dependencies": {
+    "@pie-elements/extended-text-entry": "file:///Users/primoko-ws-mbp-002/Documents/primoko/pie-elements/packages/extended-text-entry"
+  }
+}
