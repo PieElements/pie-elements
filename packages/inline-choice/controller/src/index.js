@@ -4,7 +4,6 @@ export function outcome(model, session) {
   return new Promise((resolve) => {
     resolve({});
   });
-
 }
 
 const colorMap = {
@@ -15,20 +14,14 @@ const colorMap = {
 
 const findLabel = (locale, langs) => (langs || []).find(l => l.lang === locale);
 
-function prepChoices(locale, choicesArr) {
-
-  return choicesArr.map(choice => {
-    const out = {
-      value: choice.value,
-      label: (findLabel(locale, choice.label) || {}).value,
-    };
-    return out;
-  });
-}
+const prepChoices = (locale, choicesArr) => choicesArr.map(choice => ({
+  value: choice.value,
+  label: (findLabel(locale, choice.label) || {}).value,
+}));
 
 const prepPrompt = (locale, prompt) => (prompt.find(p => p.lang === locale) || {}).value;
 
-const result = (choices, selectedChoice, locale) => {
+const result = (choices, selectedChoice, locale, defaultCorrect) => {
 
   if (!selectedChoice) {
     return { correct: false, nothingSubmitted: true }
@@ -44,31 +37,29 @@ const result = (choices, selectedChoice, locale) => {
     const fbText = c && c.feedback && (c.feedback.text || []);
     feedback = (fbText.find(f => f.lang === locale) || {}).value;
   } else if (type === 'default') {
-    feedback = correct ? 'Correct' : 'Incorrect';
+    feedback = correct ? defaultCorrect.correct : defaultCorrect.incorrect;
   }
 
   return { correct, feedback }
 }
 
 export function model(model, session, env) {
-
-  const activeLocale = env.locale ? env.locale : model.defaultLang;
-  const contrast = (env && env.accessibility && env.accessibility.colorContrast) || 'default';
-
-  const classNames = colorMap[contrast];
-
   return new Promise((resolve, reject) => {
 
+    const activeLocale = env.locale ? env.locale : model.defaultLang;
+    const contrast = (env && env.accessibility && env.accessibility.colorContrast) || 'default';
+
+    const classNames = colorMap[contrast];
     const response = {
       disabled: env.mode !== 'gather',
       prompt: prepPrompt(activeLocale, model.prompt),
       classNames,
-      choices: prepChoices(activeLocale, model.choices),
-      activeMode: env.mode
+      choices: prepChoices(activeLocale, model.choices)
     }
 
     if (env.mode === 'evaluate') {
-      response.result = result(model.choices, session.selectedChoice, activeLocale);
+      const defaultCorrect = Object.assign({ correct: 'Correct', incorrect: 'Incorrect' }, model.defaultCorrect);
+      response.result = result(model.choices, session.selectedChoice, activeLocale, defaultCorrect);
     }
 
     resolve(response);
