@@ -1,5 +1,5 @@
 import React from 'react';
-import EditableHtml, { htmlToValue, valueToHtml } from '../index';
+import EditableHtml, { RawEditableHtml, htmlToValue, valueToHtml } from '../index';
 import { shallow, configure } from 'enzyme';
 import debug from 'debug';
 
@@ -29,17 +29,22 @@ expect.extend({
   }
 });
 
+
+test('className', () => {
+  const wrapper = shallow(<EditableHtml
+    className={'foo'}
+    markup={'hi'}
+    onChange={jest.fn()} />);
+
+  expect(wrapper.hasClass('foo')).toBeTruthy();
+});
+
 test('onFocus/onBlur resets the value', () => {
 
-  const value = {
-    document: {
-    }
-  }
-
-  const wrapper = shallow(<EditableHtml
+  const wrapper = shallow(<RawEditableHtml
     markup={'hi'}
-    onChange={jest.fn()}
-    value={value} />);
+    classes={{}}
+    onChange={jest.fn()} />);
 
   wrapper.instance().onFocus();
 
@@ -56,15 +61,10 @@ test('onFocus/onBlur resets the value', () => {
 
 test('onFocus stashes the value', () => {
 
-  const value = {
-    document: {
-    }
-  }
-
-  const wrapper = shallow(<EditableHtml
+  const wrapper = shallow(<RawEditableHtml
     markup={'hi'}
-    onChange={jest.fn()}
-    value={value} />);
+    classes={{}}
+    onChange={jest.fn()} />);
 
   wrapper.instance().onFocus();
 

@@ -85,7 +85,7 @@ function every() {
  * It seems like the Mui Input component does not like getting an anonymous class built each time if wants the format component. 
  * Instead we predefine them and return them.
  */
-export const getFormatTag = ({ allowDecimal, allowSeparator, allowNegative, allowIntegersOnly }) => {
+export const getFormatTag = ({ allowDecimal, allowThousandsSeparator, allowNegative, allowIntegersOnly }) => {
 
   if (allowIntegersOnly) {
     /**
@@ -97,21 +97,21 @@ export const getFormatTag = ({ allowDecimal, allowSeparator, allowNegative, allo
      *  allowNegative
      * })
      */
-    if (every(allowDecimal, allowSeparator, allowNegative)) {
+    if (every(allowDecimal, allowThousandsSeparator, allowNegative)) {
       return DecimalNegativeSeparator;
-    } else if (every(!allowDecimal, allowSeparator, allowNegative)) {
+    } else if (every(!allowDecimal, allowThousandsSeparator, allowNegative)) {
       return NotDecimalNegativeSeparator;
-    } else if (every(!allowDecimal, !allowSeparator, allowNegative)) {
+    } else if (every(!allowDecimal, !allowThousandsSeparator, allowNegative)) {
       return NotDecimalNegativeNoSeparator;
-    } else if (every(!allowDecimal, allowSeparator, !allowNegative)) {
+    } else if (every(!allowDecimal, allowThousandsSeparator, !allowNegative)) {
       return NotDecimalNoNegativeSeparator;
-    } else if (every(!allowDecimal, !allowSeparator, !allowNegative)) {
+    } else if (every(!allowDecimal, !allowThousandsSeparator, !allowNegative)) {
       return NotDecimalNoNegativeNoSeparator;
-    } else if (every(allowDecimal, !allowSeparator, !allowNegative)) {
+    } else if (every(allowDecimal, !allowThousandsSeparator, !allowNegative)) {
       return DecimalNoNegativeNoSeparator;
-    } else if (every(allowDecimal, allowSeparator, !allowNegative)) {
+    } else if (every(allowDecimal, allowThousandsSeparator, !allowNegative)) {
       return DecimalNoNegativeSeparator;
-    } else if (every(allowDecimal, !allowSeparator, allowNegative)) {
+    } else if (every(allowDecimal, !allowThousandsSeparator, allowNegative)) {
       return DecimalNegativeNoSeparator;
     }
   } else {

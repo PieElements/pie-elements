@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.2.1"></a>
+## [2.2.1](https://github.com/pieelements/pie-elements/compare/@pie-libs/editable-html@2.2.0...@pie-libs/editable-html@2.2.1) (2018-02-20)
+
+
+
+
+**Note:** Version bump only for package @pie-libs/editable-html
+
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/editable-html@2.1.2...@pie-libs/editable-html@2.2.0) (2018-02-19)
+
+
+### Features
+
+* **props:** add className to props ([875121a](https://github.com/pieelements/pie-elements/commit/875121a))
+
+
+
+
+<a name="2.1.2"></a>
+## [2.1.2](https://github.com/pieelements/pie-elements/compare/@pie-libs/editable-html@2.1.1...@pie-libs/editable-html@2.1.2) (2018-02-12)
+
+
+### Bug Fixes
+
+* **font:** set font-family to Roboto ([b76ccf7](https://github.com/pieelements/pie-elements/commit/b76ccf7))
+
+
+
+
 <a name="2.1.1"></a>
 ## [2.1.1](https://github.com/pieelements/pie-elements/compare/@pie-libs/editable-html@2.1.0...@pie-libs/editable-html@2.1.1) (2018-01-17)
 

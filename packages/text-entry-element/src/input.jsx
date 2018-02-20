@@ -3,6 +3,7 @@ import debug from 'debug';
 import classNames from 'classnames';
 import range from 'lodash/range';
 import MuiInput, { InputLabel } from 'material-ui/Input';
+import TextField from 'material-ui/TextField';
 import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import { indicators } from '@pie-libs/render-ui';
@@ -20,6 +21,7 @@ const tags = {
 const log = debug('pie-elements:text-entry:input');
 
 class RawInput extends React.Component {
+
   render() {
     const {
       dark,
@@ -46,12 +48,12 @@ class RawInput extends React.Component {
       },
     });
 
+
     return (
       <FormControl
         disabled={disabled}
         className={formClasses}
-        error={!!error}>
-
+        error={!!error} >
         <div className={classes.inputAndIcon}>
           <MuiThemeProvider theme={theme}>
             <MuiInput

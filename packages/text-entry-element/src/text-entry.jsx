@@ -25,18 +25,24 @@ export class TextEntry extends React.Component {
     this.state = {
       value: props.session && props.session.value || ''
     }
+
   }
 
+
   onChange = (event) => {
+
     clearTimeout(this.state.timeoutId);
     this.setState({ warning: null, timeoutId: null });
     log('[onChange] value: ', event.target.value);
     if (this.state.value !== event.target.value) {
-      this.setState({ value: event.target.value }, () => {
+      let sliceInput = (this.props.model.answerBlankSize && this.props.model.answerBlankSize > 0) ? event.target.value.slice(0, this.props.model.answerBlankSize) : event.target.value;
+
+      this.setState({ value: sliceInput }, () => {
         this.props.onValueChanged(this.state.value);
       });
     }
   }
+
 
   onBadInput = (data) => {
     const { model } = this.props;
@@ -54,8 +60,10 @@ export class TextEntry extends React.Component {
     const { allowIntegersOnly } = model;
     const { value } = this.state;
     const FormatTag = getFormatTag(model);
+
     const inputProps = model.allowIntegersOnly ? { onBadInput: this.onBadInput } : {}
     const names = classNames(classes.textEntry, classes[model.colorContrast]);
+
     return (
       <div className={names}>
         <Input

@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.8"></a>
+## [0.2.8](https://github.com/PieElements/pie-elements/compare/@pie-elements/text-entry@0.2.7...@pie-elements/text-entry@0.2.8) (2018-02-20)
+
+
+
+
+**Note:** Version bump only for package @pie-elements/text-entry
+
+<a name="0.2.7"></a>
+## [0.2.7](https://github.com/PieElements/pie-elements/compare/@pie-elements/text-entry@0.2.6...@pie-elements/text-entry@0.2.7) (2018-02-20)
+
+
+
+
+**Note:** Version bump only for package @pie-elements/text-entry
+
+<a name="0.2.6"></a>
+## [0.2.6](https://github.com/PieElements/pie-elements/compare/@pie-elements/text-entry@0.2.5...@pie-elements/text-entry@0.2.6) (2018-02-19)
+
+
+
+
+**Note:** Version bump only for package @pie-elements/text-entry
+
+<a name="0.2.5"></a>
+## [0.2.5](https://github.com/PieElements/pie-elements/compare/@pie-elements/text-entry@0.2.4...@pie-elements/text-entry@0.2.5) (2018-02-17)
+
+
+
+
+**Note:** Version bump only for package @pie-elements/text-entry
+
 <a name="0.2.4"></a>
 ## [0.2.4](https://github.com/PieElements/pie-elements/compare/@pie-elements/text-entry@0.2.3...@pie-elements/text-entry@0.2.4) (2018-01-31)
 

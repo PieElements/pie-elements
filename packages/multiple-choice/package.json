@@ -5,7 +5,7 @@
     "pie",
     "pie-elements"
   ],
-  "version": "0.2.8",
+  "version": "0.3.2",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -22,8 +22,8 @@
     "test": "npm run client-test && npm run controller-test && npm run configure-test"
   },
   "dependencies": {
-    "@pie-libs/correct-answer-toggle": "^0.1.5",
-    "@pie-libs/render-ui": "^0.1.6",
+    "@pie-libs/correct-answer-toggle": "^0.1.6",
+    "@pie-libs/render-ui": "^0.1.9",
     "debug": "^3.0.1",
     "katex": "^0.8.3",
     "less": "^2.7.2",
