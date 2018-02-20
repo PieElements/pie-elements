@@ -1,8 +1,11 @@
-import React from "react";
-import { ChoiceConfiguration, MultiLangInput } from '@pie-libs/config-ui';
+import React from 'react';
+import { ChoiceConfiguration } from '@pie-libs/config-ui';
+import EditableHtml from '@pie-libs/editable-html';
+
 import Button from 'material-ui/Button';
 import * as flattener from './flattener';
 import { withStyles } from 'material-ui/styles';
+import Typography from 'material-ui/Typography';
 
 const Choice = withStyles(theme => ({
   choice: {
@@ -23,7 +26,7 @@ const Choice = withStyles(theme => ({
     onDelete={onDelete} />
 ));
 
-export default class Main extends React.Component {
+export class RawMain extends React.Component {
 
   constructor(props) {
     super(props);
@@ -38,30 +41,42 @@ export default class Main extends React.Component {
     this.props.onChoiceChange(index, update);
   }
 
+  onPromptChange = (value) => {
+    this.props.onPromptChange([{ lang: 'en-US', value }]);
+  }
+
   render() {
-
-    const usEnglishChoices = this.props.model.choices.map(flattener.flatten);
-
+    const { model, classes, onRemoveChoice, onAddChoice } = this.props;
+    const usEnglishChoices = model.choices.map(flattener.flatten);
+    const prompt = model.prompt.find(p => p.lang === 'en-US').value;
     return (
       <div>
-        {this.props.model.prompt && (
-          <MultiLangInput
+        {prompt && (
+          <EditableHtml
             label="Prompt"
-            value={this.props.model.prompt}
-            lang={this.state.activeLang}
-            onChange={this.props.onPromptUpdate} />
+            markup={prompt}
+            lang={'en-US'}
+            onChange={this.onPromptChange}
+            className={classes.prompt} />
         )}
+        {/* <Typography variant="caption">Choices</Typography>
+        <hr /> */}
         {usEnglishChoices.map((choice, index) => (
           <Choice
             choice={choice}
             onChange={(choice) => this.onChoiceChange(index, choice)}
-            onDelete={() => this.props.onRemoveChoice(index)}
+            onDelete={() => onRemoveChoice(index)}
             key={index} />
         ))}
         <Button
           color="primary"
-          onClick={() => this.props.onAddChoice()}>Add a choice</Button>
+          onClick={onAddChoice}>Add a choice</Button>
       </div>
     );
   }
 }
+export default withStyles(theme => ({
+  prompt: {
+    paddingBottom: theme.spacing.unit * 4
+  }
+}))(RawMain);

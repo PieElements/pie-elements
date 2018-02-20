@@ -44,13 +44,7 @@
             }
           ],
           "feedback": {
-            "type": "default",
-            "text": [
-              {
-                "lang": "en-US",
-                "value": "Iceland is not an EU member state"
-              }
-            ]
+            "type": "default"
           }
         },
         {

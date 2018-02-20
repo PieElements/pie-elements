@@ -4,64 +4,64 @@ export function outcome(model, session) {
   return new Promise((resolve) => {
     resolve({});
   });
+}
 
+const colorMap = {
+  black_on_rose: 'black-on-rose',
+  white_on_black: 'white-on-black',
+  black_on_white: 'default'
+};
+
+const findLabel = (locale, langs) => (langs || []).find(l => l.lang === locale);
+
+const prepChoices = (locale, choicesArr) => choicesArr.map(choice => ({
+  value: choice.value,
+  label: (findLabel(locale, choice.label) || {}).value,
+}));
+
+const prepPrompt = (locale, prompt) => (prompt.find(p => p.lang === locale) || {}).value;
+
+const result = (choices, selectedChoice, locale, defaultCorrect) => {
+
+  if (!selectedChoice) {
+    return { correct: false, nothingSubmitted: true }
+  }
+
+  const c = choices.find(c => c.value === selectedChoice);
+
+  const correct = c ? !!c.correct : false;
+  const type = c && c.feedback && c.feedback.type;
+  let feedback = undefined;
+
+  if (type === 'custom') {
+    const fbText = c && c.feedback && (c.feedback.text || []);
+    feedback = (fbText.find(f => f.lang === locale) || {}).value;
+  } else if (type === 'default') {
+    feedback = correct ? defaultCorrect.correct : defaultCorrect.incorrect;
+  }
+
+  return { correct, feedback }
 }
 
 export function model(model, session, env) {
-
-  const colorMap = {
-    black_on_rose: 'black-on-rose',
-    white_on_black: 'white-on-black',
-    black_on_white: 'default'
-  };
-
-  function filterItemsArrByLocale(locale, items) {
-    if (!items) {
-      return [];
-    }
-    return items.filter(item => locale === item.lang);
-  }
-
-  function filterQuestionChoicesByLocale(locale, choicesArr) {
-
-    return choicesArr.map((choice) => {
-        let choiceObj = {};
-        choiceObj["value"] = choice.value;
-        choiceObj["correct"] = choice.correct || false;
-        choiceObj["label"] = filterItemsArrByLocale(locale,choice.label)
-        if (choice.feedback && choice.feedback.text) {
-          choiceObj["feedback"] = filterItemsArrByLocale(locale, choice.feedback.text);
-        }
-      return choiceObj;
-    });
-  }
-
-  let activeLocale = env.locale ? env.locale : model.defaultLang;
-  let activeColor = ((env.accessibility) && (env.accessibility.colorContrast) && colorMap[env.accessibility.colorContrast]) ? colorMap[env.accessibility.colorContrast] : "default";
-  let activeMode = env.mode;
-
-  let quesLabelByLocale = filterItemsArrByLocale(activeLocale, model.prompt);
-  let quesChoicesByLocale = filterQuestionChoicesByLocale(activeLocale, model.choices);
-
   return new Promise((resolve, reject) => {
 
-    let response = {}
+    const activeLocale = env.locale ? env.locale : model.defaultLang;
+    const contrast = (env && env.accessibility && env.accessibility.colorContrast) || 'default';
 
-    if (env.mode === "evaluate" && session.selectedChoice) {
-      response.result = evaluateAnswer(quesChoicesByLocale, session.selectedChoice);
+    const classNames = colorMap[contrast];
+    const response = {
+      disabled: env.mode !== 'gather',
+      prompt: prepPrompt(activeLocale, model.prompt),
+      classNames,
+      choices: prepChoices(activeLocale, model.choices)
     }
 
-    response.choices = quesChoicesByLocale;
-    response.disabled = activeMode !== 'gather';
-    response.mode = activeMode;
-    response.classNames = activeColor;
-    response.prompt = quesLabelByLocale;
+    if (env.mode === 'evaluate') {
+      const defaultCorrect = Object.assign({ correct: 'Correct', incorrect: 'Incorrect' }, model.defaultCorrect);
+      response.result = result(model.choices, session.selectedChoice, activeLocale, defaultCorrect);
+    }
 
     resolve(response);
   });
-
-}
-
-function evaluateAnswer(choices, selectedChoice) {
-  return choices.filter(choice => selectedChoice === choice.value);
 }
