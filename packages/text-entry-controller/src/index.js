@@ -4,7 +4,6 @@ import { model as buildModel, getCorrectness } from './model';
 const log = debug('pie-elements:text-entry:controller');
 
 export function model(question, session, env) {
-  // TODO: remove this once we can wrap controller packages w/ pie.
   return buildModel(question, session, env);
 }
 

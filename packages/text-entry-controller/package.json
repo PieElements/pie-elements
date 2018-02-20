@@ -1,6 +1,6 @@
 {
   "name": "@pie-elements/text-entry-controller",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "main": "./src/index.js",
   "scripts": {
     "test": "./node_modules/.bin/jest"
