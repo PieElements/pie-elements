@@ -1,3 +1,8 @@
+/**
+ * Note: this model isn't fully handled by the configuration pane.
+ * This is because the config pane is based on the corespring legacy pane.
+ * It is going to be moved to it's own repo shortly and we'll provide a simplified version of the model that the ui can handle.
+ */
 module.exports = {
   langs: ['en-US', 'es-ES'],
   elements: {
