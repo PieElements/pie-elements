@@ -76,11 +76,11 @@ export class RawChoiceConfiguration extends React.Component {
   }
 
   onCheckedChange = (event) => {
-    const checked = event.target.checked;
+    const correct = event.target.checked;
     const { data, onChange } = this.props;
 
     if (onChange) {
-      onChange({ ...data, checked });
+      onChange({ ...data, correct });
     }
   }
 
@@ -126,7 +126,7 @@ export class RawChoiceConfiguration extends React.Component {
             className={classes.toggle}
             onChange={this.onCheckedChange}
             label={'Correct'}
-            checked={!!data.checked} />
+            checked={!!data.correct} />
           <TextField
             label={'Value'}
             value={data.value}
@@ -173,7 +173,7 @@ RawChoiceConfiguration.propTypes = {
   data: PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
-    checked: PropTypes.bool,
+    correct: PropTypes.bool,
     feedback: PropTypes.shape({ type: PropTypes.string, value: PropTypes.string })
   }),
   onDelete: PropTypes.func,
