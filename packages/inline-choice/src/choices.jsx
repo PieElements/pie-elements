@@ -9,7 +9,7 @@ const Choices = ({ value, onChange, items }) => {
     <Select
       value={value}
       onChange={onChange}
-      input={<Input name="dropdown-choice" id="dropdown-choice" />}>
+      input={<Input />}>
       {items.map((item, index) => (
         <MenuItem key={index} value={item.value}>
           <span dangerouslySetInnerHTML={{ __html: item.label }}></span>

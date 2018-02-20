@@ -5,7 +5,7 @@ import { FormControl } from 'material-ui/Form';
 import { indicators } from '@pie-libs/render-ui';
 import Choices from './choices';
 
-const { Correct, Incorrect } = indicators;
+const { Correct, Incorrect, NothingSubmitted } = indicators;
 
 const styles = theme => ({
   container: {
@@ -40,8 +40,20 @@ class InlineChoice extends React.Component {
 
   render() {
 
-    const { choices, classes, disabled, result } = this.props;
-    const Feedback = result && result.correct ? Correct : Incorrect;
+    let { choices, classes, disabled, result } = this.props;
+    result = result || {};
+    const { correct, nothingSubmitted } = result;
+
+    const Feedback = (() => {
+      if (correct === false && nothingSubmitted) {
+        return NothingSubmitted;
+      } else if (correct === false && !nothingSubmitted) {
+        return Incorrect
+      } else if (correct === true) {
+        return Correct;
+      }
+    })();
+
     return (
       <div className={classes.container}>
         {choices.length > 0 && (
@@ -54,10 +66,7 @@ class InlineChoice extends React.Component {
               onChange={this.handleChange} />
           </FormControl>
         )}
-        {result && (
-          <Feedback
-            feedback={result.feedback ? result.feedback.value : undefined} />
-        )}
+        {Feedback && <Feedback feedback={result.feedback} />}
       </div>
     );
   }
