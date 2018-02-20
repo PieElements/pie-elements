@@ -159,7 +159,7 @@ export class RawChoiceConfiguration extends React.Component {
         </div>
         <Feedback
           {...data.feedback}
-          correct={data.checked}
+          correct={data.correct}
           defaults={defaultFeedback}
           onChange={this.onFeedbackValueChange} />
       </div>
