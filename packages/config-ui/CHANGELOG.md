@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.8.0"></a>
+# [1.8.0](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.7.2...@pie-libs/config-ui@1.8.0) (2018-02-20)
+
+
+### Features
+
+* **tests:** add tests for choice-configuration ([30e3572](https://github.com/pieelements/pie-elements/commit/30e3572))
+
+
+
+
 <a name="1.7.2"></a>
 ## [1.7.2](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@1.7.1...@pie-libs/config-ui@1.7.2) (2018-02-20)
 
