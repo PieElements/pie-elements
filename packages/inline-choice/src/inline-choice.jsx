@@ -1,16 +1,17 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import { FormControl } from 'material-ui/Form';
 import { indicators } from '@pie-libs/render-ui';
-import Choices from "./choices";
+import Choices from './choices';
 
-const {Correct, Incorrect} = indicators;
+const { Correct, Incorrect, NothingSubmitted } = indicators;
 
 const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+    alignItems: 'center'
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -24,36 +25,40 @@ const styles = theme => ({
 
 
 class InlineChoice extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: ""
-    }
-  }
 
   handleChange = event => {
     this.props.onChoiceChanged(event.target.value);
-    this.setState({ selected: event.target.value });
   };
-
 
   render() {
 
-    const { choices, classes, disabled, result} = this.props;
+    let { choices, classes, disabled, result, session } = this.props;
+    result = result || {};
+    const { correct, nothingSubmitted } = result;
 
-    let renderFeedback = function (result) {
-      let { feedback } = result[0];
-      return (
-        (result[0].correct) ? <Correct feedback={feedback && feedback[0].value}/> : <Incorrect feedback={feedback && feedback[0].value}/>
-      );
-    }
+    const Feedback = (() => {
+      if (correct === false && nothingSubmitted) {
+        return NothingSubmitted;
+      } else if (correct === false && !nothingSubmitted) {
+        return Incorrect
+      } else if (correct === true) {
+        return Correct;
+      }
+    })();
 
     return (
       <div className={classes.container}>
-        {choices.length > 0 && <FormControl className={classes.formControl} disabled={disabled}>
-          <Choices items={choices} value={this.state.selected} onChange={this.handleChange} />
-        </FormControl>}
-        {result && renderFeedback(result)}
+        {choices.length > 0 && (
+          <FormControl
+            className={classes.formControl}
+            disabled={disabled}>
+            <Choices
+              items={choices}
+              value={session.selectedChoice || ''}
+              onChange={this.handleChange} />
+          </FormControl>
+        )}
+        {Feedback && <Feedback feedback={result.feedback} />}
       </div>
     );
   }
@@ -61,7 +66,10 @@ class InlineChoice extends React.Component {
 
 InlineChoice.propTypes = {
   classes: PropTypes.object,
-  choices: PropTypes.array,
+  choices: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired
+  })),
   disabled: PropTypes.bool
 };
 

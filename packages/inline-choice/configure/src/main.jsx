@@ -1,101 +1,82 @@
-import React from "react";
-import { LanguageControls, MultiLangInput } from '@pie-libs/config-ui';
-import Card, { CardContent } from 'material-ui/Card';
-import ChoiceConfig from "./choice-config";
-import cloneDeep from 'lodash/cloneDeep';
+import React from 'react';
+import { ChoiceConfiguration } from '@pie-libs/config-ui';
+import EditableHtml from '@pie-libs/editable-html';
+
 import Button from 'material-ui/Button';
+import * as flattener from './flattener';
+import { withStyles } from 'material-ui/styles';
+import Typography from 'material-ui/Typography';
 
-export default class Main extends React.Component {
+const Choice = withStyles(theme => ({
+  choice: {
+    paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit * 2
+  }
+}))(({ choice, onChange, onDelete, classes }) => (
+  <ChoiceConfiguration
+    className={classes.choice}
+    index={undefined}
+    mode={'radio'}
+    data={choice}
+    defaultFeedback={{
+      correct: 'Correct',
+      incorrect: 'Incorrect'
+    }}
+    onChange={onChange}
+    onDelete={onDelete} />
+));
 
-  constructor (props){
-    super (props);
+export class RawMain extends React.Component {
+
+  constructor(props) {
+    super(props);
 
     this.state = {
       activeLang: props.model.defaultLang
     }
-
-    this.handleFeedbackMenuChange = this.handleFeedbackMenuChange.bind(this);
   }
 
-  handleFeedbackMenuChange(type, choice, index) {
-
-    let cloneChoice = cloneDeep(choice);
-    cloneChoice["feedback"]["type"] = type;
-
-    if(type === "default") {
-      let defaultFeedbackText = (choice.correct) ? "Correct !" : "Incorrect !";
-      cloneChoice["feedback"]["text"] = [{lang: "en-US", value: defaultFeedbackText}];
-    }else if(type === "custom") {
-      cloneChoice["feedback"]["text"] = [{lang: "en-US", value: ""}];
-    }
-
-    this.props.onUpdateFeedback(index, cloneChoice.feedback);
+  onChoiceChange = (index, choice) => {
+    const update = flattener.expand(choice);
+    this.props.onChoiceChange(index, update);
   }
 
-  render (){
+  onPromptChange = (value) => {
+    this.props.onPromptChange([{ lang: 'en-US', value }]);
+  }
 
-    let renderEditPrompt = () => {
-      return (
-        <MultiLangInput
-          label="Prompt"
-          value={this.props.model.prompt}
-          lang={this.state.activeLang}
-          onChange={this.props.onPromptUpdate}
-        />
-      );
-    }
-
-    let renderChoices = () => {
-      return this.props.model.choices.map((choice, index) => {
-        return <div key={index}>
-          <ChoiceConfig
-            {...choice}
-            activeLang={this.state.activeLang}
-            index={index}
-            checked={choice.correct || false}
-            onChoiceChange={(newChoice) => {this.props.onChoiceChange(newChoice)}}
-            onChoiceLabelUpdate={(updatedLabel) => {this.props.onUpdateChoiceFields(index, updatedLabel, "label")}}
-            handleFeedbackMenuChange={(type) => {this.handleFeedbackMenuChange(type, choice, index)}}
-            onRemoveChoice={this.props.onRemoveChoice}
-            onChoiceValueUpdate={(updatedValue) => {this.props.onUpdateChoiceFields(index, updatedValue, "value")}}/>
-          {(choice.feedback) ? renderFeedback(index, choice.feedback) : null}
-        </div>
-      })
-    }
-
-    let renderFeedback = (index, feedback) => {
-      if(feedback.type === "custom") {
-        return renderCustomFeedback(index, feedback);
-      }else if(feedback.type === "default") {
-        return renderDefaultFeedback(index, feedback)
-      }
-    }
-
-    let renderCustomFeedback = (index, feedback) => {
-      return  <MultiLangInput
-        label="Feedback"
-        value={feedback.text}
-        lang={this.state.activeLang}
-        onChange={() => {this.props.onUpdateFeedback(index, feedback)}}
-      />
-    }
-
-    let renderDefaultFeedback = (index, feedback) => {
-      return <label style={{padding : "2px", background : "lightgray"}}>{feedback.text[0].value}</label>
-    }
-
+  render() {
+    const { model, classes, onRemoveChoice, onAddChoice } = this.props;
+    const usEnglishChoices = model.choices.map(flattener.flatten);
+    const prompt = model.prompt.find(p => p.lang === 'en-US').value;
     return (
       <div>
-        {this.props.model.prompt &&
-        <div>
-          {renderEditPrompt()}
-          {renderChoices()}
-          </div>}
-        <br />
+        {prompt && (
+          <EditableHtml
+            label="Prompt"
+            markup={prompt}
+            lang={'en-US'}
+            onChange={this.onPromptChange}
+            className={classes.prompt} />
+        )}
+        {/* <Typography variant="caption">Choices</Typography>
+        <hr /> */}
+        {usEnglishChoices.map((choice, index) => (
+          <Choice
+            choice={choice}
+            onChange={(choice) => this.onChoiceChange(index, choice)}
+            onDelete={() => onRemoveChoice(index)}
+            key={index} />
+        ))}
         <Button
           color="primary"
-          onClick={() => this.props.onAddChoice()} >Add a choice</Button>
+          onClick={onAddChoice}>Add a choice</Button>
       </div>
     );
   }
 }
+export default withStyles(theme => ({
+  prompt: {
+    paddingBottom: theme.spacing.unit * 4
+  }
+}))(RawMain);

@@ -1,9 +1,9 @@
-import React from "react";
-import Main from "./main";
+import React from 'react';
+import Main from './main';
 import cloneDeep from 'lodash/cloneDeep';
 
 export default class Root extends React.Component {
-  constructor (props){
+  constructor(props) {
     super(props);
     this.state = {
       model: props.model
@@ -14,84 +14,48 @@ export default class Root extends React.Component {
     this.props.onModelChanged(this.state.model);
   }
 
-  updateModel(model) {
-    this.setState({model}, () => {
+  update(model) {
+    this.setState({ model }, () => {
       this.handleModelChange();
     })
   }
 
-  onAddChoice () {
-    let updateModel = cloneDeep(this.state.model);
-    updateModel.choices.push({correct: false, value: "", feedback: {},label: [{lang: "en-US", value: ""}]});
-    this.updateModel(updateModel);
+  onAddChoice = () => {
+    const update = cloneDeep(this.state.model);
+    update.choices.push({ correct: false, value: '', feedback: { type: 'default' }, label: [{ lang: 'en-US', value: '' }] });
+    this.update(update);
   }
 
-  onUpdateChoiceFields(index, choice, type) {
-    let updateModel = cloneDeep(this.state.model);
-    if(type === "label") {
-      updateModel.choices[index].label = choice;
-    }else if(type === "value") {
-      updateModel.choices[index].value = choice;
+  onChoiceChange = (index, newChoice) => {
+    const update = cloneDeep(this.state.model);
+    if (newChoice.correct) {
+      update.choices.forEach(c => c.correct = false);
     }
-    this.updateModel(updateModel);
+    update.choices.splice(index, 1, newChoice);
+    this.update(update);
   }
 
-  onChoiceChange(newChoice) {
-    let updateModel = cloneDeep(this.state.model);
-    let updatedChoices = updateModel.choices.map((choice) => {
-      if(choice.value === newChoice) {
-        choice.correct = true;
-      }else {
-        choice.correct = false;
-      }
-      return choice;
-    });
-
-    updateModel.choices = updatedChoices;
-    this.updateModel(updateModel);
+  onRemoveChoice = (indexToRemove) => {
+    let update = cloneDeep(this.state.model);
+    update.choices.splice(indexToRemove, 1);
+    this.update(update);
   }
 
-  onRemoveChoice(indexToRemove) {
-    let updateModel = cloneDeep(this.state.model);
-    updateModel.choices.splice(indexToRemove, 1);
-
-    this.updateModel(updateModel);
+  onPromptChange = (prompt) => {
+    let update = cloneDeep(this.state.model);
+    update.prompt = prompt;
+    this.update(update);
   }
 
-  onUpdatePrompt(prompt) {
-    let updateModel = cloneDeep(this.state.model);
-    updateModel.prompt = prompt;
-    this.updateModel(updateModel);
-  }
-
-  onUpdateFeedback(index, feedback) {
-    let updateModel = cloneDeep(this.state.model);
-console.log("feedback", feedback);
-    updateModel.choices[index].feedback = feedback;
-    this.updateModel(updateModel);
-  }
-
-  onPartialScoringChanged(partialScoring) {
-    const { model } = this.state;
-    model.partialScoring = partialScoring;
-    this.updateModel(model);
-  }
-
-  render (){
-    const props = {
-      ...this.props,
-      ...this.state,
-      onPromptUpdate : (prompt) => {return this.onUpdatePrompt(prompt)},
-      onUpdateChoiceFields : (index, choice, type) => {return this.onUpdateChoiceFields(index, choice, type)},
-      onUpdateFeedback : (index, feedback) => {return this.onUpdateFeedback(index, feedback)},
-      onChoiceChange : (newChoice) => {return this.onChoiceChange(newChoice)},
-      onRemoveChoice : (index) => { return this.onRemoveChoice(index)},
-      onAddChoice : () => {return this.onAddChoice()},
-      onPartialScoringChanged: (partialScore) => {return this.onPartialScoringChanged(partialScore)},
-    }
-
+  render() {
     return (
-      <Main {...props} />
+      <Main
+        model={this.state.model}
+        onPromptChange={this.onPromptChange}
+        onChoiceChange={this.onChoiceChange}
+        onRemoveChoice={this.onRemoveChoice}
+        onAddChoice={this.onAddChoice}
+      />
     );
   }
 }
