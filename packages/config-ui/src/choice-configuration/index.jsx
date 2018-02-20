@@ -66,7 +66,15 @@ class RawChoiceConfiguration extends React.Component {
   }
 
   onLabelChange = this._changeFn('label');
-  onValueChange = this._changeFn('value');
+
+  onValueChange = (event) => {
+    const { onChange, data } = this.props;
+    const value = event.target.value;
+    if (onChange) {
+      onChange({ ...data, value });
+    }
+  }
+
   onCheckedChange = (event) => {
     const checked = event.target.checked;
     const { data, onChange } = this.props;
