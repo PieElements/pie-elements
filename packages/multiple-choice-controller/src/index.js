@@ -18,12 +18,12 @@ const colorMap = {
   black_on_white: 'default'
 };
 
-const getCorrectResponse = (choices) => choices
+export const getCorrectResponse = (choices) => choices
   .filter(c => c.correct)
   .map(c => c.value)
   .sort();
 
-function isResponseCorrect(question, session) {
+export const isResponseCorrect = (question, session) => {
   let correctResponse = getCorrectResponse(question.choices);
   return isEqual((session.value || []).sort(), correctResponse);
 }
