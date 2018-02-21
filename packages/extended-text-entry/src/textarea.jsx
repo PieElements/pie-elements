@@ -1,5 +1,6 @@
 import React from "react";
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from "material-ui/styles";
+import EditableHTML from "@pie-libs/editable-html";
 
 const styles = theme => ({
   textField: {
@@ -18,7 +19,20 @@ const styles = theme => ({
 class TextArea extends React.Component {
   constructor (props) {
     super(props);
+    this.state = {
+      showEditable : false
+    }
     this.resizeTextArea = this.resizeTextArea.bind(this);
+    this.handleEditableChange = this.handleEditableChange.bind(this);
+    this.showEditable = this.showEditable.bind(this);
+  } 
+
+  handleEditableChange(change) {
+    console.log("change", change);
+  }
+
+  showEditable() {
+    this.setState({showEditable : true});
   }
 
   resizeTextArea(event) {
@@ -31,6 +45,7 @@ class TextArea extends React.Component {
     const { classes, rows, cols, placeholder, value} = this.props;
 
     return (
+      <div>
         <textarea
           ref={(n) => { this.node = n;}}
           className={classes.textField}
@@ -38,7 +53,10 @@ class TextArea extends React.Component {
           cols={cols}
           value={value}
           onChange={this.resizeTextArea}
-          placeholder={placeholder} />
+          placeholder={placeholder}
+          onFocus={this.showEditable} />
+        {this.state.showEditable && <EditableHTML onChange={this.handleEditableChange} markup="" />}
+      </div>
     )
   }
 };
