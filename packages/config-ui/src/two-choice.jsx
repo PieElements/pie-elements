@@ -59,9 +59,14 @@ NChoice.propTypes = {
 class TwoChoice extends React.Component {
 
   render() {
-    const { one, two } = this.props;
+    const { one, two, header, className } = this.props;
     const opts = [one, two];
-    return <NChoice {...this.props} opts={opts} />
+    return (
+      <NChoice
+        header={header}
+        className={className}
+        opts={opts} />
+    );
   }
 }
 
