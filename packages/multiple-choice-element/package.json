@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@pie-libs/correct-answer-toggle": "^0.1.6",
-    "@pie-libs/render-ui": "^0.1.9",
+    "@pie-libs/render-ui": "^0.1.10",
     "debug": "^3.0.1",
     "lodash": "^4.17.4",
     "material-ui": "^1.0.0-beta.27",
