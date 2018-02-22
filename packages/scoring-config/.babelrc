@@ -1,6 +1,8 @@
 {
   "sourceMaps": "inline",
   "presets": [
-    "airbnb"
+    "env",
+    "stage-0",
+    "react"
   ]
 }

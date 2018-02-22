@@ -54,15 +54,16 @@ export class NumberTextField extends React.Component {
   render() {
     const { value, className, classes } = this.props;
     const names = classNames(classes.root, className);
-    return <TextField
-      className={names}
-
-      value={this.state.value}
-      onChange={this.onChange} />;
+    return (
+      <TextField
+        className={names}
+        value={this.state.value}
+        onChange={this.onChange} />
+    );
   }
 }
 
-const Out = withStyles(styles, { name: 'NumberTextField' })(NumberTextField);
+const Out = withStyles(styles)(NumberTextField);
 
 Out.propTypes = {
   className: PropTypes.string,

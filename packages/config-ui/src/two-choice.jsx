@@ -53,15 +53,24 @@ export const NChoice = withStyles(styles)(RawNChoice);
 NChoice.propTypes = {
   header: PropTypes.string.isRequired,
   className: PropTypes.string,
-  opts: PropTypes.array.isRequired
+  opts: PropTypes.array.isRequired,
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired
 }
 
 class TwoChoice extends React.Component {
 
   render() {
-    const { one, two } = this.props;
+    const { one, two, header, className, value, onChange } = this.props;
     const opts = [one, two];
-    return <NChoice {...this.props} opts={opts} />
+    return (
+      <NChoice
+        header={header}
+        className={className}
+        opts={opts}
+        value={value}
+        onChange={onChange} />
+    );
   }
 }
 

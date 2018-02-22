@@ -119,7 +119,7 @@ class RawContainer extends React.Component {
             onChange={this.onChoiceConfigChange} />
         </Section>
         <Section name="MuiBox">
-          <MuiBox>contents</MuiBox>
+          <MuiBox focused={false}>contents</MuiBox>
           <MuiBox focused={true}>contents</MuiBox>
         </Section>
         <Section name="Tag Input">

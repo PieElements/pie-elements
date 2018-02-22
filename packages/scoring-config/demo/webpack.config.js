@@ -8,13 +8,34 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        options: {
+          babelrc: false,
+          presets: [
+            'env', 'stage-0'
+          ]
+        }
+      },
+      {
         test: /\.jsx$/,
         loader: 'babel-loader',
         options: {
           babelrc: false,
           presets: [
-            require('babel-preset-react'), require('babel-preset-es2015')
+            'env', 'stage-0', 'react'
           ]
+        }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2|otf)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000
         }
       }
     ]
