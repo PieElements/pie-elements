@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.10"></a>
+## [0.1.10](https://github.com/pieelements/pie-elements/compare/@pie-libs/render-ui@0.1.9...@pie-libs/render-ui@0.1.10) (2018-02-22)
+
+
+### Bug Fixes
+
+* **dependencies:** move jest and babel-jest to devDependencies ([bef20c0](https://github.com/pieelements/pie-elements/commit/bef20c0))
+
+
+
+
 <a name="0.1.9"></a>
 ## [0.1.9](https://github.com/pieelements/pie-elements/compare/@pie-libs/render-ui@0.1.8...@pie-libs/render-ui@0.1.9) (2018-02-20)
 
