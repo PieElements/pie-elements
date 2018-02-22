@@ -7,7 +7,7 @@ module.exports = {
       element: 'multiple-choice',
       id: '1',
       mode: 'gather',
-      prompt: 'hi there',
+      prompt: 'This instance is in gather mode and can be clicked',
       disabled: false,
       choiceMode: 'radio',
       keyMode: 'letters',
