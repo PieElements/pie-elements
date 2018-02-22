@@ -18,7 +18,7 @@ const EditableHtmlContainer = withStyles(theme => ({
   editorHolder: {
     marginTop: theme.spacing.unit * 2
   }
-}))(({ label, classes, onChange, value, className }) => {
+}))(({ label, classes, onChange, value, className, imageSupport }) => {
 
   const names = classNames(classes.labelContainer, className);
   return (
@@ -27,7 +27,7 @@ const EditableHtmlContainer = withStyles(theme => ({
         <EditableHtml
           markup={value || ''}
           onChange={onChange}
-          // TODO: imageSupport={imageSupport}
+          imageSupport={imageSupport}
           className={classes.editor} />
       </div>
     </InputContainer>
@@ -112,7 +112,7 @@ export class RawChoiceConfiguration extends React.Component {
 
   render() {
 
-    const { data, classes, mode, onDelete, defaultFeedback, index, className } = this.props;
+    const { data, classes, mode, onDelete, defaultFeedback, index, className, imageSupport } = this.props;
 
     const InputToggle = mode === 'checkbox' ? InputCheckbox : InputRadio;
     const names = classNames(classes.choiceConfiguration, className);
@@ -135,7 +135,8 @@ export class RawChoiceConfiguration extends React.Component {
           <EditableHtmlContainer
             label={'Label'}
             value={data.label}
-            onChange={this.onLabelChange} />
+            onChange={this.onLabelChange}
+            imageSupport={imageSupport} />
           <InputContainer
             className={classes.feedback}
             label="Feedback">
@@ -178,7 +179,11 @@ RawChoiceConfiguration.propTypes = {
   }),
   onDelete: PropTypes.func,
   onChange: PropTypes.func,
-  index: PropTypes.number
+  index: PropTypes.number,
+  imageSupport: PropTypes.shape({
+    add: PropTypes.func.isRequired,
+    delete: PropTypes.func.isRequired
+  })
 }
 
 RawChoiceConfiguration.defaultProps = {
