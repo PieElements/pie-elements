@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.1.2"></a>
+## [2.1.2](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@2.1.1...@pie-libs/config-ui@2.1.2) (2018-02-22)
+
+
+### Bug Fixes
+
+* **two-choice:** fix missing props ([6d4dd1d](https://github.com/pieelements/pie-elements/commit/6d4dd1d))
+
+
+
+
 <a name="2.1.1"></a>
 ## [2.1.1](https://github.com/pieelements/pie-elements/compare/@pie-libs/config-ui@2.1.0...@pie-libs/config-ui@2.1.1) (2018-02-22)
 
