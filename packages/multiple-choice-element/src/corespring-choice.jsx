@@ -125,7 +125,7 @@ MultipleChoice.propTypes = {
   choices: PropTypes.array,
   prompt: PropTypes.string,
   session: PropTypes.object,
-  disabled: PropTypes.boolean.isRequired,
+  disabled: PropTypes.bool.isRequired,
   onChoiceChanged: PropTypes.func.isRequired
 };
 
