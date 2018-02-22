@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.24"></a>
+## [0.3.24](https://github.com/pieelements/pie-elements/compare/@pie-libs/scoring-config@0.3.23...@pie-libs/scoring-config@0.3.24) (2018-02-22)
+
+
+### Bug Fixes
+
+* **ui:** fix some material-ui warnings/errors ([2ebef7e](https://github.com/pieelements/pie-elements/commit/2ebef7e))
+
+
+
+
 <a name="0.3.23"></a>
 ## [0.3.23](https://github.com/pieelements/pie-elements/compare/@pie-libs/scoring-config@0.3.22...@pie-libs/scoring-config@0.3.23) (2018-02-22)
 
