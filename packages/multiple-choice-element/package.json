@@ -25,15 +25,13 @@
     "@pie-libs/correct-answer-toggle": "^0.1.6",
     "@pie-libs/render-ui": "^0.1.9",
     "debug": "^3.0.1",
-    "katex": "^0.8.3",
-    "less": "^2.7.2",
     "lodash": "^4.17.4",
     "material-ui": "^1.0.0-beta.27",
     "material-ui-icons": "^1.0.0-beta.17",
     "react": "^15.6.1",
+    "prop-types": "^15.6.0",
     "react-addons-css-transition-group": "^15.6.0",
-    "react-dom": "^15.6.1",
-    "react-tap-event-plugin": "^2.0.1"
+    "react-dom": "^15.6.1"
   },
   "devDependencies": {
     "babel": "^6.23.0",
@@ -45,6 +43,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-register": "^6.24.1",
+    "less": "^3.0.1",
     "chai": "^4.1.0",
     "chai-shallow-deep-equal": "^1.4.6",
     "css-loader": "^0.28.4",

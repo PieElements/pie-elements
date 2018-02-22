@@ -1,5 +1,6 @@
 import { FormControlLabel, FormGroup } from 'material-ui/Form';
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles, withTheme } from 'material-ui/styles';
 
 import Checkbox from 'material-ui/Checkbox';
@@ -108,10 +109,15 @@ export const StyledRadio = withStyles(inputStyles)((props) => {
   };
 
   const miniProps = { checked, onChange, disabled };
-  return <Radio {...miniProps}
-    className={resolved.root}
-    checkedClassName={resolved.checked}
-    disabledClassName={resolved.disabled} />;
+
+  return (
+    <Radio {...miniProps}
+      className={resolved.root}
+      classes={{
+        checked: resolved.checked,
+        disabled: resolved.disabled
+      }} />
+  );
 });
 
 export class ChoiceInput extends React.Component {
@@ -140,7 +146,7 @@ export class ChoiceInput extends React.Component {
       correctness,
       classes,
       className
-     } = this.props;
+    } = this.props;
 
     const Tag = choiceMode === 'checkbox' ? StyledCheckbox : StyledRadio;
     const classSuffix = choiceMode === 'checkbox' ? 'checkbox' : 'radio-button';
