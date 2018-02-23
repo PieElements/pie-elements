@@ -2,6 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import debug from 'debug';
 import isEmpty from 'lodash/isEmpty';
 import map from 'lodash/map';
+import assign from 'lodash/assign';
 
 const log = debug('pie-elements:placement-ordering:ordering');
 
@@ -60,7 +61,7 @@ function buildTiles(choices, response, outcomes, opts) {
     for (var i = 0; i < response.length; i++) {
       const r = response[i];
 
-      const choice = choices.find(c => r && c.id === r);
+      const choice = choices.find(c => r !== undefined && r !== null && c.id === r);
       //TODO: index needs to match too!!
       const outcome = outcomes[i];
 
@@ -105,6 +106,9 @@ function buildTiles(choices, response, outcomes, opts) {
 }
 
 export function buildState(choices, response, outcomes, opts) {
+
+  opts = assign({ includeTargets: true }, opts);
+
   outcomes = outcomes || [];
   response = (!response || isEmpty(response)) ? (opts.includeTargets ? new Array(choices.length) : map(choices, c => c.id)) : response;
   return {

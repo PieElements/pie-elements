@@ -1,6 +1,6 @@
 import { HorizontalTiler, VerticalTiler } from './tiler';
 import { buildState, reducer } from './ordering';
-
+import { Feedback } from '@pie-libs/render-ui';
 import CorrectAnswerToggle from '@pie-libs/correct-answer-toggle';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -107,6 +107,13 @@ class PlacementOrdering extends React.Component {
         includeTargets={includeTargets}
         onDropChoice={this.onDropChoice.bind(this, ordering)}
         onRemoveChoice={this.onRemoveChoice.bind(this, ordering)} />
+
+      <br />
+      {!showingCorrect && (
+        <Feedback
+          correctness={model.correctness}
+          feedback={model.feedback} />
+      )}
     </div>;
   }
 }

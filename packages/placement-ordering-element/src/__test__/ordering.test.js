@@ -1,6 +1,7 @@
-import { buildState, reducer } from '../src/ordering';
+import { buildState, reducer } from '../ordering';
+import debug from 'debug';
 
-import { expect } from 'chai';
+const log = debug('@pie-elements:placement-ordering-element:test');
 
 const defaultChoices = [
   { id: 0, moveOnDrag: true },
@@ -14,13 +15,14 @@ describe('ordering', () => {
     describe('swap', () => {
       let initialState, to, from, state;
       beforeEach(() => {
-        initialState = buildState(defaultChoices, [0, 1], { includeTargets: false });
+        initialState = buildState(defaultChoices, [0, 1], [], { includeTargets: false });
         from = initialState.tiles[0];
         to = initialState.tiles[1];
         state = reducer({ type: 'move', from, to }, initialState);
+        log('state: ', state);
       });
-      it.only('swaps', () => {
-        expect(state.response).to.eql([1, 0]);
+      it('swaps', () => {
+        expect(state.response).toEqual([1, 0]);
       });
     });
   });
@@ -46,15 +48,15 @@ describe('ordering', () => {
         });
 
         it('updates the response', () => {
-          expect(state.response).to.eql([undefined, undefined]);
+          expect(state.response).toEqual([undefined, undefined]);
         });
 
         it('updates the tiles', () => {
-          expect(state.tiles).to.eql([
+          expect(state.tiles).toEqual([
             { type: 'choice', id: 0, moveOnDrag: true, draggable: true, droppable: false },
             { type: 'choice', id: 1, moveOnDrag: true, draggable: true, droppable: false },
-            { type: 'target', index: 0 },
-            { type: 'target', index: 1 }
+            { type: 'target', index: 0, draggable: false, empty: true },
+            { type: 'target', index: 1, draggable: false, empty: true }
           ]);
         });
       });
@@ -63,7 +65,7 @@ describe('ordering', () => {
     describe('choice -> target', () => {
 
       beforeEach(() => {
-        initialState = buildState(defaultChoices, [], { includeTargets: true });
+        initialState = buildState(defaultChoices, [], [], { includeTargets: true });
       });
 
       describe('moves choice to target', () => {
@@ -75,15 +77,15 @@ describe('ordering', () => {
         });
 
         it('updates the response', () => {
-          expect(state.response).to.eql([0, undefined]);
+          expect(state.response).toEqual([0, undefined]);
         });
 
         it('updates the tiles', () => {
-          expect(state.tiles).to.eql([
+          expect(state.tiles).toEqual([
             { type: 'choice', empty: true, draggable: false, droppable: true },
             { type: 'choice', id: 1, moveOnDrag: true, draggable: true, droppable: false },
-            { type: 'target', index: 0, id: 0, draggable: true },
-            { type: 'target', index: 1 }
+            { type: 'target', index: 0, id: 0, draggable: true, empty: false, moveOnDrag: true },
+            { type: 'target', index: 1, draggable: false, empty: true }
           ])
         });
       });
@@ -92,7 +94,7 @@ describe('ordering', () => {
         const from = initialState.tiles[0];
         const to = initialState.tiles[3];
         const state = reducer({ type: 'move', from, to }, initialState);
-        expect(state.response).to.eql([undefined, 0]);
+        expect(state.response).toEqual([undefined, 0]);
       });
     });
 
