@@ -1,7 +1,9 @@
 {
   "name": "@pie-elements/placement-ordering-controller",
-  "version": "0.0.1",
-  "private": true,
+  "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./src/index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --require babel-register test/**/*-test.js"
