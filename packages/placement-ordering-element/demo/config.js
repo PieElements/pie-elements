@@ -7,10 +7,12 @@ module.exports = {
     {
       id: '1',
       element: 'placement-ordering',
-      prompt: 'prompt',
+      prompt: 'this is the prompt',
       choices: [
         { id: '1', label: '1', moveOnDrag: true },
-        { id: '2', label: '2' }
+        { id: '2', label: '2' },
+        { id: '3', label: '2' },
+        { id: '4', label: '2' }
       ],
       disabled: false,
       config: {
