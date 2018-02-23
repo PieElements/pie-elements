@@ -9,8 +9,8 @@ module.exports = {
       element: 'placement-ordering',
       prompt: 'prompt',
       choices: [
-        { value: '1', label: '1', moveOnDrag: true },
-        { value: '2', label: '2' }
+        { id: '1', label: '1', moveOnDrag: true },
+        { id: '2', label: '2' }
       ],
       disabled: false,
       config: {
