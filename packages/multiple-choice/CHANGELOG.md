@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.3.3...@pie-elements/multiple-choice@2.0.0) (2018-02-28)
+
+
+### Features
+
+* **rename:** rename packages ([01c7607](https://github.com/PieElements/pie-elements/commit/01c7607))
+
+
+### BREAKING CHANGES
+
+* **rename:** *-element packages have been removed
+
+
+
+
 <a name="0.3.3"></a>
 ## [0.3.3](https://github.com/PieElements/pie-elements/compare/@pie-elements/multiple-choice@0.3.2...@pie-elements/multiple-choice@0.3.3) (2018-02-22)
 

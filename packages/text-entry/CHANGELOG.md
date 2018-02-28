@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/PieElements/pie-elements/compare/@pie-elements/text-entry@0.2.9...@pie-elements/text-entry@1.0.0) (2018-02-28)
+
+
+### Features
+
+* **packages:** Move configure and controller packages out of pie. ([3514ca6](https://github.com/PieElements/pie-elements/commit/3514ca6))
+* **rename:** rename packages ([01c7607](https://github.com/PieElements/pie-elements/commit/01c7607))
+
+
+### BREAKING CHANGES
+
+* **rename:** *-element packages have been removed
+* **packages:** Requires latest pie@>=10.0.0.
+
+
+
+
 <a name="0.2.9"></a>
 ## [0.2.9](https://github.com/PieElements/pie-elements/compare/@pie-elements/text-entry@0.2.8...@pie-elements/text-entry@0.2.9) (2018-02-22)
 

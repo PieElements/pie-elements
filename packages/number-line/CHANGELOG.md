@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/PieElements/pie-elements/compare/@pie-elements/number-line@0.5.16...@pie-elements/number-line@2.0.0) (2018-02-28)
+
+
+### Features
+
+* **rename:** rename packages ([01c7607](https://github.com/PieElements/pie-elements/commit/01c7607))
+
+
+### BREAKING CHANGES
+
+* **rename:** *-element packages have been removed
+
+
+
+
 <a name="0.5.16"></a>
 ## [0.5.16](https://github.com/PieElements/pie-elements/compare/@pie-elements/number-line@0.5.15...@pie-elements/number-line@0.5.16) (2018-02-17)
 

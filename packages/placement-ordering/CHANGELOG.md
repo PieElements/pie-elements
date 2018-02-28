@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/PieELements/pie-elements/compare/@pie-elements/placement-ordering@1.0.9...@pie-elements/placement-ordering@2.0.0) (2018-02-28)
+
+
+### Features
+
+* **packages:** break out placement-ordering packages ([9e5de50](https://github.com/PieELements/pie-elements/commit/9e5de50))
+* **rename:** rename packages ([01c7607](https://github.com/PieELements/pie-elements/commit/01c7607))
+
+
+### BREAKING CHANGES
+
+* **rename:** *-element packages have been removed
+
+
+
+
 <a name="1.0.9"></a>
 ## [1.0.9](https://github.com/PieELements/pie-elements/compare/@pie-elements/placement-ordering@1.0.8...@pie-elements/placement-ordering@1.0.9) (2018-02-17)
 
