@@ -5,13 +5,13 @@ import Image from './plugins/image';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Value } from 'slate';
-import { buildPlugins } from './plugins';
+import { buildPlugins, DEFAULT_PLUGINS } from './plugins';
 import debug from 'debug';
 import { getHashes } from 'crypto';
 import { withStyles } from 'material-ui/styles';
 import classNames from 'classnames';
 
-export { htmlToValue, valueToHtml }
+export { htmlToValue, valueToHtml, DEFAULT_PLUGINS }
 
 
 const log = debug('editable-html');
@@ -25,8 +25,7 @@ export class RawEditableHtml extends React.Component {
       value: htmlToValue(props.markup)
     }
 
-
-    this.plugins = buildPlugins({
+    this.plugins = buildPlugins(props.activePlugins, {
       math: {
         onClick: this.onMathClick,
         onFocus: this.onPluginFocus,
@@ -210,7 +209,8 @@ const EditableHtml = withStyles(theme => ({
 EditableHtml.propTypes = {
   markup: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  formatting: PropTypes.arrayOf(PropTypes.string)
 }
 
 export default EditableHtml;
