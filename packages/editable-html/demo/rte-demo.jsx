@@ -118,6 +118,7 @@ export default class RteDemo extends React.Component {
   render() {
 
     const { markup } = this.state;
+    let excludePluginsArr = ["italic", "math", "image", "bold"];
 
     const imageSupport = {
       add: this.addImage,
@@ -131,6 +132,9 @@ export default class RteDemo extends React.Component {
         onChange={this.onChange}
         imageSupport={imageSupport}
         onBlur={this.onBlur}
+        excludePlugins={excludePluginsArr}
+        width="400px"
+        height="300px"
       />
       <input type="file" hidden ref={r => this.fileInput = r}></input>
       <br />

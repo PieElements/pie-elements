@@ -60,7 +60,9 @@ export class RawEditableHtml extends React.Component {
           this.editor.blur();
           this.onEditingDone();
         }
-      }
+      },
+
+      excludePlugins : this.props.excludePlugins || []
     });
   }
 
@@ -187,7 +189,7 @@ export class RawEditableHtml extends React.Component {
     const names = classNames(classes.editableHtml, className);
 
     return (
-      <div className={names}>
+      <div className={names} style={{"height": this.props.height, "width" :  this.props.width}}>
         <Editor
           ref={r => this.editor = r}
           value={value}
@@ -195,7 +197,9 @@ export class RawEditableHtml extends React.Component {
           plugins={this.plugins}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
-          focusedNode={focusedNode} />
+          focusedNode={focusedNode}
+          style={{"height": this.props.height, "width" :  this.props.width}}
+           />
       </div >
     );
   }
