@@ -1,0 +1,12 @@
+{
+  "elements": {
+    "pie-extended-text-entry": "../.."
+  },
+  "models": [
+    {
+      "id": "1",
+      "element": "pie-extended-text-entry",
+      "message": "Hello world 2"
+    }
+  ]
+}
